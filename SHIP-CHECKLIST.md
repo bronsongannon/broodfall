@@ -19,7 +19,7 @@ file and the widget's task lists in sync.
 - [ ] Privacy policy page (game collects nothing — one static page) — by Jul 25
 - [ ] Sandbox entitlements, code signing, notarize, test on a clean Mac — by Jul 27
       (native menu bar + fullscreen + quit in the wrapper to dodge guideline 4.2)
-- [ ] Archive, upload, submit for review — by Jul 29 (2-day buffer)
+- [ ] Archive, upload, submit for review — by Jul 29 (2-day buffer). **FIRST STEP of the archive: flip `DEV_PRERELEASE` to `false` in game.js** (added 2026-07-24 so Bronson's local wrapper builds keep dev tools; true in a shipped build = paywall bypass)
 
 ## Game build roadmap
 

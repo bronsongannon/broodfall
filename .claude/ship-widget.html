@@ -94,8 +94,8 @@ const TRACKS = {
       'Write the privacy policy page for Broodfall (it collects no data) and set it up on GitHub Pages so I have the URL App Store Connect asks for.'],
     ['ap7','Sandbox entitlements, code signing, notarize, test on a clean Mac','Jul 27',
       'Guide me through sandbox entitlements, code signing, and notarization for the Broodfall Mac app, plus how to test the built .app cleanly and dodge the guideline 4.2 thin-wrapper flag.'],
-    ['ap8','Archive, upload, submit for review — 2-day buffer before the 31st','Jul 29',
-      'Walk me through archiving Broodfall in Xcode, uploading to App Store Connect, filling out the review form, and submitting.'],
+    ['ap8','Archive, upload, submit for review — 2-day buffer before the 31st. FIRST: flip DEV_PRERELEASE to false in game.js (dev tools must not ship)','Jul 29',
+      'Time to submit Broodfall: FIRST flip DEV_PRERELEASE to false in game.js (it keeps dev tools alive in local wrapper builds — shipping it true is a paywall bypass), then walk me through archiving in Xcode, uploading to App Store Connect, filling out the review form, and submitting.'],
   ],
   game: [
     ['g1','Mission framework + Mission 1 "Landfall" (briefings, objectives, capture op)','',

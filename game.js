@@ -5314,6 +5314,12 @@ function missionEnd(win) {
 // FREE_MAPS skirmish maps; one non-consumable purchase unlocks the rest.
 const FREE_MISSIONS = 3;
 const FREE_MAPS = ['basin'];
+// ⚠ PRERELEASE SWITCH — keeps dev tools (Space×5, CC.unlockAll, CC.devMode)
+// alive in EVERY wrapper build while Bronson playtests local .apps, and lets
+// dev mode open the paywall. MUST be flipped to false in the App Store
+// submission archive (ship checklist ap8) — true in a shipping build is a
+// paywall bypass. Web/file:// builds ignore it (always unlocked anyway).
+const DEV_PRERELEASE = true;
 const BFStore = (() => {
   const native = !!(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.bfstore);
   // In the wrapper, fail CLOSED until StoreKit answers — a paywall that flashes
@@ -5324,8 +5330,9 @@ const BFStore = (() => {
   return {
     native,
     owns() { return state.owned; },
-    // dev cheats live only where there is no paywall (web) or no customer (DEBUG builds)
-    devAllowed() { return !native || state.debug; },
+    // dev cheats live only where there is no paywall (web), no customer (DEBUG
+    // builds), or while the prerelease switch is on (local playtest .apps)
+    devAllowed() { return DEV_PRERELEASE || !native || state.debug; },
     get price() { return state.price; },
     get busy() { return state.busy; },
     buy() { if (native && !state.owned && !state.busy) { state.busy = true; post({ cmd: 'buy' }); renderMenu(); } },
@@ -5339,8 +5346,9 @@ const BFStore = (() => {
     },
   };
 })();
-const missionPaywalled = (i) => i >= FREE_MISSIONS && !BFStore.owns();
-const mapPaywalled = (k) => !FREE_MAPS.includes(k) && !BFStore.owns();
+// dev mode implies full access (it's only reachable where devAllowed() is true)
+const missionPaywalled = (i) => i >= FREE_MISSIONS && !BFStore.owns() && !devMode;
+const mapPaywalled = (k) => !FREE_MAPS.includes(k) && !BFStore.owns() && !devMode;
 function storeNudge() {
   toast(`🔒 That's part of the full game — one purchase (${BFStore.price || '$9.99'}) unlocks everything, forever.`);
   const el = document.getElementById('menu-store');

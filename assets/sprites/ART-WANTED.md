@@ -58,3 +58,42 @@ Prompt skeleton that works well:
 Then remove the background (any background-remover tool) and save as
 transparent PNG with the filename above. Generate 3–4 candidates per subject
 and drop them in one at a time — reload the game to compare.
+
+## Terrain objects (added 2026-07-24, map upgrade pass)
+
+All OPT slots like `rock.png`: drop the file in and every instance uses it,
+missing = procedural fallback. Process raws with
+`python3 assets/sprites/process_sprite.py "raw.png" <slot>.png`.
+NO drop shadows in the art — the game draws them. Generate `tree.png` first,
+approve it, then style-anchor the rest so the set matches.
+
+SHARED STYLE BLOCK (start every prompt with this, attach an approved sprite
+as style anchor):
+
+> Top-down orthographic view, seen directly from overhead at 90 degrees.
+> Clean stylized video-game terrain sprite, flat-shaded with soft highlights,
+> crisp readable silhouette. Single object, centered, filling most of the
+> frame. Plain solid white background, no drop shadow, no ground, no text,
+> no watermark.
+
+- `tree.png` — "A single living tree seen directly from above: a dense rounded
+  leafy canopy made of clustered lobes, deep forest green with lighter sunlit
+  highlights on the upper-left lobes, one or two small dark gaps hinting at
+  branches underneath. Chunky and readable — renders at ~50px in-game."
+- `tree_dead.png` — "A single dead tree seen directly from above: bleached
+  gray-white bare branches forking outward from a central snapped trunk stub,
+  no leaves at all, skeletal and weathered." (Boneyard's `flora.dead` maps.)
+- `spire.png` — "A jagged cluster of crystalline rock spires seen directly
+  from above: five or six sharp angular shards leaning outward from a dark
+  stone base, dull deep teal-green crystal, matte and weathered like old
+  mineral rock — NOT bright glowing gems." (Must NOT read as the mineable
+  resource — those are bright teal.)
+- `bones.png` — "The enormous half-buried ribcage of a colossal animal seen
+  directly from above: a curved spine running horizontally left to right,
+  pairs of bleached white ribs arcing outward from it on both sides, a
+  weathered skull at the RIGHT end of the spine, bone-white with sand-toned
+  shading in the crevices, partly sunken into view." (Spine along +x, skull
+  right — the game rotates by the authored angle.)
+
+Shrubs/grass tufts stay procedural (painted by the hundreds at 5-15px — not
+sprite material).

@@ -167,6 +167,20 @@ const MAPS = {
       [W * 0.50, H * 0.72, W * 0.60, H * 0.92, 48],
     ],
     boulders: [[W * 0.17, H * 0.46, 55], [W * 0.83, H * 0.54, 55]],
+    // corner hills watching each base's approach lane — multi-disc clusters so
+    // they read as rolling ground, not stamped circles (clear of M1's
+    // relocated fields and M2's Survey Post Beta — keep it that way)
+    plateaus: [
+      { c: [[W * 0.13, H * 0.26, 150], [W * 0.13 + 90, H * 0.26 + 70, 110], [W * 0.13 - 70, H * 0.26 - 80, 100]],
+        ramps: [[W * 0.13 + 150, H * 0.26, 95]] },
+      { c: [[W * 0.88, H * 0.74, 150], [W * 0.88 - 80, H * 0.74 + 85, 105], [W * 0.88 + 95, H * 0.74 - 60, 95]],
+        ramps: [[W * 0.88 - 150, H * 0.74, 95]] },
+    ],
+    flora: { blotch: 'rgba(90,140,90,0.5)', blotch2: 'rgba(35,65,40,0.55)', tuft: 'rgba(125,190,125,0.5)', bush: '#243a22', bushHi: '#35502e', canopy: '#2a4526', canopyHi: '#3a5c32', clumps: 70 },
+    groves: [[W * 0.30, H * 0.72, 110, 6], [W * 0.70, H * 0.28, 110, 6]],
+    trees: [[W * 0.63, H * 0.40], [W * 0.08, H * 0.72], [W * 0.92, H * 0.36], [W * 0.35, H * 0.60]],
+    // crystal country: dead spire formations near the living fields
+    spires: [[W * 0.44, H * 0.33, 26], [W * 0.56, H * 0.67, 26], [W * 0.25, H * 0.55, 22]],
   },
   gauntlet: {
     label: 'The Gauntlet',
@@ -189,6 +203,17 @@ const MAPS = {
       [W * 0.66, H * 0.16, W * 0.66, H * 0.40, 46],
       [W * 0.66, H * 0.60, W * 0.66, H * 0.84, 46],
     ],
+    // rolling mesas over the edge runs — hold one and the flanking lane is yours
+    plateaus: [
+      { c: [[W * 0.22, H * 0.10, 130], [W * 0.22 + 105, H * 0.10 + 55, 95], [W * 0.22 - 115, H * 0.10 + 30, 85]],
+        ramps: [[W * 0.22, H * 0.10 + 130, 90]] },
+      { c: [[W * 0.78, H * 0.90, 130], [W * 0.78 - 105, H * 0.90 - 55, 95], [W * 0.78 + 115, H * 0.90 - 30, 85]],
+        ramps: [[W * 0.78, H * 0.90 - 130, 90]] },
+    ],
+    flora: { blotch: 'rgba(210,150,90,0.5)', blotch2: 'rgba(60,35,20,0.55)', tuft: 'rgba(205,175,105,0.45)', bush: '#4a3b20', bushHi: '#63512c', canopy: '#57492a', canopyHi: '#6e5e37', clumps: 34 },
+    trees: [[W * 0.15, H * 0.85], [W * 0.42, H * 0.06], [W * 0.61, H * 0.96], [W * 0.85, H * 0.15], [W * 0.12, H * 0.28], [W * 0.88, H * 0.70]],
+    // collapsed ground pockmarks the edge runs
+    pits: [[W * 0.44, H * 0.05, 38], [W * 0.56, H * 0.95, 38]],
   },
   boneyard: {
     label: 'The Boneyard',
@@ -211,17 +236,28 @@ const MAPS = {
       [W * 0.27, H * 0.64, W * 0.43, H * 0.64, 46],
       [W * 0.57, H * 0.64, W * 0.73, H * 0.64, 46],
     ],
-    boulders: [[W * 0.08, H * 0.26, 55], [W * 0.92, H * 0.74, 55]],
+    // the boulders became ribcages — this map earns its name now
+    bones: [[W * 0.08, H * 0.26, 52, 0.6], [W * 0.92, H * 0.74, 52, -0.6], [W * 0.30, H * 0.16, 42, 0.2], [W * 0.70, H * 0.84, 42, -0.2]],
+    // burial-mound rises between the wall pairs — vision anchors for the mid-band
+    plateaus: [
+      { c: [[W * 0.33, H * 0.50, 120], [W * 0.33 + 75, H * 0.50 - 55, 90], [W * 0.33 - 90, H * 0.50 + 55, 80]],
+        ramps: [[W * 0.33, H * 0.50 - 120, 80]] },
+      { c: [[W * 0.67, H * 0.50, 120], [W * 0.67 - 75, H * 0.50 + 55, 90], [W * 0.67 + 90, H * 0.50 - 55, 80]],
+        ramps: [[W * 0.67, H * 0.50 + 120, 80]] },
+    ],
+    flora: { blotch: 'rgba(180,190,210,0.4)', blotch2: 'rgba(15,15,22,0.55)', tuft: 'rgba(170,180,200,0.35)', bush: '#2c3038', bushHi: '#3d4350', dead: true, clumps: 26 },
+    trees: [[W * 0.12, H * 0.14], [W * 0.30, H * 0.85], [W * 0.72, H * 0.12], [W * 0.88, H * 0.86], [W * 0.42, H * 0.50], [W * 0.60, H * 0.78]],
   },
   valley: {
     label: 'Fossil Valley',
     desc: 'Quiet corner expansions — and a mega-field dead center under double nest guard.',
     ground: { base: '#121a0e', mottle: 'rgba(160,220,120,0.018)', pebble: 'rgba(155,205,135,0.06)', grid: 'rgba(150,220,150,0.028)' },   // deep moss
     // twin overlooks flanking the center approaches — artillery perches with
-    // one ramp each (N ramp faces west, S ramp faces east)
+    // one ramp each (N ramp faces west, S ramp faces east); second disc rolls
+    // each one out into a hill line instead of a stamped circle
     plateaus: [
-      { c: [[W * 0.5, H * 0.13, 150]], ramps: [[W * 0.5 - 150, H * 0.13, 95]] },
-      { c: [[W * 0.5, H * 0.87, 150]], ramps: [[W * 0.5 + 150, H * 0.87, 95]] },
+      { c: [[W * 0.5, H * 0.13, 150], [W * 0.5 + 115, H * 0.13 + 55, 105]], ramps: [[W * 0.5 - 150, H * 0.13, 95]] },
+      { c: [[W * 0.5, H * 0.87, 150], [W * 0.5 - 115, H * 0.87 - 55, 105]], ramps: [[W * 0.5 + 150, H * 0.87, 95]] },
     ],
     pHQ: [W - 210, H - 210], pRax: [W - 400, H - 140], pPatch: [W - 260, H - 440],
     eHQ: [210, 210], eRax: [400, 140], eFac: [560, 200],
@@ -241,6 +277,46 @@ const MAPS = {
       [W * 0.56, H * 0.71, W * 0.63, H * 0.63, 44],
     ],
     boulders: [[W * 0.25, H * 0.25, 60], [W * 0.75, H * 0.75, 60]],
+    flora: { blotch: 'rgba(110,190,110,0.5)', blotch2: 'rgba(25,55,28,0.55)', tuft: 'rgba(135,210,135,0.55)', bush: '#1e3d1c', bushHi: '#2f5a2a', canopy: '#1d3f1b', canopyHi: '#2e5827', clumps: 100 },
+    groves: [[W * 0.12, H * 0.60, 120, 7], [W * 0.88, H * 0.40, 120, 7]],
+    trees: [[W * 0.26, H * 0.065], [W * 0.80, H * 0.90], [W * 0.46, H * 0.78], [W * 0.55, H * 0.25]],
+    // spire sentinels splitting the N/S gates of the ring — the mega-field
+    // announces itself before you see a single crystal
+    spires: [[W * 0.5, H * 0.32, 24], [W * 0.5, H * 0.68, 24]],
+  },
+  trade: {
+    label: 'Trade Road',
+    desc: 'Dry steppe crossed by the old haul road — long sightlines, ambush country.',
+    // built FOR M2's coordinate skeleton: convoy runs SW→NE, the road bends at
+    // the ambush trigger [2200,1250], danger (field B's nests) sits on the
+    // straight diagonal — "swing EAST" stays true here. Bases mirror basin's
+    // known-good corner blocks.
+    ground: { base: '#201b10', mottle: 'rgba(235,200,120,0.022)', pebble: 'rgba(225,195,130,0.07)', grid: 'rgba(220,190,130,0.024)', hi: 'rgba(240,230,190,0.10)' },
+    pHQ: [210, H - 210], pRax: [400, H - 140], pPatch: [260, H - 440],
+    eHQ: [W - 210, 210], eRax: [W - 400, 140], eFac: [W - 560, 200],
+    eSup: [[W - 300, 100], [W - 150, 340]], eTur: [[W - 350, 330], [W - 480, 220]],
+    eAir: [W - 660, 300],
+    ePatch: [W - 260, 440],
+    patches: [
+      { p: [1560, 1180], n: 8, a: 2600, nests: [[1450, 1070], [1670, 1290]] },   // the mounds ON the shortcut diagonal
+      { p: [640, 1100], n: 7, a: 2200, nests: [[750, 990]] },
+      { p: [2380, 1760], n: 7, a: 2200, nests: [[2270, 1650]] },
+    ],
+    // one ridge breaks the shortcut diagonal; the road threads south of it
+    ridges: [[1700, 780, 2050, 1050, 46]],
+    // the haul road itself — painted packed earth with wheel ruts
+    roads: [[[380, 2050], [1450, 1720], [2200, 1250], [2500, 880], [2760, 520]]],
+    // road overlooks: the bend watch (south) and the Beta overlook (north)
+    plateaus: [
+      { c: [[1900, 1800, 125], [2010, 1880, 90]], ramps: [[1890, 1675, 80]] },
+      { c: [[2150, 760, 115], [2040, 680, 85]], ramps: [[2265, 790, 80]] },
+    ],
+    flora: { blotch: 'rgba(200,170,90,0.5)', blotch2: 'rgba(70,55,25,0.55)', tuft: 'rgba(210,185,110,0.5)', bush: '#4a4020', bushHi: '#645628', canopy: '#4e4a22', canopyHi: '#67612e', clumps: 85 },
+    groves: [[700, 1750, 100, 5]],
+    trees: [[1150, 450], [2650, 1500], [1450, 2100], [2950, 1050], [500, 600]],
+    // waystation flavor: dry wells off the road joints + one caravan casualty
+    pits: [[1380, 1580, 34], [2380, 1360, 30]],
+    bones: [[1050, 1500, 45, 0.4]],
   },
 };
 
@@ -354,10 +430,12 @@ const MISSIONS = [
   },
   {
     title: 'Claim Jumpers', act: 'Act I — The Crystal War',
-    map: 'basin', diff: 'easy', noEnemy: true,
+    map: 'trade', diff: 'easy', noEnemy: true,   // rehomed 2026-07-24 (roster: M2 gets its own map)
     patches: [[2870, 590, 6, 2200]],   // Survey Post Beta's rich field
     brief: [
-      ['ops', 'Survey Post Beta sits on a rich northern field, but its silos are empty and our home patch is thinning. We are opening a convoy route across the valley — today.'],
+      // NOTE: only Vega's (ops) lines may be reworded freely — they're unvoiced
+      // until her voice lands. Krauss's brief line has an installed clip.
+      ['ops', 'Survey Post Beta sits on a rich northern field, but its silos are empty and our home patch is thinning. We are opening a convoy route up the old trade road — today.'],
       ['red', 'Intercepted, unregistered channel: "To the expedition in grid four: this valley is a Rubicon Mining resource corridor. Consider your route subject to... review." — C. Krauss, Field Commander.'],
       ['ops', 'That would be Rubicon. Escort the convoy out and back, Commander — and shoot anything that touches a harvester.'],
     ],
@@ -420,7 +498,7 @@ const MISSIONS = [
       ['sci', 'Odd detail: the raiders drove within meters of two nest mounds and the broods never stirred. The wildlife has... opinions about who it minds.'],
     ],
     winText: 'The route is open — and Rubicon now knows your convoy schedule. This stopped being a survey the moment Krauss put a price on the road.',
-    loseText: 'The convoy is scrap on the valley floor. Survey Post Beta goes hungry, and Krauss bills the expedition for "corridor cleanup."',
+    loseText: 'The convoy is scrap on the trade road. Survey Post Beta goes hungry, and Krauss bills the expedition for "corridor cleanup."',
   },
   {
     title: 'The Nest Problem', act: 'Act I — The Crystal War',
@@ -1237,6 +1315,28 @@ function setup(mapKey) {
     }
   }
   for (const [bx, by, br] of (M.boulders || [])) rocks.push({ x: bx, y: by, r: br });
+  // trees: solid canopies riding the rock machinery — collision, pathing,
+  // placement all come free. Groves scatter a stand inside a disc (min 70px
+  // spacing keeps infantry seams); singles are lone landmarks. Ghosting units
+  // still slip them (not cliffs). dead flag = bare-snag render (ash maps).
+  const deadWood = !!(M.flora && M.flora.dead);
+  for (const [gx, gy, gr, gn] of (M.groves || [])) {
+    for (let i = 0, guard = 0; i < gn && guard < 60; guard++) {
+      const a = Math.random() * Math.PI * 2, d = Math.random() * gr;
+      const x = gx + Math.cos(a) * d, y = gy + Math.sin(a) * d;
+      if (rocks.some(rk => rk.tree && dist2(x, y, rk.x, rk.y) < 70 * 70)) continue;
+      rocks.push({ x, y, r: 14 + Math.random() * 5, tree: true, dead: deadWood });
+      i++;
+    }
+  }
+  for (const [tx, ty] of (M.trees || [])) {
+    rocks.push({ x: tx, y: ty, r: 15 + Math.random() * 4, tree: true, dead: deadWood });
+  }
+  // obstacle variety beyond rock walls (playtest 2026-07-24): crystalline
+  // spires, buried ribcages, sinkholes — all rocks mechanically, distinct art
+  for (const [sx, sy, sr] of (M.spires || [])) rocks.push({ x: sx, y: sy, r: sr, spire: true });
+  for (const [bx, by, br, ba] of (M.bones || [])) rocks.push({ x: bx, y: by, r: br, bone: true, a: ba || 0 });
+  for (const [px, py, pr] of (M.pits || [])) rocks.push({ x: px, y: py, r: pr, pit: true });
   // plateaus: raise the interior tiles, then grow the cliff rim as a chain of
   // slab rocks — ramps leave gaps, the only ground route up
   elev.fill(0);
@@ -3401,20 +3501,147 @@ function refreshProgressBar() {
 // ---------------- Ground texture (pre-rendered per map) ----------------
 const groundCv = document.createElement('canvas');
 groundCv.width = W; groundCv.height = H;
-function paintRock(g, rk) {
+// top-down canopy (or bare snag on dead-flora maps). OPT slots: tree.png /
+// tree_dead.png, same contract as rock.png.
+function paintTree(g, rk, flo) {
+  const seed = (rk.x * 7.3 + rk.y * 13.7) % (Math.PI * 2);
+  g.fillStyle = 'rgba(0,0,0,0.38)';
+  g.beginPath(); g.ellipse(rk.x + 6, rk.y + 8, rk.r * 1.15, rk.r * 0.9, 0, 0, Math.PI * 2); g.fill();
+  const img = opt(rk.dead ? 'tree_dead' : 'tree');
+  if (img) {
+    const s = rk.r * 2.6;
+    g.save(); g.translate(rk.x, rk.y); g.rotate(seed);
+    g.drawImage(img, -s / 2, -s / 2, s, s);
+    g.restore();
+    return;
+  }
+  if (rk.dead) {
+    // bleached snag: stub trunk + forking bare branches
+    g.strokeStyle = '#565a63';
+    g.lineWidth = 3.4;
+    g.beginPath(); g.moveTo(rk.x, rk.y); g.lineTo(rk.x + Math.cos(seed) * rk.r * 0.5, rk.y + Math.sin(seed) * rk.r * 0.5); g.stroke();
+    g.lineWidth = 1.8;
+    for (let i = 0; i < 5; i++) {
+      const a = seed + (i / 5) * Math.PI * 2 + 0.4;
+      const len = rk.r * (0.7 + ((seed * (i + 3)) % 1) * 0.5);
+      g.beginPath();
+      g.moveTo(rk.x, rk.y);
+      g.lineTo(rk.x + Math.cos(a) * len, rk.y + Math.sin(a) * len);
+      g.stroke();
+    }
+    g.fillStyle = '#666b75';
+    g.beginPath(); g.arc(rk.x, rk.y, rk.r * 0.18, 0, Math.PI * 2); g.fill();
+    return;
+  }
+  const C = flo.canopy || '#2a4526', Chi = flo.canopyHi || '#3a5c32';
+  g.fillStyle = C;
+  for (let i = 0; i < 6; i++) {   // lobed canopy ring + core
+    const a = seed + (i / 6) * Math.PI * 2;
+    g.beginPath(); g.arc(rk.x + Math.cos(a) * rk.r * 0.5, rk.y + Math.sin(a) * rk.r * 0.5, rk.r * 0.55, 0, Math.PI * 2); g.fill();
+  }
+  g.beginPath(); g.arc(rk.x, rk.y, rk.r * 0.75, 0, Math.PI * 2); g.fill();
+  g.fillStyle = Chi;   // sun side
+  for (let i = 0; i < 3; i++) {
+    const a = seed + (i / 3) * Math.PI * 2;
+    g.beginPath(); g.arc(rk.x - rk.r * 0.22 + Math.cos(a) * rk.r * 0.28, rk.y - rk.r * 0.26 + Math.sin(a) * rk.r * 0.28, rk.r * 0.32, 0, Math.PI * 2); g.fill();
+  }
+}
+function paintRock(g, rk, flo) {
+  if (rk.tree) return paintTree(g, rk, flo || {});
   if (rk.cliff) {
-    // cliff-face slab: tangential wedge with a lit lip on the high side and a
-    // shadow skirt falling outward — chained slabs read as one wall
+    // scarp band: round-capped tangential strokes so the chained slabs read
+    // as one eroded hillside edge, not a wall of black bricks (2026-07-24)
     g.save();
     g.translate(rk.x, rk.y);
     g.rotate(rk.a || 0);   // +x points away from the plateau
-    g.fillStyle = 'rgba(0,0,0,0.38)';
-    g.fillRect(2, -rk.r * 1.15, rk.r * 0.95, rk.r * 2.3);
-    g.fillStyle = '#252b25';
-    g.fillRect(-rk.r * 0.55, -rk.r * 1.15, rk.r * 0.95, rk.r * 2.3);
-    g.fillStyle = '#39413a';
-    g.fillRect(-rk.r * 0.68, -rk.r * 1.15, rk.r * 0.22, rk.r * 2.3);
+    g.lineCap = 'round';
+    const t = rk.r * 1.22;   // tangential half-length — keeps the chain closed
+    g.strokeStyle = 'rgba(0,0,0,0.30)';   // shadow falling downhill
+    g.lineWidth = rk.r * 0.95;
+    g.beginPath(); g.moveTo(3, -t); g.lineTo(3, t); g.stroke();
+    g.strokeStyle = '#2c322b';            // scarp face
+    g.lineWidth = rk.r * 0.8;
+    g.beginPath(); g.moveTo(-rk.r * 0.2, -t); g.lineTo(-rk.r * 0.2, t); g.stroke();
+    g.strokeStyle = '#454d45';            // sunlit lip on the high side
+    g.lineWidth = rk.r * 0.24;
+    g.beginPath(); g.moveTo(-rk.r * 0.5, -t * 0.9); g.lineTo(-rk.r * 0.5, t * 0.9); g.stroke();
     g.restore();
+    return;
+  }
+  if (rk.spire) {
+    // crystalline spire: jagged shard cluster in a dulled deep teal — reads
+    // "crystal country terrain", deliberately NOT the mineable resource color
+    const img = opt('spire');
+    g.fillStyle = 'rgba(0,0,0,0.35)';
+    g.beginPath(); g.ellipse(rk.x + 4, rk.y + 6, rk.r * 1.1, rk.r * 0.85, 0, 0, Math.PI * 2); g.fill();
+    if (img) {
+      const s = rk.r * 2.5;
+      g.drawImage(img, rk.x - s / 2, rk.y - s / 2, s, s);
+      return;
+    }
+    const seed = (rk.x * 7.3 + rk.y * 13.7) % (Math.PI * 2);
+    g.fillStyle = '#1e2a27';
+    g.beginPath(); g.arc(rk.x, rk.y, rk.r * 0.8, 0, Math.PI * 2); g.fill();
+    for (let i = 0; i < 5; i++) {
+      const a = seed + (i / 5) * Math.PI * 2;
+      const len = rk.r * (0.8 + ((seed * (i + 2)) % 1) * 0.7);
+      const bx = rk.x + Math.cos(a) * rk.r * 0.3, by = rk.y + Math.sin(a) * rk.r * 0.3;
+      g.fillStyle = i % 2 ? '#3f6a63' : '#4d7d74';
+      g.beginPath();
+      g.moveTo(bx + Math.cos(a) * len, by + Math.sin(a) * len);
+      g.lineTo(bx + Math.cos(a + 1.9) * rk.r * 0.3, by + Math.sin(a + 1.9) * rk.r * 0.3);
+      g.lineTo(bx + Math.cos(a - 1.9) * rk.r * 0.3, by + Math.sin(a - 1.9) * rk.r * 0.3);
+      g.closePath(); g.fill();
+    }
+    g.fillStyle = 'rgba(160,230,215,0.35)';   // faint living glint at the heart
+    g.beginPath(); g.arc(rk.x - rk.r * 0.1, rk.y - rk.r * 0.15, rk.r * 0.2, 0, Math.PI * 2); g.fill();
+    return;
+  }
+  if (rk.bone) {
+    // half-buried ribcage of something enormous — the Boneyard earns its name
+    const img = opt('bones');
+    g.fillStyle = 'rgba(0,0,0,0.3)';
+    g.beginPath(); g.ellipse(rk.x + 4, rk.y + 6, rk.r * 1.15, rk.r * 0.7, rk.a || 0, 0, Math.PI * 2); g.fill();
+    if (img) {
+      const s = rk.r * 2.6;
+      g.save(); g.translate(rk.x, rk.y); g.rotate(rk.a || 0);
+      g.drawImage(img, -s / 2, -s / 2, s, s);
+      g.restore();
+      return;
+    }
+    g.save();
+    g.translate(rk.x, rk.y);
+    g.rotate(rk.a || 0);   // spine runs along +x
+    g.strokeStyle = '#b6af97';
+    g.lineCap = 'round';
+    g.lineWidth = 3;
+    g.beginPath(); g.moveTo(-rk.r * 0.9, 0); g.lineTo(rk.r * 0.75, 0); g.stroke();   // spine
+    const ribs = 5;
+    for (let i = 0; i < ribs; i++) {
+      const x = -rk.r * 0.7 + (i / (ribs - 1)) * rk.r * 1.25;
+      const h = rk.r * (0.75 - Math.abs(i - ribs / 2 + 0.5) * 0.12);
+      g.lineWidth = 3.4;
+      g.beginPath(); g.arc(x, -h * 0.15, h, Math.PI * 0.75, Math.PI * 1.6); g.stroke();
+      g.beginPath(); g.arc(x, h * 0.15, h, Math.PI * 0.4, Math.PI * 1.25, true); g.stroke();
+    }
+    g.fillStyle = '#c4bda3';   // skull knob at the spine's head
+    g.beginPath(); g.ellipse(rk.r * 0.85, 0, rk.r * 0.28, rk.r * 0.2, 0, 0, Math.PI * 2); g.fill();
+    g.restore();
+    return;
+  }
+  if (rk.pit) {
+    // sinkhole: a dark collapse with a pale crumbling lip — impassable ground
+    g.fillStyle = 'rgba(0,0,0,0.25)';
+    g.beginPath(); g.ellipse(rk.x, rk.y, rk.r * 1.25, rk.r * 1.05, 0, 0, Math.PI * 2); g.fill();
+    g.strokeStyle = 'rgba(200,195,175,0.18)';
+    g.lineWidth = 2.5;
+    g.beginPath(); g.ellipse(rk.x, rk.y, rk.r * 1.02, rk.r * 0.85, 0, 0, Math.PI * 2); g.stroke();
+    g.fillStyle = '#0a0d0a';
+    g.beginPath(); g.ellipse(rk.x, rk.y, rk.r * 0.92, rk.r * 0.76, 0, 0, Math.PI * 2); g.fill();
+    g.fillStyle = 'rgba(60,70,62,0.5)';   // one lit inner wall
+    g.beginPath(); g.ellipse(rk.x - rk.r * 0.15, rk.y - rk.r * 0.18, rk.r * 0.55, rk.r * 0.4, 0, 0, Math.PI * 2); g.fill();
+    g.fillStyle = '#060806';
+    g.beginPath(); g.ellipse(rk.x - rk.r * 0.2, rk.y - rk.r * 0.22, rk.r * 0.4, rk.r * 0.28, 0, 0, Math.PI * 2); g.fill();
     return;
   }
   g.fillStyle = 'rgba(0,0,0,0.35)';   // ground shadow
@@ -3448,6 +3675,7 @@ function paintGround(M) {
   // per-map ground palette — each battlefield gets its own soil so maps stop
   // looking interchangeable (playtest feedback). All fields optional.
   const pal = (M && M.ground) || {};
+  const flo = (M && M.flora) || {};
   const g = groundCv.getContext('2d');
   const area = (W * H) / (2048 * 1536);   // texture density scales with map area
   g.fillStyle = pal.base || '#171c16';
@@ -3458,6 +3686,37 @@ function paintGround(M) {
     const r = 8 + Math.random() * 42;
     g.fillStyle = Math.random() < 0.5 ? (pal.mottle || 'rgba(255,255,255,0.012)') : 'rgba(0,0,0,0.05)';
     g.beginPath(); g.ellipse(x, y, r, r * 0.6, Math.random() * 3, 0, Math.PI * 2); g.fill();
+  }
+  // biome shading: smooth two-octave value noise, painted as a soft light/dark
+  // drift across the whole map. v1 was random ellipse blobs — they read as
+  // "shapes" (stains, crop circles) no matter how they were clustered; noise
+  // has no outlines at all, just cohesive terrain-like variation (2026-07-24)
+  {
+    const cell = 260, cw = Math.ceil(W / cell) + 2, ch = Math.ceil(H / cell) + 2;
+    const n1 = new Float32Array(cw * ch).map(() => Math.random());
+    const cell2 = 90, cw2 = Math.ceil(W / cell2) + 2, ch2 = Math.ceil(H / cell2) + 2;
+    const n2 = new Float32Array(cw2 * ch2).map(() => Math.random());
+    const smooth = (t) => t * t * (3 - 2 * t);
+    const sample = (n, cw3, sz, x, y) => {
+      const gx = x / sz, gy = y / sz;
+      const x0 = Math.floor(gx), y0 = Math.floor(gy);
+      const tx = smooth(gx - x0), ty = smooth(gy - y0);
+      const v00 = n[y0 * cw3 + x0], v10 = n[y0 * cw3 + x0 + 1];
+      const v01 = n[(y0 + 1) * cw3 + x0], v11 = n[(y0 + 1) * cw3 + x0 + 1];
+      return (v00 * (1 - tx) + v10 * tx) * (1 - ty) + (v01 * (1 - tx) + v11 * tx) * ty;
+    };
+    const lightC = flo.blotch || 'rgba(90,140,90,0.5)', darkC = flo.blotch2 || 'rgba(20,35,22,0.5)';
+    const step = 24;
+    for (let y = 0; y < H; y += step) {
+      for (let x = 0; x < W; x += step) {
+        const v = sample(n1, cw, cell, x, y) * 0.65 + sample(n2, cw2, cell2, x, y) * 0.35 - 0.5;
+        if (Math.abs(v) < 0.04) continue;
+        g.globalAlpha = Math.min(0.16, Math.abs(v) * 0.42);
+        g.fillStyle = v > 0 ? lightC : darkC;
+        g.fillRect(x, y, step, step);
+      }
+    }
+    g.globalAlpha = 1;
   }
   // faint grid
   g.strokeStyle = pal.grid || 'rgba(160,220,200,0.028)';
@@ -3470,23 +3729,111 @@ function paintGround(M) {
     g.fillStyle = pal.pebble || 'rgba(190,200,190,0.06)';
     g.beginPath(); g.arc(x, y, 1 + Math.random() * 2.5, 0, Math.PI * 2); g.fill();
   }
-  // raised ground: drop shadow + lifted tone so plateaus read at a glance;
-  // ramps get a half-lift so the way up is visible from across the map
-  for (const pl of ((M && M.plateaus) || [])) {
-    for (const [px, py, pr] of pl.c) {
-      g.fillStyle = 'rgba(0,0,0,0.24)';
-      g.beginPath(); g.arc(px + 7, py + 10, pr + 9, 0, Math.PI * 2); g.fill();
-    }
-    for (const [px, py, pr] of pl.c) {
-      g.fillStyle = pal.hi || 'rgba(235,240,225,0.08)';
-      g.beginPath(); g.arc(px, py, pr, 0, Math.PI * 2); g.fill();
-    }
-    for (const [rx, ry, rr] of (pl.ramps || [])) {
-      g.fillStyle = pal.hi || 'rgba(235,240,225,0.05)';
-      g.beginPath(); g.arc(rx, ry, rr * 0.8, 0, Math.PI * 2); g.fill();
+  // ground flora, in clumps (uniform scatter reads as noise; clumps read as
+  // vegetation): grass tufts + shrubs + the odd bush, all map-palette
+  const tuftC = flo.tuft || 'rgba(125,190,125,0.5)';
+  const bushC = flo.bush || '#243a22', bushHiC = flo.bushHi || '#35502e';
+  const clumps = (flo.clumps != null ? flo.clumps : 40) * area;
+  for (let i = 0; i < clumps; i++) {
+    const cxp = Math.random() * W, cyp = Math.random() * H;
+    const n = 4 + Math.floor(Math.random() * 6);
+    for (let j = 0; j < n; j++) {
+      const x = cxp + (Math.random() - 0.5) * 170, y = cyp + (Math.random() - 0.5) * 170;
+      if (x < 8 || y < 8 || x > W - 8 || y > H - 8) continue;
+      const kind = Math.random();
+      if (kind < 0.55) {          // grass tuft: a little fan of blades
+        g.strokeStyle = tuftC;
+        g.lineWidth = 1.1;
+        const blades = 3 + Math.floor(Math.random() * 3);
+        for (let k = 0; k < blades; k++) {
+          const a = -Math.PI / 2 + (k - blades / 2) * 0.45 + (Math.random() - 0.5) * 0.2;
+          const len = 4 + Math.random() * 5;
+          g.beginPath(); g.moveTo(x, y); g.lineTo(x + Math.cos(a) * len, y + Math.sin(a) * len); g.stroke();
+        }
+      } else if (kind < 0.85) {   // shrub: low dark sprig cluster
+        g.fillStyle = bushC;
+        for (let k = 0; k < 3; k++) {
+          g.beginPath(); g.arc(x + (Math.random() - 0.5) * 6, y + (Math.random() - 0.5) * 6, 1.6 + Math.random() * 2.2, 0, Math.PI * 2); g.fill();
+        }
+        g.fillStyle = bushHiC;
+        g.beginPath(); g.arc(x - 1, y - 1.5, 1.4, 0, Math.PI * 2); g.fill();
+      } else {                    // bush: two-tone dome with a shadow skirt
+        const r = 5 + Math.random() * 5;
+        g.fillStyle = 'rgba(0,0,0,0.25)';
+        g.beginPath(); g.ellipse(x + 2, y + 2.5, r, r * 0.75, 0, 0, Math.PI * 2); g.fill();
+        g.fillStyle = bushC;
+        g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fill();
+        g.fillStyle = bushHiC;
+        g.beginPath(); g.arc(x - r * 0.25, y - r * 0.3, r * 0.55, 0, Math.PI * 2); g.fill();
+      }
     }
   }
-  for (const rk of rocks) paintRock(g, rk);
+  // worn haul roads (MAPS.roads polylines): packed-earth band, a dusty crown,
+  // and wheel ruts. Painted over flora — a used road stays clear of grass.
+  for (const line of ((M && M.roads) || [])) {
+    g.lineCap = 'round'; g.lineJoin = 'round';
+    const trace = () => { g.beginPath(); line.forEach(([x, y], i) => i ? g.lineTo(x, y) : g.moveTo(x, y)); g.stroke(); };
+    g.strokeStyle = 'rgba(62,50,30,0.6)'; g.lineWidth = 44; trace();
+    g.strokeStyle = 'rgba(140,115,70,0.16)'; g.lineWidth = 26; trace();
+    for (let i = 1; i < line.length; i++) {   // ruts hug each segment's normal
+      const [x1, y1] = line[i - 1], [x2, y2] = line[i];
+      const L = Math.hypot(x2 - x1, y2 - y1), nx = -(y2 - y1) / L, ny = (x2 - x1) / L;
+      g.strokeStyle = 'rgba(0,0,0,0.22)'; g.lineWidth = 2.5;
+      for (const s of [-9, 9]) {
+        g.beginPath(); g.moveTo(x1 + nx * s, y1 + ny * s); g.lineTo(x2 + nx * s, y2 + ny * s); g.stroke();
+      }
+    }
+  }
+  // raised ground: soft-shouldered hills, not stamped discs (playtest: the
+  // circle-plus-rim look read as "dropped-in outposts"). Each disc becomes a
+  // wobbled dome with a radial-gradient slope; overlapping discs merge into
+  // one hilly mass. Ramps paint as tapered slope tongues aimed at the summit.
+  const hillBlob = (px, py, pr, jitter) => {
+    const seed = px * 0.37 + py * 0.61;
+    g.beginPath();
+    for (let i = 0; i <= 22; i++) {
+      const a = (i / 22) * Math.PI * 2;
+      const rr = pr * (1 + jitter * Math.sin(a * 3 + seed) + jitter * 0.6 * Math.sin(a * 7 + seed * 1.7));
+      const x = px + Math.cos(a) * rr, y = py + Math.sin(a) * rr;
+      i ? g.lineTo(x, y) : g.moveTo(x, y);
+    }
+    g.closePath();
+  };
+  for (const pl of ((M && M.plateaus) || [])) {
+    for (const [px, py, pr] of pl.c) {          // settling shadow downhill
+      g.fillStyle = 'rgba(0,0,0,0.18)';
+      hillBlob(px + 9, py + 13, pr * 1.06, 0.07); g.fill();
+    }
+    for (const [rx, ry, rr] of (pl.ramps || [])) {
+      // ramp = soft elliptical glow stretched along the climb direction —
+      // gradient-only, zero hard edges (strokes/quads here read as glitches)
+      let nx = 0, ny = 0, bd = 1e18;
+      for (const [px, py] of pl.c) { const d = dist2(rx, ry, px, py); if (d < bd) { bd = d; nx = px; ny = py; } }
+      const a = Math.atan2(ny - ry, nx - rx);
+      g.save();
+      g.translate(rx, ry); g.rotate(a); g.scale(1.5, 0.95);
+      const grad = g.createRadialGradient(0, 0, rr * 0.1, 0, 0, rr);
+      grad.addColorStop(0, pal.hi || 'rgba(235,240,225,0.12)');
+      grad.addColorStop(1, 'rgba(235,240,225,0)');
+      g.fillStyle = grad;
+      g.beginPath(); g.arc(0, 0, rr, 0, Math.PI * 2); g.fill();
+      g.restore();
+    }
+    for (const [px, py, pr] of pl.c) {          // slope: bright summit fading to the foot
+      const grad = g.createRadialGradient(px - pr * 0.15, py - pr * 0.2, pr * 0.1, px, py, pr * 1.05);
+      grad.addColorStop(0, pal.hi || 'rgba(235,240,225,0.16)');
+      grad.addColorStop(0.65, pal.hi ? pal.hi : 'rgba(235,240,225,0.09)');
+      grad.addColorStop(1, 'rgba(235,240,225,0)');
+      g.fillStyle = grad;
+      hillBlob(px, py, pr * 1.05, 0.07); g.fill();
+    }
+    for (const [px, py, pr] of pl.c) {          // faint contour line under the rim
+      g.strokeStyle = 'rgba(255,255,255,0.05)';
+      g.lineWidth = 2;
+      hillBlob(px, py, pr * 0.8, 0.09); g.stroke();
+    }
+  }
+  for (const rk of rocks) paintRock(g, rk, flo);
 }
 paintGround();   // pre-menu backdrop; setup() repaints with the map's terrain
 
@@ -4878,8 +5225,9 @@ function renderMinimap() {
     mcx.fillStyle = tick % 60 < 34 ? '#8fc94a' : '#e8e2cc';   // green blink: "come get these"
     mcx.fillRect(e.x * sx - 1.5, e.y * sy - 1.5, 3, 3);
   }
-  mcx.fillStyle = '#3d443d';
   for (const rk of rocks) {
+    mcx.fillStyle = rk.tree ? (rk.dead ? '#4a4f58' : '#31502e')
+      : rk.spire ? '#3f6a63' : rk.bone ? '#8a8674' : rk.pit ? '#101410' : '#3d443d';
     mcx.beginPath(); mcx.arc(rk.x * sx, rk.y * sy, Math.max(1.5, rk.r * sx), 0, Math.PI * 2); mcx.fill();
   }
   for (const b of buildings) {

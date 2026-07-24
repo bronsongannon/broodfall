@@ -233,6 +233,42 @@ Maps directly onto the "tease then deliver" gate:
 20 missions need ~12–15 distinct maps minimum. Reusing maps across acts (same valley,
 now overgrown and dino-held) is both cheaper *and* better storytelling.
 
+### Map roster — 15 maps / 20 missions (locked with Bronson 2026-07-24)
+
+Standing rule: no map serves more than TWO missions, except The Crater — the
+finale trilogy (M18→M20) deliberately stays on one evolving battlefield. Every
+reuse relocates bases (mission-level pHQ/eHQ override, the M1 `fields` pattern).
+Terrain vocabulary available per map: ridges/boulders, plateau hill clusters
+(multi-disc + ramps), groves/trees (`dead` for snags), spires, bones, pits,
+flora + ground palettes. ✅ = built.
+
+| # | Map | Biome / identity | Missions |
+|---|-----|------------------|----------|
+| 1 | ✅ Crystal Basin | classic green, corner hills | M1 (+skirmish) |
+| 2 | ✅ Trade Road | dry steppe convoy corridor, painted haul road + waystations | M2 (rehomed 2026-07-24) |
+| 3 | ✅ Fossil Valley | deep moss, twin overlooks | M3, M17 (overlooks become Screecher roosts) (+skirmish) |
+| 4 | ✅ The Gauntlet | rust badlands, mesas + sinkholes | M4 (bases relocated) (+skirmish) |
+| 5 | Blackwater Fen | SWAMP + night, water channels, causeway gates | M5 |
+| 6 | The Silo Fields | SNOW plains, white-out flora, frozen groves | M6 |
+| 7 | High Water Mark | river WATER map, bridge crossings | M7 (Act 1 finale) |
+| 8 | Strip Mine | terraced quarry, scarred earth, pit fields | M8, M16 (the abandoned mine hides the lab cores) |
+| 9 | ✅ The Boneyard | ash flats, ribcages + snags, burial mounds | M9 (dread mission — bases relocated) (+skirmish) |
+| 10 | Krauss's Bastion | fortified red city-base, walls + kill lanes | M10 |
+| 11 | Twin Forks | forked valley, TWO allied HQ positions | M11 |
+| 12 | Exodus Road | night swamp causeway — one long escort artery | M12 |
+| 13 | Evac Coast | coastline LZ, water on one full edge | M13 |
+| 14 | Overgrown Basin | Crystal Basin's bones swallowed by jungle — the M14 story revisit | M14, M15 |
+| 15 | The Crater | impact crater: rim (M18) → interior siege (M19) → the Heartvein (M20) | M18, M19, M20 |
+
+Skirmish roster grows to 8 by promoting Trade Road, Twin Forks, The Silo
+Fields, and High Water Mark once built.
+
+Engine work the new biomes imply (build once, reuse everywhere): WATER terrain
+(ground-impassable, flyers cross — rocks machinery with a shore render; bridges
+are the ramp analog), SNOW/NIGHT palettes (ground + flora tables already carry
+this), and optional night lighting (dark overlay + unit lamps — nice-to-have,
+not a blocker).
+
 ---
 
 ## Dino roster expansion

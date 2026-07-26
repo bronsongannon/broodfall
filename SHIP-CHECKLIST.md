@@ -67,4 +67,4 @@ file and the widget's task lists in sync.
 - [x] Units killed mid-tick can no longer act or count toward mission objectives
 - [x] Nuke safety: no dead-silo launches, no mode-stacking accidental launches, no overlay race on quit
 - [x] Menu hotkeys gated off, mission rig costs no supply, enemy plant can't spawn on crystals, AI refineries obey the tech tree
-- [ ] Map roster: 15 maps / 20 missions locked 2026-07-24 (table in CAMPAIGN.md). 8 built (Blackwater Fen, Silo Fields, Strip Mine landed 2026-07-25 — WATER terrain shipped with the Fen); 7 to build — High Water Mark next (rivers machinery ready)
+- [ ] Map roster: 15 maps / 20 missions locked 2026-07-24 (table in CAMPAIGN.md). 11 built (High Water Mark, Twin Forks, Overgrown Basin landed 2026-07-26); 4 to build — Krauss's Bastion, Exodus Road, Evac Coast, The Crater

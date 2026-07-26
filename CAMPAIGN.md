@@ -250,14 +250,14 @@ flora + ground palettes. ✅ = built.
 | 4 | ✅ The Gauntlet | rust badlands, mesas + sinkholes | M4 (bases relocated) (+skirmish) |
 | 5 | ✅ Blackwater Fen | SWAMP, water channels + causeway gates (night pass later) | M5 |
 | 6 | ✅ The Silo Fields | SNOW plains, open white-out, silo bluffs | M6 |
-| 7 | High Water Mark | river WATER map, bridge crossings | M7 (Act 1 finale) |
+| 7 | ✅ High Water Mark | the great N-S river, two crossing funnels, dam-ready | M7 (Act 1 finale) |
 | 8 | ✅ Strip Mine | terraced quarry benches over the motherlode, haul roads | M8, M16 (the abandoned mine hides the lab cores) |
 | 9 | ✅ The Boneyard | ash flats, ribcages + snags, burial mounds | M9 (dread mission — bases relocated) (+skirmish) |
 | 10 | Krauss's Bastion | fortified red city-base, walls + kill lanes | M10 |
-| 11 | Twin Forks | forked valley, TWO allied HQ positions | M11 |
+| 11 | ✅ Twin Forks | forked valley; SE flat + field = the allied HQ pocket | M11 |
 | 12 | Exodus Road | night swamp causeway — one long escort artery | M12 |
 | 13 | Evac Coast | coastline LZ, water on one full edge | M13 |
-| 14 | Overgrown Basin | Crystal Basin's bones swallowed by jungle — the M14 story revisit | M14, M15 |
+| 14 | ✅ Overgrown Basin | Crystal Basin's exact bones, jungle-swallowed (story reuse) | M14, M15 |
 | 15 | The Crater | impact crater: rim (M18) → interior siege (M19) → the Heartvein (M20) | M18, M19, M20 |
 
 Skirmish roster grows to 8 by promoting Trade Road, Twin Forks, The Silo

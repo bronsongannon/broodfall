@@ -417,6 +417,109 @@ const MAPS = {
     flora: { blotch: 'rgba(150,120,80,0.5)', blotch2: 'rgba(25,18,12,0.6)', tuft: 'rgba(160,140,100,0.4)', bush: '#3a3226', bushHi: '#4f4534', dead: true, clumps: 20 },
     trees: [[400, 1700], [2672, 600], [2900, 2000]],
   },
+  hwm: {
+    label: 'High Water Mark',
+    desc: 'One great river, two crossings, and a fortress on the far bank. Where the war gets decided.',
+    // roster map #7 (M7, the Act 1 finale). The river runs the map's full
+    // height; both causeways are assault funnels — or build a Hydro Dam and
+    // walk your infantry over where they least expect it.
+    ground: { base: '#141c11', mottle: 'rgba(170,220,140,0.02)', pebble: 'rgba(170,205,150,0.06)', grid: 'rgba(160,220,170,0.026)', hi: 'rgba(215,240,205,0.10)' },
+    pHQ: [230, H / 2 + 40], pRax: [420, H / 2 + 150], pPatch: [270, H / 2 - 240],
+    eHQ: [W - 230, H / 2 - 40], eRax: [W - 420, H / 2 - 150], eFac: [W - 580, H / 2 + 10],
+    eSup: [[W - 260, H / 2 + 200], [W - 160, H / 2 - 260]], eTur: [[W - 430, H / 2 + 110], [W - 430, H / 2 - 200]],
+    eAir: [W - 620, H / 2 + 170],
+    ePatch: [W - 270, H / 2 + 240],
+    rivers: [
+      [W * 0.52, 0, W * 0.50, H * 0.30, 60],
+      [W * 0.49, H * 0.42, W * 0.51, H * 0.68, 60],
+      [W * 0.50, H * 0.80, W * 0.52, H, 60],
+    ],
+    patches: [
+      { p: [W * 0.30, H * 0.22], n: 7, a: 2400, nests: [[W * 0.30 + 110, H * 0.22 - 110]] },
+      { p: [W * 0.70, H * 0.78], n: 7, a: 2400, nests: [[W * 0.70 - 110, H * 0.78 + 110]] },
+      { p: [W * 0.38, H * 0.66], n: 8, a: 2800, nests: [[W * 0.38 - 110, H * 0.66 + 110]] },
+      { p: [W * 0.62, H * 0.34], n: 8, a: 2800, nests: [[W * 0.62 + 110, H * 0.34 - 110]] },
+    ],
+    ridges: [
+      [W * 0.14, H * 0.36, W * 0.26, H * 0.28, 44],
+      [W * 0.86, H * 0.64, W * 0.74, H * 0.72, 44],
+    ],
+    // artillery overlooks staring down each crossing
+    plateaus: [
+      { c: [[W * 0.37, H * 0.30, 120], [W * 0.37 + 70, H * 0.30 + 80, 85]], ramps: [[W * 0.37 - 60, H * 0.30 + 105, 80]] },
+      { c: [[W * 0.63, H * 0.70, 120], [W * 0.63 - 70, H * 0.70 - 80, 85]], ramps: [[W * 0.63 + 60, H * 0.70 - 105, 80]] },
+    ],
+    flora: { blotch: 'rgba(120,200,110,0.5)', blotch2: 'rgba(15,35,15,0.55)', tuft: 'rgba(150,220,130,0.5)', bush: '#1c4018', bushHi: '#31612a', canopy: '#1b4517', canopyHi: '#2f6626', clumps: 95 },
+    groves: [[W * 0.30, H * 0.52, 105, 6], [W * 0.70, H * 0.48, 105, 6]],
+    trees: [[W * 0.12, H * 0.14], [W * 0.88, H * 0.86], [W * 0.42, H * 0.90], [W * 0.58, H * 0.10]],
+  },
+  forks: {
+    label: 'Twin Forks',
+    desc: 'A valley split in two by the fork. Every attack picks a prong — every defense guesses.',
+    // roster map #11 (M11 Strange Bedfellows). The SE flat + its own patch is
+    // the second base pocket — the mission parks the allied red HQ there.
+    ground: { base: '#161a17', mottle: 'rgba(190,215,190,0.02)', pebble: 'rgba(190,210,195,0.06)', grid: 'rgba(180,215,195,0.026)', hi: 'rgba(225,240,225,0.11)' },
+    pHQ: [W * 0.30, H - 210], pRax: [W * 0.30 + 190, H - 140], pPatch: [W * 0.30 - 250, H - 400],
+    eHQ: [W / 2, 200], eRax: [W / 2 - 200, 140], eFac: [W / 2 - 400, 240],
+    eSup: [[W / 2 + 180, 100], [W / 2 - 140, 340]], eTur: [[W / 2 + 260, 330], [W / 2 - 330, 300]],
+    eAir: [W / 2 + 350, 250],
+    ePatch: [W / 2 + 260, 380],
+    patches: [
+      { p: [W / 2, H * 0.56], n: 10, a: 3200, nests: [[W / 2 - 120, H * 0.56 - 110], [W / 2 + 120, H * 0.56 + 110]] },
+      { p: [W * 0.12, H * 0.42], n: 7, a: 2300, nests: [[W * 0.12 + 110, H * 0.42 - 110]] },
+      { p: [W * 0.88, H * 0.42], n: 7, a: 2300, nests: [[W * 0.88 - 110, H * 0.42 + 110]] },
+      { p: [W * 0.72, H - 500], n: 7, a: 2300, nests: [] },   // the ally pocket's field
+    ],
+    // the fork: two diagonal walls wedging south + a stem below the junction
+    ridges: [
+      [W * 0.20, H * 0.24, W * 0.44, H * 0.48, 46],
+      [W * 0.80, H * 0.24, W * 0.56, H * 0.48, 46],
+      [W * 0.50, H * 0.70, W * 0.50, H * 0.86, 44],
+    ],
+    boulders: [[W * 0.08, H * 0.78, 55], [W * 0.92, H * 0.20, 55]],
+    // the junction overlook, SW of the mega-field — sees both prongs and the
+    // fork mouth without sitting on the crystal (that broke the 200px rule)
+    plateaus: [
+      { c: [[W * 0.42, H * 0.66, 125], [W * 0.42 - 90, H * 0.66 + 55, 85]], ramps: [[W * 0.42 + 110, H * 0.66 + 60, 80]] },
+    ],
+    flora: { blotch: 'rgba(160,200,160,0.45)', blotch2: 'rgba(18,26,20,0.55)', tuft: 'rgba(170,210,160,0.45)', bush: '#26382a', bushHi: '#3d5a42', canopy: '#234020', canopyHi: '#3a6033', clumps: 70 },
+    groves: [[W * 0.16, H * 0.62, 105, 6], [W * 0.84, H * 0.62, 105, 6]],
+    trees: [[W * 0.35, H * 0.10], [W * 0.65, H * 0.90], [W * 0.06, H * 0.30], [W * 0.94, H * 0.72]],
+    pits: [[W * 0.40, H * 0.78, 32], [W * 0.60, H * 0.22, 32]],
+  },
+  overgrown: {
+    label: 'Overgrown Basin',
+    desc: 'Crystal Basin, two years later. The planet took it back.',
+    // roster map #14 (M14 Return to Ruin / M15). Basin's EXACT bones — same
+    // fields, ridges, hills — swallowed under jungle. Story reuse on purpose.
+    ground: { base: '#0f1a0c', mottle: 'rgba(150,220,130,0.022)', pebble: 'rgba(140,200,130,0.06)', grid: 'rgba(140,220,150,0.024)', hi: 'rgba(200,240,190,0.10)' },
+    pHQ: [210, H - 210], pRax: [400, H - 140], pPatch: [260, H - 440],
+    eHQ: [W - 210, 210], eRax: [W - 400, 140], eFac: [W - 560, 200],
+    eSup: [[W - 300, 100], [W - 150, 340]], eTur: [[W - 350, 330], [W - 480, 220]],
+    eAir: [W - 660, 300],
+    ePatch: [W - 260, 440],
+    patches: [
+      { p: [W / 2, H / 2 - 200], n: 8, a: 2600, nests: [[W / 2 + 110, H / 2 - 290]] },
+      { p: [W / 2, H / 2 + 200], n: 8, a: 2600, nests: [[W / 2 - 110, H / 2 + 290]] },
+    ],
+    ridges: [
+      [W * 0.40, H * 0.08, W * 0.50, H * 0.28, 48],
+      [W * 0.50, H * 0.72, W * 0.60, H * 0.92, 48],
+    ],
+    boulders: [[W * 0.17, H * 0.46, 55], [W * 0.83, H * 0.54, 55]],
+    plateaus: [
+      { c: [[W * 0.13, H * 0.26, 150], [W * 0.13 + 90, H * 0.26 + 70, 110], [W * 0.13 - 70, H * 0.26 - 80, 100]],
+        ramps: [[W * 0.13 + 150, H * 0.26, 95]] },
+      { c: [[W * 0.88, H * 0.74, 150], [W * 0.88 - 80, H * 0.74 + 85, 105], [W * 0.88 + 95, H * 0.74 - 60, 95]],
+        ramps: [[W * 0.88 - 150, H * 0.74, 95]] },
+    ],
+    flora: { blotch: 'rgba(90,180,90,0.5)', blotch2: 'rgba(10,25,10,0.6)', tuft: 'rgba(140,220,120,0.55)', bush: '#173a14', bushHi: '#2c5c24', canopy: '#153d12', canopyHi: '#2a6320', clumps: 135 },
+    // the jungle is winning: basin's groves doubled + strays everywhere
+    groves: [[W * 0.30, H * 0.72, 110, 7], [W * 0.70, H * 0.28, 110, 7], [1650, 250, 100, 5], [1400, 2050, 100, 5]],
+    trees: [[W * 0.63, H * 0.40], [W * 0.08, H * 0.72], [W * 0.92, H * 0.36], [W * 0.35, H * 0.60], [560, 1300], [2500, 1000], [1050, 300], [2000, 1800]],
+    spires: [[W * 0.44, H * 0.33, 26], [W * 0.56, H * 0.67, 26], [W * 0.25, H * 0.55, 22]],
+    pits: [[W * 0.20, H * 0.15, 32], [W * 0.80, H * 0.85, 32]],
+  },
 };
 
 // ---------------- Difficulty ----------------

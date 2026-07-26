@@ -777,7 +777,7 @@ const OPT = {};
   for (const k in BLD) if (k !== 'nest' && k !== 'den') names.push('bld_' + k);   // bld_hq.png, … (dino structures use dino_* slots)
   names.push('unit_marine_hunker', 'unit_sniper_hunker', 'unit_artillery_hunker');   // dug-in poses
   names.push('rock', 'crystal');   // terrain art (natural colors, not tinted)
-  names.push('tree', 'tree_dead', 'spire', 'bones', 'pit');   // map-upgrade terrain objects (2026-07-24)
+  names.push('tree', 'tree_dead', 'spire', 'bones', 'pit', 'water');   // terrain objects + seamless water tile
   // pre-colored colorway slots (STYLE-GUIDE.pdf / Gemini pipeline): drawn AS-IS,
   // no team tint. _teal = team 1, _red = team 2, _wild = untamed dinos.
   for (const k in UNIT) names.push('unit_' + k + '_teal', 'unit_' + k + '_red');
@@ -798,7 +798,7 @@ const OPT = {};
   }
   // terrain art is baked into the pre-rendered ground canvas — if one of these
   // finishes loading AFTER setup() painted it (cold load), repaint the ground
-  const TERRAIN_SLOTS = new Set(['rock', 'tree', 'tree_dead', 'spire', 'bones', 'pit']);
+  const TERRAIN_SLOTS = new Set(['rock', 'tree', 'tree_dead', 'spire', 'bones', 'pit', 'water']);
   for (const n of names) {
     const i = new Image();
     OPT[n] = { img: i, ok: false };
@@ -1254,6 +1254,26 @@ const blocked = new Uint8Array(MAP_W * MAP_H);
 // grid values: 0 free · 1 blocked for everyone · 2 = dam walkway (water a
 // standing Hydro Dam spans) — infantry and dinos cross, vehicles don't
 // (Bronson 2026-07-25). `foot` threads through the whole pathing stack.
+// a river segment as an ORGANIC path: meandering centerline (two sine
+// octaves, deterministic from the segment coords) with width that swells and
+// narrows along the run. Straight constant-width bands read as a racetrack
+// (playtest 2026-07-26). Colliders, ground paint, and the water animation all
+// share these exact points.
+function riverPath([x1, y1, x2, y2, r]) {
+  const dxn0 = x2 - x1, dyn0 = y2 - y1;
+  const L = Math.hypot(dxn0, dyn0);
+  const dxn = dxn0 / L, dyn = dyn0 / L, nx = -dyn, ny = dxn;
+  const seed = (x1 * 0.37 + y1 * 0.73 + x2 * 0.11) % 6.283;
+  const pts = [];
+  for (let d = 0; d <= L; d += 30) {
+    // meander eases to zero at the ends so causeway mouths stay put
+    const ease = Math.min(1, d / 140, (L - d) / 140);
+    const sway = (Math.sin(d * 0.011 + seed) * 0.55 + Math.sin(d * 0.0042 + seed * 2.7) * 0.45) * r * 0.5 * ease;
+    const width = r * (0.82 + 0.22 * Math.sin(d * 0.016 + seed * 1.7) + 0.16 * Math.sin(d * 0.0061 - seed));
+    pts.push({ x: x1 + dxn * d + nx * sway, y: y1 + dyn * d + ny * sway, r: width, d });
+  }
+  return pts;
+}
 const gridPass = (v, foot) => !v || (foot && v === 2);
 function buildTerrainGrid() {
   blocked.fill(0);
@@ -1453,12 +1473,8 @@ function setup(mapKey) {
   // ignore rocks so they soar straight over. Gaps between river segments are
   // the causeways. Painted as smooth bands in paintGround; the individual
   // colliders are invisible (paintRock skips water).
-  for (const [x1, y1, x2, y2, r] of (M.rivers || [])) {
-    const n = Math.max(1, Math.round(dist(x1, y1, x2, y2) / (r * 0.9)));
-    for (let i = 0; i <= n; i++) {
-      const t = i / n;
-      rocks.push({ x: x1 + (x2 - x1) * t, y: y1 + (y2 - y1) * t, r: r * 0.95, water: true });
-    }
+  for (const seg of (M.rivers || [])) {
+    for (const p of riverPath(seg)) rocks.push({ x: p.x, y: p.y, r: p.r * 0.95, water: true });
   }
   // trees: solid canopies riding the rock machinery — collision, pathing,
   // placement all come free. Groves scatter a stand inside a disc (min 70px
@@ -4062,19 +4078,59 @@ function paintGround(M) {
       }
     }
   }
-  // water channels (MAPS.rivers): layered round-capped bands — bank sheen,
-  // dark body, deeper heart, a faint center gleam. Gaps between segments
-  // read as causeways automatically since the ground just shows through.
-  for (const [x1, y1, x2, y2, r] of ((M && M.rivers) || [])) {
-    g.lineCap = 'round';
-    const seg = (color, w) => {
-      g.strokeStyle = color; g.lineWidth = w;
-      g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2, y2); g.stroke();
+  // water channels (MAPS.rivers): organic bank-to-bank polygons through the
+  // shared riverPath points — meander + width variation + ragged banks.
+  // Gaps between segments read as causeways since the ground shows through.
+  for (const seg of ((M && M.rivers) || [])) {
+    const pts = riverPath(seg);
+    const bankPoly = (scale, wobble) => {
+      g.beginPath();
+      for (let i = 0; i < pts.length; i++) {
+        const p = pts[i], q = pts[Math.min(i + 1, pts.length - 1)], o = pts[Math.max(i - 1, 0)];
+        const ang = Math.atan2(q.y - o.y, q.x - o.x);
+        const w2 = p.r * scale + (wobble ? Math.sin(p.d * 0.07 + p.x) * 3.5 : 0);
+        const px = p.x - Math.sin(ang) * w2, py = p.y + Math.cos(ang) * w2;
+        i ? g.lineTo(px, py) : g.moveTo(px, py);
+      }
+      for (let i = pts.length - 1; i >= 0; i--) {
+        const p = pts[i], q = pts[Math.min(i + 1, pts.length - 1)], o = pts[Math.max(i - 1, 0)];
+        const ang = Math.atan2(q.y - o.y, q.x - o.x);
+        const w2 = p.r * scale + (wobble ? Math.sin(p.d * 0.09 + p.y) * 3.5 : 0);
+        g.lineTo(p.x + Math.sin(ang) * w2, p.y - Math.cos(ang) * w2);
+      }
+      g.closePath();
     };
-    seg('rgba(170,215,195,0.10)', r * 2.5);   // wet bank lip
-    seg('#0b1b1e', r * 2.1);                  // water body
-    seg('#071214', r * 1.35);                 // deep channel
-    seg('rgba(150,210,195,0.05)', r * 0.45);  // surface gleam
+    g.fillStyle = 'rgba(170,215,195,0.10)'; bankPoly(1.22, true); g.fill();   // wet shore
+    const tile = opt('water');
+    if (tile) {   // seamless water texture (drop water.png in assets/sprites/)
+      const pat = g.createPattern(tile, 'repeat');
+      g.fillStyle = pat; bankPoly(1.0, true); g.fill();
+      g.fillStyle = 'rgba(7,18,20,0.35)'; bankPoly(1.0, true); g.fill();   // seat it in the dark
+    } else {
+      g.fillStyle = '#0b1b1e'; bankPoly(1.0, true); g.fill();
+    }
+    g.fillStyle = '#071214'; bankPoly(0.55, false); g.fill();   // deep channel
+    // shore clutter: stones + reed tufts scattered along both banks
+    for (const p of pts) {
+      if (Math.random() < 0.55) continue;
+      const q = pts[Math.min(pts.indexOf(p) + 1, pts.length - 1)];
+      const ang = Math.atan2(q.y - p.y, q.x - p.x);
+      const side = Math.random() < 0.5 ? 1 : -1;
+      const bx = p.x - Math.sin(ang) * (p.r * 1.18 + Math.random() * 10) * side;
+      const by = p.y + Math.cos(ang) * (p.r * 1.18 + Math.random() * 10) * side;
+      if (Math.random() < 0.5) {
+        g.fillStyle = 'rgba(160,170,160,0.25)';
+        g.beginPath(); g.arc(bx, by, 1.5 + Math.random() * 2.5, 0, Math.PI * 2); g.fill();
+      } else {
+        g.strokeStyle = flo.tuft || 'rgba(125,190,125,0.5)';
+        g.lineWidth = 1.1;
+        for (let k = 0; k < 3; k++) {
+          const ta = -Math.PI / 2 + (k - 1) * 0.5;
+          g.beginPath(); g.moveTo(bx, by);
+          g.lineTo(bx + Math.cos(ta) * 6, by + Math.sin(ta) * 6); g.stroke();
+        }
+      }
+    }
   }
   // raised ground: soft-shouldered hills, not stamped discs (playtest: the
   // circle-plus-rim look read as "dropped-in outposts"). Each disc becomes a
@@ -5467,67 +5523,52 @@ function drawFx(f) {
 function drawRivers(vx, vy, vw, vh) {
   const rivers = (groundM && groundM.rivers) || [];
   if (!rivers.length) return;
+  if (!groundM._rp) groundM._rp = rivers.map(riverPath);   // deterministic — cache once
   cx.save();
   cx.lineCap = 'round';
-  for (const [x1, y1, x2, y2, r] of rivers) {
-    if (Math.max(x1, x2) + r < vx || Math.min(x1, x2) - r > vx + vw ||
-        Math.max(y1, y2) + r < vy || Math.min(y1, y2) - r > vy + vh) continue;
-    const a = Math.atan2(y2 - y1, x2 - x1);
-    const dxn = Math.cos(a), dyn = Math.sin(a);
-    const nx = -dyn, ny = dxn;
-    const L = Math.hypot(x2 - x1, y2 - y1);
-    // sheen streams as UNDULATING polylines — a straight dashed line read as
-    // lane markings; the wave + drift reads as current
-    const streams = [
-      [-r * 0.42, 3.0, 0.9, 0.12, 30, 64, 0],
-      [r * 0.10, 2.4, 1.4, 0.10, 18, 46, 2.1],
-      [r * 0.45, 1.8, -0.5, 0.07, 12, 58, 4.4],   // slow counter-drift near the far bank
-    ];
-    for (const [off, w2, speed, alpha, don, doff, ph] of streams) {
+  for (let si = 0; si < rivers.length; si++) {
+    const [x1, y1, x2, y2, r] = rivers[si];
+    if (Math.max(x1, x2) + r * 2 < vx || Math.min(x1, x2) - r * 2 > vx + vw ||
+        Math.max(y1, y2) + r * 2 < vy || Math.min(y1, y2) - r * 2 > vy + vh) continue;
+    const pts = groundM._rp[si];
+    const norm = (i2) => {
+      const q = pts[Math.min(i2 + 1, pts.length - 1)], o = pts[Math.max(i2 - 1, 0)];
+      const ang = Math.atan2(q.y - o.y, q.x - o.x);
+      return [-Math.sin(ang), Math.cos(ang)];
+    };
+    // sheen streams riding the meander at fractions of the LOCAL width
+    const streams = [[-0.45, 3.0, 0.9, 0.12, 30, 64, 0], [0.1, 2.4, 1.4, 0.10, 18, 46, 2.1], [0.48, 1.8, -0.5, 0.07, 12, 58, 4.4]];
+    for (const [frac, w2, speed, alpha, don, doff, ph] of streams) {
       cx.strokeStyle = 'rgba(150,215,205,' + alpha + ')';
       cx.lineWidth = w2;
       cx.setLineDash([don, doff]);
       cx.lineDashOffset = -((tick * speed) % (don + doff));
       cx.beginPath();
-      for (let d = 0; d <= L; d += 26) {
-        const sway = Math.sin(d * 0.045 + tick * 0.025 + ph) * 4 + Math.sin(d * 0.013 - tick * 0.017 + ph * 2) * 3;
-        const px = x1 + dxn * d + nx * (off + sway);
-        const py = y1 + dyn * d + ny * (off + sway);
-        d ? cx.lineTo(px, py) : cx.moveTo(px, py);
+      for (let i2 = 0; i2 < pts.length; i2++) {
+        const p = pts[i2], [nx, ny] = norm(i2);
+        const sway = Math.sin(p.d * 0.045 + tick * 0.025 + ph) * 3;
+        const off = p.r * frac + sway;
+        i2 ? cx.lineTo(p.x + nx * off, p.y + ny * off) : cx.moveTo(p.x + nx * off, p.y + ny * off);
       }
       cx.stroke();
     }
     cx.setLineDash([]);
-    // bank foam: slow broken lap-lines hugging both shores
-    for (const side of [-1, 1]) {
-      cx.strokeStyle = 'rgba(200,235,225,0.07)';
-      cx.lineWidth = 2;
-      cx.setLineDash([7, 34]);
-      cx.lineDashOffset = -((tick * 0.22 * side) % 41);
-      cx.beginPath();
-      for (let d = 0; d <= L; d += 40) {
-        const lap = Math.sin(d * 0.09 + tick * 0.02 * side) * 1.6;
-        const off = side * (r * 0.92 + lap);
-        const px = x1 + dxn * d + nx * off, py = y1 + dyn * d + ny * off;
-        d ? cx.lineTo(px, py) : cx.moveTo(px, py);
-      }
-      cx.stroke();
-    }
-    cx.setLineDash([]);
-    // drifting glints: bright specks riding the current, twinkling in and out
-    for (let k = 0; k < L / 110; k++) {
-      const d = (k * 110 + tick * 1.1) % L;
-      const off = Math.sin(k * 7.7) * r * 0.55;
+    // drifting glints, twinkling along the channel
+    const total = pts[pts.length - 1].d;
+    for (let k = 0; k < total / 110; k++) {
+      const d = (k * 110 + tick * 1.1) % total;
+      const i2 = Math.min(pts.length - 1, Math.floor(d / 30));
+      const p = pts[i2], [nx, ny] = norm(i2);
+      const off = Math.sin(k * 7.7) * p.r * 0.5;
       const tw = 0.5 + 0.5 * Math.sin(tick * 0.08 + k * 2.3);
       cx.fillStyle = 'rgba(190,240,230,' + (0.10 + 0.14 * tw) + ')';
       cx.beginPath();
-      cx.arc(x1 + dxn * d + nx * off, y1 + dyn * d + ny * off, 1.6 + tw, 0, Math.PI * 2);
+      cx.arc(p.x + nx * off, p.y + ny * off, 1.6 + tw, 0, Math.PI * 2);
       cx.fill();
     }
   }
   cx.restore();
 }
-// local flow direction — the dam turns to face across it
 function riverAngleAt(x, y) {
   let best = 0, bd = 1e18;
   for (const [x1, y1, x2, y2] of ((groundM && groundM.rivers) || [])) {

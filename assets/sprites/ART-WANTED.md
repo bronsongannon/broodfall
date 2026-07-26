@@ -104,3 +104,7 @@ sprite material).
   no directional lighting. IMPORTANT: the rim must END in a defined cracked
   edge, not fade softly outward — a soft fade to the white background gets
   clipped by background removal and leaves a hard halo.)
+- `water.png` — SEAMLESS TILE (must tile in both directions), 512×512: dark
+  swampy water surface seen from above, deep teal-black with subtle ripple
+  shading, no shore/edges/objects, no strong highlights (the game animates
+  sheen on top). Pattern-fills every river channel when present.

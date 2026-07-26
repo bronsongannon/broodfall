@@ -57,7 +57,7 @@ const UNIT = {
   marine:    { label: 'Marine',    cost: 80,  supply: 1, hp: 70,  speed: 1.9,  r: 9,  dmg: 9,  range: 125, cooldown: 36,  buildTime: 5 * 60,  sight: 200 },
   sniper:    { label: 'Sniper',    cost: 130, supply: 1, hp: 45,  speed: 1.7,  r: 8,  dmg: 30, range: 190, cooldown: 110, buildTime: 7 * 60,  sight: 310 },
   // Unarmed. Follows wounded flesh (infantry + dinos) and patches it up.
-  medic:     { label: 'Medic',     cost: 100, supply: 1, hp: 60,  speed: 2.0,  r: 9,  dmg: 0,  range: 0,   cooldown: 0,   buildTime: 6 * 60,  sight: 200, heal: 0.4, noAA: 1 },
+  medic:     { label: 'Medic',     cost: 100, supply: 1, hp: 60,  speed: 1.8,  r: 9,  dmg: 0,  range: 0,   cooldown: 0,   buildTime: 6 * 60,  sight: 200, heal: 0.4, noAA: 1 },
   raider:    { label: 'Raider',    cost: 150, supply: 1, hp: 155, speed: 3.0,  r: 11, dmg: 7,  range: 100, cooldown: 20,  buildTime: 6 * 60,  sight: 240 },
   tank:      { label: 'Tank',      cost: 220, supply: 2, hp: 280, speed: 1.25, r: 14, dmg: 34, range: 155, cooldown: 95,  buildTime: 10 * 60, sight: 210, noAA: 1 },
   // Anti-armor specialist: slow rockets that hit vehicles 1.6x — and can hit air.
@@ -111,6 +111,10 @@ const BLD = {
   // Cheap and fragile — the classic raid target. The HQ's reactor covers a
   // small base; every plant past that buys 10 more grid capacity.
   power:    { label: 'Power Plant',  hp: 400,  w: 60, h: 60, supply: 0,  sight: 180, cost: 120, buildTime: 9 * 60, gen: 10, req: ['supply'], sink: 1 },
+  // hydro: river-only mega-generator (Bronson 2026-07-25: "no need for a ton
+  // of power plants... but expensive/take time"). 3 plants' output for ~3.3x
+  // the price and 3.3x the build time; must stand ON a water channel.
+  hydro:    { label: 'Hydro Dam',    hp: 600,  w: 84, h: 64, supply: 0,  sight: 200, cost: 400, buildTime: 30 * 60, gen: 30, req: ['power'], water: 1 },
   refinery: { label: 'Refinery',     hp: 700,  w: 70, h: 70, supply: 0,  sight: 240, cost: 175, buildTime: 12 * 60, req: ['supply'] },
   airpad:   { label: 'Airpad',       hp: 600,  w: 62, h: 62, supply: 2,  sight: 220, trains: ['gunship', 'harrier'], cost: 175, buildTime: 12 * 60, req: ['factory'], pow: 3 },
   // Endgame. Buy warheads here; the defender gets 30 loud seconds to react.
@@ -317,6 +321,101 @@ const MAPS = {
     // waystation flavor: dry wells off the road joints + one caravan casualty
     pits: [[1380, 1580, 34], [2380, 1360, 30]],
     bones: [[1050, 1500, 45, 0.4]],
+  },
+  fen: {
+    label: 'Blackwater Fen',
+    desc: 'Two black channels carve the swamp into thirds. Hold the causeways or swim with whatever lives below.',
+    // roster map #5 (M5 Ghost Survey's home). Twin water bands make three
+    // belts; four causeways are the only ground routes. Mid-belt holds all
+    // the neutral crystal — every fight funnels onto a bridge.
+    ground: { base: '#0d1410', mottle: 'rgba(140,180,140,0.02)', pebble: 'rgba(120,160,130,0.05)', grid: 'rgba(120,190,160,0.022)', hi: 'rgba(200,230,200,0.08)' },
+    pHQ: [210, H - 210], pRax: [400, H - 140], pPatch: [260, H - 440],
+    eHQ: [W - 210, 210], eRax: [W - 400, 140], eFac: [W - 560, 200],
+    eSup: [[W - 300, 100], [W - 150, 340]], eTur: [[W - 350, 330], [W - 480, 220]],
+    eAir: [W - 660, 300],
+    ePatch: [W - 260, 440],
+    rivers: [
+      [0, 860, 640, 820, 52], [940, 800, 1750, 760, 52], [2050, 730, W, 700, 52],
+      [0, 1560, 900, 1520, 52], [1200, 1500, 2100, 1460, 52], [2400, 1440, W, 1420, 52],
+    ],
+    patches: [
+      { p: [W * 0.30, H * 0.50], n: 7, a: 2300, nests: [[W * 0.30 + 110, H * 0.50 - 110]] },
+      { p: [W * 0.70, H * 0.50], n: 7, a: 2300, nests: [[W * 0.70 - 110, H * 0.50 + 110]] },
+      { p: [W * 0.5, H * 0.5], n: 10, a: 3000, nests: [[W * 0.5 - 110, H * 0.5 - 110], [W * 0.5 + 110, H * 0.5 + 110]] },
+    ],
+    // one dry mound south of the channels — the only high ground in the bog
+    plateaus: [
+      { c: [[1536, 1850, 110], [1640, 1920, 80]], ramps: [[1426, 1820, 75]] },
+    ],
+    flora: { blotch: 'rgba(60,120,80,0.5)', blotch2: 'rgba(8,18,12,0.6)', tuft: 'rgba(120,190,110,0.5)', bush: '#16301a', bushHi: '#28492a', canopy: '#14331e', canopyHi: '#245231', clumps: 110 },
+    groves: [[500, 1050, 110, 6], [2550, 1250, 110, 6]],
+    trees: [[1250, 350], [1850, 1950], [2900, 1650], [350, 600]],
+    pits: [[700, 1900, 30], [2200, 500, 30]],
+    bones: [[1536, 600, 45, 0.1]],
+  },
+  silo: {
+    label: 'The Silo Fields',
+    desc: 'Wind-scoured snow plains. No walls worth hiding behind — position, vision, and nerve.',
+    // roster map #6 (M6 Countdown's home). Deliberately OPEN: two short
+    // center ridge stubs and scattered drift cover only — armies meet in
+    // the white with nowhere to hide.
+    ground: { base: '#343b42', mottle: 'rgba(255,255,255,0.03)', pebble: 'rgba(230,240,250,0.08)', grid: 'rgba(200,220,240,0.03)', hi: 'rgba(255,255,255,0.14)' },
+    pHQ: [230, H / 2 + 40], pRax: [420, H / 2 + 150], pPatch: [270, H / 2 - 240],
+    eHQ: [W - 230, H / 2 - 40], eRax: [W - 420, H / 2 - 150], eFac: [W - 580, H / 2 + 10],
+    eSup: [[W - 260, H / 2 + 200], [W - 160, H / 2 - 260]], eTur: [[W - 430, H / 2 + 110], [W - 430, H / 2 - 200]],
+    eAir: [W - 620, H / 2 + 170],
+    ePatch: [W - 270, H / 2 + 240],
+    patches: [
+      { p: [W * 0.28, H * 0.22], n: 7, a: 2300, nests: [[W * 0.28 + 110, H * 0.22 - 110]] },
+      { p: [W * 0.72, H * 0.78], n: 7, a: 2300, nests: [[W * 0.72 - 110, H * 0.78 + 110]] },
+      { p: [W / 2, H / 2], n: 10, a: 3200, nests: [[W / 2 - 110, H / 2 - 110], [W / 2 + 110, H / 2 + 110]] },
+    ],
+    ridges: [
+      [W * 0.5, H * 0.30, W * 0.5, H * 0.14, 44],
+      [W * 0.5, H * 0.70, W * 0.5, H * 0.86, 44],
+    ],
+    boulders: [[W * 0.30, H * 0.42, 50], [W * 0.70, H * 0.58, 50]],
+    // silo bluffs — the two firing platforms this mission is named for
+    plateaus: [
+      { c: [[W * 0.22, H * 0.76, 130], [W * 0.22 + 80, H * 0.76 + 60, 90]], ramps: [[W * 0.22, H * 0.76 - 130, 85]] },
+      { c: [[W * 0.78, H * 0.24, 130], [W * 0.78 - 80, H * 0.24 - 60, 90]], ramps: [[W * 0.78, H * 0.24 + 130, 85]] },
+    ],
+    flora: { blotch: 'rgba(235,245,255,0.5)', blotch2: 'rgba(25,32,45,0.5)', tuft: 'rgba(180,175,140,0.45)', bush: '#3d4a42', bushHi: '#55645a', canopy: '#5c7a74', canopyHi: '#9db8b2', clumps: 30 },
+    groves: [[W * 0.35, H * 0.65, 100, 5], [W * 0.65, H * 0.35, 100, 5]],
+    trees: [[W * 0.12, H * 0.20], [W * 0.88, H * 0.80], [W * 0.45, H * 0.06], [W * 0.55, H * 0.94]],
+    pits: [[W * 0.38, H * 0.06, 32], [W * 0.62, H * 0.94, 32]],
+  },
+  mine: {
+    label: 'Strip Mine',
+    desc: 'A motherlode at the bottom of a torn-open quarry. The benches above it decide who mines and who bleeds.',
+    // roster map #8 (M8 Strip Mine / M16 Lin's Gambit). Two terraced benches
+    // flank the center pit; their ramps + haul roads are the ways down to
+    // the richest field in the game.
+    ground: { base: '#1c1814', mottle: 'rgba(200,160,120,0.02)', pebble: 'rgba(190,170,150,0.07)', grid: 'rgba(200,170,140,0.024)', hi: 'rgba(230,215,190,0.11)' },
+    pHQ: [W / 2, H - 200], pRax: [W / 2 + 200, H - 140], pPatch: [W / 2 - 260, H - 380],
+    eHQ: [W / 2, 200], eRax: [W / 2 - 200, 140], eFac: [W / 2 - 400, 240],
+    eSup: [[W / 2 + 180, 100], [W / 2 - 140, 340]], eTur: [[W / 2 + 260, 330], [W / 2 - 330, 300]],
+    eAir: [W / 2 + 350, 250],
+    ePatch: [W / 2 + 260, 380],
+    patches: [
+      { p: [W / 2, H / 2], n: 12, a: 3400, nests: [[W / 2 - 150, H / 2 - 100], [W / 2 + 150, H / 2 + 100]] },
+      { p: [W * 0.14, H * 0.62], n: 7, a: 2300, nests: [[W * 0.14 + 110, H * 0.62 - 110]] },
+      { p: [W * 0.86, H * 0.38], n: 7, a: 2300, nests: [[W * 0.86 - 110, H * 0.38 + 110]] },
+    ],
+    boulders: [[W * 0.08, H * 0.10, 55], [W * 0.92, H * 0.90, 55]],
+    // the benches: terraced spoil heaps overlooking the motherlode
+    plateaus: [
+      { c: [[1044, 1014, 140], [1167, 783, 110]], ramps: [[940, 1115, 85], [1245, 705, 85]] },
+      { c: [[2028, 1290, 140], [1905, 1521, 110]], ramps: [[2132, 1189, 85], [1827, 1599, 85]] },
+    ],
+    roads: [
+      [[1536, 320], [1300, 600], [1245, 705]],
+      [[1536, 1984], [1772, 1704], [1827, 1599]],
+    ],
+    spires: [[1536, 700, 26], [1536, 1600, 26]],
+    pits: [[700, 500, 36], [2372, 1800, 36], [940, 1830, 32], [2150, 520, 32]],
+    flora: { blotch: 'rgba(150,120,80,0.5)', blotch2: 'rgba(25,18,12,0.6)', tuft: 'rgba(160,140,100,0.4)', bush: '#3a3226', bushHi: '#4f4534', dead: true, clumps: 20 },
+    trees: [[400, 1700], [2672, 600], [2900, 2000]],
   },
 };
 
@@ -576,7 +675,7 @@ const PLACE_NEAR_BASE = 300;       // most buildings must go near an existing fr
 const REFINERY_NEAR_CRYSTAL = 240; // refineries instead must go near a live crystal patch
 const SUPPLY_HARD_CAP = 100;
 // player-placeable buildings and their hotkeys (shown on the command card)
-const BUILD_MENU = [['turret', 'T'], ['barracks', 'B'], ['factory', 'V'], ['supply', 'C'], ['power', 'O'], ['refinery', 'G'], ['airpad', 'X'], ['flak', 'Y'], ['silo', 'N']];
+const BUILD_MENU = [['turret', 'T'], ['barracks', 'B'], ['factory', 'V'], ['supply', 'C'], ['power', 'O'], ['hydro', 'J'], ['refinery', 'G'], ['airpad', 'X'], ['flak', 'Y'], ['silo', 'N']];
 // tech tree checks (see BLD req fields)
 function hasTech(team, type) {
   if (devMode && team === 1) return true;   // dev mode: the whole tree, no prerequisites
@@ -1152,42 +1251,62 @@ function addPatch(px, py, n, amount) {
 // walking when line-of-sight is clear (the common case) and a cached A* path
 // around ridges when it isn't. Buildings stay dynamic (wall-slide handles them).
 const blocked = new Uint8Array(MAP_W * MAP_H);
+// grid values: 0 free · 1 blocked for everyone · 2 = dam walkway (water a
+// standing Hydro Dam spans) — infantry and dinos cross, vehicles don't
+// (Bronson 2026-07-25). `foot` threads through the whole pathing stack.
+const gridPass = (v, foot) => !v || (foot && v === 2);
 function buildTerrainGrid() {
   blocked.fill(0);
-  for (const rk of rocks) {
+  const stamp = (rk, val) => {
     const x0 = Math.max(0, Math.floor((rk.x - rk.r - 12) / TILE));
     const x1 = Math.min(MAP_W - 1, Math.floor((rk.x + rk.r + 12) / TILE));
     const y0 = Math.max(0, Math.floor((rk.y - rk.r - 12) / TILE));
     const y1 = Math.min(MAP_H - 1, Math.floor((rk.y + rk.r + 12) / TILE));
     for (let gy = y0; gy <= y1; gy++) for (let gx = x0; gx <= x1; gx++) {
-      if (dist2(gx * TILE + 16, gy * TILE + 16, rk.x, rk.y) < (rk.r + 22) ** 2) blocked[gy * MAP_W + gx] = 1;
+      if (dist2(gx * TILE + 16, gy * TILE + 16, rk.x, rk.y) < (rk.r + 22) ** 2) {
+        if (val === 1) blocked[gy * MAP_W + gx] = 1;
+        else if (!blocked[gy * MAP_W + gx]) blocked[gy * MAP_W + gx] = 2;
+      }
+    }
+  };
+  for (const rk of rocks) if (!rk.bridged) stamp(rk, 1);
+  for (const rk of rocks) if (rk.bridged) stamp(rk, 2);
+}
+// a dam finished or died: re-flag its stretch of water, rebuild the grid
+function refreshBridges() {
+  for (const rk of rocks) delete rk.bridged;
+  for (const b of buildings) {
+    if (b.type !== 'hydro' || b.built < 1 || b.hp <= 0) continue;
+    for (const rk of rocks) {
+      if (rk.water && dist2(rk.x, rk.y, b.x, b.y) < 115 * 115) rk.bridged = true;
     }
   }
+  buildTerrainGrid();
 }
-function losClear(x0, y0, x1, y1) {
+function losClear(x0, y0, x1, y1, foot) {
   const steps = Math.ceil(dist(x0, y0, x1, y1) / 16);
   for (let i = 1; i <= steps; i++) {
     const t = i / steps;
     const gx = Math.floor((x0 + (x1 - x0) * t) / TILE), gy = Math.floor((y0 + (y1 - y0) * t) / TILE);
-    if (blocked[gy * MAP_W + gx]) return false;
+    if (!gridPass(blocked[gy * MAP_W + gx], foot)) return false;
   }
   return true;
 }
-function nearestFreeTile(gx, gy) {
-  if (!blocked[gy * MAP_W + gx]) return [gx, gy];
+function nearestFreeTile(gx, gy, foot) {
+  if (gridPass(blocked[gy * MAP_W + gx], foot)) return [gx, gy];
   for (let r = 1; r < 14; r++) {
     for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++) {
       if (Math.max(Math.abs(dx), Math.abs(dy)) !== r) continue;
       const nx = gx + dx, ny = gy + dy;
       if (nx < 0 || ny < 0 || nx >= MAP_W || ny >= MAP_H) continue;
-      if (!blocked[ny * MAP_W + nx]) return [nx, ny];
+      if (gridPass(blocked[ny * MAP_W + nx], foot)) return [nx, ny];
     }
   }
   return null;
 }
-function findPath(x0, y0, x1, y1) {
-  const start = nearestFreeTile(Math.floor(x0 / TILE), Math.floor(y0 / TILE));
-  const goal = nearestFreeTile(Math.floor(x1 / TILE), Math.floor(y1 / TILE));
+function findPath(x0, y0, x1, y1, foot) {
+  const start = nearestFreeTile(Math.floor(x0 / TILE), Math.floor(y0 / TILE), foot);
+  const goal = nearestFreeTile(Math.floor(x1 / TILE), Math.floor(y1 / TILE), foot);
   if (!start || !goal) return null;
   const [sx, sy] = start, [gx, gy] = goal;
   const sIdx = sy * MAP_W + sx, gIdx = gy * MAP_W + gx;
@@ -1226,9 +1345,15 @@ function findPath(x0, y0, x1, y1) {
   };
   g[sIdx] = 0;
   push(hFn(sIdx), sIdx);
+  // closed set: without it, re-pushed nodes burned the iteration guard and
+  // long cross-map searches came back null — units then walked straight at
+  // cliff rims forever (found on The Silo Fields' corner diagonals, 2026-07-25)
+  const closed = new Uint8Array(MAP_W * MAP_H);
   let found = false, guard = 0;
-  while (heap.length && guard++ < 20000) {
+  while (heap.length && guard++ < 40000) {
     const cur = pop();
+    if (closed[cur]) continue;
+    closed[cur] = 1;
     if (cur === gIdx) { found = true; break; }
     const cx0 = cur % MAP_W, cy0 = (cur / MAP_W) | 0;
     for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
@@ -1236,8 +1361,8 @@ function findPath(x0, y0, x1, y1) {
       const nx = cx0 + dx, ny = cy0 + dy;
       if (nx < 0 || ny < 0 || nx >= MAP_W || ny >= MAP_H) continue;
       const n = ny * MAP_W + nx;
-      if (blocked[n]) continue;
-      if (dx && dy && (blocked[cy0 * MAP_W + nx] || blocked[ny * MAP_W + cx0])) continue;   // no corner cutting
+      if (!gridPass(blocked[n], foot)) continue;
+      if (dx && dy && (!gridPass(blocked[cy0 * MAP_W + nx], foot) || !gridPass(blocked[ny * MAP_W + cx0], foot))) continue;   // no corner cutting
       const cost = g[cur] + (dx && dy ? 1.414 : 1);
       if (cost < g[n]) { g[n] = cost; from[n] = cur; push(cost + hFn(n), n); }
     }
@@ -1253,7 +1378,7 @@ function findPath(x0, y0, x1, y1) {
   let anchor = { x: x0, y: y0 }, i = 0;
   while (i < pts.length - 1) {
     let j = pts.length - 1;
-    while (j > i && !losClear(anchor.x, anchor.y, pts[j].x, pts[j].y)) j--;
+    while (j > i && !losClear(anchor.x, anchor.y, pts[j].x, pts[j].y, foot)) j--;
     if (j === i) j = i + 1;   // can't skip — take the next step anyway
     out.push(pts[j]);
     anchor = pts[j];
@@ -1323,6 +1448,18 @@ function setup(mapKey) {
     }
   }
   for (const [bx, by, br] of (M.boulders || [])) rocks.push({ x: bx, y: by, r: br });
+  // water channels (2026-07-25, Blackwater Fen onward): chained circle
+  // colliders on the ridge machinery — ground units can't cross, flyers
+  // ignore rocks so they soar straight over. Gaps between river segments are
+  // the causeways. Painted as smooth bands in paintGround; the individual
+  // colliders are invisible (paintRock skips water).
+  for (const [x1, y1, x2, y2, r] of (M.rivers || [])) {
+    const n = Math.max(1, Math.round(dist(x1, y1, x2, y2) / (r * 0.9)));
+    for (let i = 0; i <= n; i++) {
+      const t = i / n;
+      rocks.push({ x: x1 + (x2 - x1) * t, y: y1 + (y2 - y1) * t, r: r * 0.95, water: true });
+    }
+  }
   // trees: solid canopies riding the rock machinery — collision, pathing,
   // placement all come free. Groves scatter a stand inside a disc (min 70px
   // spacing keeps infantry seams); singles are lone landmarks. Ghosting units
@@ -1560,6 +1697,11 @@ function commandMove(sel, wx, wy, attackMove) {
 function commandAttack(sel, target) {
   for (const e of sel) {
     if (e.kind !== 'unit') continue;
+    // unarmed units don't charge: a right-clicked enemy used to send medics
+    // (dmg 0) sprinting into the line of fire ahead of the army (playtest
+    // 2026-07-25). They keep their current order — a medic's idle auto-heal
+    // follows the wounded into the fight at its own pace.
+    if (e.dmg <= 0 && !e.bomb) continue;
     e.order = e.type === 'harrier'
       ? { type: 'strike', target }
       : { type: 'attack', target, resume: null };
@@ -1935,11 +2077,12 @@ function moveToward(u, tx, ty) {
     return d - step < 5;
   }
   // ground units path around terrain: straight line when clear, cached A* when not
+  const foot = !!(IS_INF[u.type] || IS_DINO[u.type]);   // dam walkways: infantry + dinos only
   let gx = tx, gy = ty;
-  if (rocks.length && !losClear(u.x, u.y, tx, ty)) {
+  if (rocks.length && !losClear(u.x, u.y, tx, ty, foot)) {
     const o = u.order;
     if (!o._path || !o._path.length || Math.abs(tx - o._pgx) + Math.abs(ty - o._pgy) > 56) {
-      o._path = findPath(u.x, u.y, tx, ty) || [];
+      o._path = findPath(u.x, u.y, tx, ty, foot) || [];
       o._pgx = tx; o._pgy = ty;
     }
     while (o._path.length && dist2(u.x, u.y, o._path[0].x, o._path[0].y) < 24 * 24) o._path.shift();
@@ -1953,6 +2096,7 @@ function moveToward(u, tx, ty) {
   let sliding = false;
   if (!u.ghostT) for (const b of buildings) {
     if (b.sunk) continue;   // lowered depots/plants are drive-over ground
+    if (b.type === 'hydro' && foot) continue;   // the dam IS the footbridge
     if (Math.abs(lx - b.x) >= b.w / 2 + u.r || Math.abs(ly - b.y) >= b.h / 2 + u.r) continue;
     // if the waypoint is at/inside this building (attack, repair, drop-off), walk straight in
     if (Math.abs(gx - b.x) < b.w / 2 + u.r + 10 && Math.abs(gy - b.y) < b.h / 2 + u.r + 10) break;
@@ -2424,8 +2568,10 @@ function separation() {
       a.x -= nx * push; a.y -= ny * push;
       b.x += nx * push; b.y += ny * push;
     }
+    const aFoot = !!(IS_INF[a.type] || IS_DINO[a.type]);
     if (!a.fly) for (const rk of rocks) {
-      if (a.ghostT > 0 && !rk.cliff) continue;   // ghosts slip pinch rocks — never cliff walls (ramps stay the only way up)
+      if (rk.bridged && aFoot) continue;   // dam walkway — infantry and dinos cross
+      if (a.ghostT > 0 && !rk.cliff && !rk.water) continue;   // ghosts slip pinch rocks — never cliffs OR open water
       const dx = a.x - rk.x, dy = a.y - rk.y;
       const min = rk.r + a.r;
       if (Math.abs(dx) > min || Math.abs(dy) > min) continue;
@@ -2438,6 +2584,7 @@ function separation() {
     for (const bl of buildings) {
       if (a.fly || a.ghostT > 0) break;    // flyers hover; ghosting units slip out of pockets
       if (bl.sunk) continue;               // lowered depots/plants are drive-over ground
+      if (bl.type === 'hydro' && aFoot) continue;   // crossing the dam's walkway
       const cxp = clamp(a.x, bl.x - bl.w / 2, bl.x + bl.w / 2);
       const cyp = clamp(a.y, bl.y - bl.h / 2, bl.y + bl.h / 2);
       const dx = a.x - cxp, dy = a.y - cyp;
@@ -2461,6 +2608,7 @@ function updateBuilding(b) {
     // hp accrues incrementally so combat damage during construction STICKS —
     // the old max(hp, maxHp*built) floor silently healed any non-lethal hit
     b.hp = Math.min(b.maxHp, b.hp + (b.maxHp / bt) * (b.buildBoost || 1));
+    if (b.built >= 1 && b.type === 'hydro') refreshBridges();   // the walkway opens
     if (b.built >= 1 && b.type === 'refinery') {
       // refineries come online with a free harvester, C&C style
       const u = makeUnit('harvester', b.team, b.x, b.y + b.h / 2 + 16);
@@ -3152,11 +3300,27 @@ function canPlaceBuilding(type, wx, wy) {
   if (!hasTech(1, type)) return false;
   if (teams[1].crystals < d.cost) return false;
   if (wx < 40 || wy < 40 || wx > W - 40 || wy > H - 40) return false;
+  // no building on ground you haven't scouted — the whole footprint must be
+  // explored (playtest 2026-07-25: placing into black shroud felt wrong and
+  // the red ghost leaked terrain info about unseen rocks)
+  for (const [ox, oy] of [[0, 0], [-d.w / 2, -d.h / 2], [d.w / 2, -d.h / 2], [-d.w / 2, d.h / 2], [d.w / 2, d.h / 2]]) {
+    const tx = Math.floor((wx + ox) / TILE), ty = Math.floor((wy + oy) / TILE);
+    if (tx < 0 || ty < 0 || tx >= MAP_W || ty >= MAP_H || !explored[ty * MAP_W + tx]) return false;
+  }
   for (const b of buildings) {
     if (Math.abs(wx - b.x) < (b.w + d.w) / 2 + 10 && Math.abs(wy - b.y) < (b.h + d.h) / 2 + 10) return false;
   }
   for (const c of crystals) if (c.amount > 0 && dist2(wx, wy, c.x, c.y) < (d.w / 2 + 26) ** 2) return false;
-  for (const rk of rocks) if (Math.abs(wx - rk.x) < d.w / 2 + rk.r && Math.abs(wy - rk.y) < d.h / 2 + rk.r) return false;
+  // water buildings (hydro) invert the terrain rule: they stand ON a channel.
+  // Water never blocks them; everything else still does; dry buildings still
+  // reject water like any rock.
+  for (const rk of rocks) {
+    if (rk.water && d.water) continue;
+    if (Math.abs(wx - rk.x) < d.w / 2 + rk.r && Math.abs(wy - rk.y) < d.h / 2 + rk.r) return false;
+  }
+  if (d.water) {
+    return rocks.some(rk => rk.water && dist2(wx, wy, rk.x, rk.y) < rk.r * rk.r);
+  }
   if (type === 'refinery') {
     return crystals.some(c => c.amount > 0 && dist2(wx, wy, c.x, c.y) < REFINERY_NEAR_CRYSTAL ** 2);
   }
@@ -3170,13 +3334,16 @@ function tryPlaceBuilding(type, wx, wy) {
   if (!canPlaceBuilding(type, wx, wy)) {
     if (!hasTech(1, type)) toast(`${d.label} requires: ${techLabel(type)}`);
     else if (teams[1].crystals < d.cost) toast(`Not enough crystals (${d.cost} ⬡)`);
+    else if (!explored[Math.floor(wy / TILE) * MAP_W + Math.floor(wx / TILE)]) toast('That ground is unscouted — walk a unit out there first');
+    else if (BLD[type].water) toast('The dam needs moving water — place it on a river channel');
     else if (type === 'refinery') toast('Build the refinery next to a crystal patch, on open ground');
     else toast('Build closer to your base, on open ground');
     snd.error();
     return;
   }
   teams[1].crystals -= d.cost;
-  makeBuilding(type, 1, wx, wy, true);
+  const nb = makeBuilding(type, 1, wx, wy, true);
+  if (d.water) nb.a = riverAngleAt(wx, wy) + Math.PI / 2;   // span the channel
   placing = null; setCursor();
   beep(440, 0.09, 'sine', 0.05);
 }
@@ -3258,6 +3425,38 @@ function hatchSpitter(b) {
   return true;
 }
 
+// selling: 50% of cost back (scaled by construction progress), queued items
+// refunded in full — they were paid for but never existed. Two-click confirm
+// (the arm expires in 4s) so a mis-click can't vaporize a factory.
+let sellArmId = null, sellArmAt = 0;
+function sellBuilding(b) {
+  if (b.type === 'hq') { toast("The HQ is not for sale — it's the expedition"); snd.error(); return; }
+  let refund = Math.floor(BLD[b.type].cost * 0.5 * Math.min(1, b.built));
+  for (const q of (b.queue || [])) {
+    if (q.startsWith('up:')) {
+      const g = UPG[q.slice(3)];
+      refund += g.cost[Math.min(g.cost.length - 1, teams[b.team].up[q.slice(3)])];
+    } else refund += UNIT[q].cost;
+  }
+  teams[b.team].crystals += refund;
+  b.hp = 0;   // stale order targets see a dead building
+  if (nukeTargeting === b) nukeTargeting = null;
+  const i = buildings.indexOf(b);
+  if (i >= 0) buildings.splice(i, 1);
+  selection = selection.filter(x => x !== b);
+  for (let k = 0; k < 6; k++) {
+    fxSprite && spritesReady && fxSprite({
+      img: pick(SPR.puff), x: b.x + (Math.random() - 0.5) * b.w, y: b.y + (Math.random() - 0.5) * b.h,
+      vx: (Math.random() - 0.5) * 0.6, vy: -0.3 - Math.random() * 0.4, s0: 8, s1: 22, a0: 0.35, max: 30,
+    });
+  }
+  if (b.type === 'hydro') refreshBridges();
+  toast('Sold ' + BLD[b.type].label + ' — +' + refund + ' ⬡ salvaged');
+  snd.ready();
+  sellArmId = null;
+  lastCardSig = ''; lastQSig = '';
+}
+
 let lastCardSig = '';
 function cardSig() {
   pruneSelection();
@@ -3268,7 +3467,7 @@ function cardSig() {
     Object.values(teams[1].up).join('') + '.' + Math.floor(teams[1].crystals / 25) + '.' + teams[1].eggs +
     '.' + units.reduce((s, u) => s + (u.team === 1 && (u.type === 'spitter' || u.type === 'harrier') ? 1 : 0), 0) +
     '.' + selection.map(e => (e.warhead || '') + (e.cargo ? e.cargo.length : '') + (e.sunk ? 's' : '')).join('') +
-    (nukeTargeting ? 'N' : '');
+    (nukeTargeting ? 'N' : '') + (sellArmId || '');
 }
 function refreshCard() {
   const sig = cardSig();
@@ -3288,6 +3487,7 @@ function refreshCard() {
     buildRow = '<div class="row">';
     for (const [t, k] of BUILD_MENU) {
       if (!hasTech(1, t)) continue;   // progressive disclosure — locked buildings stay hidden
+      if (BLD[t].water && !(groundM && groundM.rivers)) continue;   // no dams on dry maps
       const d = BLD[t];
       const dim = teams[1].crystals < d.cost ? ' class="dim"' : '';
       buildRow += `<button data-act="build:${t}"${dim}>${d.label} · ${d.cost} ⬡ <small>[${k}]</small></button>`;
@@ -3355,7 +3555,8 @@ function refreshCard() {
       html += `<button data-act="nuke:hq" class="wide${d2}">💥 Bunker Buster · 25,000 ⬡ <small>[W]</small></button></div>`;
     }
   } else if (b) {
-    const desc = b.type === 'supply' ? 'Raises your supply cap by ' + BLD.supply.supply + ', unlocks the Barracks, and slowly repairs nearby buildings.'
+    const desc = b.type === 'hydro' ? 'Hydroelectric dam: +' + BLD.hydro.gen + ' power from the river current — three plants in one, built the slow expensive way.'
+      : b.type === 'supply' ? 'Raises your supply cap by ' + BLD.supply.supply + ', unlocks the Barracks, and slowly repairs nearby buildings.'
       : b.type === 'power' ? 'Feeds the grid +' + BLD.power.gen + ' power. Run out and production slows, towers fire at half rate, and nukes stay grounded.'
       : b.type === 'refinery' ? 'Harvesters drop crystals off here. Build more near far-away patches to expand.'
       : b.type === 'flak' ? 'Anti-air battery. Shreds gunships; ignores everything on the ground.'
@@ -3379,7 +3580,14 @@ function refreshCard() {
     if (aboard > 0) html += `<button data-act="unload">Unload ${aboard} [U]</button>`;
     html += '<button data-act="stop">Stop [S]</button></div>';
   } else {
-    html = '<h3>Broodfall</h3><div class="sub">Drag to select units. Right-click to give orders. Select the HQ to construct buildings.</div>';
+    html = '<h3>Expedition Command</h3><div class="sub">Drag to select units. Right-click to give orders. Select the HQ to construct buildings.</div>';
+  }
+  if (b && b.team === 1 && b.type !== 'hq' && !placing && !attackMoveMode) {
+    const armed = sellArmId === b.id && Date.now() - sellArmAt < 4000;
+    const refund = Math.floor(BLD[b.type].cost * 0.5 * Math.min(1, b.built));
+    html += '<div class="row">' + (armed
+      ? '<button data-act="sell" class="wide">⚠ Confirm sell · +' + refund + ' ⬡</button>'
+      : '<button data-act="sell">💰 Sell · +' + refund + ' ⬡</button>') + '</div>';
   }
   if (buildRow && !buildRowPlaced && !b && !selection.length) html += buildRow;
   // fold the leading title+hint into a fixed-width block; buttons flow beside it
@@ -3476,6 +3684,14 @@ elDock.addEventListener('pointerdown', (e) => {
     lastCardSig = ''; lastQSig = '';
   }
   else if (act.startsWith('build:')) { startPlacing(act.slice(6)); }
+  else if (act === 'sell') {
+    const b = selection.find(x => x.kind === 'building' && x.team === 1);
+    if (b) {
+      if (sellArmId === b.id && Date.now() - sellArmAt < 4000) sellBuilding(b);
+      else { sellArmId = b.id; sellArmAt = Date.now(); toast('Click again to confirm the sale'); }
+      lastCardSig = '';
+    }
+  }
   else if (act === 'stop') { for (const s of selection) if (s.kind === 'unit') s.order = { type: 'idle' }; }
   else if (act === 'hunker') { toggleHunker(); }
   else if (act === 'amove') { attackMoveMode = true; placing = null; nukeTargeting = null; setCursor(); lastCardSig = ''; }
@@ -3484,7 +3700,7 @@ elDock.addEventListener('pointerdown', (e) => {
 let wasLowPower = false;
 let lastAvail = null;   // build-menu availability — announces newly unlocked buildings
 function refreshTopbar() {
-  const avail = BUILD_MENU.filter(([t]) => hasTech(1, t)).map(([t]) => t);
+  const avail = BUILD_MENU.filter(([t]) => hasTech(1, t) && !(BLD[t].water && !(groundM && groundM.rivers))).map(([t]) => t);
   if (lastAvail) {
     const fresh = avail.filter(t => !lastAvail.includes(t));
     if (fresh.length) {
@@ -3573,6 +3789,7 @@ function paintTree(g, rk, flo) {
   }
 }
 function paintRock(g, rk, flo) {
+  if (rk.water) return;   // water colliders are invisible — the band is painted in paintGround
   if (rk.tree) return paintTree(g, rk, flo || {});
   if (rk.cliff) {
     // scarp band: round-capped tangential strokes so the chained slabs read
@@ -3844,6 +4061,20 @@ function paintGround(M) {
         g.beginPath(); g.moveTo(x1 + nx * s, y1 + ny * s); g.lineTo(x2 + nx * s, y2 + ny * s); g.stroke();
       }
     }
+  }
+  // water channels (MAPS.rivers): layered round-capped bands — bank sheen,
+  // dark body, deeper heart, a faint center gleam. Gaps between segments
+  // read as causeways automatically since the ground just shows through.
+  for (const [x1, y1, x2, y2, r] of ((M && M.rivers) || [])) {
+    g.lineCap = 'round';
+    const seg = (color, w) => {
+      g.strokeStyle = color; g.lineWidth = w;
+      g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2, y2); g.stroke();
+    };
+    seg('rgba(170,215,195,0.10)', r * 2.5);   // wet bank lip
+    seg('#0b1b1e', r * 2.1);                  // water body
+    seg('#071214', r * 1.35);                 // deep channel
+    seg('rgba(150,210,195,0.05)', r * 0.45);  // surface gleam
   }
   // raised ground: soft-shouldered hills, not stamped discs (playtest: the
   // circle-plus-rim look read as "dropped-in outposts"). Each disc becomes a
@@ -4240,6 +4471,75 @@ function drawNest(b) {
   cx.restore();
 }
 
+// the dam is a WALL across the river: abutments on both banks, spillway
+// gates, turbine housings, churning outflow. Oriented by b.a (set at
+// placement from the local flow) — never the axis-aligned box that read
+// as "a big turret" (playtest 2026-07-25).
+function drawHydroDam(b, sel) {
+  const C = COLORS[b.team];
+  const a = b.a || 0;
+  const len = 172, thick = 30;   // spans the r52 channel bands bank to bank
+  cx.save();
+  cx.translate(b.x, b.y);
+  cx.rotate(a);
+  if (b.built < 1) cx.globalAlpha = 0.75;
+  // upstream shadow water pooling against the wall
+  cx.fillStyle = 'rgba(4,10,12,0.55)';
+  cx.fillRect(-len / 2 + 10, -thick / 2 - 12, len - 20, 12);
+  // abutments biting into each bank
+  cx.fillStyle = '#232a25';
+  rr(cx, -len / 2, -thick / 2 - 4, 26, thick + 8, 5); cx.fill();
+  rr(cx, len / 2 - 26, -thick / 2 - 4, 26, thick + 8, 5); cx.fill();
+  // the wall
+  cx.fillStyle = '#1b2321';
+  rr(cx, -len / 2 + 22, -thick / 2, len - 44, thick, 6); cx.fill();
+  cx.strokeStyle = b.built < 1 ? 'rgba(200,220,210,0.5)' : (C.bld || C.main);
+  cx.lineWidth = 2;
+  if (b.built < 1) cx.setLineDash([6, 5]);
+  rr(cx, -len / 2 + 22, -thick / 2, len - 44, thick, 6); cx.stroke();
+  cx.setLineDash([]);
+  // turbine housings along the wall
+  cx.fillStyle = C.bld || C.main;
+  for (const hx of [-38, 0, 38]) {
+    rr(cx, hx - 11, -9, 22, 18, 3); cx.fill();
+    cx.fillStyle = '#0d1413';
+    cx.fillRect(hx - 7, -3, 14, 6);
+    cx.fillStyle = C.bld || C.main;
+  }
+  // spillway churn on the downstream side — animated white water
+  if (b.built >= 1) {
+    for (const hx of [-38, 0, 38]) {
+      for (let i = 0; i < 3; i++) {
+        const ph = ((tick * 1.6 + i * 9 + hx) % 26);
+        cx.strokeStyle = 'rgba(210,240,235,' + (0.35 - ph * 0.012) + ')';
+        cx.lineWidth = 2.2;
+        cx.beginPath();
+        cx.moveTo(hx - 8, thick / 2 + 2 + ph);
+        cx.lineTo(hx + 8, thick / 2 + 2 + ph);
+        cx.stroke();
+      }
+    }
+  }
+  cx.globalAlpha = 1;
+  cx.restore();
+  if (b.built < 1) {
+    cx.fillStyle = 'rgba(255,255,255,0.8)';
+    cx.font = '11px -apple-system, sans-serif';
+    cx.textAlign = 'center';
+    cx.fillText(Math.floor(b.built * 100) + '%', b.x, b.y - 48);
+  }
+  if (sel) {
+    cx.strokeStyle = 'rgba(255,255,255,0.85)';
+    cx.lineWidth = 2;
+    const m = 96, L = 12;
+    cx.beginPath();
+    cx.moveTo(b.x - m, b.y - 52 + L); cx.lineTo(b.x - m, b.y - 52); cx.lineTo(b.x - m + L, b.y - 52);
+    cx.moveTo(b.x + m - L, b.y - 52); cx.lineTo(b.x + m, b.y - 52); cx.lineTo(b.x + m, b.y - 52 + L);
+    cx.moveTo(b.x + m, b.y + 52 - L); cx.lineTo(b.x + m, b.y + 52); cx.lineTo(b.x + m - L, b.y + 52);
+    cx.moveTo(b.x - m + L, b.y + 52); cx.lineTo(b.x - m, b.y + 52); cx.lineTo(b.x - m, b.y + 52 - L);
+    cx.stroke();
+  }
+}
 function drawBuilding(b) {
   const C = COLORS[b.team];
   const x = b.x - b.w / 2, y = b.y - b.h / 2;
@@ -4253,6 +4553,11 @@ function drawBuilding(b) {
   if (b.type === 'den') {
     drawDen(b);
     if (b.hp < b.maxHp) drawHpBar(b.x, y - 10, b.w * 0.8, b.hp, b.maxHp);
+    return;
+  }
+  if (b.type === 'hydro') {
+    drawHydroDam(b, sel);
+    if (sel || b.hp < b.maxHp) drawHpBar(b.x, b.y - 60, b.w * 0.8, b.hp, b.maxHp);
     return;
   }
   // a lowered structure draws as a recessed pit: full-footprint dark plate,
@@ -5155,6 +5460,84 @@ function drawFx(f) {
   }
 }
 
+// living water: drifting sheen streams over the painted channel bands — the
+// static band alone read as "a road" (playtest 2026-07-25). Two dash streams
+// per segment slide along the flow at different speeds; a slow counter-drift
+// glint sells the current. Cheap: a few strokes per visible segment.
+function drawRivers(vx, vy, vw, vh) {
+  const rivers = (groundM && groundM.rivers) || [];
+  if (!rivers.length) return;
+  cx.save();
+  cx.lineCap = 'round';
+  for (const [x1, y1, x2, y2, r] of rivers) {
+    if (Math.max(x1, x2) + r < vx || Math.min(x1, x2) - r > vx + vw ||
+        Math.max(y1, y2) + r < vy || Math.min(y1, y2) - r > vy + vh) continue;
+    const a = Math.atan2(y2 - y1, x2 - x1);
+    const dxn = Math.cos(a), dyn = Math.sin(a);
+    const nx = -dyn, ny = dxn;
+    const L = Math.hypot(x2 - x1, y2 - y1);
+    // sheen streams as UNDULATING polylines — a straight dashed line read as
+    // lane markings; the wave + drift reads as current
+    const streams = [
+      [-r * 0.42, 3.0, 0.9, 0.12, 30, 64, 0],
+      [r * 0.10, 2.4, 1.4, 0.10, 18, 46, 2.1],
+      [r * 0.45, 1.8, -0.5, 0.07, 12, 58, 4.4],   // slow counter-drift near the far bank
+    ];
+    for (const [off, w2, speed, alpha, don, doff, ph] of streams) {
+      cx.strokeStyle = 'rgba(150,215,205,' + alpha + ')';
+      cx.lineWidth = w2;
+      cx.setLineDash([don, doff]);
+      cx.lineDashOffset = -((tick * speed) % (don + doff));
+      cx.beginPath();
+      for (let d = 0; d <= L; d += 26) {
+        const sway = Math.sin(d * 0.045 + tick * 0.025 + ph) * 4 + Math.sin(d * 0.013 - tick * 0.017 + ph * 2) * 3;
+        const px = x1 + dxn * d + nx * (off + sway);
+        const py = y1 + dyn * d + ny * (off + sway);
+        d ? cx.lineTo(px, py) : cx.moveTo(px, py);
+      }
+      cx.stroke();
+    }
+    cx.setLineDash([]);
+    // bank foam: slow broken lap-lines hugging both shores
+    for (const side of [-1, 1]) {
+      cx.strokeStyle = 'rgba(200,235,225,0.07)';
+      cx.lineWidth = 2;
+      cx.setLineDash([7, 34]);
+      cx.lineDashOffset = -((tick * 0.22 * side) % 41);
+      cx.beginPath();
+      for (let d = 0; d <= L; d += 40) {
+        const lap = Math.sin(d * 0.09 + tick * 0.02 * side) * 1.6;
+        const off = side * (r * 0.92 + lap);
+        const px = x1 + dxn * d + nx * off, py = y1 + dyn * d + ny * off;
+        d ? cx.lineTo(px, py) : cx.moveTo(px, py);
+      }
+      cx.stroke();
+    }
+    cx.setLineDash([]);
+    // drifting glints: bright specks riding the current, twinkling in and out
+    for (let k = 0; k < L / 110; k++) {
+      const d = (k * 110 + tick * 1.1) % L;
+      const off = Math.sin(k * 7.7) * r * 0.55;
+      const tw = 0.5 + 0.5 * Math.sin(tick * 0.08 + k * 2.3);
+      cx.fillStyle = 'rgba(190,240,230,' + (0.10 + 0.14 * tw) + ')';
+      cx.beginPath();
+      cx.arc(x1 + dxn * d + nx * off, y1 + dyn * d + ny * off, 1.6 + tw, 0, Math.PI * 2);
+      cx.fill();
+    }
+  }
+  cx.restore();
+}
+// local flow direction — the dam turns to face across it
+function riverAngleAt(x, y) {
+  let best = 0, bd = 1e18;
+  for (const [x1, y1, x2, y2] of ((groundM && groundM.rivers) || [])) {
+    const dx = x2 - x1, dy = y2 - y1, L2 = dx * dx + dy * dy;
+    const t = Math.max(0, Math.min(1, ((x - x1) * dx + (y - y1) * dy) / L2));
+    const d = dist2(x, y, x1 + dx * t, y1 + dy * t);
+    if (d < bd) { bd = d; best = Math.atan2(dy, dx); }
+  }
+  return best;
+}
 function render() {
   cx.setTransform(dpr, 0, 0, dpr, 0, 0);
   cx.clearRect(0, 0, view.w, view.h);
@@ -5169,6 +5552,7 @@ function render() {
   const vw = Math.min(W - vx, view.w + 48), vh = Math.min(H - vy, view.h + 48);
   const inView = (x, y, m) => x > vx - m && x < vx + vw + m && y > vy - m && y < vy + vh + m;
   cx.drawImage(groundCv, vx, vy, vw, vh, vx, vy, vw, vh);
+  drawRivers(vx, vy, vw, vh);
   for (const c of crystals) if (inView(c.x, c.y, 40) && isShownAt(c.x, c.y)) drawCrystal(c);
   for (const e of eggs) if (inView(e.x, e.y, 30) && isShownAt(e.x, e.y)) drawEgg(e);
   for (const b of buildings) if (inView(b.x, b.y, 130) && (b.team === 1 || isShownAt(b.x, b.y))) drawBuilding(b);
@@ -5287,7 +5671,7 @@ function renderMinimap() {
     mcx.fillRect(e.x * sx - 1.5, e.y * sy - 1.5, 3, 3);
   }
   for (const rk of rocks) {
-    mcx.fillStyle = rk.tree ? (rk.dead ? '#4a4f58' : '#31502e')
+    mcx.fillStyle = rk.water ? '#123339' : rk.tree ? (rk.dead ? '#4a4f58' : '#31502e')
       : rk.spire ? '#3f6a63' : rk.bone ? '#8a8674' : rk.pit ? '#101410' : '#3d443d';
     mcx.beginPath(); mcx.arc(rk.x * sx, rk.y * sy, Math.max(1.5, rk.r * sx), 0, Math.PI * 2); mcx.fill();
   }
@@ -5346,7 +5730,10 @@ function update() {
   const anyDead = units.some(u => u.hp <= 0) || buildings.some(b => b.hp <= 0);
   if (anyDead) {
     units = units.filter(u => u.hp > 0);
-    buildings = buildings.filter(b => b.hp > 0);
+    if (buildings.some(b => b.type === 'hydro' && b.hp <= 0)) {
+      buildings = buildings.filter(b => b.hp > 0);
+      refreshBridges();   // a dead dam takes its crossing with it
+    } else buildings = buildings.filter(b => b.hp > 0);
     pruneSelection();
     checkEnd();
   }

@@ -248,10 +248,10 @@ flora + ground palettes. ✅ = built.
 | 2 | ✅ Trade Road | dry steppe convoy corridor, painted haul road + waystations | M2 (rehomed 2026-07-24) |
 | 3 | ✅ Fossil Valley | deep moss, twin overlooks | M3, M17 (overlooks become Screecher roosts) (+skirmish) |
 | 4 | ✅ The Gauntlet | rust badlands, mesas + sinkholes | M4 (bases relocated) (+skirmish) |
-| 5 | Blackwater Fen | SWAMP + night, water channels, causeway gates | M5 |
-| 6 | The Silo Fields | SNOW plains, white-out flora, frozen groves | M6 |
+| 5 | ✅ Blackwater Fen | SWAMP, water channels + causeway gates (night pass later) | M5 |
+| 6 | ✅ The Silo Fields | SNOW plains, open white-out, silo bluffs | M6 |
 | 7 | High Water Mark | river WATER map, bridge crossings | M7 (Act 1 finale) |
-| 8 | Strip Mine | terraced quarry, scarred earth, pit fields | M8, M16 (the abandoned mine hides the lab cores) |
+| 8 | ✅ Strip Mine | terraced quarry benches over the motherlode, haul roads | M8, M16 (the abandoned mine hides the lab cores) |
 | 9 | ✅ The Boneyard | ash flats, ribcages + snags, burial mounds | M9 (dread mission — bases relocated) (+skirmish) |
 | 10 | Krauss's Bastion | fortified red city-base, walls + kill lanes | M10 |
 | 11 | Twin Forks | forked valley, TWO allied HQ positions | M11 |

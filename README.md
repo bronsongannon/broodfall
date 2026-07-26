@@ -100,7 +100,9 @@ fight) · **Hard** (early pressure, relentless waves, a rich enemy, nukes) ·
 | H | Marines, snipers & artillery hunker down — half damage, hold position (snipers go prone) |
 | Q / W / E / R / D | Train units & research upgrades (select a production building first) |
 | Q (Depot / Power Plant selected) | Lower the structure flush with the ground — units drive over it. Q again raises it |
+| 💰 Sell button (any building selected) | Salvage a building for **half its cost** (click twice to confirm). Queued units and research refund in full |
 | T / B / V / C / G / X / Y, then click | Place a Turret / Barracks / Factory / Supply Depot / Refinery / Airpad / Flak Turret |
+| J, then click on a river | Place a Hydro Dam (water maps only) |
 | Arrow keys / screen edge / minimap | Move the camera |
 | Right-click the minimap | Send selected units there |
 | Ctrl+1–5 / 1–5 | Save / recall control groups |
@@ -165,6 +167,14 @@ neither can the enemy, so their depots are a real target).
   **⚡ LOW POWER**: production crawls at half speed, turrets and flak fire at
   half rate, and nukes can't launch. Plants are cheap and fragile — guard
   yours, and raid theirs. The top bar shows your draw vs. capacity.
+- **Hydro Dam** (400, hotkey `J`, needs a Power Plant) — a river-only
+  mega-generator worth **three Power Plants** (+30 power). Expensive and slow
+  to raise, but one dam can carry a whole war base. Only buildable on maps
+  with water channels, placed directly ON the river — and note the enemy can
+  shell it just fine. Once it stands, the dam doubles as a **footbridge**:
+  infantry and dinosaurs cross the river over its walkway — vehicles still
+  need a causeway. A dam is a shortcut for raiders in BOTH directions;
+  losing it closes the crossing on the spot.
 - **Barracks** (150) — trains infantry: Marine, Sniper, Medic, Rocket Trooper
 - **Factory** (200) — builds vehicles: Raider, Tank, Artillery, APC — **and
   repairs ground vehicles** parked near it, billing you crystals per point of

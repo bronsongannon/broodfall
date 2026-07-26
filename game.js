@@ -4113,8 +4113,8 @@ function paintGround(M) {
     const bankPoly = (scale, wobble) => {
       g.beginPath();
       const cap = (p, ang, w2, flip) => {   // rounded mouth, swept around the tip
-        for (let k = 1; k < 7; k++) {
-          const ca = ang + (flip ? -1 : 1) * Math.PI / 2 - (k / 7) * Math.PI;
+        for (let k = 1; k < 14; k++) {
+          const ca = ang + (flip ? -1 : 1) * Math.PI / 2 - (k / 14) * Math.PI;
           g.lineTo(p.x + Math.cos(ca) * w2, p.y + Math.sin(ca) * w2);
         }
       };
@@ -5542,16 +5542,34 @@ function drawRivers(vx, vy, vw, vh) {
   if (!groundM._wpaths) {
     groundM._wpaths = groundM._rp.map(pts => {
       const path = new Path2D();
+      const angAt = (i2) => {
+        const q = pts[Math.min(i2 + 1, pts.length - 1)], o = pts[Math.max(i2 - 1, 0)];
+        return Math.atan2(q.y - o.y, q.x - o.x);
+      };
       const edge = (i2, scale, sign) => {
-        const p = pts[i2], q = pts[Math.min(i2 + 1, pts.length - 1)], o = pts[Math.max(i2 - 1, 0)];
-        const ang = Math.atan2(q.y - o.y, q.x - o.x);
+        const p = pts[i2], ang = angAt(i2);
         // mirror the painted band's wobble EXACTLY (left/right differ) —
         // mismatched wobble made the texture bleed past the shoreline
         const w2 = p.r * scale + Math.sin(p.d * (sign > 0 ? 0.07 : 0.09) + (sign > 0 ? p.x : p.y)) * 3.5;
         return [p.x - Math.sin(ang) * w2 * sign, p.y + Math.cos(ang) * w2 * sign];
       };
-      for (let i2 = 0; i2 < pts.length; i2++) { const [px, py] = edge(i2, 0.96, 1); i2 ? path.lineTo(px, py) : path.moveTo(px, py); }
-      for (let i2 = pts.length - 1; i2 >= 0; i2--) { const [px, py] = edge(i2, 0.96, -1); path.lineTo(px, py); }
+      const cap2 = (i2, flip) => {   // same rounded mouths as the painted band
+        const p = pts[i2], ang = angAt(i2), w2 = p.r * 0.96;
+        for (let k = 1; k < 14; k++) {
+          const ca = ang + (flip ? -1 : 1) * Math.PI / 2 - (k / 14) * Math.PI;
+          path.lineTo(p.x + Math.cos(ca) * w2, p.y + Math.sin(ca) * w2);
+        }
+      };
+      for (let i2 = 0; i2 < pts.length; i2++) {
+        const [px, py] = edge(i2, 0.96, 1);
+        i2 ? path.lineTo(px, py) : path.moveTo(px, py);
+        if (i2 === pts.length - 1) cap2(i2, false);
+      }
+      for (let i2 = pts.length - 1; i2 >= 0; i2--) {
+        const [px, py] = edge(i2, 0.96, -1);
+        path.lineTo(px, py);
+        if (i2 === 0) cap2(i2, true);
+      }
       path.closePath();
       return path;
     });

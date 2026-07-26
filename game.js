@@ -678,6 +678,7 @@ const OPT = {};
   for (const k in BLD) if (k !== 'nest' && k !== 'den') names.push('bld_' + k);   // bld_hq.png, … (dino structures use dino_* slots)
   names.push('unit_marine_hunker', 'unit_sniper_hunker', 'unit_artillery_hunker');   // dug-in poses
   names.push('rock', 'crystal');   // terrain art (natural colors, not tinted)
+  names.push('tree', 'tree_dead', 'spire', 'bones', 'pit');   // map-upgrade terrain objects (2026-07-24)
   // pre-colored colorway slots (STYLE-GUIDE.pdf / Gemini pipeline): drawn AS-IS,
   // no team tint. _teal = team 1, _red = team 2, _wild = untamed dinos.
   for (const k in UNIT) names.push('unit_' + k + '_teal', 'unit_' + k + '_red');
@@ -696,15 +697,22 @@ const OPT = {};
       for (let i = 1; i <= 8; i++) names.push('unit_' + k + '_walk' + i + cw);
     }
   }
+  // terrain art is baked into the pre-rendered ground canvas — if one of these
+  // finishes loading AFTER setup() painted it (cold load), repaint the ground
+  const TERRAIN_SLOTS = new Set(['rock', 'tree', 'tree_dead', 'spire', 'bones', 'pit']);
   for (const n of names) {
     const i = new Image();
     OPT[n] = { img: i, ok: false };
-    i.onload = () => { OPT[n].ok = true; };
+    i.onload = () => {
+      OPT[n].ok = true;
+      if (TERRAIN_SLOTS.has(n) && groundM) paintGround(groundM);
+    };
     i.onerror = () => { OPT[n].err = true; };   // settled-absent, distinct from still-loading
     i.src = 'assets/sprites/' + n + '.png';
   }
 })();
 const opt = (n) => (OPT[n] && OPT[n].ok) ? OPT[n].img : null;
+let groundM = null;   // the map whose terrain is currently baked into groundCv
 
 // team-color tinted copies, built once per (sprite, tint) on first use
 const tintCache = new Map();
@@ -1359,6 +1367,7 @@ function setup(mapKey) {
     }
   }
   buildTerrainGrid();
+  groundM = M;
   paintGround(M);
   const pHQ = placeBase(1, M);
   if (!(mission && mission.noEnemy)) placeBase(2, M);
@@ -3204,7 +3213,11 @@ function toast(msg) {
 function cardActions(b) {
   const acts = BLD[b.type].trains.map(t => ({ kind: 'train', t }));
   for (const k in UPG) if (UPG[k].at === b.type) acts.push({ kind: 'up', k });
-  if (b.type === 'hq') acts.push({ kind: 'hatch' });   // captured dino eggs hatch at the lab
+  // captured dino eggs hatch at the lab. The button only appears once eggs
+  // exist (egg-chip precedent) — with zero eggs it ate a full card row and
+  // pushed the construction buttons below the fold. Last slot, so Q/W/E stay
+  // stable and R simply appears with the first egg.
+  if (b.type === 'hq' && teams[b.team].eggs > 0) acts.push({ kind: 'hatch' });
   return acts;
 }
 
@@ -3265,6 +3278,23 @@ function refreshCard() {
   let html = '';
   const b = selection.length === 1 && selection[0].kind === 'building' ? selection[0] : null;
 
+  // construction buttons — the HQ is the construction yard (playtest
+  // 2026-07-24: the row used to render LAST on every card and fell below the
+  // HQ's fold, so the near-empty refinery card was the only place it showed —
+  // Bronson reasonably concluded the refinery was the build hub). Now: HQ and
+  // the empty-selection card only; placement hotkeys still work from anywhere.
+  let buildRow = '', buildRowPlaced = false;
+  if (!placing && !attackMoveMode) {
+    buildRow = '<div class="row">';
+    for (const [t, k] of BUILD_MENU) {
+      if (!hasTech(1, t)) continue;   // progressive disclosure — locked buildings stay hidden
+      const d = BLD[t];
+      const dim = teams[1].crystals < d.cost ? ' class="dim"' : '';
+      buildRow += `<button data-act="build:${t}"${dim}>${d.label} · ${d.cost} ⬡ <small>[${k}]</small></button>`;
+    }
+    buildRow += '</div>';
+  }
+
   if (placing) {
     const hint = placing === 'refinery'
       ? 'Click open ground next to a crystal patch — harvesters will drop off there. Comes with a free harvester.'
@@ -3274,7 +3304,9 @@ function refreshCard() {
     html = '<h3>Attack-move</h3><div class="sub">Click a location — your troops will fight anything on the way.</div>';
   } else if (b && BLD[b.type].trains) {
     const d = BLD[b.type];
-    html = `<h3>${d.label}</h3><div class="sub">Right-click the map to set the rally point.</div><div class="row">`;
+    // trains and research/hatch render into separate rows with construction
+    // between them — training stays primary, building is always above the fold
+    let rowTrain = '', rowOther = '';
     cardActions(b).forEach((a, i) => {
       const key = ['Q', 'W', 'E', 'R', 'D', 'Z'][i];
       if (a.kind === 'train') {
@@ -3287,24 +3319,27 @@ function refreshCard() {
           capped = fleet >= HARRIER_CAP;
         }
         const dim = (teams[1].crystals < ud.cost || capped) ? ' class="dim"' : '';
-        html += `<button data-act="train:${a.t}"${dim}>${label} <small>[${key}]</small></button>`;
+        rowTrain += `<button data-act="train:${a.t}"${dim}>${label} <small>[${key}]</small></button>`;
       } else if (a.kind === 'hatch') {
         const pack = units.filter(u => u.team === 1 && u.type === 'spitter').length;
         const cls = ' class="wide' + ((teams[1].eggs < 1 || pack >= SPITTER_CAP) ? ' dim' : '') + '"';
-        html += `<button data-act="hatch"${cls}>🦖 Hatch Spitter · 1 🥚 (${teams[1].eggs} 🥚 · pack ${pack}/${SPITTER_CAP}) <small>[${key}]</small></button>`;
+        rowOther += `<button data-act="hatch"${cls}>🦖 Hatch Spitter · 1 🥚 (${teams[1].eggs} 🥚 · pack ${pack}/${SPITTER_CAP}) <small>[${key}]</small></button>`;
       } else {
         const g = UPG[a.k];
         const pending = buildings.reduce((s, x) =>
           s + (x.team === 1 ? x.queue.filter(q => q === 'up:' + a.k).length : 0), 0);
         const lvl = teams[1].up[a.k] + pending;
-        if (lvl >= g.max) html += `<button class="wide dim">⬆ ${g.label} MAX</button>`;
+        if (lvl >= g.max) rowOther += `<button class="wide dim">⬆ ${g.label} MAX</button>`;
         else {
           const cls = ' class="wide' + (teams[1].crystals < g.cost[lvl] ? ' dim' : '') + '"';
-          html += `<button data-act="research:${a.k}"${cls}>⬆ ${g.label} ${lvl + 1} · ${g.cost[lvl]} ⬡ <small>[${key}]</small></button>`;
+          rowOther += `<button data-act="research:${a.k}"${cls}>⬆ ${g.label} ${lvl + 1} · ${g.cost[lvl]} ⬡ <small>[${key}]</small></button>`;
         }
       }
     });
-    html += '</div>';
+    html = `<h3>${d.label}</h3><div class="sub">Right-click the map to set the rally point.</div>`;
+    html += '<div class="row">' + rowTrain + '</div>';
+    if (b.type === 'hq') { html += buildRow; buildRowPlaced = true; }   // the HQ is the construction yard
+    if (rowOther) html += '<div class="row">' + rowOther + '</div>';
   } else if (b && b.type === 'silo') {
     html = '<h3>Missile Silo</h3>';
     if (b.built < 1) {
@@ -3344,18 +3379,9 @@ function refreshCard() {
     if (aboard > 0) html += `<button data-act="unload">Unload ${aboard} [U]</button>`;
     html += '<button data-act="stop">Stop [S]</button></div>';
   } else {
-    html = '<h3>Broodfall</h3><div class="sub">Drag to select units. Right-click to give orders. Select a building to train units.</div>';
+    html = '<h3>Broodfall</h3><div class="sub">Drag to select units. Right-click to give orders. Select the HQ to construct buildings.</div>';
   }
-  if (!placing && !attackMoveMode) {
-    html += '<div class="row">';
-    for (const [t, k] of BUILD_MENU) {
-      if (!hasTech(1, t)) continue;   // progressive disclosure — locked buildings stay hidden
-      const d = BLD[t];
-      const dim = teams[1].crystals < d.cost ? ' class="dim"' : '';
-      html += `<button data-act="build:${t}"${dim}>${d.label} · ${d.cost} ⬡ <small>[${k}]</small></button>`;
-    }
-    html += '</div>';
-  }
+  if (buildRow && !buildRowPlaced && !b && !selection.length) html += buildRow;
   // fold the leading title+hint into a fixed-width block; buttons flow beside it
   html = html.replace(/^<h3>(.*?)<\/h3>(<div class="sub">.*?<\/div>)?/,
     (m, t, s) => `<div class="hd"><h3>${t}</h3>${s || ''}</div>`);
@@ -3630,18 +3656,49 @@ function paintRock(g, rk, flo) {
     return;
   }
   if (rk.pit) {
-    // sinkhole: a dark collapse with a pale crumbling lip — impassable ground
-    g.fillStyle = 'rgba(0,0,0,0.25)';
-    g.beginPath(); g.ellipse(rk.x, rk.y, rk.r * 1.25, rk.r * 1.05, 0, 0, Math.PI * 2); g.fill();
-    g.strokeStyle = 'rgba(200,195,175,0.18)';
-    g.lineWidth = 2.5;
-    g.beginPath(); g.ellipse(rk.x, rk.y, rk.r * 1.02, rk.r * 0.85, 0, 0, Math.PI * 2); g.stroke();
-    g.fillStyle = '#0a0d0a';
-    g.beginPath(); g.ellipse(rk.x, rk.y, rk.r * 0.92, rk.r * 0.76, 0, 0, Math.PI * 2); g.fill();
-    g.fillStyle = 'rgba(60,70,62,0.5)';   // one lit inner wall
-    g.beginPath(); g.ellipse(rk.x - rk.r * 0.15, rk.y - rk.r * 0.18, rk.r * 0.55, rk.r * 0.4, 0, 0, Math.PI * 2); g.fill();
-    g.fillStyle = '#060806';
-    g.beginPath(); g.ellipse(rk.x - rk.r * 0.2, rk.y - rk.r * 0.22, rk.r * 0.4, rk.r * 0.28, 0, 0, Math.PI * 2); g.fill();
+    // sinkhole: gradient-only collapsed ground — the first pass was concentric
+    // flat ellipses and read as a cartoon eyeball (playtest 2026-07-24). Now:
+    // a wobbled sunken apron fading into the soil, radial cracks, and a hole
+    // that darkens toward the heart with no clean outline anywhere.
+    const seed = (rk.x * 7.3 + rk.y * 13.7) % (Math.PI * 2);
+    const img = opt('pit');
+    if (img) {
+      const s = rk.r * 2.9;
+      g.save(); g.translate(rk.x, rk.y); g.rotate(seed);
+      g.drawImage(img, -s / 2, -s / 2, s, s);
+      g.restore();
+      return;
+    }
+    const blob = (rad, jitter) => {
+      g.beginPath();
+      for (let i = 0; i <= 18; i++) {
+        const a = (i / 18) * Math.PI * 2;
+        const rr = rad * (1 + jitter * Math.sin(a * 3 + seed) + jitter * 0.5 * Math.sin(a * 5 + seed * 2.3));
+        const px = rk.x + Math.cos(a) * rr, py = rk.y + Math.sin(a) * rr * 0.88;
+        i ? g.lineTo(px, py) : g.moveTo(px, py);
+      }
+      g.closePath();
+    };
+    let grad = g.createRadialGradient(rk.x, rk.y, rk.r * 0.2, rk.x, rk.y, rk.r * 1.45);
+    grad.addColorStop(0, 'rgba(0,0,0,0.55)');
+    grad.addColorStop(0.75, 'rgba(0,0,0,0.25)');
+    grad.addColorStop(1, 'rgba(0,0,0,0)');
+    g.fillStyle = grad; blob(rk.r * 1.45, 0.10); g.fill();
+    g.strokeStyle = 'rgba(0,0,0,0.30)';
+    g.lineWidth = 2;
+    for (let i = 0; i < 5; i++) {   // stress cracks reaching past the rim
+      const a = seed + (i / 5) * Math.PI * 2 + Math.sin(seed * (i + 2)) * 0.4;
+      const r2 = rk.r * (1.3 + ((seed * (i + 3)) % 1) * 0.45);
+      g.beginPath();
+      g.moveTo(rk.x + Math.cos(a) * rk.r * 0.85, rk.y + Math.sin(a) * rk.r * 0.75);
+      g.lineTo(rk.x + Math.cos(a + 0.12) * r2, rk.y + Math.sin(a + 0.12) * r2 * 0.88);
+      g.stroke();
+    }
+    grad = g.createRadialGradient(rk.x - rk.r * 0.15, rk.y - rk.r * 0.2, rk.r * 0.1, rk.x, rk.y, rk.r);
+    grad.addColorStop(0, '#050605');
+    grad.addColorStop(0.7, '#0a0c0a');
+    grad.addColorStop(1, 'rgba(30,28,20,0.9)');
+    g.fillStyle = grad; blob(rk.r * 0.95, 0.12); g.fill();
     return;
   }
   g.fillStyle = 'rgba(0,0,0,0.35)';   // ground shadow
@@ -3680,17 +3737,8 @@ function paintGround(M) {
   const area = (W * H) / (2048 * 1536);   // texture density scales with map area
   g.fillStyle = pal.base || '#171c16';
   g.fillRect(0, 0, W, H);
-  // mottled soil
-  for (let i = 0; i < 1400 * area; i++) {
-    const x = Math.random() * W, y = Math.random() * H;
-    const r = 8 + Math.random() * 42;
-    g.fillStyle = Math.random() < 0.5 ? (pal.mottle || 'rgba(255,255,255,0.012)') : 'rgba(0,0,0,0.05)';
-    g.beginPath(); g.ellipse(x, y, r, r * 0.6, Math.random() * 3, 0, Math.PI * 2); g.fill();
-  }
-  // biome shading: smooth two-octave value noise, painted as a soft light/dark
-  // drift across the whole map. v1 was random ellipse blobs — they read as
-  // "shapes" (stains, crop circles) no matter how they were clustered; noise
-  // has no outlines at all, just cohesive terrain-like variation (2026-07-24)
+  // shared value-noise fields: one geography drives BOTH texture passes below,
+  // so the streaks and the tonal drift agree with each other
   {
     const cell = 260, cw = Math.ceil(W / cell) + 2, ch = Math.ceil(H / cell) + 2;
     const n1 = new Float32Array(cw * ch).map(() => Math.random());
@@ -3705,6 +3753,19 @@ function paintGround(M) {
       const v01 = n[(y0 + 1) * cw3 + x0], v11 = n[(y0 + 1) * cw3 + x0 + 1];
       return (v00 * (1 - tx) + v10 * tx) * (1 - ty) + (v01 * (1 - tx) + v11 * tx) * ty;
     };
+    // soil streaks on a FLOW FIELD — the old pass scattered random ovals
+    // ("no rhyme or reason", playtest 2026-07-24). Streak heading comes from
+    // the smooth noise, so neighbors align and the ground reads as brushed
+    // sediment: flows, drifts, wash lines.
+    for (let i = 0; i < 1100 * area; i++) {
+      const x = Math.random() * W, y = Math.random() * H;
+      const a = sample(n1, cw, cell, x, y) * Math.PI * 2 + (sample(n2, cw2, cell2, x, y) - 0.5) * 0.8;
+      const len = 10 + Math.random() * 24, wdt = 2.5 + Math.random() * 3.5;
+      g.fillStyle = Math.random() < 0.5 ? (pal.mottle || 'rgba(255,255,255,0.012)') : 'rgba(0,0,0,0.05)';
+      g.beginPath(); g.ellipse(x, y, len, wdt, a, 0, Math.PI * 2); g.fill();
+    }
+    // biome shading: the same noise painted as soft light/dark tonal drift —
+    // no outlines, so nothing reads as a "shape" (the blob versions all did)
     const lightC = flo.blotch || 'rgba(90,140,90,0.5)', darkC = flo.blotch2 || 'rgba(20,35,22,0.5)';
     const step = 24;
     for (let y = 0; y < H; y += step) {

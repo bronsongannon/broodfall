@@ -296,6 +296,31 @@ Four species, in build order:
 Hold for post-launch: spitting artillery-dino, burrower. Elite tinted spitter variants
 can pad the late acts cheaply.
 
+### Research Facility (Bronson's idea, 2026-07-24 — future/post-v1)
+
+A dedicated lab building for "awesome new tech things" — a tier above the current
+per-building upgrade queues (which stay as-is: barracks/factory/HQ handle the bread-and-
+butter stat research). The Research Facility unlocks *new capabilities*, not percentages.
+Candidate tech (pick a few, not all — each should change how a match plays):
+
+- **Xenobiology branch** — the natural fit for the existing egg/captive economy and
+  Lin's whole arc (M1's rig capture, M16's raptor captures literally deliver lab
+  specimens). Captives/eggs become research fuel: bigger spitter packs (raise
+  `SPITTER_CAP`), hatch raptors from captured specimens, a pheromone lure that
+  redirects a den's hunting pack at the enemy.
+- **Military branch** — one-shot or toggled abilities: cloaked sniper rounds, APC
+  medbay (heal while aboard), artillery incendiary shells (area denial), harrier
+  double-sortie (two bombs per rearm).
+- **Infrastructure branch** — mobile refinery deploys, automated repair drones,
+  sensor towers that pierce high-ground vision (a clean counter to the elevation game).
+
+Engine notes: the research-queue machinery already exists (`UPG` + `'up:'` queue
+entries) — a facility just needs a `BLD` entry gated behind factory-or-later tech, its
+own `UPG` entries with `at: 'lab'`, and effect hooks where the tech lands. Campaign
+hook: debut it in Act 2 alongside the dino escalation (Lin gets her lab on-screen at
+last), then it carries the Act 3 exotic tech. Story beat writes itself: the paywalled
+acts deliver the "awesome new tech" as the free update's headline.
+
 ---
 
 ## Order of work

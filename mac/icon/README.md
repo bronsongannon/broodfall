@@ -43,3 +43,9 @@ deliverable, source file included, commercial license.
   caches the icon per bundle path. Launch from a fresh path (or
   `lsregister -f` + `killall Dock`) and it resolves. Store/notarized installs
   are unaffected.
+
+**2026-07-25: the upgraded icon SHIPPED.** `master.png` is now Bronson's
+Gemini crystal + raptor eye-shine art (raw in `raw_icon.png`), re-masked onto
+the Apple grid (the raw was a pre-rounded squircle on white — the rebuild
+script crops the art, rescales to the 832 plate, and cuts a fresh r186
+squircle). Rerun `make-icon.py` after any future master swap.

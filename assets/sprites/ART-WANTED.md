@@ -97,3 +97,10 @@ as style anchor):
 
 Shrubs/grass tufts stay procedural (painted by the hundreds at 5-15px — not
 sprite material).
+- `pit.png` — "A collapsed sinkhole seen directly from above: a deep dark hole
+  with an irregular crumbling rim of cracked dry earth and small stone chunks,
+  a few stress cracks radiating outward from the edge, the hole darkest at its
+  center, dusty earth tones." (Radial — the game rotates each pit randomly, so
+  no directional lighting. IMPORTANT: the rim must END in a defined cracked
+  edge, not fade softly outward — a soft fade to the white background gets
+  clipped by background removal and leaves a hard halo.)

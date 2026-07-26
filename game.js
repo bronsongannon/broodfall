@@ -777,7 +777,7 @@ const OPT = {};
   for (const k in BLD) if (k !== 'nest' && k !== 'den') names.push('bld_' + k);   // bld_hq.png, … (dino structures use dino_* slots)
   names.push('unit_marine_hunker', 'unit_sniper_hunker', 'unit_artillery_hunker');   // dug-in poses
   names.push('rock', 'crystal');   // terrain art (natural colors, not tinted)
-  names.push('tree', 'tree_dead', 'spire', 'bones', 'pit', 'water');   // terrain objects + seamless water tile
+  names.push('tree', 'tree_dead', 'spire', 'bones', 'pit', 'water', 'water2', 'water3', 'water4');   // terrain + seamless water tile frames
   // pre-colored colorway slots (STYLE-GUIDE.pdf / Gemini pipeline): drawn AS-IS,
   // no team tint. _teal = team 1, _red = team 2, _wild = untamed dinos.
   for (const k in UNIT) names.push('unit_' + k + '_teal', 'unit_' + k + '_red');
@@ -1269,7 +1269,9 @@ function riverPath([x1, y1, x2, y2, r]) {
     // meander eases to zero at the ends so causeway mouths stay put
     const ease = Math.min(1, d / 140, (L - d) / 140);
     const sway = (Math.sin(d * 0.011 + seed) * 0.55 + Math.sin(d * 0.0042 + seed * 2.7) * 0.45) * r * 0.5 * ease;
-    const width = r * (0.82 + 0.22 * Math.sin(d * 0.016 + seed * 1.7) + 0.16 * Math.sin(d * 0.0061 - seed));
+    // mouths flare outward (delta-style) so causeway gaps pinch hourglass
+    const flare = 1 + 0.38 * (1 - Math.min(1, d / 130, (L - d) / 130));
+    const width = r * flare * (0.82 + 0.22 * Math.sin(d * 0.016 + seed * 1.7) + 0.16 * Math.sin(d * 0.0061 - seed));
     pts.push({ x: x1 + dxn * d + nx * sway, y: y1 + dyn * d + ny * sway, r: width, d });
   }
   return pts;
@@ -4078,58 +4080,70 @@ function paintGround(M) {
       }
     }
   }
-  // water channels (MAPS.rivers): organic bank-to-bank polygons through the
-  // shared riverPath points — meander + width variation + ragged banks.
-  // Gaps between segments read as causeways since the ground shows through.
+  // water channels (MAPS.rivers): the read is DEPTH — saturated teal
+  // shallows stepping down to a dark heart (v3, 2026-07-26: the pale rim
+  // looked like concrete curbing and near-black fill read as asphalt).
+  // Wet dark earth at the shore, stepped depth bands, bed pebbles in the
+  // shallows, optional water.png texture breathing over the whole channel.
+  // dirt causeways first, so the water mouths paint OVER the earth: a soft
+  // gradient saddle between close segment ends — no edges, just packed ground
+  {
+    const rlist = ((M && M.rivers) || []);
+    for (let i = 0; i + 1 < rlist.length; i++) {
+      const [, , ax, ay] = rlist[i];
+      const [bx2, by2] = rlist[i + 1];
+      const gap = dist(ax, ay, bx2, by2);
+      if (gap > 430) continue;
+      const ang = Math.atan2(by2 - ay, bx2 - ax);
+      g.save();
+      g.translate((ax + bx2) / 2, (ay + by2) / 2);
+      g.rotate(ang);
+      g.scale((gap / 2 + 50) / 80, 1);
+      let grad = g.createRadialGradient(0, 0, 8, 0, 0, 80);
+      grad.addColorStop(0, 'rgba(112,94,60,0.30)');
+      grad.addColorStop(0.7, 'rgba(96,80,52,0.16)');
+      grad.addColorStop(1, 'rgba(96,80,52,0)');
+      g.fillStyle = grad;
+      g.beginPath(); g.arc(0, 0, 80, 0, Math.PI * 2); g.fill();
+      g.restore();
+    }
+  }
   for (const seg of ((M && M.rivers) || [])) {
     const pts = riverPath(seg);
     const bankPoly = (scale, wobble) => {
       g.beginPath();
+      const cap = (p, ang, w2, flip) => {   // rounded mouth, swept around the tip
+        for (let k = 1; k < 7; k++) {
+          const ca = ang + (flip ? -1 : 1) * Math.PI / 2 - (k / 7) * Math.PI;
+          g.lineTo(p.x + Math.cos(ca) * w2, p.y + Math.sin(ca) * w2);
+        }
+      };
+      const wAt = (p, wobble2, right) => p.r * scale + (wobble2 ? Math.sin(p.d * (right ? 0.09 : 0.07) + (right ? p.y : p.x)) * 3.5 : 0);
       for (let i = 0; i < pts.length; i++) {
         const p = pts[i], q = pts[Math.min(i + 1, pts.length - 1)], o = pts[Math.max(i - 1, 0)];
         const ang = Math.atan2(q.y - o.y, q.x - o.x);
-        const w2 = p.r * scale + (wobble ? Math.sin(p.d * 0.07 + p.x) * 3.5 : 0);
+        const w2 = wAt(p, wobble, false);
         const px = p.x - Math.sin(ang) * w2, py = p.y + Math.cos(ang) * w2;
         i ? g.lineTo(px, py) : g.moveTo(px, py);
+        if (i === pts.length - 1) cap(p, ang, w2, false);
       }
       for (let i = pts.length - 1; i >= 0; i--) {
         const p = pts[i], q = pts[Math.min(i + 1, pts.length - 1)], o = pts[Math.max(i - 1, 0)];
         const ang = Math.atan2(q.y - o.y, q.x - o.x);
-        const w2 = p.r * scale + (wobble ? Math.sin(p.d * 0.09 + p.y) * 3.5 : 0);
+        const w2 = wAt(p, wobble, true);
         g.lineTo(p.x + Math.sin(ang) * w2, p.y - Math.cos(ang) * w2);
+        if (i === 0) cap(p, ang, w2, true);
       }
       g.closePath();
     };
-    g.fillStyle = 'rgba(170,215,195,0.10)'; bankPoly(1.22, true); g.fill();   // wet shore
-    const tile = opt('water');
-    if (tile) {   // seamless water texture (drop water.png in assets/sprites/)
-      const pat = g.createPattern(tile, 'repeat');
-      g.fillStyle = pat; bankPoly(1.0, true); g.fill();
-      g.fillStyle = 'rgba(7,18,20,0.35)'; bankPoly(1.0, true); g.fill();   // seat it in the dark
-    } else {
-      g.fillStyle = '#0b1b1e'; bankPoly(1.0, true); g.fill();
-    }
-    g.fillStyle = '#071214'; bankPoly(0.55, false); g.fill();   // deep channel
-    // shore clutter: stones + reed tufts scattered along both banks
-    for (const p of pts) {
-      if (Math.random() < 0.55) continue;
-      const q = pts[Math.min(pts.indexOf(p) + 1, pts.length - 1)];
-      const ang = Math.atan2(q.y - p.y, q.x - p.x);
-      const side = Math.random() < 0.5 ? 1 : -1;
-      const bx = p.x - Math.sin(ang) * (p.r * 1.18 + Math.random() * 10) * side;
-      const by = p.y + Math.cos(ang) * (p.r * 1.18 + Math.random() * 10) * side;
-      if (Math.random() < 0.5) {
-        g.fillStyle = 'rgba(160,170,160,0.25)';
-        g.beginPath(); g.arc(bx, by, 1.5 + Math.random() * 2.5, 0, Math.PI * 2); g.fill();
-      } else {
-        g.strokeStyle = flo.tuft || 'rgba(125,190,125,0.5)';
-        g.lineWidth = 1.1;
-        for (let k = 0; k < 3; k++) {
-          const ta = -Math.PI / 2 + (k - 1) * 0.5;
-          g.beginPath(); g.moveTo(bx, by);
-          g.lineTo(bx + Math.cos(ta) * 6, by + Math.sin(ta) * 6); g.stroke();
-        }
-      }
+    g.fillStyle = 'rgba(0,0,0,0.30)'; bankPoly(1.18, true); g.fill();      // wet dark earth shore
+    // depth as a smooth ramp: many narrow bands from teal shallows to the
+    // dark heart (three visible steps read as terraces, not depth)
+    const DEPTH = [[1.0, '#1c4a4e'], [0.88, '#184247'], [0.76, '#143a3f'], [0.64, '#113338'], [0.52, '#0e2c31'], [0.42, '#0c272c'], [0.32, '#0a2226']];
+    for (let di = 0; di < DEPTH.length; di++) {
+      g.fillStyle = DEPTH[di][1];
+      bankPoly(DEPTH[di][0], di < 4);
+    g.fill();
     }
   }
   // raised ground: soft-shouldered hills, not stamped discs (playtest: the
@@ -5523,7 +5537,64 @@ function drawFx(f) {
 function drawRivers(vx, vy, vw, vh) {
   const rivers = (groundM && groundM.rivers) || [];
   if (!rivers.length) return;
-  if (!groundM._rp) groundM._rp = rivers.map(riverPath);   // deterministic — cache once
+  if (!groundM._rp) groundM._rp = rivers.map(riverPath);
+  // band outlines cached as Path2D for the per-frame texture pass
+  if (!groundM._wpaths) {
+    groundM._wpaths = groundM._rp.map(pts => {
+      const path = new Path2D();
+      const edge = (i2, scale, sign) => {
+        const p = pts[i2], q = pts[Math.min(i2 + 1, pts.length - 1)], o = pts[Math.max(i2 - 1, 0)];
+        const ang = Math.atan2(q.y - o.y, q.x - o.x);
+        // mirror the painted band's wobble EXACTLY (left/right differ) —
+        // mismatched wobble made the texture bleed past the shoreline
+        const w2 = p.r * scale + Math.sin(p.d * (sign > 0 ? 0.07 : 0.09) + (sign > 0 ? p.x : p.y)) * 3.5;
+        return [p.x - Math.sin(ang) * w2 * sign, p.y + Math.cos(ang) * w2 * sign];
+      };
+      for (let i2 = 0; i2 < pts.length; i2++) { const [px, py] = edge(i2, 0.96, 1); i2 ? path.lineTo(px, py) : path.moveTo(px, py); }
+      for (let i2 = pts.length - 1; i2 >= 0; i2--) { const [px, py] = edge(i2, 0.96, -1); path.lineTo(px, py); }
+      path.closePath();
+      return path;
+    });
+  }
+  // layered surface (Bronson 2026-07-26): water4 (the converted rapids
+  // texture) is the STATIC BASE — the body of the water — while the three
+  // calm frames crossfade AND physically slide downstream over it, so the
+  // current visibly flows across the turbulence underneath.
+  const base = opt('water4');
+  const flows = [opt('water'), opt('water2'), opt('water3')].filter(Boolean);
+  if (base || flows.length) {
+    const CYCLE = 300;
+    const ft = flows.length ? (tick % (flows.length * CYCLE)) / CYCLE : 0;
+    const fi = Math.floor(ft), blend = ft - fi;
+    for (let si = 0; si < groundM._wpaths.length; si++) {
+      const path = groundM._wpaths[si];
+      const [rx1, ry1, rx2, ry2] = rivers[si];
+      const rl = Math.hypot(rx2 - rx1, ry2 - ry1);
+      const fdx = (rx2 - rx1) / rl, fdy = (ry2 - ry1) / rl;
+      if (base) {
+        cx.globalAlpha = 0.38;
+        cx.fillStyle = cx.createPattern(base, 'repeat');
+        cx.fill(path);
+      }
+      if (flows.length) {
+        const drift = tick * 0.35;   // the flow layer slides with the current
+        const mkPat = (img) => {
+          const p = cx.createPattern(img, 'repeat');
+          try { p.setTransform(new DOMMatrix([1, 0, 0, 1, fdx * drift, fdy * drift])); } catch (e) { /* old engine — static flow */ }
+          return p;
+        };
+        cx.globalAlpha = 0.20;
+        cx.fillStyle = mkPat(flows[fi]);
+        cx.fill(path);
+        if (flows.length > 1) {
+          cx.globalAlpha = 0.20 * blend;
+          cx.fillStyle = mkPat(flows[(fi + 1) % flows.length]);
+          cx.fill(path);
+        }
+      }
+      cx.globalAlpha = 1;
+    }
+  }
   cx.save();
   cx.lineCap = 'round';
   for (let si = 0; si < rivers.length; si++) {
@@ -5531,40 +5602,28 @@ function drawRivers(vx, vy, vw, vh) {
     if (Math.max(x1, x2) + r * 2 < vx || Math.min(x1, x2) - r * 2 > vx + vw ||
         Math.max(y1, y2) + r * 2 < vy || Math.min(y1, y2) - r * 2 > vy + vh) continue;
     const pts = groundM._rp[si];
+    const total = pts[pts.length - 1].d;
+    const at = (d) => pts[Math.max(0, Math.min(pts.length - 1, Math.floor(d / 30)))];
     const norm = (i2) => {
       const q = pts[Math.min(i2 + 1, pts.length - 1)], o = pts[Math.max(i2 - 1, 0)];
       const ang = Math.atan2(q.y - o.y, q.x - o.x);
-      return [-Math.sin(ang), Math.cos(ang)];
+      return [ang, -Math.sin(ang), Math.cos(ang)];
     };
-    // sheen streams riding the meander at fractions of the LOCAL width
-    const streams = [[-0.45, 3.0, 0.9, 0.12, 30, 64, 0], [0.1, 2.4, 1.4, 0.10, 18, 46, 2.1], [0.48, 1.8, -0.5, 0.07, 12, 58, 4.4]];
-    for (const [frac, w2, speed, alpha, don, doff, ph] of streams) {
-      cx.strokeStyle = 'rgba(150,215,205,' + alpha + ')';
-      cx.lineWidth = w2;
-      cx.setLineDash([don, doff]);
-      cx.lineDashOffset = -((tick * speed) % (don + doff));
+    // campaign only: a dark shape gliding beneath the surface, slow patrol
+    if (mission) {
+      const gd = (tick * 0.32 + si * 700) % (total * 2);
+      const d = gd < total ? gd : total * 2 - gd;   // back and forth
+      const p = at(d), i2 = Math.floor(d / 30);
+      const [ang, nx, ny] = norm(i2);
+      const off = Math.sin(tick * 0.008 + si) * p.r * 0.3;
+      cx.save();
+      cx.translate(p.x + nx * off, p.y + ny * off);
+      cx.rotate(ang + (gd < total ? 0 : Math.PI));
+      cx.fillStyle = 'rgba(0,0,0,0.20)';
       cx.beginPath();
-      for (let i2 = 0; i2 < pts.length; i2++) {
-        const p = pts[i2], [nx, ny] = norm(i2);
-        const sway = Math.sin(p.d * 0.045 + tick * 0.025 + ph) * 3;
-        const off = p.r * frac + sway;
-        i2 ? cx.lineTo(p.x + nx * off, p.y + ny * off) : cx.moveTo(p.x + nx * off, p.y + ny * off);
-      }
-      cx.stroke();
-    }
-    cx.setLineDash([]);
-    // drifting glints, twinkling along the channel
-    const total = pts[pts.length - 1].d;
-    for (let k = 0; k < total / 110; k++) {
-      const d = (k * 110 + tick * 1.1) % total;
-      const i2 = Math.min(pts.length - 1, Math.floor(d / 30));
-      const p = pts[i2], [nx, ny] = norm(i2);
-      const off = Math.sin(k * 7.7) * p.r * 0.5;
-      const tw = 0.5 + 0.5 * Math.sin(tick * 0.08 + k * 2.3);
-      cx.fillStyle = 'rgba(190,240,230,' + (0.10 + 0.14 * tw) + ')';
-      cx.beginPath();
-      cx.arc(p.x + nx * off, p.y + ny * off, 1.6 + tw, 0, Math.PI * 2);
+      cx.ellipse(0, 0, 16, 5, 0, 0, Math.PI * 2);
       cx.fill();
+      cx.restore();
     }
   }
   cx.restore();

@@ -43,6 +43,10 @@ window.addEventListener('resize', resize);
 resize();
 
 const cam = { x: 0, y: 0 };
+// event camera: swing to something the player must not miss (a den erupting)
+// and hold it there for a beat. Any camera input cancels the hold.
+let camFocus = null;
+function focusCam(x, y, hold = 200) { camFocus = { x, y, hold }; }
 function clampCam() {
   cam.x = Math.max(0, Math.min(Math.max(0, W - view.w), cam.x));
   cam.y = Math.max(0, Math.min(Math.max(0, H - view.h), cam.y));
@@ -818,6 +822,7 @@ const MISSIONS = [
         say: [['ops', 'Rubicon headquarters is down. Krauss is off the air and his people are walking out with their hands up.'],
               ['ops', 'Commander — on behalf of the expedition, that is the war. The crystal fields are ours, the charter is ours, and as of this moment Rubicon Mining\'s claim on this planet is—']] },
       { when: { done: ['hq'] }, delay: 7, objective: 'brood', alarm: '⚠ Seismic rupture under the enemy ruins!',
+        focus: [2760, 1180],   // the act's cliffhanger — put it on screen, always
         spawn: [
           { group: 'den', bld: 'den', at: [2760, 1180] },
           { unit: 'raptor', team: 3, n: 4, at: [2700, 1100], order: 'attackhq' },
@@ -1423,6 +1428,15 @@ function makeDen(x, y) {
   const b = makeBuilding('den', 3, x, y);
   b.packT = 0;
   for (let i = 0; i < DEN_GUARDS; i++) spawnRaptor(b);
+  // A den tearing open mid-match is the scariest beat in the game and it was
+  // being missed entirely (playtest 2026-07-26: "I never saw one, at all").
+  // Swing the camera onto it — but only if the player can actually see the
+  // spot, so this never pans to blank shroud or leaks an unscouted den.
+  if (started && tick > 0) {
+    toast('⚠ A raptor den has torn open!');
+    snd.alarm();
+    if (isShownAt(x, y)) focusCam(x, y);
+  }
   return b;
 }
 
@@ -1482,9 +1496,62 @@ function buildTerrainGrid() {
       }
     }
   };
-  for (const rk of rocks) if (!rk.bridged) stamp(rk, 1);
-  for (const rk of rocks) if (rk.bridged) stamp(rk, 2);
+  for (const rk of rocks) stamp(rk, 1);
+  stampWalkways();
 }
+// A dam's walkway is ONE FILE WIDE (Bronson 2026-07-26): a single plank of
+// tiles along the dam's crossing axis, NOT the whole 115px bridged zone. The
+// bridged zone is where foot units may physically stand (separation lets them
+// in); the plank is the only part that is dry. Step off it and you drown.
+const WALK_HALF_L = 155;   // half-length: mid-channel to both banks
+const WALK_HALF_W = 22;    // half-width for the drown test — generous vs the
+                           // ~32px tile plank so walking the plank never kills
+function stampWalkways() {
+  for (const b of buildings) {
+    if (b.type !== 'hydro' || b.built < 1 || b.hp <= 0) continue;
+    const ca = Math.cos(b.a || 0), sa = Math.sin(b.a || 0);
+    const near = rocks.filter(rk => rk.water && dist2(rk.x, rk.y, b.x, b.y) < 300 * 300);
+    const isWater = (gx, gy) => near.some(rk =>
+      dist2(gx * TILE + 16, gy * TILE + 16, rk.x, rk.y) < (rk.r + 22) ** 2);
+    const plank = (gx, gy) => {
+      if (gx < 0 || gy < 0 || gx >= MAP_W || gy >= MAP_H) return;
+      if (blocked[gy * MAP_W + gx] === 1 && isWater(gx, gy)) blocked[gy * MAP_W + gx] = 2;
+    };
+    let px = -1, py = -1;
+    for (let d = -WALK_HALF_L; d <= WALK_HALF_L; d += 6) {
+      const gx = Math.floor((b.x + ca * d) / TILE), gy = Math.floor((b.y + sa * d) / TILE);
+      // a diagonal step needs its orthogonal filler or findPath (no corner
+      // cutting) treats the plank as a chain of unreachable islands
+      if (px >= 0 && gx !== px && gy !== py) plank(gx, py);
+      plank(gx, gy);
+      px = gx; py = gy;
+    }
+  }
+}
+// a wander/flee target the unit can actually stand on, pulling in toward the
+// start until one lands on open ground (shorelines used to swallow roamers)
+function walkableSpot(x, y, a, reach, foot) {
+  for (let i = 0; i < 10; i++) {
+    const r = reach * (1 - i * 0.09);
+    const px = clamp(x + Math.cos(a) * r, 30, W - 30);
+    const py = clamp(y + Math.sin(a) * r, 30, H - 30);
+    const gx = Math.floor(px / TILE), gy = Math.floor(py / TILE);
+    if (gridPass(blocked[gy * MAP_W + gx], foot)) return [px, py];
+  }
+  return null;
+}
+// the dam plank, as geometry: which dam a point is standing on, and where
+function plankAt(x, y) {
+  for (const b of buildings) {
+    if (b.type !== 'hydro' || b.built < 1 || b.hp <= 0) continue;
+    const ca = Math.cos(b.a || 0), sa = Math.sin(b.a || 0);
+    const dx = x - b.x, dy = y - b.y;
+    const along = dx * ca + dy * sa, perp = -dx * sa + dy * ca;
+    if (Math.abs(along) <= WALK_HALF_L && Math.abs(perp) <= WALK_HALF_W) return { b, ca, sa, along, perp };
+  }
+  return null;
+}
+const walkAxisAt = (x, y) => { const p = plankAt(x, y); return p ? [p.ca, p.sa] : null; };
 // a dam finished or died: re-flag its stretch of water, rebuild the grid
 function refreshBridges() {
   for (const rk of rocks) delete rk.bridged;
@@ -2243,7 +2310,11 @@ function kill(e) {
   // units with sliced death frames fall over and leave a body — a soft ring
   // instead of the full fireball (vehicles and buildings still explode)
   const corpse = e.kind === 'unit' ? animFrames(e.type, 'death', e.team, 4) : [];
-  if (corpse.length) {
+  if (e.drowned) {
+    // went under: rings on the surface, no body, no fireball
+    fxs.push({ kind: 'ping', x: e.x, y: e.y, t: 0, max: 30, color: 'rgba(190,235,240,0.85)' });
+    fxs.push({ kind: 'ping', x: e.x, y: e.y, t: 0, max: 46, color: 'rgba(140,205,215,0.6)' });
+  } else if (corpse.length) {
     fxs.push({ kind: 'corpse', x: e.x, y: e.y, a: e.faceA, frames: corpse,
                t: 0, max: corpse.length * 9 + 170, size: e.r * 2.7 });
     fxs.push({ kind: 'boom', x: e.x, y: e.y, t: 0, max: 16, size: (e.r || 16) * 0.9 });
@@ -2480,24 +2551,32 @@ function updateUnit(u) {
       // out of camp — no dinos strolling through the base before first contact.
       // The flee point is STICKY: picked once and held until reached — re-aiming
       // every tick made the heading whipsaw between base buildings (spin-out).
+      const rFoot = !!(IS_INF[u.type] || IS_DINO[u.type]);
       if (!wildSeen && u.team === 3) {
         if (o.flee && dist(u.x, u.y, o.x, o.y) < 26) o.flee = false;
         if (!o.flee) {
           const nb = nearestPlayerBld(u.x, u.y, 480);
           if (nb) {
             const a = Math.atan2(u.y - nb.y, u.x - nb.x);
-            o.x = clamp(u.x + Math.cos(a) * 520, 30, W - 30);
-            o.y = clamp(u.y + Math.sin(a) * 520, 30, H - 30);
-            o.flee = true;
-            o._path = null;
+            const spot = walkableSpot(u.x, u.y, a, 520, rFoot);
+            if (spot) { o.x = spot[0]; o.y = spot[1]; o.flee = true; o._path = null; o.rt = 0; }
           }
         }
       } else o.flee = false;
-      if (o.x === undefined || dist(u.x, u.y, o.x, o.y) < 26) {
-        if (Math.random() < 0.008) {   // graze a while, then drift somewhere new
-          o.x = clamp(u.x + (Math.random() - 0.5) * 800, 30, W - 30);
-          o.y = clamp(u.y + (Math.random() - 0.5) * 800, 30, H - 30);
-          o._path = null;
+      // Wildlife used to pick a spot across the river, walk to the shoreline
+      // and grind there forever (playtest 2026-07-26). Two fixes: destinations
+      // must be somewhere the animal can actually stand — dam planks included,
+      // since dinos are foot units — and any wander that stops making progress
+      // is abandoned after ~10s instead of held until reached.
+      o.rt = (o.rt || 0) + 1;
+      const stalled = o.rt > 600;
+      if (o.x === undefined || dist(u.x, u.y, o.x, o.y) < 26 || stalled) {
+        if (stalled || Math.random() < 0.008) {   // graze a while, then drift somewhere new
+          for (let i = 0; i < 8; i++) {
+            const spot = walkableSpot(u.x, u.y, Math.random() * Math.PI * 2, 200 + Math.random() * 500, rFoot);
+            if (spot) { o.x = spot[0]; o.y = spot[1]; o._path = null; break; }
+          }
+          o.rt = 0;
         }
       } else moveToward(u, o.x, o.y);
       break;
@@ -2760,6 +2839,36 @@ function updateUnit(u) {
   }
 }
 
+// Off the plank, into the river: the bridged zone around a dam is the only
+// water a ground unit can physically enter, and only the plank is footing.
+// Blow the dam while a column is crossing and the whole column goes under.
+const DROWN_TICKS = 26;   // ~0.45s flailing before it's over
+const PLANK_HUG = 7;      // how far off the centerline a crosser may drift —
+                          // under one unit-width, so nobody passes anybody
+function drownSweep() {
+  for (const u of units) {
+    if (u.hp <= 0 || u.fly) continue;
+    let wet = false;
+    for (const rk of rocks) {
+      if (!rk.water) continue;
+      if (dist2(u.x, u.y, rk.x, rk.y) < rk.r * rk.r) { wet = true; break; }
+    }
+    const p = plankAt(u.x, u.y);
+    if (wet && !p) {
+      if ((u.drownT = (u.drownT || 0) + 1) > DROWN_TICKS) { u.drowned = true; kill(u); }
+      continue;
+    }
+    if (u.drownT) u.drownT = 0;
+    // over water, hug the dam's centerline. The grid plank is tile-quantised
+    // (32px tiles, and the axis cuts them at an angle), so without this a
+    // column spreads to the full tile width and crosses two abreast.
+    if (wet && p && Math.abs(p.perp) > PLANK_HUG) {
+      const fix = p.perp - Math.sign(p.perp) * PLANK_HUG;
+      u.x += p.sa * fix; u.y -= p.ca * fix;
+    }
+  }
+}
+
 // keep units from stacking, and out of buildings
 function separation() {
   for (let i = 0; i < units.length; i++) {
@@ -2773,12 +2882,21 @@ function separation() {
       const d2 = dx * dx + dy * dy;
       if (d2 >= min * min || d2 === 0) continue;
       const d = Math.sqrt(d2), push = (min - d) / 2;
-      const nx = dx / d, ny = dy / d;
+      let nx = dx / d, ny = dy / d;
+      // on a one-file dam plank, crowding shoves fore and aft — never sideways.
+      // Without this, your own column jostles itself into the river and drowns.
+      const wa = walkAxisAt(a.x, a.y) || walkAxisAt(b.x, b.y);
+      if (wa) { const dot = nx * wa[0] + ny * wa[1]; nx = dot * wa[0]; ny = dot * wa[1]; }
       a.x -= nx * push; a.y -= ny * push;
       b.x += nx * push; b.y += ny * push;
     }
     const aFoot = !!(IS_INF[a.type] || IS_DINO[a.type]);
     if (!a.fly) for (const rk of rocks) {
+      // Shorelines still shove foot units back onto dry land, so nobody walks
+      // into a river — but once a body is a full radius INSIDE the channel it
+      // is swimming, not standing, and the drown sweep owns it. That is what
+      // makes blowing a dam under a crossing column lethal instead of a shove.
+      if (rk.water && aFoot && dist2(a.x, a.y, rk.x, rk.y) < Math.max(0, rk.r - a.r) ** 2) continue;
       if (rk.bridged && aFoot) continue;   // dam walkway — infantry and dinos cross
       if (a.ghostT > 0 && !rk.cliff && !rk.water) continue;   // ghosts slip pinch rocks — never cliffs OR open water
       const dx = a.x - rk.x, dy = a.y - rk.y;
@@ -3560,16 +3678,24 @@ function tryPlaceBuilding(type, wx, wy) {
 // camera pan (arrows + screen edge)
 function updateCamera() {
   const sp = 16;
-  if (keys['ArrowLeft']) cam.x -= sp;
-  if (keys['ArrowRight']) cam.x += sp;
-  if (keys['ArrowUp']) cam.y -= sp;
-  if (keys['ArrowDown']) cam.y += sp;
+  let manual = false;
+  if (keys['ArrowLeft']) { cam.x -= sp; manual = true; }
+  if (keys['ArrowRight']) { cam.x += sp; manual = true; }
+  if (keys['ArrowUp']) { cam.y -= sp; manual = true; }
+  if (keys['ArrowDown']) { cam.y += sp; manual = true; }
   if (mouse.inWindow && !miniDown) {
     const edge = 14;
-    if (mouse.sx < edge) cam.x -= sp;
-    if (mouse.sx > view.w - edge) cam.x += sp;
-    if (mouse.sy < edge) cam.y -= sp;
-    if (mouse.sy > view.h - edge) cam.y += sp;
+    if (mouse.sx < edge) { cam.x -= sp; manual = true; }
+    if (mouse.sx > view.w - edge) { cam.x += sp; manual = true; }
+    if (mouse.sy < edge) { cam.y -= sp; manual = true; }
+    if (mouse.sy > view.h - edge) { cam.y += sp; manual = true; }
+  }
+  // the event camera yields the instant the player touches the controls
+  if (manual || miniDown) camFocus = null;
+  if (camFocus) {
+    cam.x += (camFocus.x - view.w / 2 - cam.x) * 0.12;
+    cam.y += (camFocus.y - view.h / 2 - cam.y) * 0.12;
+    if (--camFocus.hold <= 0) camFocus = null;
   }
   clampCam();
   mouse.wx = mouse.sx + cam.x;
@@ -6028,6 +6154,7 @@ function update() {
 
   for (const u of units) updateUnit(u);
   separation();
+  drownSweep();
   for (const b of buildings) updateBuilding(b);
   updateBullets();
   updateFx();
@@ -6343,6 +6470,7 @@ function fireTrigger(t) {
   if (t.complete) ms.flags[t.complete] = true;
   if (t.spawn) for (const sp of [].concat(t.spawn)) doSpawn(sp);
   if (t.alarm) { toast(t.alarm); snd.alarm(); }
+  if (t.focus) focusCam(t.focus[0], t.focus[1]);   // scripted event camera
   if (t.crystals) teams[1].crystals += t.crystals;
   if (t.lose) missionEnd(false);   // scripted defeat (convoy lost, etc.)
 }
@@ -6617,6 +6745,7 @@ function resetWorld() {
   teams[3] = { crystals: 0, eggs: 0, captives: 0, up: newUp() };
   tick = 0; gameOver = null; waveNum = 0; shakeAmp = 0;
   placing = null; attackMoveMode = false; setCursor();
+  camFocus = null;
   explored.fill(0); visible.fill(0);
   elOverlay.classList.add('hidden');
   clearTimeout(overlayTimer); overlayTimer = null;
@@ -6746,6 +6875,7 @@ window.CC = {
   isVisibleAt, isExploredAt, isShownAt, updateFog, toggleFogMemory,
   damage, trainUnit, commandMove, fxExplosion,
   canPlaceBuilding, tryPlaceBuilding, makeBuilding, makeUnit, makeNest, makeDen, spawnRaptor, makeEgg, startResearch,
+  cam, focusCam, get camFocus() { return camFocus; }, plankAt, blocked,
   hatchSpitter, rankOf, startGame, MAPS, DIFFS,
   startMission, MISSIONS, CAST,
   exportVoiceScript, voiceKey, voice, PORTRAITS,

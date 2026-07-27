@@ -175,6 +175,11 @@ neither can the enemy, so their depots are a real target).
   infantry and dinosaurs cross the river over its walkway — vehicles still
   need a causeway. A dam is a shortcut for raiders in BOTH directions;
   losing it closes the crossing on the spot.
+  The walkway is **one file wide**. A column crosses nose to tail, and the
+  water on either side is deadly: step off the planks and the current takes
+  you. Blow a dam while an enemy column is halfway across and the river
+  finishes the job — but the same is true of your own troops, so never send
+  them over a dam you are about to lose.
 - **Barracks** (150) — trains infantry: Marine, Sniper, Medic, Rocket Trooper
 - **Factory** (200) — builds vehicles: Raider, Tank, Artillery, APC — **and
   repairs ground vehicles** parked near it, billing you crystals per point of

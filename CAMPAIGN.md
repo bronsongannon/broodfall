@@ -81,13 +81,25 @@ and Lin's seismographs are screaming: the direct fuse for M8. Teaches the nuke
 endgame from both sides + deadline pressure. *needs: deadline timer objective,
 scripted enemy launch event (trigger-driven launchNuke).*
 
-**M7 — "High Water Mark."** The set-piece: break red's forward fortress and win
+**M7 — "High Water Mark."** ✅ BUILT (2026-07-26). The set-piece: break red's forward fortress and win
 the war. And you DO — the fortress falls, Vega starts the victory speech… and a
 den erupts under the ruins mid-sentence. A raptor pack sweeps the wreckage of
 the base you just conquered, and the act ends on Lin, quietly: "They waited
 until you were done." Cliffhanger straight into Act 2 — and the v1 cliffhanger
-that sells the free update. *needs: Raptor + Raptor Den — already roadmap
-item 3.*
+that sells the free update. *needed: Raptor + Raptor Den — shipped 2026-07-13.*
+
+As built: **the first campaign mission with a LIVE red base** (`noEnemy` off, so
+placeBase(2) + aiUpdate + assault waves all run). Objective chain: Hydro Dam
+(the doctrine beat — M7 is the dam's teaching mission, and its map is the only
+Act 1 river map) → break both river forts (pre-built turret/supply clusters on
+the east bank, `flag` objectives completed by `groupDead` triggers, the M1
+'repel' pattern) → `destroy` red HQ → `brood`, the cliffhanger flag a timed
+trigger completes ~48s after the den erupts. Killing the HQ is deliberately NOT
+the win — checkEnd leaves campaign victory entirely to the objective list, so
+the act can end after the interruption. GOTCHA: fort coordinates were moved once
+already — the first southern fort sat 47px off the overlook's cliff rim, exactly
+the wall+building pinch the map-design rule warns about; keep pre-built spawns
+≥130px off rim slabs and ≥200px off patches/nests.
 
 ### Act 2 — The Awakening (missions 8–13) — detailed design (2026-07-12)
 

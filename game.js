@@ -747,6 +747,94 @@ const MISSIONS = [
     winText: 'The mega-field is under expedition control. On the survey charts, the hum keeps spreading — deeper, and wider.',
     loseText: 'The nest problem solved you instead. Survey command is re-reading Dr. Lin\'s objection with fresh respect.',
   },
+  {
+    // Act 1 finale. First mission fought against a LIVE red base — noEnemy is off,
+    // so placeBase(2), the base-building AI and the assault waves all run. The act
+    // ends mid-victory-speech: the HQ kill is NOT the win condition, the den that
+    // erupts afterward is (objective 'brood'), which is why checkEnd leaves
+    // campaign victory entirely to the objective list.
+    title: 'High Water Mark', act: 'Act I — The Crystal War',
+    map: 'hwm', diff: 'normal',
+    brief: [
+      ['ops', 'Rubicon has dug in across the river, Commander. One channel, two causeways, and Krauss has a fort staring down each of them. That is the whole war in one map.'],
+      ['red', 'Rubicon Actual to expedition command: you are welcome to the west bank. It is the cheaper half. Cross the water and we will discuss it at length.'],
+      ['ops', 'Then we cross. Break both river forts, put his headquarters in the mud, and this contract dispute is over.'],
+      ['sci', 'One request before you start shelling. The riverbed reads hollow for two kilometers — the hum I have been logging since the first nest runs directly under his fortress. Whatever you break over there, break it carefully.'],
+    ],
+    intro: [
+      ['ops', 'Your engineers can put that river to work first: a Hydro Dam spans the channel and powers a third of a base by itself — and its walkway carries infantry straight across. Depot, plant, then dam. Key J.'],
+    ],
+    objectives: [
+      { id: 'dam',   text: 'Build a Hydro Dam across the river (J)', type: 'built', bld: 'hydro', count: 1 },
+      { id: 'fortN', text: 'Break the northern river fort', type: 'flag', hidden: true, mark: [1780, 1000] },
+      { id: 'fortS', text: 'Break the southern river fort', type: 'flag', hidden: true, mark: [1790, 1860] },
+      { id: 'hq',    text: 'Destroy Rubicon headquarters', type: 'destroy', bld: 'hq', x: 2842, y: 1112, r: 420, hidden: true, mark: [2842, 1112] },
+      { id: 'brood', text: 'Something is surfacing in the ruins — stand your ground', type: 'flag', hidden: true, mark: [2760, 1180] },
+    ],
+    winWhen: ['dam', 'fortN', 'fortS', 'hq', 'brood'],
+    triggers: [
+      // a task force lands with you — this is the offensive, not another survey
+      { when: { time: 0.5 }, crystals: 150,
+        spawn: [
+          { unit: 'marine', team: 1, n: 3, at: [420, 1330] },
+          { unit: 'rocket', team: 1, n: 2, at: [480, 1260] },
+        ] },
+      // the two crossing forts, pre-built on the east bank
+      { when: { time: 1 },
+        spawn: [
+          { group: 'fortN', bld: 'turret', team: 2, at: [1760, 940] },
+          { group: 'fortN', bld: 'turret', team: 2, at: [1790, 1060] },
+          { group: 'fortN', bld: 'supply', team: 2, at: [1880, 1000] },
+          // clear of the southern overlook's cliff rim — a fort hugging the rim
+          // makes a wall+building pinch that swallows attackers (map gotcha)
+          { group: 'fortS', bld: 'turret', team: 2, at: [1770, 1830] },
+          { group: 'fortS', bld: 'turret', team: 2, at: [1800, 1950] },
+          { group: 'fortS', bld: 'supply', team: 2, at: [1700, 1745] },
+          { unit: 'marine', team: 2, n: 2, at: [1850, 1000], order: 'guard' },
+          { unit: 'rocket', team: 2, n: 1, at: [1830, 940],  order: 'guard' },
+          { unit: 'marine', team: 2, n: 2, at: [1860, 1870], order: 'guard' },
+          { unit: 'rocket', team: 2, n: 1, at: [1840, 1810], order: 'guard' },
+        ] },
+      { when: { done: ['dam'] }, objective: ['fortN', 'fortS'],
+        say: [['ops', 'Dam is holding and the grid has never looked better. Note the walkway, Commander — rifles cross there, tracks do not. Vehicles still take a causeway.'],
+              ['ops', 'Now the forts. North and south crossing, both marked. Artillery from the overlooks will out-range those turrets if you spot for it.'],
+              ['red', 'Ah — the dam. Enjoy it. I built my quarter on the assumption that nobody would spend four hundred on scenery.']] },
+      { when: { groupDead: 'fortN' }, complete: 'fortN',
+        say: [['ops', 'Northern crossing is open. Push armor through before he plugs it.']] },
+      { when: { groupDead: 'fortS' }, complete: 'fortS',
+        say: [['ops', 'Southern fort is rubble. Both causeways are ours, Commander.']] },
+      { when: { done: ['fortN', 'fortS'] }, objective: 'hq',
+        say: [['red', 'Both crossings. In one afternoon. ...Fine. Pull the line back to the headquarters — everything we have, on the wire.'],
+              ['ops', 'He is out of river to hide behind. Finish it.']] },
+      // Krauss's war, deteriorating on open comms
+      { when: { time: 220, notDone: ['hq'] },
+        say: [['red', 'Corporate wants a status update. Tell them the corridor is contested and the bonuses are suspended.']] },
+      { when: { time: 400, notDone: ['hq'] },
+        say: [['sci', 'Commander — the seismographs. Every shell that lands over there rings something underneath it. That is not bedrock answering.']] },
+      { when: { time: 620, notDone: ['hq'] },
+        say: [['red', 'Second line, hold. HOLD. We are not losing a claim to a survey crew with a dam fetish.']] },
+      // the victory speech, and the interruption
+      { when: { done: ['hq'] },
+        say: [['ops', 'Rubicon headquarters is down. Krauss is off the air and his people are walking out with their hands up.'],
+              ['ops', 'Commander — on behalf of the expedition, that is the war. The crystal fields are ours, the charter is ours, and as of this moment Rubicon Mining\'s claim on this planet is—']] },
+      { when: { done: ['hq'] }, delay: 7, objective: 'brood', alarm: '⚠ Seismic rupture under the enemy ruins!',
+        spawn: [
+          { group: 'den', bld: 'den', at: [2760, 1180] },
+          { unit: 'raptor', team: 3, n: 4, at: [2700, 1100], order: 'attackhq' },
+        ],
+        say: [['sci', 'THE GROUND — Commander, get your people off that ridge, the whole plate just—']] },
+      { when: { done: ['hq'] }, delay: 22,
+        say: [['ops', 'What IS that? They came up through the foundations. Through solid rock, doctor, how—'],
+              ['sci', 'Faster than anything we have catalogued. And they are not coming out of the river or the fields. They are coming out of HIS base.']] },
+      { when: { done: ['hq'] }, delay: 48, complete: 'brood' },
+    ],
+    outro: [
+      ['ops', 'Expedition command, this is Vega. Rubicon Mining is finished on this planet. We did not win it.'],
+      ['sci', 'They waited until you were done.'],
+    ],
+    winText: 'The war for the crystal fields is over in ninety minutes and settled in ninety seconds. Something has been under the valley the entire time — patient, listening, counting. It let two companies exhaust each other first.',
+    loseText: 'The high water mark is a line on the west bank. Rubicon holds the river, the fortress, and whatever is sleeping beneath it.',
+  },
 ];
 
 // Research, StarCraft-style: bought at the producing building, occupies its queue.

@@ -58,7 +58,7 @@
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
     <i class="ti ti-map-2" style="font-size:20px" aria-hidden="true"></i>
     <p style="font-weight:500;font-size:15px;margin:0">Campaign arc — all three acts</p>
-    <span style="margin-left:auto;background:var(--bg-warning);color:var(--text-warning);font-size:12px;padding:3px 10px;border-radius:var(--radius)">3 of 20 built</span>
+    <span style="margin-left:auto;background:var(--bg-warning);color:var(--text-warning);font-size:12px;padding:3px 10px;border-radius:var(--radius)">4 of 20 built</span>
   </div>
   <p style="font-size:13px;color:var(--text-secondary);margin:0 0 10px">Full mission-by-mission design in CAMPAIGN.md. Act 1 ships in v1; Acts 2–3 are the free update. Click a mission chip to start building it. Biggest engine prerequisite: the allied AI faction (M11, M18).</p>
   <p style="font-size:13px;font-weight:500;margin:6px 0 2px">Act 1 — The Crystal War (ships in v1)</p>
@@ -134,13 +134,16 @@ const TRACKS = {
       'I dropped infantry death sheets in Source 2 (marine/sniper/medic/engineer, teal plus red recolors) — slice and install all of them, then show me a battle with bodies.'],
     ['a9','Cast portraits: Vega, Lin, Krauss — DaVinci film-still set, live in the PiP','',
       'The three cast portraits are live (assets/portraits/). Review them in-game across missions 1-3 dialogue and tell me if any need a regenerate before the set is locked.'],
-    ['a10','Voice lines: 23 remaining — all Vega (Lin=Ember + Krauss=Rob done via ElevenLabs; Vega voice hunt on)','',
+    ['a10','Voice lines: 45 remaining — 35 Vega, plus M7\'s 5 Krauss + 5 Lin (their voices are locked, so those 10 can be cut today; Vega voice hunt still on)','',
       'Lin (Ember) and Krauss (Rob) are fully voiced in ElevenLabs; I\'m hunting an ElevenLabs voice for Vega. Help me pick candidates against her voice brief in assets/sprites/PORTRAITS.md, then batch-generate her 24 lines from assets/voice/voice-script.tsv (regenerating the legacy DaVinci opener too) — I\'ll drop the mp3s on you to hash-match and install.'],
     ['a11','Walk cycles COMPLETE: all 13 walkers animated (DaVinci videos + derived colorways)','',
       'All walk cycles are live. Playtest a big mixed battle and tell me if any unit\'s gait cadence or frame count feels off — WALK_STRIDE_PX is the knob.'],
   ],
 };
 const SHIPPED = [
+  'MISSION 7 "High Water Mark" BUILT (Jul 26) — the Act 1 finale, and the first campaign mission fought against a live red base (real AI, real assault waves). Build a Hydro Dam, break both river forts, put Krauss\'s headquarters in the mud — then the victory speech gets interrupted by a den erupting under the ruins you just took. Full win chain, lose path, and an 18k-tick hands-off soak all verified clean',
+  'Three roster maps shipped (Jul 26): High Water Mark, Twin Forks, Overgrown Basin — 11 of 15 built',
+  'Rivers, Hydro Dam and building sell (Jul 25-26): meandering water with a layered flowing surface, a dam that spans the channel and doubles as an infantry-only footbridge, and a sell button on every building but the HQ',
   'M2 playtest round (Jul 23): voiced lines never get cut off by a dialogue backlog (Krauss finishes before Lin starts), units orbiting a building cluster now break out in ~3s (the barricaded convoy harvester), and Supply Depots + Power Plants can be lowered flush with the ground (Q) so your army drives over them',
   'Mission 1 reworked: exploration first — dinos only retaliate after your patrol is spotted',
   'Specimen weapons-lock: player fire (including splash) physically can\'t hurt the capture target',
@@ -227,7 +230,7 @@ const ACTS = {
     ['M4','Dig In','Red\'s offensive targets your power plants — the brownout lesson, received'],
     ['M5','Ghost Survey','Commando raid; the stolen data reveals the Heart Crystal signal'],
     ['M6','Countdown','Kill Krauss\'s silo before the launch clock runs out'],
-    ['M7','High Water Mark','Win the war — then a den erupts under the ruins. Act 1 ends mid-victory-speech'],
+    ['M7','High Water Mark','Win the war — then a den erupts under the ruins. Act 1 ends mid-victory-speech','built'],
   ],
   act2: [
     ['M8','Strip Mine','Krauss nukes a nest field; the first Raptor Den answers — hunting BOTH sides'],

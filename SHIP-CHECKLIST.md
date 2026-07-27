@@ -68,3 +68,5 @@ file and the widget's task lists in sync.
 - [x] Nuke safety: no dead-silo launches, no mode-stacking accidental launches, no overlay race on quit
 - [x] Menu hotkeys gated off, mission rig costs no supply, enemy plant can't spawn on crystals, AI refineries obey the tech tree
 - [ ] Map roster: 15 maps / 20 missions locked 2026-07-24 (table in CAMPAIGN.md). 11 built (High Water Mark, Twin Forks, Overgrown Basin landed 2026-07-26); 4 to build — Krauss's Bastion, Exodus Road, Evac Coast, The Crater
+- [x] Mission 7 "High Water Mark" built 2026-07-26 — the Act 1 finale and the first campaign mission with a live red base (AI + waves). Dam → both river forts → Krauss's HQ → the den that erupts mid-victory-speech. Win chain, lose path and an 18k-tick hands-off soak verified
+- [ ] Missions 4–6 ("Dig In", "Ghost Survey", "Countdown") — Act 1's middle, still unbuilt. Their maps exist (Gauntlet, Blackwater Fen, Silo Fields); they need one small framework batch: timer/deadline objectives, `keepAlive`, group-destroy, and a scripted enemy nuke launch. NOTE until they land, M7 shows in-game as "Mission 4" (the array index is the mission number)

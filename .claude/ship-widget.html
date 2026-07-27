@@ -58,7 +58,7 @@
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
     <i class="ti ti-map-2" style="font-size:20px" aria-hidden="true"></i>
     <p style="font-weight:500;font-size:15px;margin:0">Campaign arc — all three acts</p>
-    <span style="margin-left:auto;background:var(--bg-warning);color:var(--text-warning);font-size:12px;padding:3px 10px;border-radius:var(--radius)">4 of 20 built</span>
+    <span style="margin-left:auto;background:var(--bg-warning);color:var(--text-warning);font-size:12px;padding:3px 10px;border-radius:var(--radius)">7 of 20 built — Act 1 complete</span>
   </div>
   <p style="font-size:13px;color:var(--text-secondary);margin:0 0 10px">Full mission-by-mission design in CAMPAIGN.md. Act 1 ships in v1; Acts 2–3 are the free update. Click a mission chip to start building it. Biggest engine prerequisite: the allied AI faction (M11, M18).</p>
   <p style="font-size:13px;font-weight:500;margin:6px 0 2px">Act 1 — The Crystal War (ships in v1)</p>
@@ -141,6 +141,9 @@ const TRACKS = {
   ],
 };
 const SHIPPED = [
+  'ACT 1 IS COMPLETE (Jul 27): missions 4-6 built — Dig In (hold an expansion while Krauss hunts your power plants), Ghost Survey (no base at all: one squad, heavy swamp, steal his drilling logs and walk out), and Countdown (a live launch clock on the HUD). Shipped with them: survive and deadline objectives, commando missions with no HQ, scripted enemy nuke launches, and waves that hunt a building type. The paid tier goes from 1 mission to 4',
+  'Dams are built by hand (Jul 27): the Hydro Dam cannot raise itself — an engineer must stand at the site for the whole build, placing one dispatches a crew automatically, and you cannot buy past it. The raptor den now erupts with 5-7 raptors at 2x size, is unkillable in its first appearance, and the camera swings onto it even if your mouse is parked at a screen edge',
+  'Dam crossings are single file (Jul 27): the walkway is one plank wide, your column queues nose to tail, and stepping off into the current drowns you — blow a dam mid-crossing and the river finishes the job. Roaming wildlife no longer pins against shorelines',
   'MISSION 7 "High Water Mark" BUILT (Jul 26) — the Act 1 finale, and the first campaign mission fought against a live red base (real AI, real assault waves). Build a Hydro Dam, break both river forts, put Krauss\'s headquarters in the mud — then the victory speech gets interrupted by a den erupting under the ruins you just took. Full win chain, lose path, and an 18k-tick hands-off soak all verified clean',
   'Three roster maps shipped (Jul 26): High Water Mark, Twin Forks, Overgrown Basin — 11 of 15 built',
   'Rivers, Hydro Dam and building sell (Jul 25-26): meandering water with a layered flowing surface, a dam that spans the channel and doubles as an infantry-only footbridge, and a sell button on every building but the HQ',
@@ -227,9 +230,9 @@ const ACTS = {
     ['M1','Landfall','Outpost, scouting, the retaliation probe, and the first live capture','built'],
     ['M2','Claim Jumpers','Convoy escort vs Krauss\'s raiders — the war starts as a mining claim dispute','built'],
     ['M3','The Nest Problem','First artillery, first nest crack; Lin objects on the record','built'],
-    ['M4','Dig In','Red\'s offensive targets your power plants — the brownout lesson, received'],
-    ['M5','Ghost Survey','Commando raid; the stolen data reveals the Heart Crystal signal'],
-    ['M6','Countdown','Kill Krauss\'s silo before the launch clock runs out'],
+    ['M4','Dig In','Red\'s offensive targets your power plants — the brownout lesson, received','built'],
+    ['M5','Ghost Survey','Commando raid; the stolen data reveals the Heart Crystal signal','built'],
+    ['M6','Countdown','Kill Krauss\'s silo before the launch clock runs out','built'],
     ['M7','High Water Mark','Win the war — then a den erupts under the ruins. Act 1 ends mid-victory-speech','built'],
   ],
   act2: [

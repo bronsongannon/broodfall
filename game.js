@@ -760,6 +760,212 @@ const MISSIONS = [
     loseText: 'The nest problem solved you instead. Survey command is re-reading Dr. Lin\'s objection with fresh respect.',
   },
   {
+    // M4 — the defensive toolkit mission. Everything red sends is SCRIPTED
+    // (noEnemy), because a live AI would let the player rush instead of dig in.
+    // The teaching beat: raiders `aim` at power plants, so the player learns the
+    // brownout from the receiving end while their turrets slow to half rate.
+    title: 'Dig In', act: 'Act I — The Crystal War',
+    map: 'gauntlet', diff: 'normal', noEnemy: true,
+    brief: [
+      ['ops', 'Rubicon has stopped pretending this is paperwork, Commander. Their survey teams pulled back overnight and their armor moved up. That means an offensive.'],
+      ['ops', 'We are not going to sit in the camp and take it. The center field of the Gauntlet is the richest ground on this map — we take it, we fortify it, and we make Krauss pay for every meter.'],
+      ['red', 'Open channel, Rubicon Actual: you are welcome to try holding the middle. I have been watching how you power that little camp of yours. Everything you own runs off a handful of very soft buildings.'],
+      ['sci', 'He is not wrong, Commander. Turrets without power are ornaments. Keep the grid alive or the wall stops being a wall.'],
+    ],
+    intro: [
+      ['ops', 'First, the tenants. There is a nest sitting on the center field — you know the drill by now. Artillery, from beyond the leash.'],
+    ],
+    objectives: [
+      { id: 'nest',   text: 'Clear the nest off the center field', type: 'destroy', bld: 'nest', x: 1416, y: 1062, r: 170, mark: [1416, 1062] },
+      { id: 'ref',    text: 'Build a Refinery on the center field', type: 'built', bld: 'refinery', count: 1, x: 1536, y: 1152, r: 430, hidden: true, mark: [1536, 1152] },
+      { id: 'plant',  text: 'Build a Power Plant at the expansion (O)', type: 'built', bld: 'power', count: 1, x: 1536, y: 1152, r: 430, hidden: true },
+      { id: 'turret', text: 'Anchor two Turrets at the expansion (T)', type: 'built', bld: 'turret', count: 2, x: 1536, y: 1152, r: 430, hidden: true },
+      { id: 'hold',   text: 'Hold the expansion', type: 'survive', secs: 360, hidden: true },
+    ],
+    winWhen: ['nest', 'ref', 'plant', 'turret', 'hold'],
+    triggers: [
+      { when: { done: ['nest'] }, objective: 'ref',
+        say: [['ops', 'Mound down. Now plant a Refinery on that field — the crystal under it is what this whole fight is about.']] },
+      { when: { done: ['ref'] }, objective: ['plant', 'turret'],
+        say: [['ops', 'Refinery online. Now make it a position, not a target: a Power Plant to run the guns, and two Turrets to be the guns.'],
+              ['sci', 'And keep the plant behind the turrets, not in front of them. I should not have to say that. I am saying it anyway.']] },
+      { when: { done: ['plant', 'turret'] }, objective: 'hold', alarm: '⚠ Rubicon armor inbound!',
+        say: [['red', 'There it is. A refinery, a power plant, and two guns you cannot afford to lose. Thank you for putting them all in one place.'],
+              ['ops', 'Contacts on the east approach. Dig in, Commander — hold this ground and the middle of the map is ours.']] },
+      // the siege: raiders go for the PLANTS, and the pressure escalates
+      { when: { done: ['plant', 'turret'], notDone: ['hold'] }, delay: 6, repeat: true, every: 42,
+        spawn: { unit: 'raider', team: 2, n: 2, at: [3000, 1152], aim: 'power', order: 'attackhq' } },
+      { when: { done: ['plant', 'turret'], notDone: ['hold'] }, delay: 70, repeat: true, every: 55,
+        spawn: { unit: 'marine', team: 2, n: 3, at: [2990, 940], aim: 'turret', order: 'attackhq' } },
+      { when: { done: ['plant', 'turret'] }, delay: 120,
+        say: [['red', 'Cut the power and the wall is just masonry. Second element — find their plants.']] },
+      { when: { done: ['plant', 'turret'], notDone: ['hold'] }, delay: 130, repeat: true, every: 60,
+        spawn: { unit: 'tank', team: 2, n: 1, at: [3000, 1360], aim: 'power', order: 'attackhq' } },
+      { when: { done: ['plant', 'turret'] }, delay: 210, alarm: '⚠ Heavy push on the expansion!',
+        spawn: [
+          { unit: 'tank',   team: 2, n: 2, at: [3000, 1152], aim: 'power', order: 'attackhq' },
+          { unit: 'rocket', team: 2, n: 3, at: [2990, 1300], aim: 'turret', order: 'attackhq' },
+        ],
+        say: [['ops', 'That is everything he has been holding back. Repair through it, Commander — Engineers on the turrets, and keep the grid up.']] },
+      { when: { done: ['plant', 'turret'], notDone: ['hold'] }, delay: 290, repeat: true, every: 45,
+        spawn: { unit: 'raider', team: 2, n: 3, at: [2990, 980], aim: 'power', order: 'attackhq' } },
+      { when: { done: ['hold'] },
+        say: [['red', 'Enough. Pull them back. ...Noted, Commander. You dig well.']] },
+    ],
+    outro: [
+      ['ops', 'The line held and the field is ours. That is the first ground Rubicon has actually lost, Commander.'],
+      ['sci', 'I logged something odd through all of it. Every time their armor came through the pass, the nests along the ridge went quiet. Not scattered — quiet. Listening.'],
+    ],
+    winText: 'The center of the Gauntlet belongs to the expedition, and Rubicon knows the cost of taking it back. Somewhere under the ridge, something counted the shots.',
+    loseText: 'The expansion is slag and the center field is Rubicon\'s. Krauss found the power plants first, exactly as he said he would.',
+  },
+  {
+    // M5 — the commando mission: `noBase` means NO player HQ at all, so checkEnd
+    // switches to "lose when the last of the squad falls". No economy, no
+    // reinforcements — the squad you land with is the squad you leave with.
+    title: 'Ghost Survey', act: 'Act I — The Crystal War',
+    map: 'fen', diff: 'normal', noEnemy: true, noBase: true, start: [600, 1900],
+    // The squad has no economy and no replacements, so the fen's center
+    // double-nest (six spitters astride the only sensible route) is a mission
+    // ender rather than a hazard — verified by walking a marine into it. The
+    // center field keeps its crystal for looks and loses its guards; the two
+    // flank nests move off the causeway mouths so they can be avoided, not
+    // blundered into through heavy fog.
+    fields: [
+      { p: [922, 1152],  n: 7,  a: 2300, nests: [[800, 1330]] },
+      { p: [2150, 1152], n: 7,  a: 2300, nests: [[2050, 1000]] },
+      { p: [1536, 1152], n: 10, a: 3000 },
+    ],
+    brief: [
+      ['ops', 'No base this time, Commander. One transport, one squad, and a swamp Rubicon thinks is empty.'],
+      ['ops', 'Krauss has three survey relays strung across Blackwater Fen feeding a field lab on the north bank. We are going to take the relays off the board and walk out of that lab with his geological data.'],
+      ['sci', 'I want the drilling logs specifically. He has been sinking bores far deeper than any crystal deposit justifies, and I would very much like to know what he thinks is down there.'],
+      ['ops', 'Fog is heavy and the causeways are the only crossings. Move carefully — nothing is coming to bail you out.'],
+    ],
+    intro: [
+      ['ops', 'Squad is on the ground. Relays are marked — work north, and use the medic. Every body you lose is a body you do not get back.'],
+    ],
+    objectives: [
+      { id: 'relays',  text: 'Destroy Krauss\'s three survey relays', type: 'groupDead', group: 'relays', mark: [700, 980] },
+      { id: 'lab',     text: 'Reach the field lab and pull the drilling logs', type: 'reach', x: 2450, y: 300, r: 150, hidden: true, mark: [2450, 300] },
+      { id: 'exfil',   text: 'Get the squad back to the landing zone (3+ alive)', type: 'groupReach', group: 'squad', x: 600, y: 1900, r: 220, count: 3, hidden: true, mark: [600, 1900] },
+    ],
+    winWhen: ['relays', 'lab', 'exfil'],
+    triggers: [
+      { when: { time: 0.5 },
+        spawn: [
+          { group: 'squad', unit: 'marine',   team: 1, n: 4, at: [600, 1900] },
+          { group: 'squad', unit: 'sniper',   team: 1, n: 2, at: [660, 1960] },
+          { group: 'squad', unit: 'medic',    team: 1, n: 1, at: [540, 1960] },
+          { group: 'squad', unit: 'engineer', team: 1, n: 1, at: [600, 2010] },
+          { group: 'squad', unit: 'apc',      team: 1, n: 1, at: [700, 1860] },
+          // Krauss's quiet little network
+          { group: 'relays', bld: 'supply', team: 2, at: [700, 980] },
+          { group: 'relays', bld: 'supply', team: 2, at: [2400, 1330] },
+          { group: 'relays', bld: 'supply', team: 2, at: [1350, 420] },
+          { bld: 'barracks', team: 2, at: [2450, 300] },
+          { bld: 'turret',   team: 2, at: [2300, 380] },
+          { bld: 'turret',   team: 2, at: [2560, 420] },
+          { unit: 'marine', team: 2, n: 2, at: [760, 1040], order: 'guard' },
+          { unit: 'marine', team: 2, n: 2, at: [2340, 1280], order: 'guard' },
+          { unit: 'marine', team: 2, n: 3, at: [1400, 480],  order: 'guard' },
+        ] },
+      { when: { time: 14 },
+        say: [['sci', 'The relays are listening posts, Commander — if one of them sees you before it dies, the lab knows you are coming.']] },
+      { when: { groupDead: 'relays' }, objective: 'lab',
+        say: [['ops', 'All three relays are dark. Krauss just went blind across the whole fen.'],
+              ['red', 'Relay net is down. ...All of it? In a swamp? Get me eyes on the north bank, now.']] },
+      // he starts sweeping for you once the relays drop
+      { when: { groupDead: 'relays', notDone: ['exfil'] }, delay: 25, repeat: true, every: 50,
+        spawn: { unit: 'raider', team: 2, n: 2, at: [2900, 200], order: 'attackhq', to: [1500, 900] } },
+      { when: { done: ['lab'] }, objective: 'exfil', alarm: '⚠ Data pulled — Rubicon is hunting the squad!',
+        say: [['sci', 'I have the logs. Commander, his deepest bore is four kilometers down and still reading crystal. That is not a deposit. A deposit has a bottom.'],
+              ['ops', 'Understood. Everyone out — back to the landing zone, and do not stop to win anything.']] },
+      { when: { done: ['lab'], notDone: ['exfil'] }, delay: 12, repeat: true, every: 40,
+        spawn: { unit: 'marine', team: 2, n: 3, at: [2500, 250], order: 'attackhq', to: [900, 1700] } },
+      // the squad is the mission — lose too many and there is nothing to extract
+      { when: { groupBelow: ['squad', 3] }, lose: true },
+    ],
+    outro: [
+      ['ops', 'Transport is up and everyone aboard is breathing. Clean work in a filthy swamp, Commander.'],
+      ['sci', 'I have been reading these logs the whole flight back and I want to be very careful about what I say next.'],
+      ['sci', 'Krauss is not drilling toward a crystal deposit. He is drilling toward a single crystal. One structure, kilometers across, and the seismic returns say it is not inert. It has a rhythm.'],
+      ['ops', 'A rhythm.'],
+      ['sci', 'A slow one. I would like to be wrong about this.'],
+    ],
+    winText: 'The relays are dead, the drilling logs are in expedition hands, and Dr. Lin has stopped sleeping. Whatever Rubicon is digging toward, it has a pulse.',
+    loseText: 'The squad did not come out of the fen. Rubicon\'s relays are still listening, and nobody up the chain knows what Krauss is drilling toward.',
+  },
+  {
+    // M6 — the deadline mission. The silo objective carries `limit` + onExpire
+    // 'lose', so the HUD runs a live countdown and running it out ends the run.
+    // Mid-mission Krauss fires a scripted tac nuke (trigger action `nuke`) at
+    // the center nest field: the direct fuse for Act 2.
+    title: 'Countdown', act: 'Act I — The Crystal War',
+    map: 'silo', diff: 'normal', noEnemy: true,
+    brief: [
+      ['ops', 'Priority flash, Commander. Rubicon has a missile silo on the east side of the Silo Fields and our intercepts say it is fuelling now. The targeting package is our headquarters.'],
+      ['red', 'Rubicon Actual, recorded for the claim board: the expedition has repeatedly interfered with lawful resource operations. Escalation is regrettable and entirely theirs.'],
+      ['ops', 'He has built a defense line to buy the clock time. We do not have time to be elegant — assemble, push east, and put that silo in the ground.'],
+      ['sci', 'And Commander — he has been firing tactical warheads into nest fields all week to clear ground. Whatever he thinks he is clearing, he is not clearing it. He is waking it.'],
+    ],
+    intro: [
+      ['ops', 'Orbital dropped a strike element with you. Clock is live and it is not generous — build what you need and move.'],
+    ],
+    objectives: [
+      { id: 'silo', text: 'Destroy Krauss\'s missile silo', type: 'destroy', bld: 'silo', x: 2700, y: 1152, r: 240,
+        limit: 720, onExpire: 'lose', mark: [2700, 1152] },
+    ],
+    winWhen: ['silo'],
+    triggers: [
+      { when: { time: 0.5 }, crystals: 500,
+        spawn: [
+          { unit: 'tank',   team: 1, n: 2, at: [430, 1290] },
+          { unit: 'rocket', team: 1, n: 2, at: [500, 1360] },
+          { unit: 'marine', team: 1, n: 3, at: [380, 1380] },
+          // Krauss's silo complex and the line built to buy it time
+          { bld: 'silo',   team: 2, at: [2700, 1152] },
+          { bld: 'power',  team: 2, at: [2860, 1040] },
+          { bld: 'power',  team: 2, at: [2860, 1270] },
+          { bld: 'turret', team: 2, at: [2430, 980] },
+          { bld: 'turret', team: 2, at: [2430, 1330] },
+          { bld: 'turret', team: 2, at: [2560, 1152] },
+          { bld: 'supply', team: 2, at: [2880, 1152] },
+          { unit: 'marine', team: 2, n: 4, at: [2480, 1152], order: 'guard' },
+          { unit: 'tank',   team: 2, n: 2, at: [2600, 1000], order: 'guard' },
+        ] },
+      { when: { time: 20 },
+        say: [['sci', 'The silo is drawing power from two plants behind the line. Take those and the launch stalls — it will not stop the clock, but it will slow it.']] },
+      // scripted counterattacks: he is buying minutes, not winning
+      { when: { time: 75, notDone: ['silo'] }, repeat: true, every: 60,
+        spawn: { unit: 'raider', team: 2, n: 2, at: [2900, 900], order: 'attackhq' } },
+      { when: { time: 150, notDone: ['silo'] }, repeat: true, every: 75,
+        spawn: { unit: 'tank', team: 2, n: 1, at: [2900, 1400], order: 'attackhq' } },
+      // the fuse for Act 2 — he nukes a nest field to clear ground, on camera
+      { when: { time: 235, notDone: ['silo'] }, focus: [1536, 1152],
+        say: [['red', 'Clearance shot on the center field. Log it as geological obstruction removal.']] },
+      // a salvo, one warhead per colony — a single shell at the midpoint left
+      // one mound standing on 87hp and made Lin's next line a lie
+      { when: { time: 240, notDone: ['silo'] },
+        nuke: [{ at: [1426, 1042] }, { at: [1646, 1262] }],
+        say: [['sci', 'He is firing on the CENTER FIELD? There are two colonies on that ground — Commander, if you have anything near the middle of this map, move it NOW.']] },
+      { when: { time: 278, notDone: ['silo'] },
+        say: [['sci', 'Seismographs just went off the scale, and it is not the blast. The hum did not stop when the colonies died. It got LOUDER. Something answered that.'],
+              ['ops', 'Log it and keep it off the open channel, doctor. One war at a time.']] },
+      { when: { time: 420, notDone: ['silo'] },
+        say: [['ops', 'Six minutes on the clock, Commander. Whatever is left of that line, go through it.']] },
+      { when: { time: 600, notDone: ['silo'] }, alarm: '⚠ Two minutes to launch!',
+        say: [['red', 'Fuelling complete. Two minutes. I would start running, but I am told you people dig in.']] },
+    ],
+    outro: [
+      ['ops', 'Silo is wreckage and the warhead never left the tube. That was closer than I will be putting in the report.'],
+      ['red', 'An expensive afternoon. ...You should know the launch order did not originate with me. I only build what the claim board pays for.'],
+      ['sci', 'Commander — while you were shooting, I was listening. The field he burned is still humming. Dead colonies do not hum. Something is using them.'],
+    ],
+    winText: 'The warhead is scrap and Krauss is answering to a claim board that wanted it fired. Under the burned center field, the hum has not stopped — and now it has company.',
+    loseText: 'The countdown reached zero. Expedition headquarters is a crater, and Rubicon\'s claim board files the loss as geological obstruction removal.',
+  },
+  {
     // Act 1 finale. First mission fought against a LIVE red base — noEnemy is off,
     // so placeBase(2), the base-building AI and the assault waves all run. The act
     // ends mid-victory-speech: the HQ kill is NOT the win condition, the den that
@@ -1790,7 +1996,8 @@ function setup(mapKey) {
   buildTerrainGrid();
   groundM = M;
   paintGround(M);
-  const pHQ = placeBase(1, M);
+  // commando missions field no base at all — just the squad the triggers drop
+  const pHQ = (mission && mission.noBase) ? null : placeBase(1, M);
   if (!(mission && mission.noEnemy)) placeBase(2, M);
 
   // neutral fields + their nest guards — clear the nest or mine poor.
@@ -1820,9 +2027,11 @@ function setup(mapKey) {
     }
   }
 
-  // camera centered on the player base (clamped to the world edge)
-  cam.x = pHQ.x - view.w / 2;
-  cam.y = pHQ.y - view.h / 2;
+  // camera centered on the player base — or, with no base, the insertion point
+  const home = pHQ || { x: (mission && mission.start) ? mission.start[0] : W / 2,
+                        y: (mission && mission.start) ? mission.start[1] : H / 2 };
+  cam.x = home.x - view.w / 2;
+  cam.y = home.y - view.h / 2;
   clampCam();
   updateFog();
 }
@@ -3363,6 +3572,12 @@ function checkEnd() {
   const pAlive = buildings.some(b => b.team === 1 && b.type === 'hq');
   if (mission) {
     // campaign: victory comes from objectives (missionUpdate); HQ loss is always defeat
+    // — except on commando missions, where there IS no HQ and the squad is the
+    // mission: you lose when the last of them falls.
+    if (mission.noBase) {
+      if (tick > 120 && !units.some(u => u.team === 1 && u.hp > 0)) missionEnd(false);
+      return;
+    }
     if (!pAlive) missionEnd(false);
     return;
   }
@@ -6314,7 +6529,7 @@ function missionInit(idx) {
     idx,
     // reach objectives mark their own spot; anything else can set an explicit mark
     objectives: mission.objectives.map(o => ({
-      ...o, done: false, active: !o.hidden,
+      ...o, done: false, active: !o.hidden, startAt: 0,
       mark: o.mark || (o.type === 'reach' ? [o.x, o.y] : null),
     })),
     triggers: (mission.triggers || []).map(t => ({ ...t, fired: false, armedAt: -1 })),
@@ -6465,19 +6680,30 @@ let lastObjSig = '';
 function refreshObjectives() {
   if (!mission || !ms) { elObjectives.classList.add('hidden'); lastObjSig = ''; return; }
   const objs = ms.objectives.filter(o => o.active);
-  const sig = objs.map(o => o.id + (o.done ? '1' : '0')).join(',');
+  // clocks are in the signature so the countdown actually repaints each second
+  const sig = objs.map(o => o.id + (o.done ? '1' : '0') + (objClock(o) ?? '')).join(',');
   if (sig === lastObjSig) return;
   lastObjSig = sig;
   elObjTitle.textContent = `Mission ${ms.idx + 1} — ${mission.title}`;
-  elObjList.innerHTML = objs.map(o =>
-    `<div class="obj${o.done ? ' done' : ''}">${o.done ? '✔' : '◈'} ${o.text}</div>`).join('');
+  elObjList.innerHTML = objs.map(o => {
+    const c = objClock(o);
+    const clock = c == null ? ''
+      : `<span class="obj-clock${c <= 60 ? ' urgent' : ''}">${mmss(c)}</span>`;
+    return `<div class="obj${o.done ? ' done' : ''}">${o.done ? '✔' : '◈'} ${o.text}${clock}</div>`;
+  }).join('');
   elObjectives.classList.remove('hidden');
 }
 
 function objMet(o) {
   switch (o.type) {
     case 'unitCount': return units.filter(u => u.team === 1 && u.hp > 0 && u.type === o.unit).length >= o.count;
-    case 'built': return buildings.filter(b => b.team === 1 && b.hp > 0 && b.type === o.bld && b.built >= 1).length >= o.count;
+    // `built` takes an optional x/y/r so a mission can demand it HERE, not anywhere
+    case 'built': return buildings.filter(b => b.team === 1 && b.hp > 0 && b.type === o.bld && b.built >= 1
+      && (o.r == null || dist2(b.x, b.y, o.x, o.y) < o.r * o.r)).length >= o.count;
+    // hold the line for N seconds — the clock starts when the objective appears
+    case 'survive': return tick >= (o.startAt || 0) + o.secs * 60;
+    // every tagged structure in a spawn group is rubble (relay sweeps)
+    case 'groupDead': { const g = groupAlive(o.group); return !!g && g.length === 0; }
     case 'mined': return stats.mined >= o.amount;
     case 'reach': return units.some(u => u.team === 1 && u.hp > 0 && dist2(u.x, u.y, o.x, o.y) < o.r * o.r);
     case 'captive': return teams[1].captives >= o.count;
@@ -6486,9 +6712,16 @@ function objMet(o) {
       const g = groupAlive(o.group) || [];
       return g.filter(u => dist2(u.x, u.y, o.x, o.y) < o.r * o.r).length >= o.count;
     }
-    // no living hostile building of this type left near the mark (nest cracks)
-    case 'destroy': return !buildings.some(b =>
-      b.team !== 1 && b.hp > 0 && b.type === o.bld && dist2(b.x, b.y, o.x, o.y) < o.r * o.r);
+    // no living hostile building of this type left near the mark (nest cracks).
+    // It must have been THERE first: a target the mission spawns on a trigger
+    // doesn't exist at tick 0, and without `seen` the objective completes
+    // instantly (M6 was won before Krauss's silo was built).
+    case 'destroy': {
+      const alive = buildings.some(b =>
+        b.team !== 1 && b.hp > 0 && b.type === o.bld && dist2(b.x, b.y, o.x, o.y) < o.r * o.r);
+      if (alive) o.seen = true;
+      return !!o.seen && !alive;
+    }
     case 'flag': return !!ms.flags[o.id];
   }
   return false;
@@ -6525,8 +6758,17 @@ function activateObjective(id) {
   const o = ms.objectives.find(o => o.id === id);
   if (!o || o.active) return;
   o.active = true;
+  o.startAt = tick;   // survive/limit clocks run from the moment the order lands
   toast('◈ New objective: ' + o.text); snd.ready();
 }
+// seconds left on an objective's clock: `secs` counts down to completion
+// (survive), `limit` counts down to failure (deadline). null = no clock.
+function objClock(o) {
+  const span = o.type === 'survive' ? o.secs : o.limit;
+  if (span == null || o.done) return null;
+  return Math.max(0, Math.ceil(span - (tick - (o.startAt || 0)) / 60));
+}
+const mmss = (s) => Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
 function doSpawn(sp) {
   const ids = sp.group ? (ms.groups[sp.group] = ms.groups[sp.group] || []) : null;
   const hq = buildings.find(b => b.team === 1 && b.type === 'hq');
@@ -6544,7 +6786,12 @@ function doSpawn(sp) {
     const u = makeUnit(sp.unit, sp.team || 3,
       clamp(sp.at[0] + (i % 3) * 30 - 30, 20, W - 20),
       clamp(sp.at[1] + ((i / 3) | 0) * 30 - i * 10, 20, H - 20));
-    if (sp.order === 'attackhq' && hq) u.order = { type: 'attackmove', x: hq.x, y: hq.y };
+    // `aim` sends a wave after a KIND of structure — Krauss's raiders going
+    // for the power plants first is the whole lesson of M4
+    const aimed = sp.aim && buildings.filter(b => b.team === 1 && b.hp > 0 && b.type === sp.aim)
+      .sort((a, b2) => dist2(a.x, a.y, sp.at[0], sp.at[1]) - dist2(b2.x, b2.y, sp.at[0], sp.at[1]))[0];
+    if (aimed) u.order = { type: 'attackmove', x: aimed.x, y: aimed.y };
+    else if (sp.order === 'attackhq' && hq) u.order = { type: 'attackmove', x: hq.x, y: hq.y };
     else if (sp.order === 'guard') u.order = { type: 'guard', hx: u.x, hy: u.y };
     else if (sp.to) u.order = { type: isCombat(u) ? 'attackmove' : 'move', x: sp.to[0], y: sp.to[1] };
     if (sp.specimen) u.specimen = true;   // protected: player weapons won't track it
@@ -6569,6 +6816,15 @@ function fireTrigger(t) {
   if (t.spawn) for (const sp of [].concat(t.spawn)) doSpawn(sp);
   if (t.alarm) { toast(t.alarm); snd.alarm(); }
   if (t.focus) focusCam(t.focus[0], t.focus[1]);   // scripted event camera
+  // a launch the story orders — no silo required, unlike the player's
+  if (t.nuke) {
+    for (const n of [].concat(t.nuke)) {
+      nukes.push({ x: n.at[0], y: n.at[1], team: n.team || 2,
+                   tier: n.tier || 'tac', t: 0, max: NUKE_COUNTDOWN });
+    }
+    toast('☢ NUCLEAR LAUNCH DETECTED — impact in 30 seconds!');
+    snd.launch();
+  }
   if (t.crystals) teams[1].crystals += t.crystals;
   if (t.lose) missionEnd(false);   // scripted defeat (convoy lost, etc.)
 }
@@ -6578,7 +6834,15 @@ function missionUpdate() {
   dlgUpdate();
   if (tick % 10 !== 0) return;
   for (const o of ms.objectives) {
-    if (!o.active || o.done || !objMet(o)) continue;
+    if (!o.active || o.done) continue;
+    // a deadline that runs out: the mission decides what that costs
+    if (o.limit != null && objClock(o) === 0) {
+      o.expired = true;
+      if (o.onExpire === 'lose') { missionEnd(false); return; }
+      o.limit = null;   // soft deadline — the clock just stops mattering
+      continue;
+    }
+    if (!objMet(o)) continue;
     o.done = true;
     toast('✔ ' + o.text); snd.ready();
   }

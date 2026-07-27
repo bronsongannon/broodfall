@@ -59,14 +59,14 @@ with brute infantry losses broadcast on open comms. Lin objects ON THE RECORD:
 salvage introduces hatching your own spitters. *needs: nothing — artillery,
 nests, eggs, and capture all exist today.*
 
-**M4 — "Dig In."** Red's answer: his first real offensive. Hold your expansion
+**M4 — "Dig In."** ✅ BUILT (2026-07-27). Red's answer: his first real offensive. Hold your expansion
 through escalating assault waves — and his raiders target your POWER PLANTS
 first, teaching the brownout lesson from the receiving end while turrets slow
 to half rate. Turrets, flak, repair bays, depot fields, grid discipline: the
 whole defensive toolkit in one siege. *needs: survive-N-waves objective
 (timer + wave-count trigger).*
 
-**M5 — "Ghost Survey."** The commando raid: no base, one APC of infantry and a
+**M5 — "Ghost Survey."** ✅ BUILT (2026-07-27). The commando raid: no base, one APC of infantry and a
 medic, deep in red territory through heavy fog. Destroy three survey relays and
 steal Krauss's geological data from his field lab — data that reveals what he's
 REALLY drilling toward: a crystal signal too deep and too big to be a deposit.
@@ -74,7 +74,7 @@ The Heart Crystal enters the story fifteen missions before anyone sees it.
 Teaches APC micro, hunker, medics, and fighting without an economy. *needs:
 destroy-tagged-buildings objective (bldGroup dead — small).*
 
-**M6 — "Countdown."** Krauss builds a silo with your HQ's name on it. Kill it
+**M6 — "Countdown."** ✅ BUILT (2026-07-27). Krauss builds a silo with your HQ's name on it. Kill it
 before the launch clock runs out — punching through a defense line built to buy
 that clock time. Meanwhile his tac nukes are strip-mining nest fields off-map
 and Lin's seismographs are screaming: the direct fuse for M8. Teaches the nuke

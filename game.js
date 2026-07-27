@@ -46,7 +46,10 @@ const cam = { x: 0, y: 0 };
 // event camera: swing to something the player must not miss (a den erupting)
 // and hold it there for a beat. Any camera input cancels the hold.
 let camFocus = null;
-function focusCam(x, y, hold = 200) { camFocus = { x, y, hold }; }
+// `lock` ticks are uninterruptible: a mouse resting near a screen edge counts
+// as camera input, and that was silently eating the pan before it ever moved
+// (playtest 2026-07-26: "I still didn't get an immediate camera pan").
+function focusCam(x, y, hold = 200, lock = 50) { camFocus = { x, y, hold, lock }; }
 function clampCam() {
   cam.x = Math.max(0, Math.min(Math.max(0, W - view.w), cam.x));
   cam.y = Math.max(0, Math.min(Math.max(0, H - view.h), cam.y));
@@ -118,7 +121,7 @@ const BLD = {
   // hydro: river-only mega-generator (Bronson 2026-07-25: "no need for a ton
   // of power plants... but expensive/take time"). 3 plants' output for ~3.3x
   // the price and 3.3x the build time; must stand ON a water channel.
-  hydro:    { label: 'Hydro Dam',    hp: 600,  w: 84, h: 64, supply: 0,  sight: 200, cost: 400, buildTime: 30 * 60, gen: 30, req: ['power'], water: 1 },
+  hydro:    { label: 'Hydro Dam',    hp: 600,  w: 84, h: 64, supply: 0,  sight: 200, cost: 400, buildTime: 30 * 60, gen: 30, req: ['power'], water: 1, needsEngineer: 1 },
   refinery: { label: 'Refinery',     hp: 700,  w: 70, h: 70, supply: 0,  sight: 240, cost: 175, buildTime: 12 * 60, req: ['supply'] },
   airpad:   { label: 'Airpad',       hp: 600,  w: 62, h: 62, supply: 2,  sight: 220, trains: ['gunship', 'harrier'], cost: 175, buildTime: 12 * 60, req: ['factory'], pow: 3 },
   // Endgame. Buy warheads here; the defender gets 30 loud seconds to react.
@@ -133,7 +136,7 @@ const BLD = {
   // den HUNTS — periodic raptor packs sent at the nearest structure of ANY
   // faction (dinos are weather, not a team). Act 2's proactive-dino lever;
   // no skirmish map places one yet, missions spawn them via bld triggers.
-  den:      { label: 'Raptor Den',   hp: 1100, w: 72, h: 72, supply: 0,  sight: 220 },
+  den:      { label: 'Raptor Den',   hp: 2200, w: 144, h: 144, supply: 0, sight: 240 },
 };
 const DEPOT_HEAL_RADIUS = 240;   // the depot's repair field
 const DEPOT_HEAL_RATE = 0.06;    // hp/tick per depot — a fraction of an engineer's 0.55
@@ -146,10 +149,15 @@ const NEST_LEASH = 360;        // guards give up the chase past this radius from
 const NEST_EGGS = 3;           // eggs left in the rubble when a nest dies
 const NEST_BURST_CD = 30 * 60; // hitting a nest makes 2-3 extra defenders erupt (once per cooldown)
 const SPITTER_CAP = 5;         // max hatched spitters a side can field at once
-const DEN_GUARDS = 2;          // raptors watching the den door from birth
+// a den does not creep out of the ground — it ERUPTS, and the pack is already
+// coming (Bronson 2026-07-26). Birth burst, not a pair of door guards.
+const DEN_BIRTH_MIN = 5, DEN_BIRTH_MAX = 7;
 const DEN_PACK_SIZE = 3;       // raptors per hunting pack
 const DEN_PACK_EVERY = 50 * 60; // a new hunt leaves the den every 50s
-const DEN_RAPTOR_CAP = 9;      // max living raptors per den — hunts pause at cap
+const DEN_RAPTOR_CAP = 12;     // max living raptors per den — hunts pause at cap
+// an engineer must stand at the site for the whole build. Wide enough that a
+// crew on the bank can raise a dam spanning mid-channel (WALK_HALF_L is 155).
+const ENG_BUILD_RANGE = 175;
 const HARRIER_CAP = 5;         // max harriers a side can field (alive + queued)
 const HARRIER_REARM = 7 * 60;  // seconds on the pad between sorties
 
@@ -823,10 +831,9 @@ const MISSIONS = [
               ['ops', 'Commander — on behalf of the expedition, that is the war. The crystal fields are ours, the charter is ours, and as of this moment Rubicon Mining\'s claim on this planet is—']] },
       { when: { done: ['hq'] }, delay: 7, objective: 'brood', alarm: '⚠ Seismic rupture under the enemy ruins!',
         focus: [2760, 1180],   // the act's cliffhanger — put it on screen, always
-        spawn: [
-          { group: 'den', bld: 'den', at: [2760, 1180] },
-          { unit: 'raptor', team: 3, n: 4, at: [2700, 1100], order: 'attackhq' },
-        ],
+        // invuln: Act 1 does NOT get to answer this. The den erupts, the pack
+        // it births comes with it, and the act ends whatever the player does.
+        spawn: [{ group: 'den', bld: 'den', at: [2760, 1180], invuln: true }],
         say: [['sci', 'THE GROUND — Commander, get your people off that ridge, the whole plate just—']] },
       { when: { done: ['hq'] }, delay: 22,
         say: [['ops', 'What IS that? They came up through the foundations. Through solid rock, doctor, how—'],
@@ -1427,7 +1434,8 @@ function spawnRaptor(den) {
 function makeDen(x, y) {
   const b = makeBuilding('den', 3, x, y);
   b.packT = 0;
-  for (let i = 0; i < DEN_GUARDS; i++) spawnRaptor(b);
+  const burst = DEN_BIRTH_MIN + Math.floor(Math.random() * (DEN_BIRTH_MAX - DEN_BIRTH_MIN + 1));
+  for (let i = 0; i < burst; i++) spawnRaptor(b);
   // A den tearing open mid-match is the scariest beat in the game and it was
   // being missed entirely (playtest 2026-07-26: "I never saw one, at all").
   // Swing the camera onto it — but only if the player can actually see the
@@ -1877,6 +1885,24 @@ function nearestWoundedAlly(u, range, pred) {
   }
   return best;
 }
+// is a live engineer of this building's team standing at the site?
+function engineerNear(b) {
+  for (const u of units) {
+    if (u.hp <= 0 || u.type !== 'engineer' || u.team !== b.team) continue;
+    if (dist(u.x, u.y, b.x, b.y) - b.r <= ENG_BUILD_RANGE) return u;
+  }
+  return null;
+}
+// a site of ours that is stalled (or will stall) for want of a crew
+function nearestUnbuiltSite(team, x, y, range) {
+  let best = null, bd = 1e18;
+  for (const b of buildings) {
+    if (b.team !== team || b.hp <= 0 || b.built >= 1 || !BLD[b.type].needsEngineer) continue;
+    const d = dist(x, y, b.x, b.y) - b.r;
+    if (d <= range && d * d < bd) { bd = d * d; best = b; }
+  }
+  return best;
+}
 function nearestDamagedBuilding(team, x, y, range) {
   let best = null, bd = 1e18;
   for (const b of buildings) {
@@ -1908,6 +1934,7 @@ function nearestEnemyBuilding(x, y, team, range, fromAir) {
   const ve = fromAir ? 9 : elevAt(x, y);
   for (const b of buildings) {
     if (b.team === team) continue;
+    if (b.invuln) continue;                               // unkillable set-piece — don't park the army on it
     if (team === 1 && !isVisibleAt(b.x, b.y)) continue;
     if (elevAt(b.x, b.y) > ve) continue;                  // cliff-top structures are safe from below
     const d = dist(x, y, b.x, b.y) - b.r;
@@ -2091,6 +2118,11 @@ function queueItemCost(b) {
 function rushConstruction(b, instant) {
   if (b.built >= 1) return;
   if (!instant && (b.buildBoost || 1) > 1) return;
+  // "no matter what" — you can't buy your way past the crew requirement
+  if (BLD[b.type].needsEngineer && !engineerNear(b)) {
+    if (b.team === 1) { toast('No crew on site — an engineer has to build this one'); snd.error(); }
+    return;
+  }
   const cost = BLD[b.type].cost || 0;
   const fee = instant ? cost : Math.ceil(cost / 2);
   const t = teams[b.team];
@@ -2250,6 +2282,7 @@ function fire(src, target) {
   }
 }
 function damage(e, d, src) {
+  if (e.invuln) return;   // scripted set-piece (M7's den): the story kills it, not the player
   d *= armorMult(e);
   if (e.kind === 'unit' && e.order.type === 'hunker') d *= 0.5;
   e.hp -= d;
@@ -2493,6 +2526,10 @@ function updateUnit(u) {
         const w = nearestWoundedAlly(u, 260);
         if (w) u.order = { type: 'heal', target: w };
       } else if (u.type === 'engineer') {
+        // an unmanned site outranks everything: nothing else on the field is
+        // frozen solid waiting for this engineer to walk over
+        const site = nearestUnbuiltSite(u.team, u.x, u.y, 700);
+        if (site) { u.order = { type: 'build', target: site }; break; }
         const nb = nearestDamagedBuilding(u.team, u.x, u.y, 240);
         if (nb) u.order = { type: 'repair', target: nb };
         else {
@@ -2709,6 +2746,28 @@ function updateUnit(u) {
           fxs.push({ kind: 'spark', x: t.x + (Math.random() - 0.5) * 10, y: t.y - 8, t: 0, max: 18 });
         }
         if (tick % 60 === 0 && u.team === 1) snd.repair();
+      }
+      break;
+    }
+    // stand at a site and pour it. The progress itself lives in updateBuilding
+    // (presence is what counts, so a second engineer wandering past also helps);
+    // this order is what walks the crew out there and keeps them there.
+    case 'build': {
+      const site = o.target;
+      if (!site || site.hp <= 0 || site.built >= 1) {
+        const next = nearestUnbuiltSite(u.team, u.x, u.y, 500);
+        u.order = next ? { type: 'build', target: next } : { type: 'idle' };
+        break;
+      }
+      const d = dist(u.x, u.y, site.x, site.y) - site.r;
+      if (d > ENG_BUILD_RANGE - 30) moveToward(u, site.x, site.y);
+      else {
+        u.faceA = Math.atan2(site.y - u.y, site.x - u.x);
+        if (tick % 10 === 0) {
+          fxs.push({ kind: 'spark', x: site.x + (Math.random() - 0.5) * site.w * 0.7,
+                     y: site.y + (Math.random() - 0.5) * site.h * 0.7, t: 0, max: 18 });
+        }
+        if (tick % 40 === 0 && u.team === 1) snd.repair();
       }
       break;
     }
@@ -2930,6 +2989,17 @@ function separation() {
 function updateBuilding(b) {
   if (b.hp <= 0) return;   // dead this tick — no healing, firing, or spawning from the grave
   if (b.built < 1) {
+    // Some structures don't raise themselves: a Hydro Dam is poured by hand and
+    // an engineer has to be standing at the site the whole time (Bronson
+    // 2026-07-26, "no matter what"). Lose the crew and the pour just stops.
+    if (BLD[b.type].needsEngineer && !engineerNear(b)) {
+      b.engStall = (b.engStall || 0) + 1;
+      if (b.team === 1 && b.engStall % 300 === 60) {
+        toast(`⚠ ${BLD[b.type].label} needs an engineer at the site to build`);
+      }
+      return;
+    }
+    b.engStall = 0;
     const bt = BLD[b.type].buildTime || BLD.turret.buildTime;
     b.built = Math.min(1, b.built + (b.buildBoost || 1) / bt);
     // hp accrues incrementally so combat damage during construction STICKS —
@@ -3626,6 +3696,9 @@ function canPlaceBuilding(type, wx, wy) {
   const d = BLD[type];
   if (!hasTech(1, type)) return false;
   if (teams[1].crystals < d.cost) return false;
+  // no crew, no pour — checked at placement so the ghost turns red rather than
+  // letting you spend 400 on a site nobody can raise
+  if (d.needsEngineer && !units.some(u => u.hp > 0 && u.team === 1 && u.type === 'engineer')) return false;
   if (wx < 40 || wy < 40 || wx > W - 40 || wy > H - 40) return false;
   // no building on ground you haven't scouted — the whole footprint must be
   // explored (playtest 2026-07-25: placing into black shroud felt wrong and
@@ -3662,6 +3735,8 @@ function tryPlaceBuilding(type, wx, wy) {
     if (!hasTech(1, type)) toast(`${d.label} requires: ${techLabel(type)}`);
     else if (teams[1].crystals < d.cost) toast(`Not enough crystals (${d.cost} ⬡)`);
     else if (!explored[Math.floor(wy / TILE) * MAP_W + Math.floor(wx / TILE)]) toast('That ground is unscouted — walk a unit out there first');
+    else if (d.needsEngineer && !units.some(u => u.hp > 0 && u.team === 1 && u.type === 'engineer'))
+      toast(`${d.label} is built by hand — train an Engineer first (HQ)`);
     else if (BLD[type].water) toast('The dam needs moving water — place it on a river channel');
     else if (type === 'refinery') toast('Build the refinery next to a crystal patch, on open ground');
     else toast('Build closer to your base, on open ground');
@@ -3671,6 +3746,20 @@ function tryPlaceBuilding(type, wx, wy) {
   teams[1].crystals -= d.cost;
   const nb = makeBuilding(type, 1, wx, wy, true);
   if (d.water) nb.a = riverAngleAt(wx, wy) + Math.PI / 2;   // span the channel
+  if (d.needsEngineer) {
+    // send the crew without making the player micro it: prefer one already
+    // selected, else the nearest engineer not carrying something more urgent
+    let eng = selection.find(u => u.kind === 'unit' && u.type === 'engineer' && u.hp > 0);
+    if (!eng) {
+      let bd = 1e18;
+      for (const u of units) {
+        if (u.hp <= 0 || u.team !== 1 || u.type !== 'engineer') continue;
+        const dd = dist2(u.x, u.y, wx, wy);
+        if (dd < bd) { bd = dd; eng = u; }
+      }
+    }
+    if (eng) { eng.order = { type: 'build', target: nb }; toast(`Engineer dispatched — ${d.label} needs a crew on site`); }
+  }
   placing = null; setCursor();
   beep(440, 0.09, 'sine', 0.05);
 }
@@ -3690,11 +3779,13 @@ function updateCamera() {
     if (mouse.sy < edge) { cam.y -= sp; manual = true; }
     if (mouse.sy > view.h - edge) { cam.y += sp; manual = true; }
   }
-  // the event camera yields the instant the player touches the controls
-  if (manual || miniDown) camFocus = null;
+  // the event camera yields to the player — but only once it has actually
+  // arrived, so an idle mouse parked at a screen edge can't cancel the swing
+  if (camFocus && camFocus.lock > 0) camFocus.lock--;
+  else if (manual || miniDown) camFocus = null;
   if (camFocus) {
-    cam.x += (camFocus.x - view.w / 2 - cam.x) * 0.12;
-    cam.y += (camFocus.y - view.h / 2 - cam.y) * 0.12;
+    cam.x += (camFocus.x - view.w / 2 - cam.x) * 0.22;
+    cam.y += (camFocus.y - view.h / 2 - cam.y) * 0.22;
     if (--camFocus.hold <= 0) camFocus = null;
   }
   clampCam();
@@ -3938,7 +4029,7 @@ function refreshQueue() {
   const sel = selection.length === 1 && selection[0].kind === 'building' ? selection[0] : null;
   const con = sel && sel.built < 1 ? sel : null;                       // under construction
   const b = !con && sel && sel.queue && sel.queue.length ? sel : null; // producing
-  const sig = con ? 'c' + con.id + '|' + Math.floor(con.built * 40) + '|' + (con.buildBoost || 1) + '|' + Math.floor(teams[1].crystals / 25)
+  const sig = con ? 'c' + con.id + '|' + Math.floor(con.built * 40) + '|' + (con.buildBoost || 1) + '|' + (con.engStall > 0 ? 'w' : '') + '|' + Math.floor(teams[1].crystals / 25)
     : b ? b.id + '|' + b.queue.join('.') + '|' + b.boost + '|' + Math.floor(teams[1].crystals / 25)
     : 'none';   // 'none', not '' — the click handlers use '' as a force-refresh sentinel
   if (sig === lastQSig) return;
@@ -3950,7 +4041,13 @@ function refreshQueue() {
   if (con) {
     const cost = BLD[con.type].cost || 0;
     let html = `<div class="queue">Constructing: ${BLD[con.type].label}</div>`;
-    html += '<div class="prog-wrap"><div class="prog" id="prog"></div></div><div class="row">';
+    html += '<div class="prog-wrap"><div class="prog" id="prog"></div></div>';
+    if (con.engStall > 0) {
+      html += '<div class="idle-note">⚠ waiting on an engineer — work is stopped until a crew reaches the site</div>';
+      elQpanel.innerHTML = html;
+      return;
+    }
+    html += '<div class="row">';
     if ((con.buildBoost || 1) === 1) {
       const dblFee = Math.ceil(cost / 2);
       html += `<button data-act="crush:double"${teams[1].crystals < dblFee ? ' class="dim"' : ''}>⏩ 2× speed · ${dblFee} ⬡</button>`;
@@ -6439,6 +6536,7 @@ function doSpawn(sp) {
     const b = sp.bld === 'den' ? makeDen(sp.at[0], sp.at[1])
       : sp.bld === 'nest' ? makeNest(sp.at[0], sp.at[1])
       : makeBuilding(sp.bld, sp.team || 1, sp.at[0], sp.at[1]);
+    if (sp.invuln) b.invuln = true;   // scripted, unkillable (M7's den erupts; you don't get to answer it)
     if (ids) ids.push(b.id);
     return;
   }

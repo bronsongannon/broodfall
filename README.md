@@ -167,9 +167,13 @@ neither can the enemy, so their depots are a real target).
   **⚡ LOW POWER**: production crawls at half speed, turrets and flak fire at
   half rate, and nukes can't launch. Plants are cheap and fragile — guard
   yours, and raid theirs. The top bar shows your draw vs. capacity.
-- **Hydro Dam** (400, hotkey `J`, needs a Power Plant) — a river-only
-  mega-generator worth **three Power Plants** (+30 power). Expensive and slow
-  to raise, but one dam can carry a whole war base. Only buildable on maps
+- **Hydro Dam** (400, hotkey `J`, needs a Power Plant **and an Engineer**) — a
+  river-only mega-generator worth **three Power Plants** (+30 power). This is
+  the one structure that does not raise itself: an **Engineer has to stand at
+  the site for the whole build**, and the moment your crew dies or wanders off,
+  work stops dead until another engineer walks over. You can't pay to skip it
+  either — the rush buttons are unavailable with nobody on site. Expensive and
+  slow to raise, but one dam can carry a whole war base. Only buildable on maps
   with water channels, placed directly ON the river — and note the enemy can
   shell it just fine. Once it stands, the dam doubles as a **footbridge**:
   infantry and dinosaurs cross the river over its walkway — vehicles still

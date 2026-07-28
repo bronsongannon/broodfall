@@ -588,8 +588,10 @@ for (const who of Object.keys(CAST)) {
 // Mission specs are pure data, same philosophy as MAPS. Objective types:
 // unitCount / built / mined / flag (set by a trigger). hidden objectives appear
 // when a trigger activates them. Triggers: {when:{time|done|groupDead|mined},
-// delay?, say?, objective?, complete?, spawn?, alarm?}. winWhen lists the
-// objective ids that must all be done; player HQ loss is always a defeat.
+// delay?, say?, objective?, complete?, spawn?, rally?, alarm?}. `rally` sends a
+// whole team (or an existing group's survivors, via `of`) at a point — the
+// world mobilising, as opposed to `spawn` conjuring reinforcements. winWhen
+// lists the objective ids that must all be done; player HQ loss is a defeat.
 const MISSIONS = [
   {
     title: 'Landfall', act: 'Act I — The Crystal War',
@@ -618,9 +620,10 @@ const MISSIONS = [
       { id: 'scout2',  text: 'Scout the eastern crystal field',        type: 'reach', x: W * 0.72, y: H * 0.62, r: 250, hidden: true },
       { id: 'repel',   text: 'Repel the spitter pack',                 type: 'flag', hidden: true },
       { id: 'capture', text: 'Capture the marked spitter with the Capture Rig (right-click it) and haul it to the HQ', type: 'captive', count: 1, hidden: true, mark: [1050, 1650] },
-      { id: 'mine',    text: 'Mine 1000 crystals',                     type: 'mined', amount: 1000 },
+      { id: 'hold',    text: 'Hold the outpost against the colony reprisal', type: 'groupDead', group: 'reprisal', hidden: true },
+      { id: 'mine',    text: 'Mine 1250 crystals',                     type: 'mined', amount: 1250 },
     ],
-    winWhen: ['harv', 'depot', 'rax', 'marines', 'turret', 'scout1', 'scout2', 'repel', 'capture', 'mine'],
+    winWhen: ['harv', 'depot', 'rax', 'marines', 'turret', 'scout1', 'scout2', 'repel', 'capture', 'hold', 'mine'],
     // The wildlife never hunts what it hasn't seen: the retaliation probe only
     // comes AFTER your patrol is spotted at the fields (playtest feedback).
     triggers: [
@@ -636,7 +639,7 @@ const MISSIONS = [
       { when: { done: ['scout1', 'scout2'] },
         say: [['sci', 'Nesting colonies, live broods… magnificent. Ah — Commander, they\'ve spotted your patrol. Seismic contacts converging on your base. Fast.']] },
       { when: { done: ['scout1', 'scout2'] }, delay: 12, objective: 'repel', alarm: '⚠ Wildlife closing on the perimeter!',
-        spawn: { group: 'probe', unit: 'spitter', team: 3, n: 3, at: [1050, H - 130], order: 'attackhq' },
+        spawn: { group: 'probe', unit: 'spitter', team: 3, n: 4, at: [1050, H - 130], order: 'attackhq' },
         say: [['ops', 'Contacts! They followed the patrol home — marines, weapons free!']] },
       { when: { groupDead: 'probe' }, complete: 'repel',
         say: [['ops', 'Clean work. The perimeter holds.'],
@@ -647,6 +650,39 @@ const MISSIONS = [
           { group: 'scout', unit: 'spitter', team: 3, n: 1, at: [1050, 1650], order: 'guard', specimen: true },
         ],
         say: [['ops', 'Lin\'s Capture Rig just dropped at the base — the caged harvester wearing the green ring. It is the ONLY unit that can take the specimen alive. A lone spitter is prowling the flats, marked on your map and wearing the SAME green ring: select the rig and right-click it. Your troops fire at half rate near the specimen — keep them clear and let the rig work. Lin needs this one breathing.']] },
+      // The colony answers the abduction. This is Landfall's real fight: before
+      // it, everything after the capture was a passive mining grind and the
+      // mission ended at ~12 min (Bronson, 2026-07-28). It pays off the turret
+      // and the four marines the tutorial made you build, and seeds Act 2's
+      // "something answered".
+      // Warning THEN charge: at the tutorial minimum (four marines, one turret)
+      // a passive player loses 5 runs in 6, so the mission names the threat and
+      // spends 20s telling you to reinforce before it lands — teach, then test.
+      // Three marines queued in that window holds 6 of 6; the barracks can pump
+      // for the whole fight.
+      { when: { done: ['capture'] }, delay: 12, objective: 'hold',
+        alarm: '⚠ Every nest on the map just went active — they are coming for the specimen!',
+        say: [['sci', 'Commander — every mound on this map went active in the same second. Not the ones that saw you. ALL of them. They did not see this one taken, they FELT it taken.'],
+              ['ops', 'That is the whole valley walking at us and we have about twenty seconds. Queue marines, drop another turret — spend everything, Commander. Nothing we mined matters if the outpost is gone.']] },
+      // Every nest empties and converges. `rally` pulls the standing broods and
+      // roamers off their leashes; the spawns are each nest disgorging what was
+      // still inside, so the charge visibly STARTS at the mounds you scouted.
+      { when: { done: ['capture'] }, delay: 32,
+        alarm: '⚠ Contact — both fields are emptying toward the base!',
+        rally: { team: 3, group: 'reprisal' },
+        spawn: [
+          { group: 'reprisal', unit: 'spitter', team: 3, n: 1, at: [W * 0.30 + 110, H * 0.22 - 110], order: 'attackhq' },
+          { group: 'reprisal', unit: 'spitter', team: 3, n: 1, at: [W * 0.72 + 120, H * 0.62 + 100], order: 'attackhq' },
+        ],
+        say: [['ops', 'Here they come — north field and east field, converging. Everything on the wall. Hold the outpost, Commander.']] },
+      // Enraged, not wandering: survivors keep walking at the base until it's
+      // settled. Without this a straggler idles in the fog and the objective
+      // hangs on a map-wide hunt (playtest harness: ~2 runs in 5 stalled).
+      { when: { done: ['capture'], notDone: ['hold'] }, delay: 45, repeat: true, every: 15,
+        rally: { of: 'reprisal' } },
+      { when: { groupDead: 'reprisal' }, delay: 2,
+        say: [['ops', 'Perimeter held. Every one of them is down, Commander.'],
+              ['sci', 'They emptied their own nests to come here. Left the broods, left the crystal, and walked into rifles for one caged animal. Log that. That is not territorial behaviour — that is a response.']] },
       // safety nets: the tutorial can't dead-end — a lost rig (or specimen) respawns
       { when: { groupDead: 'scout', notDone: ['capture'], noCaptive: true }, delay: 10, repeat: true,
         spawn: { group: 'scout', unit: 'spitter', team: 3, n: 1, at: [1050, 1650], order: 'guard', specimen: true },
@@ -6945,6 +6981,34 @@ function fireTrigger(t) {
   if (t.objective) for (const id of [].concat(t.objective)) activateObjective(id);
   if (t.complete) ms.flags[t.complete] = true;
   if (t.spawn) for (const sp of [].concat(t.spawn)) doSpawn(sp);
+  // The world's own wildlife mobilises: every living unit of a team drops what
+  // it was doing and converges on a point (default: the player HQ). Nest guards
+  // forget their nest (home = null) so the leash can't walk them home mid-charge
+  // — which also means the nests start rebuilding a brood behind the wave.
+  // Tagging them into a group lets a `groupDead` objective track "until they're
+  // all down"; the group is fixed at fire time, so the refill can't gate the win.
+  if (t.rally) {
+    const hq = buildings.find(b => b.team === 1 && b.hp > 0 && b.type === 'hq');
+    const tx = t.rally.to ? t.rally.to[0] : hq && hq.x;
+    const ty = t.rally.to ? t.rally.to[1] : hq && hq.y;
+    const ids = t.rally.group ? (ms.groups[t.rally.group] = ms.groups[t.rally.group] || []) : null;
+    // `of` re-orders the survivors of an existing group instead of sweeping the
+    // whole team — that's what keeps a repeat re-rally from hoovering up the
+    // fresh brood the nests grow behind the wave (the objective would never end)
+    const pool = t.rally.of ? (groupAlive(t.rally.of) || []) : units;
+    if (tx != null) for (const u of pool) {
+      if (!t.rally.of && u.team !== (t.rally.team || 3)) continue;
+      // groups can hold buildings too (relay sweeps) — those don't take orders
+      if (u.hp <= 0 || !units.includes(u)) continue;
+      // grazers are never auto-targeted and specimens are weapons-locked —
+      // sweeping either into an assault group would make the objective unwinnable
+      if (u.type === 'critter' || u.specimen) continue;
+      if (t.rally.unit && u.type !== t.rally.unit) continue;
+      u.home = null; u.roam = false;
+      u.order = { type: 'attackmove', x: tx, y: ty };
+      if (ids && !ids.includes(u.id)) ids.push(u.id);
+    }
+  }
   if (t.alarm) { toast(t.alarm); snd.alarm(); }
   if (t.focus) focusCam(t.focus[0], t.focus[1]);   // scripted event camera
   // a launch the story orders — no silo required, unlike the player's

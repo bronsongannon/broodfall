@@ -5,12 +5,17 @@
 > strategy: `BROODFALL-BRIEF.md`. Standing rule: never use the phrase "brood war"
 > in marketing (registered Blizzard trademark). Historical notes below may still
 > say Crystal Command. Local folder is still `crystal-command/` (harmless).
-> Business model (Bronson, 2026-07-23, CONFIRMED): free = 3 campaign missions +
-> 1 skirmish map, $9.99 one-time unlock. ALL 20 campaign missions are base-game
-> (Acts 2–3 stay free "tease then deliver" updates). Paid DLC begins only after
-> the full campaign ships, and **DLC round one = the playable dino faction**
-> (the thing the 2026-07-08 design Q&A said to earn first — a finished campaign
-> is the earning). Broodfall 2 (new planet, same style) follows. Steam release
+> Business model (Bronson, 2026-07-23; REVISED 2026-07-28): free = **ALL of
+> Act 1 + 4 skirmish maps** (was 3 missions + 1 map — `FREE_MISSIONS` and the
+> skirmish gate must move when the entitlement layer lands), **$14.99**
+> one-time unlock (was $9.99); sale $9.99 on a ~45-day cadence + all Steam
+> events — full calendar + Steam launch target (Feb 10, 2027, Next Fest demo
+> Oct 2026) in BROODFALL-BRIEF.md "Year-one pricing & sale calendar". ALL 20
+> campaign missions are base-game (Acts 2–3 stay free "tease then deliver"
+> updates). Paid DLC begins only after the full campaign ships — ladder:
+> (1) playable dino faction ($7.99–9.99 flagship), (2) commando/SEAL team +
+> light vehicles pack, (3) endless horde-survival mode, (4, banked) Rubicon
+> mini-campaign. Broodfall 2 (new planet, same style) follows. Steam release
 > after Mac App Store v1 — Electron wrapper, storage bridge, entitlement layer
 > (see BROODFALL-BRIEF.md Steam notes).
 

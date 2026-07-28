@@ -29,6 +29,7 @@ file and the widget's task lists in sync.
 - [x] Team color pass — wild dino bone/moss, red identity touches (2026-07-12)
 - [x] Raptor + Raptor Den — engine complete, M7 scripts the debut (2026-07-13)
 - [x] Missions 2–3: harvester convoy escort, first nest crack (2026-07-12)
+- [x] GPU/perf pass — DONE 2026-07-27 (Bronson: fullscreen wrapper lag in a nest fight + machine running hot). Render capped to 60fps (a 120Hz ProMotion Mac was doing double the GPU work), backing store capped to a 3.2M-pixel budget (−38% on a MacBook Air fullscreen up to −78% on a 5K display), alpha:false context, additive effects batched into one blend pass, and an adaptive governor that steps quality down under 48fps and back up at 60 — persisted to `cc.gfx` so a slow Mac starts where it left off. Dev mode shows fps/backing/scale bottom-right. **Still needs Bronson's own before/after on real hardware — the preview browser can't measure GPU gains**
 - [ ] Pacing pass toward 20–30 minute matches
 
 ## Art and audio

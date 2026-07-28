@@ -6,7 +6,9 @@
 
 // ---------------- DOM ----------------
 const cv = document.getElementById('game');
-const cx = cv.getContext('2d');
+// alpha:false — the ground blit covers the viewport every frame, so the canvas
+// never needs to composite against the page. Cheaper per-frame compositing.
+const cx = cv.getContext('2d', { alpha: false });
 const mini = document.getElementById('minimap');
 const mcx = mini.getContext('2d');
 const elCrystals = document.getElementById('res-crystals');
@@ -32,11 +34,29 @@ const elPauseBanner = document.getElementById('pause-banner');
 const TILE = 32, MAP_W = 96, MAP_H = 72;
 const W = MAP_W * TILE, H = MAP_H * TILE;      // 3072 x 2304 world px
 const view = { w: window.innerWidth, h: window.innerHeight };
-let dpr = window.devicePixelRatio || 1;
+// ---------------- Render quality ----------------
+// Frame cost here is FILL RATE, not unit count: every frame blits the ground
+// and then the fog across the whole viewport, so it scales with backing-store
+// pixels. A Retina Mac asks for dpr 2, which at fullscreen is 8M pixels on a
+// laptop and ~15M on a 5K iMac — several times what canvas 2D can push at
+// 60fps, and it pins the GPU (Bronson 2026-07-27: lag in a nest fight, machine
+// running hot). So: cap the backing store to a pixel budget and adapt it to
+// whatever the machine actually manages.
+const PX_BUDGET_MAX = 3.2e6, PX_BUDGET_MIN = 1.15e6;
+// The governor's finding is remembered, so a machine that had to give up pixels
+// starts there next launch instead of stuttering its way back down every time.
+const GFX_KEY = 'cc.gfx';
+// (clamp() isn't defined this early in the file — inline the bounds)
+let pxBudget = Math.max(PX_BUDGET_MIN,
+  Math.min(PX_BUDGET_MAX, +localStorage.getItem(GFX_KEY) || PX_BUDGET_MAX));
+let dpr = 1;
 function resize() {
-  dpr = window.devicePixelRatio || 1;
+  const raw = window.devicePixelRatio || 1;
   view.w = window.innerWidth; view.h = window.innerHeight;
-  cv.width = view.w * dpr; cv.height = view.h * dpr;
+  const fit = Math.sqrt(pxBudget / Math.max(1, view.w * view.h));
+  // never sharper than the display, never coarser than 0.8 CSS pixels
+  dpr = Math.min(raw, Math.max(0.8, fit));
+  cv.width = Math.round(view.w * dpr); cv.height = Math.round(view.h * dpr);
   cv.style.width = view.w + 'px'; cv.style.height = view.h + 'px';
 }
 window.addEventListener('resize', resize);
@@ -6140,7 +6160,6 @@ function drawFx(f) {
     const s = f.s0 + (f.s1 - f.s0) * kk;
     cx.save();
     cx.globalAlpha = Math.max(0, f.a0 + (f.a1 - f.a0) * kk);
-    if (f.add) cx.globalCompositeOperation = 'lighter';
     cx.translate(f.x + f.vx * dt, f.y + f.vy * dt);
     cx.rotate(f.rot + f.rotV * dt);
     cx.drawImage(img, -s / 2, -s / 2, s, s);
@@ -6151,7 +6170,6 @@ function drawFx(f) {
     const h = f.s, w = h * (img.naturalWidth / img.naturalHeight);
     cx.save();
     cx.globalAlpha = 1 - k;
-    cx.globalCompositeOperation = 'lighter';
     cx.translate(f.x, f.y);
     cx.rotate(f.a + Math.PI / 2);   // sprite art points up; face along the shot
     cx.drawImage(img, -w / 2, -h, w, h);
@@ -6305,10 +6323,21 @@ function render() {
   for (const b of buildings) if (inView(b.x, b.y, 130) && (b.team === 1 || isShownAt(b.x, b.y))) drawBuilding(b);
   for (const u of units) if (inView(u.x, u.y, 60) && (u.team === 1 || isVisibleAt(u.x, u.y))) drawUnit(u);
   for (const p of bullets) if (inView(p.x, p.y, 60) && (p.team === 1 || isVisibleAt(p.x, p.y))) drawBullet(p);
+  // Effects are drawn in two passes, normal blending then additive. Flipping
+  // globalCompositeOperation per sprite breaks the GPU's batching, and a nest
+  // fight can have a hundred muzzle flashes and fireballs queued at once.
+  addFx.length = 0;
   for (const f of fxs) {
     if (!inView(f.x, f.y, 260)) continue;
     const worldFx = f.kind === 'boom' || f.kind === 'sprite' || f.kind === 'muzzle' || f.kind === 'corpse';
-    if (!worldFx || isVisibleAt(f.x, f.y)) drawFx(f);
+    if (worldFx && !isVisibleAt(f.x, f.y)) continue;
+    if (f.kind === 'muzzle' || (f.kind === 'sprite' && f.add)) addFx.push(f);
+    else drawFx(f);
+  }
+  if (addFx.length) {
+    cx.globalCompositeOperation = 'lighter';
+    for (const f of addFx) drawFx(f);
+    cx.globalCompositeOperation = 'source-over';
   }
 
   // fog of war (small canvas scaled up = soft edges), viewport slice only
@@ -6399,9 +6428,19 @@ function render() {
     }
   }
   cx.restore();
+  // dev-mode perf readout — the numbers to report back when a machine struggles
+  if (devMode) {
+    cx.font = '12px ui-monospace, Menlo, monospace';
+    cx.textAlign = 'right';
+    cx.fillStyle = perf.fps >= 55 ? 'rgba(143,216,207,0.85)'
+      : perf.fps >= 40 ? 'rgba(240,200,106,0.9)' : 'rgba(224,86,74,0.95)';
+    cx.fillText(`${perf.fps} fps · ${cv.width}×${cv.height} · ${dpr.toFixed(2)}x · ${units.length}u`,
+      view.w - 12, view.h - 76);
+  }
   if (++frameNo % 3 === 0) renderMinimap();
 }
 let frameNo = 0;
+const addFx = [];   // additive-blend effects, batched into one pass
 
 function renderMinimap() {
   const sx = mini.width / W, sy = mini.height / H;
@@ -6491,6 +6530,12 @@ function update() {
 }
 
 let last = performance.now(), acc = 0;
+// Render at most 60 times a second. requestAnimationFrame runs at the DISPLAY's
+// refresh rate, so a 120Hz ProMotion Mac was doing double the GPU work for a
+// sim that only ever advances 60 times a second — pure heat, no extra motion.
+const DRAW_EVERY = 1000 / 61;   // a hair under 60 so we never skip a real frame
+let lastDraw = -1e9;
+const perf = { frame: 16.7, fps: 60, submit: 0, budget: Math.round(pxBudget), scale: 1, cool: 240 };
 function frame(now) {
   requestAnimationFrame(frame);
   acc += Math.min(100, now - last);
@@ -6501,7 +6546,35 @@ function frame(now) {
     else { tick++; updateFx(); updateCamera(); }   // aftermath keeps burning behind the overlay
     acc -= 1000 / 60;
   }
+  if (now - lastDraw < DRAW_EVERY) return;
+  const gap = now - lastDraw;
+  lastDraw = now;
+  const t0 = performance.now();
   render();
+  perf.submit += (performance.now() - t0 - perf.submit) * 0.06;   // diagnostic only
+
+  // The governor watches DRAW-TO-DRAW time, not the time spent inside render().
+  // Canvas 2D calls only queue work — timing them measures command submission
+  // and reports ~0.1ms even while the GPU is drowning. The interval between
+  // presented frames is the honest signal: capped at 60fps it sits near 16.7ms
+  // when healthy and stretches the moment the GPU can't keep up.
+  if (gap < 100 && !document.hidden) perf.frame += (gap - perf.frame) * 0.05;
+  perf.fps = Math.round(1000 / perf.frame);
+  if (started && !paused && !userPaused && --perf.cool <= 0) {
+    const want = perf.frame > 21 ? 0.75      // under ~48fps: give up pixels
+      : perf.frame < 17.4 && pxBudget < PX_BUDGET_MAX ? 1.12   // pinned at 60: try for sharper
+      : 0;
+    if (want) {
+      const next = clamp(pxBudget * want, PX_BUDGET_MIN, PX_BUDGET_MAX);
+      if (Math.abs(next - pxBudget) > 2e4) {
+        pxBudget = next; resize();
+        try { localStorage.setItem(GFX_KEY, String(Math.round(pxBudget))); } catch (e) { /* private mode */ }
+        perf.budget = Math.round(pxBudget); perf.scale = +dpr.toFixed(2);
+        perf.frame = 16.7;   // re-measure from scratch at the new size
+        perf.cool = 180;     // ~3s before reconsidering — resizing clears the canvas
+      }
+    }
+  }
 }
 
 // ---------------- Mission engine ----------------
@@ -7238,6 +7311,7 @@ window.CC = {
   damage, trainUnit, commandMove, fxExplosion,
   canPlaceBuilding, tryPlaceBuilding, makeBuilding, makeUnit, makeNest, makeDen, spawnRaptor, makeEgg, startResearch,
   cam, focusCam, get camFocus() { return camFocus; }, plankAt, blocked,
+  perf, get dpr() { return dpr; }, resize,
   hatchSpitter, rankOf, startGame, MAPS, DIFFS,
   startMission, MISSIONS, CAST,
   exportVoiceScript, voiceKey, voice, PORTRAITS,

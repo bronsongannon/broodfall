@@ -11,15 +11,15 @@ file and the widget's task lists in sync.
 ## Apple submission track (critical path, in order)
 
 - [x] Developer Program membership — covered by existing account
-- [ ] NEXT UP: Create the Broodfall app record in App Store Connect — unblocked by the 2026-07-23 rename; bundle ID `com.bronsongannon.broodfall`, free-with-IAP — **and in the same visit create the IAP itself: non-consumable `com.bronsongannon.broodfall.full`, $9.99** (the code ships expecting exactly that product id) — by Jul 24
+- [ ] NEXT UP: Create the Broodfall app record in App Store Connect — unblocked by the 2026-07-23 rename; bundle ID `com.bronsongannon.broodfall`, free-with-IAP — **and in the same visit create the IAP itself: non-consumable `com.bronsongannon.broodfall.full`, $9.99** (the code ships expecting exactly that product id) — by Jul 28
 - [x] IAP gate — DONE 2026-07-22 (coded + verified, was the last CRITICAL from the audit). `BFStore` entitlement layer in game.js (per-platform backends per BROODFALL-BRIEF item 3: StoreKit via `bfstore` message bridge in the wrapper, all-unlocked on the web build; fails CLOSED in-wrapper until StoreKit answers), gates campaign missions 4+ (list + `startMission` backstop) and all skirmish maps but Crystal Basin (picker + `startGame` backstop + remembered-pick fallback), unlock strip with localized price + restore-purchases UI (guideline 3.1.1), dev mode / `CC.devMode` / `CC.unlockAll` dead in release wrapper builds (DEBUG builds re-enable). Swift side: `mac/Broodfall/StoreBridge.swift` (StoreKit 2, `Transaction.currentEntitlements` + `updates` listener, purchase/restore/error pushes). Local testing: `mac/Products.storekit` wired into the Run scheme — hit Run in Xcode and the buy button completes a test purchase. Verified: wrapper builds; browser harness with a fake bridge passed every gate, the unlock transition, busy/error/debug paths, and a clean 600-tick soak; web build regression-free (no paywall UI).
 - [x] Build the Mac wrapper — WKWebView shell in Xcode loading the game locally (2026-07-22: `mac/`, sandboxed + signed, full game verified inside — see mac/README.md)
 - [x] App icon + 1024px store icon (2026-07-22: pipeline + archive-ready icon from the game's crystal sprite, `mac/icon/`; commissioned upgrade optional — one-file drop-in, budget can go to store key art instead)
-- [ ] Store listing — screenshots DONE 2026-07-26 (six 2560×1600 drafts in assets/store/screenshots/); description/subtitle/keywords still to draft — by Jul 27
+- [ ] Store listing — screenshots DONE 2026-07-26 (six 2560×1600 drafts in assets/store/screenshots/); description/subtitle/keywords still to draft — by Jul 29
 - [x] Privacy policy page — DONE 2026-07-26: privacy.html at the Pages root → https://bronsongannon.github.io/broodfall/privacy.html (the URL App Store Connect asks for)
-- [ ] Sandbox entitlements, code signing, notarize, test on a clean Mac — by Jul 27
+- [ ] Sandbox entitlements, code signing, notarize, test on a clean Mac — by Jul 29
       (native menu bar + fullscreen + quit in the wrapper to dodge guideline 4.2)
-- [ ] Archive, upload, submit for review — by Jul 29 (2-day buffer). **FIRST STEP of the archive: flip `DEV_PRERELEASE` to `false` in game.js** (added 2026-07-24 so Bronson's local wrapper builds keep dev tools; true in a shipped build = paywall bypass)
+- [ ] Archive, upload, submit for review — by Jul 30 (1-day buffer). **FIRST STEP of the archive: flip `DEV_PRERELEASE` to `false` in game.js** (added 2026-07-24 so Bronson's local wrapper builds keep dev tools; true in a shipped build = paywall bypass)
 
 ## Game build roadmap
 

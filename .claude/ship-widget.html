@@ -80,7 +80,7 @@ const TRACKS = {
   apple: [
     ['ap1','Developer Program membership — covered by your existing account','done',
       'My Apple Developer membership already exists. What exactly do I do in App Store Connect to add Broodfall as a second app — app record, bundle ID, and anything that could trip me up?'],
-    ['ap2','NEXT UP: Create the Broodfall app record in App Store Connect — and the IAP itself: non-consumable com.bronsongannon.broodfall.full at $9.99 (the shipped gate expects that exact product id)','Jul 24',
+    ['ap2','NEXT UP: Create the Broodfall app record in App Store Connect — and the IAP itself: non-consumable com.bronsongannon.broodfall.full at $9.99 (the shipped gate expects that exact product id)','Jul 28',
       'Walk me through creating the Broodfall app record in App Store Connect: reserving the "Broodfall" name, bundle ID com.bronsongannon.broodfall (must match the Xcode project), category Games > Strategy, age rating for a cartoon RTS, the free-with-IAP setup — and creating the IAP product itself: non-consumable, product id com.bronsongannon.broodfall.full, $9.99 (StoreBridge.swift ships expecting exactly that id).'],
     ['ap9','IAP gate DONE — BFStore entitlement layer + StoreBridge.swift (StoreKit 2), missions 4+ and 3 maps gated, restore UI, dev cheats dead in release builds; test-purchase via mac/Products.storekit in the Run scheme','done',
       'The IAP gate is built and verified (BFStore in game.js + mac/Broodfall/StoreBridge.swift). Walk me through the one live check left: Run in Xcode with the Products.storekit test config, buy and restore in the app, then how review\'s sandbox purchase will differ once the real IAP exists in App Store Connect.'],
@@ -88,13 +88,13 @@ const TRACKS = {
       'The Mac wrapper is built and verified (mac/README.md). Walk me through what\'s left before archiving: app icon asset catalog, bundle ID match with App Store Connect, and the Distribution signing switch.'],
     ['ap4','App icon DONE — archive-ready, from the game\'s crystal sprite (mac/icon/)','done',
       'The app icon is live (mac/icon/). I want to try the upgraded concept — walk me through generating the crystal + raptor eye-shine icon with the Gemini prompt in mac/icon/README.md and dropping it in as the new master.'],
-    ['ap5','Store listing: screenshots DONE (assets/store/screenshots/) — description, subtitle, keywords left','Jul 27',
+    ['ap5','Store listing: screenshots DONE (assets/store/screenshots/) — description, subtitle, keywords left','Jul 29',
       'Draft the full App Store listing for Broodfall: description, subtitle, keywords, promo text, and a shot list for the required Mac screenshots.'],
     ['ap6','Privacy policy DONE — bronsongannon.github.io/broodfall/privacy.html','done',
       'Write the privacy policy page for Broodfall (it collects no data) and set it up on GitHub Pages so I have the URL App Store Connect asks for.'],
-    ['ap7','Sandbox entitlements, code signing, notarize, test on a clean Mac','Jul 27',
+    ['ap7','Sandbox entitlements, code signing, notarize, test on a clean Mac','Jul 29',
       'Guide me through sandbox entitlements, code signing, and notarization for the Broodfall Mac app, plus how to test the built .app cleanly and dodge the guideline 4.2 thin-wrapper flag.'],
-    ['ap8','Archive, upload, submit for review — 2-day buffer before the 31st. FIRST: flip DEV_PRERELEASE to false in game.js (dev tools must not ship)','Jul 29',
+    ['ap8','Archive, upload, submit for review — 2-day buffer before the 31st. FIRST: flip DEV_PRERELEASE to false in game.js (dev tools must not ship)','Jul 30',
       'Time to submit Broodfall: FIRST flip DEV_PRERELEASE to false in game.js (it keeps dev tools alive in local wrapper builds — shipping it true is a paywall bypass), then walk me through archiving in Xcode, uploading to App Store Connect, filling out the review form, and submitting.'],
   ],
   game: [
@@ -179,7 +179,7 @@ const SHIPPED = [
   'Audit round 2 (Jul 23): 7 game fixes (AI refinery stacking, cold-load voice race, dev-mode save clobber, mute hotkey, truncated-animation cache, ghost-through-cliffs, outro win timer) + ship fixes (dev files stripped from the app bundle, export-compliance key, style guide rebranded). Soaks clean. One CRITICAL left: the IAP gate (ap9)',
   'IAP GATE SHIPPED (Jul 22) — the last audit CRITICAL: BFStore entitlement layer (StoreKit in the wrapper, web build stays fully unlocked, fails closed until StoreKit answers), missions 4+ and all maps but Crystal Basin gated with console-proof backstops, unlock strip with live price + restore purchases, dev mode / CC.unlockAll dead in release wrapper builds, StoreBridge.swift + Products.storekit test config in the Run scheme. Wrapper builds; every gate, the unlock transition, and error paths verified in a fake-bridge harness',
 ];
-const PRE = { ap1: 1, ap3: 1, ap4: 1, ap9: 1, g1: 1, g2: 1, g4: 1, g5: 1, g6: 1, a1: 1, a2: 1, a3: 1, a4: 1, a5: 1, a6: 1, a7: 1, a8: 1, a9: 1, a11: 1 };
+const PRE = { ap1: 1, ap3: 1, ap4: 1, ap6: 1, ap9: 1, g1: 1, g2: 1, g4: 1, g5: 1, g6: 1, a1: 1, a2: 1, a3: 1, a4: 1, a5: 1, a6: 1, a7: 1, a8: 1, a9: 1, a11: 1 };
 const KEY = 'cc-ship-checklist-v1';
 let saved = {};
 try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}

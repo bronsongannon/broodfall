@@ -52,27 +52,40 @@
     display: flex; flex-direction: row; align-items: stretch; gap: 8px;
     font-size: 13px;
   }
+  /* one knob for the bar's height — everything on it keys off this */
+  :root { --dock-h: 62px; }
   /* FIXED geometry: the queue panel always occupies its slot and both panels
-     have a constant height, so nothing on the bar ever moves (playtest feedback) */
+     have a constant height, so nothing on the bar ever moves (playtest feedback).
+     Half-height since 2026-07-27 (Bronson: the bar ate the map and crowded the
+     mouse) — the options scroll instead, which he explicitly preferred. */
   #qpanel, #card {
     background: rgba(14, 18, 15, 0.9);
     border: 1px solid rgba(120, 200, 190, 0.25);
     border-radius: 10px;
-    padding: 8px 12px;
-    height: 118px;
+    padding: 6px 10px;
+    height: var(--dock-h);
   }
-  #qpanel { width: 216px; flex-shrink: 0; overflow: hidden; }
-  #qpanel .idle-note { color: #55635b; font-size: 11px; margin-top: 4px; }
+  /* The queue panel is fixed-height with no wrap room, so at half height its
+     rush buttons were being clipped clean out of reach: one-line title, one
+     row of buttons, and overflow-y as a backstop so nothing is ever cut off. */
+  #qpanel { width: 258px; flex-shrink: 0; overflow-y: auto; overflow-x: hidden; scrollbar-width: thin; }
+  #qpanel .idle-note { color: #55635b; font-size: 10.5px; margin-top: 2px; line-height: 1.3; }
+  #qpanel .queue, #qpanel .idle-note { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #qpanel .row button { font-size: 10px; padding: 4px 6px; }
+  #qpanel::-webkit-scrollbar { width: 7px; }
+  #qpanel::-webkit-scrollbar-thumb { background: rgba(120,200,190,0.3); border-radius: 4px; }
   #card {
     flex: 1; min-width: 0;
     display: flex; flex-direction: row; flex-wrap: wrap; align-items: flex-start;
     align-content: flex-start;
-    column-gap: 12px; row-gap: 4px;
-    overflow-y: auto;
+    column-gap: 10px; row-gap: 3px;
+    overflow-y: auto; scrollbar-width: thin;
   }
-  #card .hd { width: 140px; flex-shrink: 0; }
-  #dock h3 { font-size: 13px; margin: 0 0 2px; color: #8fd8cf; font-weight: 700; }
-  #dock .sub { color: #9aa89e; font-size: 10.5px; margin: 0; line-height: 1.35; }
+  #card::-webkit-scrollbar { width: 7px; }
+  #card::-webkit-scrollbar-thumb { background: rgba(120,200,190,0.3); border-radius: 4px; }
+  #card .hd { width: 132px; flex-shrink: 0; }
+  #dock h3 { font-size: 12px; margin: 0 0 1px; color: #8fd8cf; font-weight: 700; }
+  #dock .sub { color: #9aa89e; font-size: 10px; margin: 0; line-height: 1.3; }
   #dock .row { display: flex; flex-wrap: wrap; gap: 3px; margin: 0; flex: 0 1 auto; }
   #dock button {
     background: #17251f;
@@ -91,8 +104,8 @@
   #dock button.wide { }   /* was full-width in the grid layout; flows normally now */
   #dock button:hover { border-color: #8fd8cf; background: #1c2f27; }
   #dock button.dim { opacity: 0.45; }
-  #dock .queue { font-size: 12px; color: #9aa89e; }
-  #dock .prog-wrap { margin-top: 6px; height: 6px; background: #10160f; border-radius: 3px; overflow: hidden; }
+  #dock .queue { font-size: 11px; color: #9aa89e; }
+  #dock .prog-wrap { margin-top: 4px; margin-bottom: 4px; height: 5px; background: #10160f; border-radius: 3px; overflow: hidden; }
   #dock .prog { height: 100%; width: 0%; background: #3fb9c9; border-radius: 3px; }
 
   /* controls: a centered modal that pauses the game while open */

@@ -6428,14 +6428,16 @@ function render() {
     }
   }
   cx.restore();
-  // dev-mode perf readout — the numbers to report back when a machine struggles
+  // dev-mode perf readout — the numbers to report back when a machine struggles.
+  // Top-right, under the chip row: the command bar owns the bottom of the screen
+  // and its height is a CSS knob, so anchoring to the bottom put this underneath it.
   if (devMode) {
     cx.font = '12px ui-monospace, Menlo, monospace';
     cx.textAlign = 'right';
     cx.fillStyle = perf.fps >= 55 ? 'rgba(143,216,207,0.85)'
       : perf.fps >= 40 ? 'rgba(240,200,106,0.9)' : 'rgba(224,86,74,0.95)';
     cx.fillText(`${perf.fps} fps · ${cv.width}×${cv.height} · ${dpr.toFixed(2)}x · ${units.length}u`,
-      view.w - 12, view.h - 76);
+      view.w - 14, 62);
   }
   if (++frameNo % 3 === 0) renderMinimap();
 }

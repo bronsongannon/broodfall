@@ -97,7 +97,8 @@ fight) · **Hard** (early pressure, relentless waves, a rich enemy, nukes) ·
 | Right-click (two-finger tap) | Move / attack / harvest |
 | A, then click | Attack-move (fight everything on the way) |
 | S | Stop |
-| H | Marines, snipers & artillery hunker down — half damage, hold position (snipers go prone) |
+| D | Marines, snipers & artillery hunker down — half damage, hold position (snipers go prone) |
+| H | Jump the camera home to your base (or to your squad on missions with no base) |
 | Q / W / E / R / D | Train units & research upgrades (select a production building first) |
 | Q (Depot / Power Plant selected) | Lower the structure flush with the ground — units drive over it. Q again raises it |
 | 💰 Sell button (any building selected) | Salvage a building for **half its cost** (click twice to confirm). Queued units and research refund in full |
@@ -119,7 +120,7 @@ map/difficulty select.
 - **Engineer** (90) — repairs damaged buildings **and vehicles**; right-click a
   target, or leave him near the base and he'll fix things on his own
 - **Marine** (80) — fast, cheap ranged infantry; can hunker down to hold ground (Barracks)
-- **Sniper** (130) — fragile, but huge range and the best eyesight in the game; press `H` to go prone (Barracks)
+- **Sniper** (130) — fragile, but huge range and the best eyesight in the game; press `D` to go prone (Barracks)
 - **Medic** (100) — unarmed. Automatically heals nearby wounded infantry and
   dinos, and follows the fight; right-click a hurt friend to assign her. Keep
   one behind your marine line and it lives twice as long (Barracks)
@@ -132,7 +133,7 @@ map/difficulty select.
   dies with it (Factory)
 - **Artillery** (270) — siege gun with huge range and splash damage. Shells land
   where the target *was* — buildings can't dodge, fast units can. Can't fire at
-  anything close, so escort it — or hunker it down (`H`) to take half damage
+  anything close, so escort it — or hunker it down (`D`) to take half damage
   while it holds the line. The dead zone still applies, dug in or not (Factory)
 - **Gunship** (240) — flying attack helicopter. Ignores terrain and walls,
   rapid-fire chaingun, superb harasser. Tanks and artillery **cannot shoot

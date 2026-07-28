@@ -45,48 +45,51 @@
     cursor: pointer;
   }
 
-  /* bottom command bar: a short horizontal strip from the minimap to the
-     screen edge — buttons flow sideways so the bar never hides the map */
+  /* A compact panel in the bottom-right corner rather than a strip across the
+     whole screen (Bronson 2026-07-27) — the map keeps the entire bottom edge
+     and the mouse has room to move. The options scroll inside it. */
   #dock {
-    position: fixed; left: 220px; right: 10px; bottom: 10px;
-    display: flex; flex-direction: row; align-items: stretch; gap: 8px;
+    position: fixed; right: 10px; bottom: 10px;
+    width: var(--dock-w); height: var(--dock-h);
+    display: flex; flex-direction: column; align-items: stretch; gap: 6px;
     font-size: 13px;
   }
-  /* one knob for the bar's height — everything on it keys off this */
-  :root { --dock-h: 62px; }
-  /* FIXED geometry: the queue panel always occupies its slot and both panels
-     have a constant height, so nothing on the bar ever moves (playtest feedback).
-     Half-height since 2026-07-27 (Bronson: the bar ate the map and crowded the
-     mouse) — the options scroll instead, which he explicitly preferred. */
+  /* two knobs for the panel — everything inside keys off these */
+  :root { --dock-w: 384px; --dock-h: 232px; --qpanel-h: 60px; }
+  /* FIXED geometry: the queue panel always occupies its slot, so nothing on the
+     panel ever shifts as production starts and finishes (playtest feedback) */
   #qpanel, #card {
     background: rgba(14, 18, 15, 0.9);
     border: 1px solid rgba(120, 200, 190, 0.25);
     border-radius: 10px;
     padding: 6px 10px;
-    height: var(--dock-h);
   }
   /* The queue panel is fixed-height with no wrap room, so at half height its
      rush buttons were being clipped clean out of reach: one-line title, one
      row of buttons, and overflow-y as a backstop so nothing is ever cut off. */
-  #qpanel { width: 258px; flex-shrink: 0; overflow-y: auto; overflow-x: hidden; scrollbar-width: thin; }
+  #qpanel { height: var(--qpanel-h); flex-shrink: 0; overflow-y: auto; overflow-x: hidden; scrollbar-width: thin; }
   #qpanel .idle-note { color: #55635b; font-size: 10.5px; margin-top: 2px; line-height: 1.3; }
   #qpanel .queue, #qpanel .idle-note { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   #qpanel .row button { font-size: 10px; padding: 4px 6px; }
   #qpanel::-webkit-scrollbar { width: 7px; }
   #qpanel::-webkit-scrollbar-thumb { background: rgba(120,200,190,0.3); border-radius: 4px; }
   #card {
-    flex: 1; min-width: 0;
+    flex: 1; min-width: 0; min-height: 0;
     display: flex; flex-direction: row; flex-wrap: wrap; align-items: flex-start;
     align-content: flex-start;
-    column-gap: 10px; row-gap: 3px;
+    column-gap: 6px; row-gap: 3px;
     overflow-y: auto; scrollbar-width: thin;
   }
   #card::-webkit-scrollbar { width: 7px; }
   #card::-webkit-scrollbar-thumb { background: rgba(120,200,190,0.3); border-radius: 4px; }
-  #card .hd { width: 132px; flex-shrink: 0; }
+  /* in a narrow panel the title reads as a header row, not a left-hand column */
+  #card .hd { width: 100%; flex: 0 0 100%; }
   #dock h3 { font-size: 12px; margin: 0 0 1px; color: #8fd8cf; font-weight: 700; }
   #dock .sub { color: #9aa89e; font-size: 10px; margin: 0; line-height: 1.3; }
-  #dock .row { display: flex; flex-wrap: wrap; gap: 3px; margin: 0; flex: 0 1 auto; }
+  /* each group of actions is its own full-width band; buttons tile two-up, so
+     nine build options read as five short rows instead of nine tall ones */
+  #dock .row { display: flex; flex-wrap: wrap; gap: 3px; margin: 0; width: 100%; flex: 0 0 100%; }
+  #dock .row button { flex: 1 1 44%; }
   #dock button {
     background: #17251f;
     border: 1px solid rgba(120, 200, 190, 0.35);
@@ -388,7 +391,7 @@
       <h3>Controls</h3>
       <b>Left-drag</b> — select your units<br>
       <b>Right-click</b> (two-finger tap) — move / attack / harvest / collect eggs<br>
-      <b>A</b> then click — attack-move &nbsp;·&nbsp; <b>S</b> — stop &nbsp;·&nbsp; <b>H</b> — marines &amp; artillery hunker down (½ damage, hold position)<br>
+      <b>A</b> then click — attack-move &nbsp;·&nbsp; <b>S</b> — stop &nbsp;·&nbsp; <b>D</b> — marines &amp; artillery hunker down (½ damage, hold position) &nbsp;·&nbsp; <b>H</b> — jump the camera home<br>
       <b>Q / W / E / R / D / Z</b> — train units &amp; research upgrades (select a building first) · <b>Q</b> on a Depot/Power Plant — lower it flush with the ground (units drive over; Q raises)<br>
       <b>T</b> turret · <b>B</b> barracks · <b>V</b> factory · <b>C</b> supply depot · <b>O</b> power plant · <b>G</b> refinery · <b>X</b> airpad · <b>Y</b> flak · <b>N</b> silo · <b>J</b> hydro dam — click to place<br>
       Buildings unlock in order: <b>Depot → Barracks → Factory → Airpad → Silo</b> (turrets need a Barracks, flak needs a Factory). Depots also slowly repair nearby buildings.<br>

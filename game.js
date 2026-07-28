@@ -845,20 +845,22 @@ const MISSIONS = [
     // reinforcements — the squad you land with is the squad you leave with.
     title: 'Ghost Survey', act: 'Act I — The Crystal War',
     map: 'fen', diff: 'normal', noEnemy: true, noBase: true, start: [600, 1900],
-    // The squad has no economy and no replacements, so the fen's center
-    // double-nest (six spitters astride the only sensible route) is a mission
-    // ender rather than a hazard — verified by walking a marine into it. The
-    // center field keeps its crystal for looks and loses its guards; the two
-    // flank nests move off the causeway mouths so they can be avoided, not
-    // blundered into through heavy fog.
+    // NO nests on this one. The squad has no economy and no replacements, and
+    // the causeways are the only crossings — so any mound near a crossing sits
+    // on the one route the player can take. Measured: a nest at the west
+    // causeway mouth erupted five spitters into the column and took six of
+    // eleven before the first relay. In heavy fog that isn't a hazard you plan
+    // around, it's a coin flip. The fields stay as scenery (there's no economy
+    // to guard) and the roaming critters keep the swamp alive; the threat here
+    // is Rubicon, which is the point of the mission.
     fields: [
-      { p: [922, 1152],  n: 7,  a: 2300, nests: [[800, 1330]] },
-      { p: [2150, 1152], n: 7,  a: 2300, nests: [[2050, 1000]] },
+      { p: [922, 1152],  n: 7,  a: 2300 },
+      { p: [2150, 1152], n: 7,  a: 2300 },
       { p: [1536, 1152], n: 10, a: 3000 },
     ],
     brief: [
       ['ops', 'No base this time, Commander. One transport, one squad, and a swamp Rubicon thinks is empty.'],
-      ['ops', 'Krauss has three survey relays strung across Blackwater Fen feeding a field lab on the north bank. We are going to take the relays off the board and walk out of that lab with his geological data.'],
+      ['ops', 'Krauss has four survey relays strung across Blackwater Fen feeding a field lab on the north bank. We are going to take the relays off the board and walk out of that lab with his geological data.'],
       ['sci', 'I want the drilling logs specifically. He has been sinking bores far deeper than any crystal deposit justifies, and I would very much like to know what he thinks is down there.'],
       ['ops', 'Fog is heavy and the causeways are the only crossings. Move carefully — nothing is coming to bail you out.'],
     ],
@@ -866,52 +868,73 @@ const MISSIONS = [
       ['ops', 'Squad is on the ground. Relays are marked — work north, and use the medic. Every body you lose is a body you do not get back.'],
     ],
     objectives: [
-      { id: 'relays',  text: 'Destroy Krauss\'s three survey relays', type: 'groupDead', group: 'relays', mark: [700, 980] },
-      { id: 'lab',     text: 'Reach the field lab and pull the drilling logs', type: 'reach', x: 2450, y: 300, r: 150, hidden: true, mark: [2450, 300] },
-      { id: 'exfil',   text: 'Get the squad back to the landing zone (3+ alive)', type: 'groupReach', group: 'squad', x: 600, y: 1900, r: 220, count: 3, hidden: true, mark: [600, 1900] },
+      { id: 'relays',  text: 'Destroy Krauss\'s four survey relays', type: 'groupDead', group: 'relays', mark: [700, 980] },
+      { id: 'power',   text: 'Cut the field lab\'s power — both generators', type: 'groupDead', group: 'labpower', hidden: true, mark: [2620, 200] },
+      { id: 'lab',     text: 'Reach the darkened lab and pull the drilling logs', type: 'reach', x: 2450, y: 300, r: 150, hidden: true, mark: [2450, 300] },
+      { id: 'exfil',   text: 'Reach the emergency LZ on the east coast (3+ alive)', type: 'groupReach', group: 'squad', x: 2880, y: 2040, r: 220, count: 3, hidden: true, mark: [2880, 2040] },
     ],
-    winWhen: ['relays', 'lab', 'exfil'],
+    winWhen: ['relays', 'power', 'lab', 'exfil'],
     triggers: [
       { when: { time: 0.5 },
         spawn: [
-          { group: 'squad', unit: 'marine',   team: 1, n: 4, at: [600, 1900] },
+          { group: 'squad', unit: 'marine',   team: 1, n: 5, at: [600, 1900] },
           { group: 'squad', unit: 'sniper',   team: 1, n: 2, at: [660, 1960] },
-          { group: 'squad', unit: 'medic',    team: 1, n: 1, at: [540, 1960] },
+          { group: 'squad', unit: 'medic',    team: 1, n: 2, at: [540, 1960] },
           { group: 'squad', unit: 'engineer', team: 1, n: 1, at: [600, 2010] },
           { group: 'squad', unit: 'apc',      team: 1, n: 1, at: [700, 1860] },
-          // Krauss's quiet little network
+          // Krauss's quiet little network — four posts, corner to corner
           { group: 'relays', bld: 'supply', team: 2, at: [700, 980] },
           { group: 'relays', bld: 'supply', team: 2, at: [2400, 1330] },
           { group: 'relays', bld: 'supply', team: 2, at: [1350, 420] },
+          { group: 'relays', bld: 'supply', team: 2, at: [500, 380] },
           { bld: 'barracks', team: 2, at: [2450, 300] },
-          { bld: 'turret',   team: 2, at: [2300, 380] },
-          { bld: 'turret',   team: 2, at: [2560, 420] },
+          { bld: 'turret',   team: 2, at: [2400, 430] },
+          // the lab runs off its own grid; dark, its door opens
+          { group: 'labpower', bld: 'power', team: 2, at: [2620, 200] },
+          { group: 'labpower', bld: 'power', team: 2, at: [2270, 170] },
           { unit: 'marine', team: 2, n: 2, at: [760, 1040], order: 'guard' },
           { unit: 'marine', team: 2, n: 2, at: [2340, 1280], order: 'guard' },
           { unit: 'marine', team: 2, n: 3, at: [1400, 480],  order: 'guard' },
+          { unit: 'marine', team: 2, n: 2, at: [560, 450],   order: 'guard' },
+          { unit: 'marine', team: 2, n: 2, at: [2450, 240],  order: 'guard' },
         ] },
       { when: { time: 14 },
         say: [['sci', 'The relays are listening posts, Commander — if one of them sees you before it dies, the lab knows you are coming.']] },
-      { when: { groupDead: 'relays' }, objective: 'lab',
-        say: [['ops', 'All three relays are dark. Krauss just went blind across the whole fen.'],
-              ['red', 'Relay net is down. ...All of it? In a swamp? Get me eyes on the north bank, now.']] },
+      // patrols sweep the causeways from the start: the fen is watched, not empty
+      { when: { time: 70, notDone: ['exfil'] }, repeat: true, every: 100,
+        spawn: { unit: 'marine', team: 2, n: 2, at: [2900, 250], order: 'attackhq', to: [1600, 1100] } },
+      { when: { groupDead: 'relays' }, objective: 'power',
+        say: [['ops', 'All four relays are dark. Krauss just went blind across the whole fen.'],
+              ['red', 'Relay net is down. ...All of it? In a swamp? Seal the lab and get me eyes on the north bank.'],
+              ['sci', 'Sealed means powered, Commander. Two generators behind the lab — take those and the door is just a door.']] },
       // he starts sweeping for you once the relays drop
-      { when: { groupDead: 'relays', notDone: ['exfil'] }, delay: 25, repeat: true, every: 50,
+      { when: { groupDead: 'relays', notDone: ['exfil'] }, delay: 30, repeat: true, every: 85,
         spawn: { unit: 'raider', team: 2, n: 2, at: [2900, 200], order: 'attackhq', to: [1500, 900] } },
-      { when: { done: ['lab'] }, objective: 'exfil', alarm: '⚠ Data pulled — Rubicon is hunting the squad!',
-        say: [['sci', 'I have the logs. Commander, his deepest bore is four kilometers down and still reading crystal. That is not a deposit. A deposit has a bottom.'],
-              ['ops', 'Understood. Everyone out — back to the landing zone, and do not stop to win anything.']] },
-      { when: { done: ['lab'], notDone: ['exfil'] }, delay: 12, repeat: true, every: 40,
-        spawn: { unit: 'marine', team: 2, n: 3, at: [2500, 250], order: 'attackhq', to: [900, 1700] } },
+      { when: { groupDead: 'labpower' }, objective: 'lab',
+        say: [['sci', 'Lab is dark. Walk in and pull the drilling logs — everything he has on what is under this swamp.']] },
+      { when: { groupDead: 'labpower', notDone: ['exfil'] }, delay: 25, repeat: true, every: 80,
+        spawn: { unit: 'marine', team: 2, n: 2, at: [2900, 400], order: 'attackhq', to: [2450, 300] } },
+      // the way you came in is closed — the long walk down the coast
+      { when: { done: ['lab'] }, objective: 'exfil', alarm: '⚠ Landing zone overrun — divert to the east coast!',
+        say: [['sci', 'I have the logs. His deepest bore is four kilometers down and still reading crystal. That is not a deposit — a deposit has a bottom.'],
+              ['red', 'They are in my lab. Burn the swamp behind them and put a platoon on that landing zone. Nobody flies out of here.'],
+              ['ops', 'Original LZ is gone. New extraction on the east coast, marked — move, Commander, and do not stop to win anything.']] },
+      { when: { done: ['lab'] }, delay: 4,
+        spawn: { unit: 'marine', team: 2, n: 4, at: [600, 1900], order: 'guard' } },
+      { when: { done: ['lab'], notDone: ['exfil'] }, delay: 14, repeat: true, every: 58,
+        spawn: { unit: 'marine', team: 2, n: 3, at: [2500, 250], order: 'attackhq', to: [2700, 1500] } },
+      { when: { done: ['lab'], notDone: ['exfil'] }, delay: 65, repeat: true, every: 75,
+        spawn: { unit: 'raider', team: 2, n: 2, at: [2990, 1200], order: 'attackhq', to: [2880, 2040] } },
+      // the long walk gets the reveal, so the debrief doesn't have to carry it
+      { when: { done: ['lab'] }, delay: 30,
+        say: [['sci', 'Commander, while you walk — I have been reading. He is not drilling toward a deposit. He is drilling toward a single crystal. One structure, kilometers across.'],
+              ['ops', 'That is not possible.'],
+              ['sci', 'The seismic returns say it is not inert either. It has a rhythm. A slow one. I would very much like to be wrong about this.']] },
       // the squad is the mission — lose too many and there is nothing to extract
       { when: { groupBelow: ['squad', 3] }, lose: true },
     ],
     outro: [
-      ['ops', 'Transport is up and everyone aboard is breathing. Clean work in a filthy swamp, Commander.'],
-      ['sci', 'I have been reading these logs the whole flight back and I want to be very careful about what I say next.'],
-      ['sci', 'Krauss is not drilling toward a crystal deposit. He is drilling toward a single crystal. One structure, kilometers across, and the seismic returns say it is not inert. It has a rhythm.'],
-      ['ops', 'A rhythm.'],
-      ['sci', 'A slow one. I would like to be wrong about this.'],
+      ['ops', 'Transport is up and everyone aboard is breathing. Clean work in a filthy swamp.'],
     ],
     winText: 'The relays are dead, the drilling logs are in expedition hands, and Dr. Lin has stopped sleeping. Whatever Rubicon is digging toward, it has a pulse.',
     loseText: 'The squad did not come out of the fen. Rubicon\'s relays are still listening, and nobody up the chain knows what Krauss is drilling toward.',
@@ -3634,6 +3657,22 @@ function setCursor() {
 function pruneSelection() {
   selection = selection.filter(e => e.hp > 0 && (e.kind !== 'unit' || units.includes(e)));
 }
+// H: jump the camera home. The HQ if there is one, otherwise the centre of
+// mass of whatever the player still owns — commando missions have no base.
+function goHome() {
+  const hq = buildings.find(b => b.team === 1 && b.type === 'hq' && b.hp > 0);
+  let x, y;
+  if (hq) { x = hq.x; y = hq.y; }
+  else {
+    const mine = units.filter(u => u.team === 1 && u.hp > 0);
+    if (!mine.length) return;
+    x = mine.reduce((a, u) => a + u.x, 0) / mine.length;
+    y = mine.reduce((a, u) => a + u.y, 0) / mine.length;
+  }
+  camFocus = null;                 // a manual jump outranks any event pan
+  cam.x = x - view.w / 2; cam.y = y - view.h / 2;
+  clampCam();
+}
 const canHunker = (u) => u.type === 'marine' || u.type === 'artillery' || u.type === 'sniper';
 function toggleHunker() {
   const diggers = selection.filter(s => s.kind === 'unit' && canHunker(s) && s.hp > 0);
@@ -3662,6 +3701,7 @@ document.addEventListener('mouseleave', () => { mouse.inWindow = false; });
 cv.addEventListener('mousedown', (e) => {
   audioInit();
   if (e.button !== 0) return;
+  if (skipOutro()) return;   // debrief running: click through to the scoreboard
   const wx = mouse.sx + cam.x, wy = mouse.sy + cam.y;
   if (nukeTargeting) {
     if (nukeTargeting.warhead && launchNuke(nukeTargeting, wx, wy)) { nukeTargeting = null; setCursor(); }
@@ -3815,11 +3855,18 @@ window.addEventListener('keydown', (e) => {
     return;
   }
   if (gameOver) return;
+  if (skipOutro()) return;   // debrief running: any key jumps to the scoreboard
 
   pruneSelection();
   if (e.code === 'KeyA' && selection.some(s => s.kind === 'unit' && isCombat(s))) { attackMoveMode = true; placing = null; nukeTargeting = null; setCursor(); return; }
   if (e.code === 'KeyS') { for (const s of selection) if (s.kind === 'unit') s.order = { type: 'idle' }; return; }
-  if (e.code === 'KeyH' && selection.some(s => s.kind === 'unit' && canHunker(s))) { toggleHunker(); return; }
+  // H = home: snap the camera to base (Bronson 2026-07-27 — hunker moved to D).
+  // With no HQ (commando missions) it centres on whatever you still have.
+  if (e.code === 'KeyH') { goHome(); return; }
+  // D = hunker. A building that trains still owns D as its 5th card slot, so
+  // production wins when one is selected — the two can't both be selected.
+  if (e.code === 'KeyD' && selection.some(s => s.kind === 'unit' && canHunker(s))
+      && !selection.some(s => s.kind === 'building' && BLD[s.type].trains)) { toggleHunker(); return; }
   if (e.code === 'KeyU' && selection.some(s => s.kind === 'unit' && s.cargo && s.cargo.length)) {
     for (const s of selection) if (s.kind === 'unit' && s.cargo && s.cargo.length) unloadAPC(s);
     return;
@@ -4236,7 +4283,7 @@ function refreshCard() {
     const rigHint = selection.some(u => u.type === 'rig') ? 'Right-click a spitter to capture it, then haul it to the HQ. ' : '';
     html = `<h3>${label}</h3><div class="sub">${rigHint}${engHint}Right-click: move · attack · harvest</div><div class="row">`;
     if (selection.some(u => isCombat(u))) html += '<button data-act="amove">Attack-move [A]</button>';
-    if (selection.some(u => u.kind === 'unit' && canHunker(u))) html += '<button data-act="hunker">Hunker down [H]</button>';
+    if (selection.some(u => u.kind === 'unit' && canHunker(u))) html += '<button data-act="hunker">Hunker down [D]</button>';
     const aboard = selection.reduce((s, u) => s + (u.cargo ? u.cargo.length : 0), 0);
     if (aboard > 0) html += `<button data-act="unload">Unload ${aboard} [U]</button>`;
     html += '<button data-act="stop">Stop [S]</button></div>';
@@ -6693,7 +6740,11 @@ function exportVoiceScript() {
 // When lines back up (fast players out-build the script), the current line types
 // faster and holds shorter so the commentary catches up instead of lagging.
 let dlgQueue = [], dlgCur = null, dlgStart = 0, dlgUntil = 0, dlgHold = 0, dlgClipEnd = 0;
-const dlgDur = (text) => Math.min(7 * 60, Math.floor((2.2 + text.length * 0.035) * 60));
+// Hold long enough to actually READ it. 0.055s/char is ~18 characters a second,
+// which is unhurried adult reading pace; the old 0.035 (~28/s) outran the eye
+// (Bronson 2026-07-27: "text moves too fast, I can't even finish reading").
+// Voiced lines ignore all of this — they hold for the clip's own length.
+const dlgDur = (text) => Math.min(11 * 60, Math.floor((1.9 + text.length * 0.055) * 60));
 function say(who, text) { dlgQueue.push({ who, text }); }
 function dlgUpdate() {
   if (!dlgCur && dlgQueue.length) {
@@ -6739,8 +6790,13 @@ function dlgUpdate() {
   // rush-cut trims the post-line hold, NEVER a playing clip — a voiced line
   // always finishes speaking before the next one starts (playtest: Krauss got
   // cut off mid-sentence when Lin's line was queued behind his)
+  // A backlog trims the hold but can no longer gut it: the old rule left a flat
+  // 1s after typing, so a queued 120-character line flashed by in under two
+  // seconds. Now the floor scales with the line — 65% of its normal read time.
   const until = rush
-    ? Math.max(dlgClipEnd + 12, Math.min(dlgUntil, dlgStart + Math.ceil(dlgCur.text.length / rate) + 60))
+    ? Math.max(dlgClipEnd + 12,
+        Math.min(dlgUntil, dlgStart + Math.max(Math.ceil(dlgCur.text.length / rate) + 45,
+                                               Math.floor(dlgDur(dlgCur.text) * 0.65))))
     : dlgUntil;
   if (tick >= until) {
     dlgCur = null;
@@ -6939,7 +6995,10 @@ function missionUpdate() {
     return o && o.done;
   })) {
     ms.outroDone = true;
-    let wait = 150;   // headroom for per-line cold-load holds
+    // Small headroom only — the per-line loop below already accounts for voice
+    // clip length, and 2.5s of dead air after the last word made the debrief
+    // feel like a hang (Bronson 2026-07-27: should be under 7 seconds).
+    let wait = 45;
     for (const [who, line] of (mission.outro || [])) {
       say(who, line);
       // a voiced line holds the bar for the clip, so the win timer must too —
@@ -6959,6 +7018,17 @@ function missionUpdate() {
   refreshObjectives();
 }
 
+// The debrief is a victory lap, not a cutscene — a click or a key jumps
+// straight to the scoreboard instead of waiting the outro out.
+function skipOutro() {
+  if (!mission || !ms || !ms.outroDone || gameOver) return false;
+  dlgQueue.length = 0; dlgCur = null; dlgClipEnd = 0;
+  stopVoice();
+  elDialogue.classList.remove('talking');
+  elDialogue.classList.add('hidden');
+  ms.winAt = tick;
+  return true;
+}
 function missionEnd(win) {
   if (gameOver) return;
   gameOver = win ? 'win' : 'lose';

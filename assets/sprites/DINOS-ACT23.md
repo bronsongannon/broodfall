@@ -217,6 +217,14 @@ cue from overhead. (5) The one negative is geometric, not species-relational
 Keep the glow to thin veins and belly seams. If the whole body glows she reads
 as a UI element instead of an animal.
 
+**COMPLETE 2026-07-28 — static, walk 1..8, death 1..4 all installed.** Walk
+video sliced with `slice_walk.py` (stride period autodetected at 48 frames);
+death sheet came back 4x1 with frame 4 leaning ~8° and was cut with
+`slice_sheet.py` (rot 0,0,0,8). Frame 4 is a full side-profile — technically
+against the top-down rule, but a huge biped toppling onto her side reads
+exactly right in-game, so it stays. NOTE: `slice_walk.py` needs numpy +
+imageio[ffmpeg]; installed to the Xcode python's user site 2026-07-28.
+
 **Static APPROVED + INSTALLED 2026-07-28** (first generation off the v3
 prompt — `unit_broodmother_wild.png`, raw in `source/broodmother.png`). Draw
 box `DINO_BOX.broodmother` 2.2 (the 3.2:1 sprite in a square box needs it to

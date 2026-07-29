@@ -47,10 +47,10 @@
 <div style="background:var(--surface-2);border:0.5px solid var(--border);border-radius:12px;padding:1rem 1.25rem;margin:0 0 1.5rem">
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
     <i class="ti ti-checklist" style="font-size:20px" aria-hidden="true"></i>
-    <p style="font-weight:500;font-size:15px;margin:0">Shipped — playtest round + full code audit</p>
-    <span style="margin-left:auto;background:var(--bg-success);color:var(--text-success);font-size:12px;padding:3px 10px;border-radius:var(--radius)">Jul 11–21</span>
+    <p style="font-weight:500;font-size:15px;margin:0">Shipped</p>
+    <span style="margin-left:auto;background:var(--bg-success);color:var(--text-success);font-size:12px;padding:3px 10px;border-radius:var(--radius)">Jul 11–28</span>
   </div>
-  <p style="font-size:13px;color:var(--text-secondary);margin:0 0 10px">Playtest notes plus a two-agent audit of all ~4,300 lines. Everything below is fixed, verified, and pushed.</p>
+  <p style="font-size:13px;color:var(--text-secondary);margin:0 0 10px">Everything below is built, verified, and pushed.</p>
   <div id="shipped"></div>
 </div>
 
@@ -58,7 +58,7 @@
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
     <i class="ti ti-map-2" style="font-size:20px" aria-hidden="true"></i>
     <p style="font-weight:500;font-size:15px;margin:0">Campaign arc — all three acts</p>
-    <span style="margin-left:auto;background:var(--bg-warning);color:var(--text-warning);font-size:12px;padding:3px 10px;border-radius:var(--radius)">7 of 20 built — Act 1 complete</span>
+    <span style="margin-left:auto;background:var(--bg-warning);color:var(--text-warning);font-size:12px;padding:3px 10px;border-radius:var(--radius)">8 of 20 — Act 2 has begun</span>
   </div>
   <p style="font-size:13px;color:var(--text-secondary);margin:0 0 10px">Full mission-by-mission design in CAMPAIGN.md. Act 1 ships in v1; Acts 2–3 are the free update. Click a mission chip to start building it. Biggest engine prerequisite: the allied AI faction (M11, M18).</p>
   <p style="font-size:13px;font-weight:500;margin:6px 0 2px">Act 1 — The Crystal War (ships in v1)</p>
@@ -94,7 +94,7 @@ const TRACKS = {
       'Write the privacy policy page for Broodfall (it collects no data) and set it up on GitHub Pages so I have the URL App Store Connect asks for.'],
     ['ap7','Sandbox entitlements, code signing, notarize, test on a clean Mac','Jul 29',
       'Guide me through sandbox entitlements, code signing, and notarization for the Broodfall Mac app, plus how to test the built .app cleanly and dodge the guideline 4.2 thin-wrapper flag.'],
-    ['ap8','Archive, upload, submit for review — 2-day buffer before the 31st. FIRST: flip DEV_PRERELEASE to false in game.js (dev tools must not ship)','Jul 30',
+    ['ap8','Archive, upload, submit for review. FIRST: flip DEV_PRERELEASE to false in game.js (dev tools must not ship)','Jul 30',
       'Time to submit Broodfall: FIRST flip DEV_PRERELEASE to false in game.js (it keeps dev tools alive in local wrapper builds — shipping it true is a paywall bypass), then walk me through archiving in Xcode, uploading to App Store Connect, filling out the review form, and submitting.'],
   ],
   game: [
@@ -102,14 +102,18 @@ const TRACKS = {
       'Show me how to author a new Broodfall mission with the MISSIONS framework — walk through the spec format so we can bang out missions fast.'],
     ['g2','Tech tree, power grid, depot repair field, factory/airpad repair bays','',
       'Recap the tech tree and power grid knobs in Broodfall and where to tune them if playtests say the brownout or repair costs feel off.'],
-    ['g3','Playtest Landfall again — does it land in the 15-minute window now?','',
-      'I\'m replaying Mission 1 Landfall after the exploration-first rework. Give me a short list of what to watch for (pacing, capture feel, tutorial clarity) so my feedback is useful.'],
+    ['g9','Landfall pacing round 3 DONE — the colony reprisal (every nest empties onto your base when you take the specimen)','',
+      'Recap exactly what the Landfall colony reprisal does and which knobs tune it — wave size, the 20s warning window, the re-rally cadence — in case my playtest says it is too hard or too soft.'],
+    ['g3','Playtest Landfall again — does the colony reprisal land it at 15 min, and does it read as a reaction to the capture?','',
+      'I\'m replaying Mission 1 Landfall after the colony reprisal landed (every nest empties onto the base when you deliver the specimen). Give me a short list of what to watch for — total runtime, whether the 20s warning is enough time to reinforce, whether the wave feels like a reaction or just a wave, and whether the fight resolves too fast — so my feedback is useful.'],
     ['g4','Team color pass — wild dino bone/moss, red identity touches','',
       'Let\'s do the Broodfall team color pass from CAMPAIGN.md: bone/moss wild dinos, red team identity touches, and colorblind-safe brightness separation.'],
     ['g5','Raptor + Raptor Den — the Act 1 finale swarm tease','',
       'Let\'s build the Raptor and Raptor Den for Broodfall: fast melee pack hunter (short-range fake melee) and a den that sends periodic hunting packs.'],
     ['g6','Missions 2–3: harvester convoy escort, first nest crack','',
       'Let\'s design and build Broodfall missions 2 and 3: the harvester convoy escort and the first nest crack, using the existing mission framework.'],
+    ['g10','GPU/perf pass DONE — still needs your own before/after on real hardware','',
+      'The perf pass is in (60fps cap, 3.2M pixel budget, adaptive governor). Walk me through measuring the before/after on my actual Mac in the wrapper — what to watch in dev mode and what numbers would tell us it is fixed.'],
     ['g7','Pacing pass toward 20–30 minute matches','',
       'Let\'s start the Broodfall pacing pass toward 20-30 minute matches: what levers exist (HP, patch sizes, wave cadence, map size) and a tuning plan.'],
     ['g8','Map roster: 15 maps / 20 missions locked (CAMPAIGN.md) — 11 built; 4 to go: Krauss\'s Bastion, Exodus Road, Evac Coast, The Crater','',
@@ -134,13 +138,17 @@ const TRACKS = {
       'I dropped infantry death sheets in Source 2 (marine/sniper/medic/engineer, teal plus red recolors) — slice and install all of them, then show me a battle with bodies.'],
     ['a9','Cast portraits: Vega, Lin, Krauss — DaVinci film-still set, live in the PiP','',
       'The three cast portraits are live (assets/portraits/). Review them in-game across missions 1-3 dialogue and tell me if any need a regenerate before the set is locked.'],
-    ['a10','Voice lines: 45 remaining — 35 Vega, plus M7\'s 5 Krauss + 5 Lin (their voices are locked, so those 10 can be cut today; Vega voice hunt still on)','',
-      'Lin (Ember) and Krauss (Rob) are fully voiced in ElevenLabs; I\'m hunting an ElevenLabs voice for Vega. Help me pick candidates against her voice brief in assets/sprites/PORTRAITS.md, then batch-generate her 24 lines from assets/voice/voice-script.tsv (regenerating the legacy DaVinci opener too) — I\'ll drop the mp3s on you to hash-match and install.'],
+    ['a10','Voice lines: 50 remaining — 35 Vega, M7\'s 5 Krauss + 5 Lin, plus 5 new Landfall reprisal lines (2 are Lin\'s, cuttable today)','',
+      'Lin (Ember) and Krauss (Rob) are fully voiced in ElevenLabs; I\'m hunting an ElevenLabs voice for Vega. Two NEW Lin lines from the Landfall reprisal can be cut right now (hashes sci_d086a77a and sci_46b9daae). Help me batch those, then pick Vega candidates against her voice brief in assets/sprites/PORTRAITS.md and generate her lines from assets/voice/voice-script.tsv — I\'ll drop the mp3s on you to hash-match and install.'],
     ['a11','Walk cycles COMPLETE: all 13 walkers animated (DaVinci videos + derived colorways)','',
       'All walk cycles are live. Playtest a big mixed battle and tell me if any unit\'s gait cadence or frame count feels off — WALK_STRIDE_PX is the knob.'],
   ],
 };
 const SHIPPED = [
+  'ACT 2 HAS OPENED (Jul 28): mission 8 "Strip Mine" is built — the first mission you can lose without losing a fight. Krauss is strip-mining the motherlode and his haul counter is the enemy; his forward refinery is the valve, and razing it drops him from 642 crystals a minute to 210, which turns a loss at 11 minutes into breathing room out past 24. Mid-mission he nukes the pit colonies as "overburden removal" and something answers: a Raptor Den erupts out of the crater floor and goes for HIS lines first',
+  'TWO NEW DINOS LIVE (Jul 28): the Screecher (flying harasser) and the Ironback (armored siege bruiser) are in the game with full art — statics, walk and flap cycles, death frames. The Broodmother was scrapped: she kept generating as a tick because the brief asked for insect anatomy in a dinosaur game, and she has a fresh direction waiting',
+  'RAPTOR IS SCARY NOW (Jul 28): 34px to 46px, bigger than a spitter. Dino draw size now follows the unit radius instead of being hard-coded — the Ironback had been drawing at 26px inside a 43px hit circle. Melee reach grew with the body, because a fatter raptor was pushing itself out of its own bite range: one pixel of margin against a tank before the fix',
+  'LANDFALL HAS AN ENDING (Jul 28): the mission ran 12 minutes and everything after the capture was a passive mining grind. Now, taking the specimen empties EVERY nest on the map onto your base — the standing broods and roamers drop their leashes and converge from both fields you scouted, so the charge starts at the mounds themselves. It is a warning then a charge: Lin tells you every mound went active in the same second, Vega gives you twenty seconds to spend everything, and then it lands. Measured across dozens of harness runs — at the tutorial minimum a passive player loses 5 times in 6, three marines queued during the warning holds every time. Probe wave 3 to 4 spitters, mine 1000 to 1250',
   'Performance pass (Jul 27): the game was rendering at your display refresh rate, so a 120Hz MacBook was doing twice the GPU work for nothing — now capped at 60fps. Full-screen Retina also asked for up to 15 million pixels a frame; that is now capped at 3.2 million, which is 38% fewer pixels on a MacBook Air and 78% fewer on a 5K display. Quality also adapts down on slower Macs and is remembered between launches. Turn on dev mode to see fps and resolution bottom-right',
   'ACT 1 IS COMPLETE (Jul 27): missions 4-6 built — Dig In (hold an expansion while Krauss hunts your power plants), Ghost Survey (no base at all: one squad, heavy swamp, steal his drilling logs and walk out), and Countdown (a live launch clock on the HUD). Shipped with them: survive and deadline objectives, commando missions with no HQ, scripted enemy nuke launches, and waves that hunt a building type. The paid tier goes from 1 mission to 4',
   'Dams are built by hand (Jul 27): the Hydro Dam cannot raise itself — an engineer must stand at the site for the whole build, placing one dispatches a crew automatically, and you cannot buy past it. The raptor den now erupts with 5-7 raptors at 2x size, is unkillable in its first appearance, and the camera swings onto it even if your mouse is parked at a screen edge',
@@ -179,7 +187,7 @@ const SHIPPED = [
   'Audit round 2 (Jul 23): 7 game fixes (AI refinery stacking, cold-load voice race, dev-mode save clobber, mute hotkey, truncated-animation cache, ghost-through-cliffs, outro win timer) + ship fixes (dev files stripped from the app bundle, export-compliance key, style guide rebranded). Soaks clean. One CRITICAL left: the IAP gate (ap9)',
   'IAP GATE SHIPPED (Jul 22) — the last audit CRITICAL: BFStore entitlement layer (StoreKit in the wrapper, web build stays fully unlocked, fails closed until StoreKit answers), missions 4+ and all maps but Crystal Basin gated with console-proof backstops, unlock strip with live price + restore purchases, dev mode / CC.unlockAll dead in release wrapper builds, StoreBridge.swift + Products.storekit test config in the Run scheme. Wrapper builds; every gate, the unlock transition, and error paths verified in a fake-bridge harness',
 ];
-const PRE = { ap1: 1, ap3: 1, ap4: 1, ap6: 1, ap9: 1, g1: 1, g2: 1, g4: 1, g5: 1, g6: 1, a1: 1, a2: 1, a3: 1, a4: 1, a5: 1, a6: 1, a7: 1, a8: 1, a9: 1, a11: 1 };
+const PRE = { ap1: 1, ap3: 1, ap4: 1, ap6: 1, ap9: 1, g1: 1, g2: 1, g4: 1, g5: 1, g6: 1, g9: 1, g10: 1, a1: 1, a2: 1, a3: 1, a4: 1, a5: 1, a6: 1, a7: 1, a8: 1, a9: 1, a11: 1 };
 const KEY = 'cc-ship-checklist-v1';
 let saved = {};
 try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
@@ -228,7 +236,7 @@ document.querySelectorAll('button[data-p]').forEach(btn => {
 });
 const ACTS = {
   act1: [
-    ['M1','Landfall','Outpost, scouting, the retaliation probe, and the first live capture','built'],
+    ['M1','Landfall','Outpost, scouting, the probe, the first live capture — then every nest empties onto your base','built'],
     ['M2','Claim Jumpers','Convoy escort vs Krauss\'s raiders — the war starts as a mining claim dispute','built'],
     ['M3','The Nest Problem','First artillery, first nest crack; Lin objects on the record','built'],
     ['M4','Dig In','Red\'s offensive targets your power plants — the brownout lesson, received','built'],
@@ -237,7 +245,7 @@ const ACTS = {
     ['M7','High Water Mark','Win the war — then a den erupts under the ruins. Act 1 ends mid-victory-speech','built'],
   ],
   act2: [
-    ['M8','Strip Mine','Krauss nukes a nest field; the first Raptor Den answers — hunting BOTH sides'],
+    ['M8','Strip Mine','An economy race you can lose without a fight — then the pit floor opens and a den hunts BOTH sides','built'],
     ['M9','The Silence','Commando dread mission into a dead red outpost; first Screechers'],
     ['M10','Broodfall','Your final assault on Krauss becomes his base falling to the swarm — the kill objective is cancelled mid-mission: get out alive'],
     ['M11','Strange Bedfellows','Joint defense beside red AI allies; lose if EITHER HQ falls'],

@@ -25,11 +25,15 @@ file and the widget's task lists in sync.
 
 - [x] Mission framework + Mission 1 "Landfall" (briefings, objectives, capture op)
 - [x] Tech tree, power grid, depot repair field, factory/airpad repair bays
-- [ ] Playtest Landfall — does it land in the 15-minute window?
+- [x] Landfall pacing round 3 — DONE 2026-07-28 (Bronson: "reaching 12 min", wanted it harder). Taking the specimen now empties EVERY nest on the map onto your base: new `rally` trigger action pulls the standing broods and roamers off their leashes, each nest disgorges one more, ~8 spitters converge from both scouted fields. Warning then charge — Lin names it and Vega orders you to reinforce 20s before contact, because at the tutorial minimum (4 marines + 1 turret) a passive player loses 5 runs in 6 while three marines queued in that window holds 6 of 6. Probe wave 3→4, mine 1000→1250
+- [ ] Playtest Landfall again — does the reprisal land it in the 15-minute window, and does the fight feel like a reaction to the capture?
 - [x] Team color pass — wild dino bone/moss, red identity touches (2026-07-12)
 - [x] Raptor + Raptor Den — engine complete, M7 scripts the debut (2026-07-13)
 - [x] Missions 2–3: harvester convoy escort, first nest crack (2026-07-12)
 - [x] GPU/perf pass — DONE 2026-07-27 (Bronson: fullscreen wrapper lag in a nest fight + machine running hot). Render capped to 60fps (a 120Hz ProMotion Mac was doing double the GPU work), backing store capped to a 3.2M-pixel budget (−38% on a MacBook Air fullscreen up to −78% on a 5K display), alpha:false context, additive effects batched into one blend pass, and an adaptive governor that steps quality down under 48fps and back up at 60 — persisted to `cc.gfx` so a slow Mac starts where it left off. Dev mode shows fps/backing/scale bottom-right. **Still needs Bronson's own before/after on real hardware — the preview browser can't measure GPU gains**
+- [x] Act 2 opener M8 "Strip Mine" BUILT 2026-07-28 — economy race (out-haul Krauss before his counter hits 7000), his forward refinery is the valve that throttles it, he nukes the pit colonies as "overburden", and a Raptor Den erupts from the crater hunting BOTH sides. New engine: scripted rival `haul` counter + trigger action, per-team mined tally
+- [x] Screecher + Ironback art COMPLETE 2026-07-28 — statics, walk/flap cycles, death frames, both installed with provisional stats. Broodmother SCRAPPED (read as a tick; redesign brief in assets/sprites/DINOS-ACT23.md)
+- [x] Raptor scaled up 2026-07-28 (Bronson: should read scary) — 34px → 46px; drawDino now derives size from `r` instead of hard-coding it (the Ironback was drawing at 26px with a 43px hit circle), melee reach grown with the body, raptor death frames renormalized
 - [ ] Pacing pass toward 20–30 minute matches
 
 ## Art and audio

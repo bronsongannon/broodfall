@@ -619,6 +619,10 @@ const MISSIONS = [
   {
     title: 'Landfall', act: 'Act I — The Crystal War',
     map: 'basin', diff: 'easy', noEnemy: true, bare: true,
+    // Landfall teaches the depot, the barracks and the turret. Nothing else is
+    // authorised — a tutorial shouldn't offer a missile silo.
+    allow: { bld: ['supply', 'barracks', 'turret', 'refinery'],
+             unit: ['harvester', 'engineer', 'marine', 'sniper'] },
     // Landfall spreads the neutral fields to opposite corners of the valley so
     // scouting is a real trip — and keeps the nests well away from the base.
     fields: [
@@ -724,6 +728,8 @@ const MISSIONS = [
   {
     title: 'Claim Jumpers', act: 'Act I — The Crystal War',
     map: 'trade', diff: 'easy', noEnemy: true,   // rehomed 2026-07-24 (roster: M2 gets its own map)
+    allow: { bld: ['supply', 'barracks', 'turret', 'refinery', 'power'],
+             unit: ['harvester', 'engineer', 'marine', 'sniper', 'rocket'] },
     patches: [[2870, 590, 6, 2200]],   // Survey Post Beta's rich field
     brief: [
       // NOTE: only Vega's (ops) lines may be reworded freely — they're unvoiced
@@ -799,6 +805,8 @@ const MISSIONS = [
   {
     title: 'The Nest Problem', act: 'Act I — The Crystal War',
     map: 'valley', diff: 'easy', noEnemy: true,
+    allow: { bld: ['supply', 'barracks', 'turret', 'refinery', 'power', 'factory'],
+             unit: ['harvester', 'engineer', 'marine', 'sniper', 'rocket', 'medic', 'raider', 'tank', 'artillery'] },
     brief: [
       ['ops', 'Dead center of Fossil Valley: the richest field either outfit has surveyed, and two nest mounds sitting on it like a padlock.'],
       ['red', 'Open broadcast, Rubicon side of the valley: "Clearance operations commence at dawn. The mounds are geological obstructions. Bonuses per acre cleared."'],
@@ -811,10 +819,16 @@ const MISSIONS = [
       { id: 'fac',   text: 'Build a Factory (V)', type: 'built', bld: 'factory', count: 1 },
       { id: 'arty',  text: 'Field two Artillery (Factory — D)', type: 'unitCount', unit: 'artillery', count: 2, hidden: true },
       { id: 'nest',  text: 'Destroy the southern nest — from beyond its leash', type: 'destroy', bld: 'nest', x: 1666, y: 1262, r: 160, hidden: true, mark: [1666, 1262] },
-      { id: 'hatch', text: 'Salvage an egg and hatch your own Spitter (HQ — R)', type: 'unitCount', unit: 'spitter', count: 1, hidden: true },
+      { id: 'hatch', text: 'Salvage the clutch and hatch a pack of 3 Spitters (HQ — R)', type: 'unitCount', unit: 'spitter', count: 3, hidden: true },
+      // the pack has to DO something before the mission is a win (Bronson,
+      // 2026-07-29: "we hatch the dinos but we need them to do something
+      // first"). Lin's field test: walk them onto the NORTHERN mound — the one
+      // Rubicon has been feeding riflemen into for three shifts — and take it.
+      { id: 'pack',  text: 'Walk the pack onto the northern mound', type: 'groupReach', unit: 'spitter', x: 1406, y: 1042, r: 300, count: 3, hidden: true, mark: [1406, 1042] },
+      { id: 'north', text: 'Take the northern nest with the pack', type: 'destroy', bld: 'nest', x: 1406, y: 1042, r: 160, hidden: true, mark: [1406, 1042] },
       { id: 'mine8', text: 'Mine 800 crystals', type: 'mined', amount: 800 },
     ],
-    winWhen: ['fac', 'arty', 'nest', 'hatch', 'mine8'],
+    winWhen: ['fac', 'arty', 'nest', 'hatch', 'pack', 'north', 'mine8'],
     triggers: [
       { when: { done: ['fac'] }, objective: 'arty',
         say: [['ops', 'Factory online. Two Artillery — key D. Their guns out-range their own eyes, so walk a marine ahead as a spotter.']] },
@@ -824,7 +838,7 @@ const MISSIONS = [
       // Rubicon's clearance "strategy", on open comms, forever
       { when: { time: 75, notDone: ['nest'] },
         say: [['red', 'First shift, forward! Every acre of mound is an acre of bonus!']] },
-      { when: { time: 78, notDone: ['nest'] }, repeat: true, every: 55,
+      { when: { time: 78, notDone: ['north'] }, repeat: true, every: 55,
         spawn: { unit: 'marine', team: 2, n: 4, at: [420, 320], to: [1406, 1042] } },
       { when: { time: 170, notDone: ['nest'] },
         say: [['red', '...Casualty reports are a rounding error. Second shift, forward. Payroll — stop counting.']] },
@@ -832,11 +846,20 @@ const MISSIONS = [
         say: [['red', 'Where is my third shift? ...Fine. Contractors, then. Contractors love bonuses.']] },
       { when: { done: ['nest'] }, objective: 'hatch',
         say: [['ops', 'Mound down, brood scattered, nobody scratched. Salvage crew — those eggs ride home with the crystal.'],
-              ['sci', 'Careful with the clutch! I want one incubated. If we cannot stop the digging, we will at least understand what it wakes.']] },
+              ['sci', 'Careful with the clutch! I want the whole thing incubated — three at least. If we cannot stop the digging, we will at least understand what it wakes.']] },
+      { when: { done: ['hatch'] }, objective: ['pack', 'north'],
+        say: [['sci', 'They imprinted. Commander, they are following your units around like the fence is not there — and I would like to know what they do at a mound that is not theirs.'],
+              ['ops', 'The northern mound. Rubicon has fed three shifts into it and it is still standing. Walk your pack up there and let us find out whose side biology is on.']] },
+      { when: { done: ['pack'] },
+        say: [['sci', 'The wild brood is not fleeing them — it is engaging them. Same species, and they are tearing at each other. Whatever binds these colonies, WE just broke it by hatching one in a lab.'],
+              ['ops', 'Save the philosophy, doctor. Finish the mound.']] },
+      { when: { done: ['north'] },
+        say: [['red', 'Open channel: the expedition just cleared in ten minutes what cost me three shifts. ...I want to know how.'],
+              ['sci', 'He should not want to know how. Nobody should.']] },
     ],
     outro: [
-      ['ops', 'The field is ours and Rubicon is still feeding riflemen to their own mound. Efficiency, Commander.'],
-      ['sci', 'The moment our mound fell, the seismic hum deepened — and two valleys over, something answered it. I am filing that under "later."'],
+      ['ops', 'Both mounds down, the field is ours, and the things that cracked the second one are eating out of our hands.'],
+      ['sci', 'That is what troubles me. They turned on their own colony without hesitating — and the moment it fell, the hum deepened. Two valleys over, something answered it. I am filing that under "later."'],
     ],
     winText: 'The mega-field is under expedition control. On the survey charts, the hum keeps spreading — deeper, and wider.',
     loseText: 'The nest problem solved you instead. Survey command is re-reading Dr. Lin\'s objection with fresh respect.',
@@ -847,6 +870,8 @@ const MISSIONS = [
     // The teaching beat: raiders `aim` at power plants, so the player learns the
     // brownout from the receiving end while their turrets slow to half rate.
     title: 'Dig In', act: 'Act I — The Crystal War',
+    allow: { bld: ['supply', 'barracks', 'turret', 'refinery', 'power', 'factory'],
+             unit: ['harvester', 'engineer', 'marine', 'sniper', 'rocket', 'medic', 'raider', 'tank', 'artillery', 'apc'] },
     map: 'gauntlet', diff: 'normal', noEnemy: true,
     brief: [
       ['ops', 'Rubicon has stopped pretending this is paperwork, Commander. Their survey teams pulled back overnight and their armor moved up. That means an offensive.'],
@@ -906,6 +931,8 @@ const MISSIONS = [
     // switches to "lose when the last of the squad falls". No economy, no
     // reinforcements — the squad you land with is the squad you leave with.
     title: 'Ghost Survey', act: 'Act I — The Crystal War',
+    // commando raid: no HQ, no construction, no production. Nothing to offer.
+    allow: { bld: [], unit: [] },
     map: 'fen', diff: 'normal', noEnemy: true, noBase: true, start: [600, 1900],
     // NO nests on this one. The squad has no economy and no replacements, and
     // the causeways are the only crossings — so any mound near a crossing sits
@@ -1007,6 +1034,8 @@ const MISSIONS = [
     // Mid-mission Krauss fires a scripted tac nuke (trigger action `nuke`) at
     // the center nest field: the direct fuse for Act 2.
     title: 'Countdown', act: 'Act I — The Crystal War',
+    allow: { bld: ['supply', 'barracks', 'turret', 'refinery', 'power', 'factory', 'airpad', 'flak'],
+             unit: ['harvester', 'engineer', 'marine', 'sniper', 'rocket', 'medic', 'raider', 'tank', 'artillery', 'apc', 'gunship', 'harrier'] },
     map: 'silo', diff: 'normal', noEnemy: true,
     brief: [
       ['ops', 'Priority flash, Commander. Rubicon has a missile silo on the east side of the Silo Fields and our intercepts say it is fuelling now. The targeting package is our headquarters.'],
@@ -1077,6 +1106,8 @@ const MISSIONS = [
     // erupts afterward is (objective 'brood'), which is why checkEnd leaves
     // campaign victory entirely to the objective list.
     title: 'High Water Mark', act: 'Act I — The Crystal War',
+    allow: { bld: ['supply', 'barracks', 'turret', 'refinery', 'power', 'factory', 'airpad', 'flak', 'hydro'],
+             unit: ['harvester', 'engineer', 'marine', 'sniper', 'rocket', 'medic', 'raider', 'tank', 'artillery', 'apc', 'gunship', 'harrier'] },
     map: 'hwm', diff: 'normal',
     brief: [
       ['ops', 'Rubicon has dug in across the river, Commander. One channel, two causeways, and Krauss has a fort staring down each of them. That is the whole war in one map.'],
@@ -1163,7 +1194,7 @@ const MISSIONS = [
     // losing a fight. Krauss's haul counter is the antagonist; his forward
     // refinery is the thing you can do about it. The nuke and the den that
     // answers it are the act's thesis delivered in ninety seconds.
-    title: 'Strip Mine', act: 'Act II — The Awakening',
+    title: 'Strip Mine', act: 'Act II — The Awakening',   // full arsenal from here on
     map: 'mine', diff: 'normal',
     brief: [
       ['ops', 'The motherlode at the bottom of the Strip Mine is the richest single field either outfit has surveyed, and Rubicon started hauling it out four days ago. They are not contesting the ground, Commander. They are just taking it faster than we are.'],
@@ -1268,6 +1299,17 @@ const PLACE_NEAR_BASE = 300;       // most buildings must go near an existing fr
 const REFINERY_NEAR_CRYSTAL = 240; // refineries instead must go near a live crystal patch
 const SUPPLY_HARD_CAP = 100;
 // player-placeable buildings and their hotkeys (shown on the command card)
+// A mission can restrict what the PLAYER may field, so the tutorial arc isn't
+// cluttered with tech it hasn't taught (Bronson, 2026-07-29: "the first two
+// levels don't need an air pad or a factory because we are working on the
+// barracks… I shouldn't be able to construct a missile silo on the first
+// level"). `allow: { bld: [...], unit: [...] }` on a mission spec; absent means
+// everything, so skirmish is untouched. Team 1 only — the AI builds what its
+// own logic wants.
+const missionAllows = (kind, type) => {
+  if (!mission || !mission.allow || !mission.allow[kind]) return true;
+  return mission.allow[kind].includes(type);
+};
 const BUILD_MENU = [['turret', 'T'], ['barracks', 'B'], ['factory', 'V'], ['supply', 'C'], ['power', 'O'], ['hydro', 'J'], ['refinery', 'G'], ['airpad', 'X'], ['flak', 'Y'], ['silo', 'N']];
 // tech tree checks (see BLD req fields)
 function hasTech(team, type) {
@@ -4158,6 +4200,11 @@ btnFog.addEventListener('click', () => { audioInit(); toggleFogMemory(); });
 
 // building placement
 function startPlacing(type) {
+  if (!missionAllows('bld', type)) {
+    toast(`${BLD[type].label} is not authorised for this operation.`);
+    snd.error();
+    return;
+  }
   if (!hasTech(1, type)) {
     toast(`${BLD[type].label} requires: ${techLabel(type)}`);
     snd.error();
@@ -4167,6 +4214,7 @@ function startPlacing(type) {
 }
 function canPlaceBuilding(type, wx, wy) {
   const d = BLD[type];
+  if (!missionAllows('bld', type)) return false;
   if (!hasTech(1, type)) return false;
   if (teams[1].crystals < d.cost) return false;
   // no crew, no pour — checked at placement so the ghost turns red rather than
@@ -4277,7 +4325,9 @@ function toast(msg) {
 
 // the Q/W/E/R/D slots on a production building: its units, research, then specials
 function cardActions(b) {
-  const acts = BLD[b.type].trains.map(t => ({ kind: 'train', t }));
+  const acts = BLD[b.type].trains
+    .filter(t => b.team !== 1 || missionAllows('unit', t))
+    .map(t => ({ kind: 'train', t }));
   for (const k in UPG) if (UPG[k].at === b.type) acts.push({ kind: 'up', k });
   // captured dino eggs hatch at the lab. The button only appears once eggs
   // exist (egg-chip precedent) — with zero eggs it ate a full card row and
@@ -4362,7 +4412,7 @@ function cardSig() {
   return selection.map(e => e.id).join(',') + '|' +
     selection.filter(e => e.queue).map(e => e.queue.join('.') + ':' + e.boost).join(';') + '|' +
     (placing || '') + (attackMoveMode ? 'A' : '') + '|' +
-    BUILD_MENU.map(([t]) => (teams[1].crystals >= BLD[t].cost ? 'y' : 'n') + (hasTech(1, t) ? 'u' : 'l')).join('') + '|' +
+    BUILD_MENU.map(([t]) => (missionAllows('bld', t) ? '' : 'x') + (teams[1].crystals >= BLD[t].cost ? 'y' : 'n') + (hasTech(1, t) ? 'u' : 'l')).join('') + '|' +
     Object.values(teams[1].up).join('') + '.' + Math.floor(teams[1].crystals / 25) + '.' + teams[1].eggs +
     '.' + units.reduce((s, u) => s + (u.team === 1 && (u.type === 'spitter' || u.type === 'harrier') ? 1 : 0), 0) +
     '.' + selection.map(e => (e.warhead || '') + (e.cargo ? e.cargo.length : '') + (e.sunk ? 's' : '')).join('') +
@@ -4385,6 +4435,7 @@ function refreshCard() {
   if (!placing && !attackMoveMode) {
     buildRow = '<div class="row">';
     for (const [t, k] of BUILD_MENU) {
+      if (!missionAllows('bld', t)) continue;
       if (!hasTech(1, t)) continue;   // progressive disclosure — locked buildings stay hidden
       if (BLD[t].water && !(groundM && groundM.rivers)) continue;   // no dams on dry maps
       const d = BLD[t];
@@ -4605,7 +4656,7 @@ elDock.addEventListener('pointerdown', (e) => {
 let wasLowPower = false;
 let lastAvail = null;   // build-menu availability — announces newly unlocked buildings
 function refreshTopbar() {
-  const avail = BUILD_MENU.filter(([t]) => hasTech(1, t) && !(BLD[t].water && !(groundM && groundM.rivers))).map(([t]) => t);
+  const avail = BUILD_MENU.filter(([t]) => missionAllows('bld', t) && hasTech(1, t) && !(BLD[t].water && !(groundM && groundM.rivers))).map(([t]) => t);
   if (lastAvail) {
     const fresh = avail.filter(t => !lastAvail.includes(t));
     if (fresh.length) {

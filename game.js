@@ -318,11 +318,17 @@ const MAPS = {
       { c: [[W * 0.5, H * 0.13, 150], [W * 0.5 + 115, H * 0.13 + 55, 105]], ramps: [[W * 0.5 - 150, H * 0.13, 95]] },
       { c: [[W * 0.5, H * 0.87, 150], [W * 0.5 - 115, H * 0.87 - 55, 105]], ramps: [[W * 0.5 + 150, H * 0.87, 95]] },
     ],
-    pHQ: [W - 210, H - 210], pRax: [W - 400, H - 140], pPatch: [W - 260, H - 440],
-    eHQ: [210, 210], eRax: [400, 140], eFac: [560, 200],
-    eSup: [[300, 100], [150, 340]], eTur: [[350, 330], [480, 220]],
-    eAir: [660, 300],
-    ePatch: [260, 440],
+    // Valley is the only map whose player base sits in the BOTTOM-RIGHT corner,
+    // which is exactly where the command panel lives (394x242 from the corner) —
+    // the HQ and barracks were unclickable underneath it (Bronson, 2026-07-29,
+    // playing M3). Both corners pulled inward by the same delta so the diagonal
+    // stays symmetric for skirmish. Any future map: keep bases clear of the
+    // bottom-right 394x242 (dock) and the bottom-left 210x160 (minimap).
+    pHQ: [W - 520, H - 360], pRax: [W - 700, H - 300], pPatch: [W - 570, H - 590],
+    eHQ: [520, 360], eRax: [700, 300], eFac: [860, 360],
+    eSup: [[610, 250], [460, 490]], eTur: [[660, 480], [790, 370]],
+    eAir: [960, 450],
+    ePatch: [570, 590],
     patches: [
       { p: [W - 320, 320], n: 6, a: 2100, nests: [[W - 440, 250]] },
       { p: [320, H - 320], n: 6, a: 2100, nests: [[440, H - 250]] },

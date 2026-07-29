@@ -107,8 +107,18 @@ const UNIT = {
   // Fast melee pack hunter, spawned by Raptor Dens. "Melee" is faked with a very
   // short range (the engine has no melee system and doesn't need one) — fire()
   // skips the projectile and lands the bite directly. Claws shred infantry
-  // (infBonus, the flesh mirror of the rocket trooper's vehBonus).
-  raptor:    { label: 'Raptor',    cost: 0,   supply: 1, hp: 65,  speed: 3.4,  r: 9,  dmg: 9,  range: 16,  cooldown: 32,  buildTime: 0, sight: 220, noAA: 1, infBonus: 1.5 },
+  // (infBonus, the flesh mirror of the rocket trooper's vehBonus). r 9 -> 12 and
+// range 16 -> 20 together (2026-07-28, Bronson: it should read scary): the
+// attack test is `dist - target.r <= range` and separation holds bodies about
+// r1+r2 apart, so growing r alone shrank the melee margin to ONE pixel against
+// a tank. Reach has to grow with the body or a bigger raptor stops connecting.
+  // Act 2 roster, provisional stats (2026-07-28 — art landed first, same as the
+  // raptor did). Screecher: flying harasser, meant to go for the economy.
+  // Ironback: slow siege bruiser, the dino answer to a turret line — countered
+  // by artillery and rockets so the existing RPS still holds.
+  screecher: { label: 'Screecher', cost: 0,   supply: 1, hp: 70,  speed: 3.0,  r: 12, dmg: 9,  range: 95, cooldown: 40,  buildTime: 0, sight: 240, fly: 1 },
+  ironback:  { label: 'Ironback',  cost: 0,   supply: 2, hp: 620, speed: 0.95, r: 16, dmg: 24, range: 34, cooldown: 62,  buildTime: 0, sight: 190, noAA: 1, bldBonus: 2.0 },
+  raptor:    { label: 'Raptor',    cost: 0,   supply: 1, hp: 65,  speed: 3.4,  r: 12,  dmg: 9,  range: 20,  cooldown: 32,  buildTime: 0, sight: 220, noAA: 1, infBonus: 1.5 },
   // Ambient wildlife: harmless grazers that wander campaign maps. No weapon
   // auto-targets them — but a deliberate kill enrages every real dino on the
   // level (dinoRage). Atmosphere with a conscience.
@@ -1132,6 +1142,85 @@ const MISSIONS = [
     winText: 'The war for the crystal fields is over in ninety minutes and settled in ninety seconds. Something has been under the valley the entire time — patient, listening, counting. It let two companies exhaust each other first.',
     loseText: 'The high water mark is a line on the west bank. Rubicon holds the river, the fortress, and whatever is sleeping beneath it.',
   },
+  {
+    // Act 2 opens on an ECONOMY race — the first mission you can lose without
+    // losing a fight. Krauss's haul counter is the antagonist; his forward
+    // refinery is the thing you can do about it. The nuke and the den that
+    // answers it are the act's thesis delivered in ninety seconds.
+    title: 'Strip Mine', act: 'Act II — The Awakening',
+    map: 'mine', diff: 'normal',
+    brief: [
+      ['ops', 'The motherlode at the bottom of the Strip Mine is the richest single field either outfit has surveyed, and Rubicon started hauling it out four days ago. They are not contesting the ground, Commander. They are just taking it faster than we are.'],
+      ['red', 'Open channel, Rubicon side: "The claim board rewards tonnage, not paperwork. Dig, gentlemen. Whatever is in the way is overburden."'],
+      ['sci', 'Overburden. There are two colonies on that field and he is calling them overburden. Commander, I have asked for this on the record before and I will ask again: do not let him clear that ground.'],
+    ],
+    intro: [
+      ['ops', 'Simple terms: out-haul him. Bank twenty-five hundred before his counter hits four thousand, and put his forward refinery in the pit while you are at it.'],
+    ],
+    objectives: [
+      { id: 'race', text: 'Out-haul Rubicon — bank 6000 crystals', type: 'mined', amount: 6000 },
+      { id: 'fwd',  text: 'Destroy Rubicon\'s forward refinery', type: 'destroy', bld: 'refinery', x: 2150, y: 430, r: 210, mark: [2150, 430] },
+      { id: 'hold', text: 'Survive what comes out of the crater', type: 'survive', secs: 90, hidden: true },
+    ],
+    winWhen: ['race', 'fwd', 'hold'],
+    triggers: [
+      // his forward refinery: the counter you can actually shoot
+      { when: { time: 0.5 }, crystals: 300,
+        spawn: [
+          { bld: 'refinery', team: 2, at: [2150, 430] },
+          { bld: 'turret',   team: 2, at: [2320, 380] },
+          { bld: 'supply',   team: 2, at: [2020, 310] },
+          { unit: 'harvester', team: 2, n: 3, at: [2150, 530] },
+          { unit: 'marine',  team: 2, n: 3, at: [2240, 480], order: 'guard' },
+          { unit: 'tank',    team: 2, n: 1, at: [2060, 400], order: 'guard' },
+        ] },
+      // THE RACE. His strip-mining operation hauls ~640/min while the forward
+      // camp feeds it and ~210/min once you raze it — so the objective is the
+      // valve, not decoration. Tuned so hands-off you lose at ~11min, and a
+      // raid inside the first five minutes buys roughly nine extra minutes.
+      { when: { time: 8, notDone: ['fwd'] }, repeat: true, every: 10, haul: 107 },
+      { when: { done: ['fwd'] }, repeat: true, every: 10, haul: 35 },
+      { when: { time: 25 },
+        say: [['ops', 'His forward refinery sits on the high bench above the pit, deep on his side — it is feeding his whole strip-mining operation. Put it in the ground and his haul collapses to a trickle — that is the mission, Commander, not out-digging him.'],
+              ['sci', 'The benches are the high ground here, Commander. Whoever holds them sees the whole motherlode. Whoever does not, does not.']] },
+      // the race, narrated: Krauss's counter is the antagonist
+      { when: { haul: 2500 },
+        say: [['red', 'Twenty-five hundred tons off the motherlode and the day is young. Do send my regards to your accountants.']] },
+      { when: { haul: 4500 }, alarm: '⚠ Rubicon is out-hauling you.',
+        say: [['ops', 'He is ahead of us, Commander, and he is not slowing down. More harvesters, more refineries — or take his.']] },
+      { when: { haul: 6000 }, alarm: '⚠ Rubicon\'s haul is nearly at quota!',
+        say: [['red', 'Six thousand. At seven the claim board declares the field worked and the grid is mine on paper. You are welcome to the paperwork.']] },
+      { when: { haul: 7000 }, lose: true },
+      // he clears the "overburden" — the same clearance shot as M6, casually,
+      // as a mining operation rather than an act of war
+      { when: { time: 200 }, focus: [1536, 1152],
+        say: [['red', 'Clearance shot on the pit floor. Both mounds. Bill it to overburden removal.']] },
+      { when: { time: 206 },
+        nuke: [{ at: [1386, 1052] }, { at: [1686, 1252] }],
+        say: [['sci', 'He is doing it AGAIN — Commander, anything you have on the pit floor, move it now!']] },
+      { when: { time: 244 },
+        say: [['sci', 'Both colonies are gone and the hum did not stop. It is louder than the Silo Fields and it is coming from UNDER the pit. That is not an echo. That is something moving.']] },
+      // the answer: Act 2's first unprovoked dinos, and they do not pick a side
+      { when: { done: ['race', 'fwd'] }, delay: 8, objective: 'hold',
+        alarm: '⚠ The pit floor is breaking open!',
+        focus: [1536, 1152],
+        spawn: [
+          { bld: 'den', team: 3, at: [1536, 1152] },
+          { unit: 'raptor', team: 3, n: 4, at: [1450, 1230], order: 'attackhq' },
+        ],
+        say: [['sci', 'The crater floor just came apart. That is a den, Commander — a nest builds, a den HUNTS. And it is not hunting us specifically.'],
+              ['ops', 'It broke for Rubicon\'s lines first. Hold what you have for ninety seconds and let it do the math — everything on the wall.']] },
+      { when: { done: ['hold'] },
+        say: [['red', 'Expedition, this is Krauss on open channel. My forward camp is gone. Not overrun — GONE. Whatever came out of your pit walked through a turret line without slowing down.']] },
+    ],
+    outro: [
+      ['ops', 'Quota banked, his refinery is scrap, and the thing in the crater is still down there.'],
+      ['sci', 'It did not come out because we dug. It came out because he BURNED it. Twice. The colonies were an alarm and he has been tripping it all week.'],
+      ['red', 'Recorded, expedition. I am filing this as an unclassified hazard and requesting reinforcement. Do not mistake that for an apology.'],
+    ],
+    winText: 'You won the field and the claim board will never know why it stopped mattering. Krauss has started asking for help — and the thing under the Strip Mine has learned that the noise comes from the north.',
+    loseText: 'Rubicon worked the motherlode dry and the grid is theirs on paper. The colonies are still standing, which is the only mercy in the report.',
+  },
 ];
 
 // Research, StarCraft-style: bought at the producing building, occupies its queue.
@@ -1144,7 +1233,7 @@ const UPG = {
   harvest:    { label: 'Harvester Systems', at: 'hq',      max: 3, cost: [125, 200, 275], time: [20 * 60, 25 * 60, 30 * 60] },
 };
 const IS_INF = { marine: 1, sniper: 1, engineer: 1, medic: 1, rocket: 1 };
-const IS_DINO = { spitter: 1, raptor: 1, critter: 1 };
+const IS_DINO = { spitter: 1, raptor: 1, critter: 1, screecher: 1, ironback: 1 };
 const isFlesh = (u) => !!IS_INF[u.type] || !!IS_DINO[u.type];   // what a medic can heal: infantry + dinos
 const isVehicle = (u) => u.kind === 'unit' && !IS_INF[u.type] && !IS_DINO[u.type];   // what an engineer can repair
 // Veterancy: every unit remembers its kills. 2/4/8 kills → +10% damage and
@@ -1202,9 +1291,9 @@ const NUKE_HQ_EXCLUSION = 180;      // tactical warheads can't be aimed at an HQ
 const newUp = () => ({ infWeapons: 0, infArmor: 0, vehWeapons: 0, vehArmor: 0, harvest: 0 });
 // team 3 = neutral dinos — no economy, but weaponMult/armorMult index into it
 const teams = {
-  1: { crystals: 180, eggs: 0, captives: 0, up: newUp() },
-  2: { crystals: 180, eggs: 0, captives: 0, up: newUp() },
-  3: { crystals: 0, eggs: 0, captives: 0, up: newUp() },
+  1: { crystals: 180, eggs: 0, captives: 0, mined: 0, up: newUp() },
+  2: { crystals: 180, eggs: 0, captives: 0, mined: 0, up: newUp() },
+  3: { crystals: 0, eggs: 0, captives: 0, mined: 0, up: newUp() },
 };
 let tick = 0;
 let gameOver = null;                 // null | 'win' | 'lose'
@@ -2637,7 +2726,8 @@ function kill(e) {
     fxs.push({ kind: 'ping', x: e.x, y: e.y, t: 0, max: 46, color: 'rgba(140,205,215,0.6)' });
   } else if (corpse.length) {
     fxs.push({ kind: 'corpse', x: e.x, y: e.y, a: e.faceA, frames: corpse,
-               t: 0, max: corpse.length * 9 + 170, size: e.r * 2.7 });
+               t: 0, max: corpse.length * 9 + 170,
+               size: e.kind === 'unit' && IS_DINO[e.type] ? dinoBox(e.type, e.r) * 2 : e.r * 2.7 });
     fxs.push({ kind: 'boom', x: e.x, y: e.y, t: 0, max: 16, size: (e.r || 16) * 0.9 });
   } else if (e.kind === 'unit' && IS_DINO[e.type]) {
     fxs.push({ kind: 'boom', x: e.x, y: e.y, t: 0, max: 18, size: (e.r || 16) * 0.9 });   // animals don't fireball
@@ -3172,6 +3262,7 @@ function updateUnit(u) {
       if (d > hq.r + u.r + 8) moveToward(u, hq.x, hq.y);
       else {
         teams[u.team].crystals += u.carry;
+        teams[u.team].mined += u.carry;   // per-team tally: the M8 race reads team 2's
         if (u.team === 1) {
           stats.mined += u.carry;
           fxs.push({ kind: 'text', x: u.x, y: u.y - 14, t: 0, max: 50, msg: '+' + u.carry });
@@ -5649,11 +5740,18 @@ function drawRigCage(u) {
 // procedural dino — drawn inside the unit's translate+rotate frame, +x forward.
 // Team-colored: wild ones are acid green, hatched player dinos wear teal.
 // No sprite art yet; when dino sprites land they slot in via drawUnitSprite.
+// How big a dino's ART draws, as a multiple of its hit radius. Most dino art
+// fills its circle; the raptor's whip tail and the screecher's wingspan hang
+// outside it harmlessly, so those need a wider box for the BODY to read at the
+// right mass. Derived from r (it used to be hard-coded at 17/13, which meant
+// a dino's size ignored its own radius — the Ironback drew at 26px with a 43px
+// hit circle). dinoBox is shared with the corpse fx so a body can't change
+// size the instant it dies.
+const DINO_BOX = { raptor: 1.9, screecher: 1.35, ironback: 1.35 };
+const dinoBox = (type, r) => r * (DINO_BOX[type] || 1.3);
 function drawDino(u) {
-  // pre-colored colorway first (wild bone/moss art, or teal for tamed).
-  // raptor art is extremely elongated (whip tail) — drawn bigger so the BODY
-  // matches spitter mass while the tail overhangs the hit circle harmlessly
-  const half = u.type === 'raptor' ? 17 : 13;
+  // pre-colored colorway first (wild bone/moss art, or teal for tamed)
+  const half = dinoBox(u.type, u.r);
   // walk frames (sliced dino videos) win while moving — same distance-driven
   // cycle as infantry, so the gait speed tracks actual ground covered
   let pre = null;
@@ -6691,7 +6789,12 @@ function missionInit(idx) {
       mark: o.mark || (o.type === 'reach' ? [o.x, o.y] : null),
     })),
     triggers: (mission.triggers || []).map(t => ({ ...t, fired: false, armedAt: -1 })),
-    groups: {}, flags: {}, winAt: 0, outroDone: false,
+    // a scripted rival counter (M8's strip-mining race). Deliberately NOT the
+    // AI's organic teams[2].mined: that number is an accident of harvester
+    // pathing the player cannot read or influence, and measuring it proved
+    // razing Krauss's forward camp moved his total by 6 crystals in 7000.
+    // Scripted, it becomes an antagonist with a valve the player can shut.
+    groups: {}, flags: {}, haul: 0, winAt: 0, outroDone: false,
   };
 }
 
@@ -6907,6 +7010,8 @@ function condMet(w) {
   // "no specimen in play" — guards respawn triggers while a rig is mid-haul
   if (w.noCaptive && units.some(u => u.team === 1 && u.captive)) return false;
   if (w.mined != null && stats.mined < w.mined) return false;
+  // the rival's haul — an economy race the player can LOSE without a shot fired
+  if (w.haul != null && ms.haul < w.haul) return false;
   if (w.groupDead) {
     const g = groupAlive(w.groupDead);
     if (!g || g.length) return false;
@@ -7020,6 +7125,7 @@ function fireTrigger(t) {
     toast('☢ NUCLEAR LAUNCH DETECTED — impact in 30 seconds!');
     snd.launch();
   }
+  if (t.haul) ms.haul += t.haul;   // the rival's off-map operation ticking over
   if (t.crystals) teams[1].crystals += t.crystals;
   if (t.lose) missionEnd(false);   // scripted defeat (convoy lost, etc.)
 }
@@ -7311,9 +7417,9 @@ function resetWorld() {
   stats = { built: 0, lost: 0, kills: 0, mined: 0 };
   selection = [];
   for (const k in groups) delete groups[k];
-  teams[1] = { crystals: 180, eggs: 0, captives: 0, up: newUp() };
-  teams[2] = { crystals: 180, eggs: 0, captives: 0, up: newUp() };
-  teams[3] = { crystals: 0, eggs: 0, captives: 0, up: newUp() };
+  teams[1] = { crystals: 180, eggs: 0, captives: 0, mined: 0, up: newUp() };
+  teams[2] = { crystals: 180, eggs: 0, captives: 0, mined: 0, up: newUp() };
+  teams[3] = { crystals: 0, eggs: 0, captives: 0, mined: 0, up: newUp() };
   tick = 0; gameOver = null; waveNum = 0; shakeAmp = 0;
   placing = null; attackMoveMode = false; setCursor();
   camFocus = null;

@@ -12,3 +12,6 @@ mac/Broodfall.xcodeproj/project.xcworkspace/xcuserdata/
 
 # scrapped generations kept on disk for reference, not worth versioning
 assets/sprites/source/_scrapped/
+
+# transfer artifacts — contents land in the repo as their unpacked files
+*.zip

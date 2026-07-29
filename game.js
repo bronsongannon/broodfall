@@ -738,7 +738,7 @@ const MISSIONS = [
     objectives: [
       { id: 'out',  text: 'Deliver 4 harvesters to Survey Post Beta', type: 'groupReach', group: 'convoy', unit: 'harvester', x: 2760, y: 520, r: 240, count: 4, mark: [2760, 520] },
       { id: 'load', text: 'Hold Survey Post Beta while the haulers load', type: 'survive', secs: 60, hidden: true, mark: [2760, 520] },
-      { id: 'back', text: 'Bring 4 harvesters home', type: 'groupReach', group: 'convoy', unit: 'harvester', x: 300, y: 2000, r: 260, count: 4, hidden: true, mark: [300, 2000] },
+      { id: 'back', text: 'Bring 4 delivered harvesters home', type: 'groupReach', group: 'convoy', unit: 'harvester', after: 'out', x: 300, y: 2000, r: 260, count: 4, hidden: true, mark: [300, 2000] },
     ],
     winWhen: ['out', 'load', 'back'],
     triggers: [
@@ -7137,11 +7137,8 @@ let lastObjSig = '';
 // screen showed 3 of 4. Progress has to be visible or the objective is a riddle.
 function objProgress(o) {
   if (o.done || !o.count) return null;
-  if (o.type === 'groupReach') {
-    const g = o.unit ? units.filter(u => u.team === 1 && u.hp > 0 && u.type === o.unit)
-                     : (groupAlive(o.group) || []);
-    return (o.arrived ? g.filter(u => o.arrived[u.id]).length : 0) + '/' + o.count;
-  }
+  if (o.type === 'groupReach')
+    return (o.arrived ? reachPool(o).filter(u => o.arrived[u.id]).length : 0) + '/' + o.count;
   if (o.type === 'unitCount')
     return Math.min(o.count, units.filter(u => u.team === 1 && u.hp > 0 && u.type === o.unit).length) + '/' + o.count;
   if (o.type === 'built')
@@ -7168,6 +7165,30 @@ function refreshObjectives() {
   elObjectives.classList.remove('hidden');
 }
 
+// Who can satisfy a groupReach. `unit` widens the pool from the tagged spawn
+// group to every living unit of that type the player owns — a replacement
+// hauler is worth what an original was. `after` narrows it to units that
+// already arrived at an EARLIER objective, which is what makes a return leg
+// mean something: without it, harvesters that never left home sat inside the
+// home circle and latched the trip back before the convoy had moved.
+function reachPool(o) {
+  let g = o.unit ? units.filter(u => u.team === 1 && u.hp > 0 && u.type === o.unit)
+                 : (groupAlive(o.group) || []);
+  if (o.after) {
+    const prev = ms.objectives.find(x => x.id === o.after);
+    g = g.filter(u => prev && prev.arrived && prev.arrived[u.id]);
+  }
+  return g;
+}
+// Arrival is recorded for every ACTIVE groupReach — including completed ones,
+// so a later leg chaining off it still sees fresh visits. Only active ones, or
+// a unit could latch a leg it was standing on before that leg was ever ordered.
+function latchArrivals(o) {
+  if (o.type !== 'groupReach' || !o.active) return;
+  o.arrived = o.arrived || {};
+  for (const u of reachPool(o))
+    if (dist2(u.x, u.y, o.x, o.y) < o.r * o.r) o.arrived[u.id] = 1;
+}
 function objMet(o) {
   switch (o.type) {
     case 'unitCount': return units.filter(u => u.team === 1 && u.hp > 0 && u.type === o.unit).length >= o.count;
@@ -7186,17 +7207,7 @@ function objMet(o) {
     // otherwise never have N inside the circle at the same instant — the early
     // arrivals scatter to mine before the stragglers reach the post. Once a unit
     // has touched the circle it counts as delivered for as long as it lives.
-    case 'groupReach': {
-      // `unit` widens the pool to every living unit of that type the player
-      // owns — a replacement hauler built after an ambush is worth exactly as
-      // much as an original, and a delivery quota that only accepts SPECIFIC
-      // bodies is a trap (Bronson, 2026-07-29).
-      const g = o.unit ? units.filter(u => u.team === 1 && u.hp > 0 && u.type === o.unit)
-                       : (groupAlive(o.group) || []);
-      o.arrived = o.arrived || {};
-      for (const u of g) if (dist2(u.x, u.y, o.x, o.y) < o.r * o.r) o.arrived[u.id] = 1;
-      return g.filter(u => o.arrived[u.id]).length >= o.count;
-    }
+    case 'groupReach': return reachPool(o).filter(u => o.arrived && o.arrived[u.id]).length >= o.count;
     // no living hostile building of this type left near the mark (nest cracks).
     // It must have been THERE first: a target the mission spawns on a trigger
     // doesn't exist at tick 0, and without `seen` the objective completes
@@ -7357,6 +7368,7 @@ function missionUpdate() {
   if (!mission || gameOver) return;
   dlgUpdate();
   if (tick % 10 !== 0) return;
+  for (const o of ms.objectives) latchArrivals(o);
   for (const o of ms.objectives) {
     if (!o.active || o.done) continue;
     // a deadline that runs out: the mission decides what that costs

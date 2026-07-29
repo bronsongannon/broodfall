@@ -5777,7 +5777,7 @@ function drawRigCage(u) {
 // a dino's size ignored its own radius — the Ironback drew at 26px with a 43px
 // hit circle). dinoBox is shared with the corpse fx so a body can't change
 // size the instant it dies.
-const DINO_BOX = { raptor: 1.9, screecher: 1.35, ironback: 1.35, broodmother: 1.5 };
+const DINO_BOX = { raptor: 1.9, screecher: 1.6, ironback: 2.1, broodmother: 2.2 };
 const dinoBox = (type, r) => r * (DINO_BOX[type] || 1.3);
 function drawDino(u) {
   // pre-colored colorway first (wild bone/moss art, or teal for tamed)
@@ -5919,6 +5919,53 @@ function drawDino(u) {
   cx.beginPath(); cx.arc(7, 0, 2, 0, Math.PI * 2); cx.fill();
   cx.fillStyle = '#e0a43c';                         // amber predator eyeshine
   cx.beginPath(); cx.arc(9.5, -2.2, 1, 0, Math.PI * 2); cx.arc(9.5, 2.2, 1, 0, Math.PI * 2); cx.fill();
+}
+
+// the Broodmother's living glow — pulsing purple over her egg-swollen hips and
+// a vein riding the spine seam. Drawn in the facing frame (+x = head), after
+// the body, so it composites over the installed sprite and the procedural
+// fallback alike. Layered low-alpha circles, no per-frame gradients.
+// One soft radial glow blob, pre-rendered ONCE — every visible glow is this
+// sprite at some size and alpha. Hard-edged arcs and stroked "veins" read as
+// lines scribbled over the art (Bronson); a gradient sprite has real falloff.
+let broodGlowCv = null;
+function broodGlowSprite() {
+  if (broodGlowCv) return broodGlowCv;
+  broodGlowCv = document.createElement('canvas');
+  broodGlowCv.width = broodGlowCv.height = 64;
+  const g = broodGlowCv.getContext('2d');
+  const grad = g.createRadialGradient(32, 32, 2, 32, 32, 32);
+  grad.addColorStop(0, 'rgba(210,150,255,0.85)');
+  grad.addColorStop(0.45, 'rgba(176,106,232,0.32)');
+  grad.addColorStop(1, 'rgba(176,106,232,0)');
+  g.fillStyle = grad;
+  g.fillRect(0, 0, 64, 64);
+  return broodGlowCv;
+}
+function drawBroodGlow(u) {
+  const img = broodGlowSprite();
+  const s = dinoBox(u.type, u.r) / 45;   // glow tracks the draw box, not fixed px
+  cx.save(); cx.scale(s, s);
+  cx.globalCompositeOperation = 'lighter';   // it's LIGHT — additive, one flip per frame
+  const beat = tick * 0.05 + u.id;
+  const blob = (x, y, r, a) => {
+    if (a <= 0.015) return;
+    cx.globalAlpha = Math.min(1, a);
+    cx.drawImage(img, x - r, y - r, r * 2, r * 2);
+  };
+  // a modest egg-glow at the hips — the SPINE is the show, not this
+  blob(-8, 0, 13, 0.26 + 0.1 * Math.abs(Math.sin(beat)));
+  // the corruption lives along her BACK: an always-lit ribbon of light from
+  // the hip mass up to the neck, with a brighter pulse climbing it
+  for (let i = 0; i < 9; i++) {
+    const px = -14 + i * 5;                 // -14 (hips) … +26 (neck)
+    const pr = 5.5 - i * 0.18;              // narrowing as the ridge does
+    const travel = 0.28 * Math.max(0, Math.sin(beat * 1.6 - i * 0.5));
+    blob(px, 0, pr, 0.2 + travel);
+  }
+  cx.globalAlpha = 1;
+  cx.globalCompositeOperation = 'source-over';
+  cx.restore();
 }
 
 // raptor den — a burrow torn into the dirt, ringed by kill-trophies. Where the
@@ -6070,7 +6117,17 @@ function drawUnit(u) {
     cx.rotate(u.faceA);
     if (u.moving && !animFrames(u.type, 'walk', u.team, 8).length)
       cx.rotate(Math.sin(u.walkT * 0.55) * 0.09);   // scurry wiggle (no-frames fallback)
+    // drawDino leaves the +90° art rotation in place when it draws a sprite
+    // (its caller always restores) — box it in, or anything drawn after it
+    // inherits the turn. The glow ribbon ran PERPENDICULAR to her spine the
+    // moment real art replaced the procedural body, for exactly this reason.
+    cx.save();
     drawDino(u);
+    cx.restore();
+    // the Broodfallen corruption breathes: a pulsing purple glow OVER the art,
+    // because the sprite's thin vein lines compress to nothing at game scale.
+    // Drawn in the facing frame (+x = head) so it rides the spine.
+    if (u.type === 'broodmother') drawBroodGlow(u);
     cx.restore();
     if (sel || u.hp < u.maxHp) drawHpBar(u.x, u.y - u.r - 10, u.r * 2.4, u.hp, u.maxHp);
     drawRank(u);

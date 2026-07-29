@@ -217,15 +217,49 @@ cue from overhead. (5) The one negative is geometric, not species-relational
 Keep the glow to thin veins and belly seams. If the whole body glows she reads
 as a UI element instead of an animal.
 
-**Walk video and death sheet: do NOT generate until the static is approved.**
-Both were wasted last time by anchoring to a design that got scrapped. Approve
-the static first, then use it as the anchor for the other two.
+**Static APPROVED + INSTALLED 2026-07-28** (first generation off the v3
+prompt — `unit_broodmother_wild.png`, raw in `source/broodmother.png`). Draw
+box `DINO_BOX.broodmother` 2.2 (the 3.2:1 sprite in a square box needs it to
+read boss-sized), and the engine layers a pulsing purple egg-glow OVER the
+sprite (`drawBroodGlow`) because the art's thin veins compress to nothing at
+game scale. Attach the approved static as the style anchor for both prompts
+below.
 
-When you do get there, the death frames follow the top-down rule the Ironback
-sheet broke: from directly overhead, "collapsing" is invisible and asking for
-it forces the generator into a side view. Describe the **silhouette going
-slack** instead — limbs sprawling outward from the body, head lolling off the
-centre line, the glow in the veins dimming to dark by the last frame.
+**Walk video — paste exactly:**
+
+> A locked, completely static overhead camera looking straight down at a
+> single enormous tyrannosaur matriarch dinosaur walking in place against a
+> plain flat light-gray background. She stays centered in frame and does not
+> travel, rotate, or drift. Her head points toward the top of the frame the
+> whole time. A slow, heavy two-legged stride: massive hind legs stepping
+> beneath her egg-swollen hips, her long thick tail sweeping slowly side to
+> side behind her for balance, her head and shoulders rocking slightly with
+> each step. Dark rust-red hide with a slate-gray plated carapace over her
+> back and hips and faint purple glowing veins in the seams. No camera
+> movement, no zoom, no cuts, no drop shadow, no ground, no dust, no other
+> objects, no text. 4 seconds.
+
+**Death sheet — paste exactly** (top-down rule: never ask for "collapsing" —
+from overhead that's invisible and forces a side view. Describe the silhouette
+going SLACK, and the glow dying with her):
+
+> a horizontal strip of exactly four separate top-down 2D video game sprite
+> frames showing an enormous tyrannosaur matriarch dinosaur dying, read left
+> to right, with a clear empty gap between each frame. Every frame is seen
+> from directly overhead. Frame 1: standing, her long body still in one
+> straight line, head beginning to swing off the center line. Frame 2: her
+> body sagging to the ground, the long tail settling into a gentle curve,
+> head and neck lolling to one side. Frame 3: lying on the ground, legs
+> sprawled outward from under her hips, neck and tail limp in opposite
+> curves. Frame 4: completely flat and still, limbs slack and splayed, jaw
+> open against the ground, and the purple glow in her veins gone dark. Every
+> frame at the same scale, at the same distance from the camera, on a plain
+> solid light-gray background. Cartoonish chunky proportions, flat cel
+> shading, clean dark outlines, like Kenney game assets. Dark rust-red hide
+> with a slate-gray plated carapace over her back and hips, thin purple
+> bioluminescent veins that dim frame by frame until dark. No grid lines, no
+> frame borders, no boxes around the frames, no numbers, no labels, no text,
+> no watermark, no drop shadows, no ground, no other views of the creature.
 
 ---
 

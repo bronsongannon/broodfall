@@ -9,3 +9,6 @@ assets/sprites/Source 2/*.torrent
 assets/sprites/Source 2/*.dmg
 mac/build/
 mac/Broodfall.xcodeproj/project.xcworkspace/xcuserdata/
+
+# scrapped generations kept on disk for reference, not worth versioning
+assets/sprites/source/_scrapped/

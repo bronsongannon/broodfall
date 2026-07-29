@@ -87,6 +87,13 @@ The game draws the rotating gun on turret/flak itself — that's why those two
 are bases only. To upgrade the gun too, replace `turret_gun.png` (existing
 file): *"twin-barreled turret gun assembly pointing up, seen from above"*.
 
+## Act 2–3 dinos (Screecher, Ironback, Broodmother)
+
+Their prompts live in **`DINOS-ACT23.md`** — they need per-character briefs
+(static + death sheet + walk video each), and two of the rules on this page are
+inverted for them: dinos are generated in FINAL colors (colorway art bypasses
+tinting) and every sheet ships with IDLE + DEATH from day one.
+
 ## NATURAL COLOR (skip the color rule — these are never tinted)
 
 | file | prompt |

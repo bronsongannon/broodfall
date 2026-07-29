@@ -2,7 +2,7 @@
 """Slice an AI-generated walk-in-place video into game walk-cycle frames.
 
 Usage:
-  python3 slice_walk.py <video> <unit_type> <colorway> [nframes]
+  python3 slice_walk.py <video> <unit_type> <colorway> [nframes] [force_period]
   python3 slice_walk.py walk.mp4 marine teal 8
 
 Expects the video spec from the art pipeline: straight top-down, camera
@@ -134,6 +134,12 @@ def largest_component(keep):
 def main():
     video, utype, cw = sys.argv[1], sys.argv[2], sys.argv[3]
     n_out = int(sys.argv[4]) if len(sys.argv) > 4 else 8
+    # Optional 5th arg: force the cycle length in source frames.
+    # The autodetect below reads the LEG band, which a flyer doesn't have —
+    # the Screecher's flap autodetected as 8 when the real cycle is 29, and
+    # sampled a nearly-static slice. Measure it with a wingspan autocorrelation
+    # and pass it here. Ground walkers should keep using the autodetect.
+    force_period = int(sys.argv[5]) if len(sys.argv) > 5 else 0
     here = os.path.dirname(os.path.abspath(__file__))
     frames = iio.imread(video, index=None)[..., :3]
     nf, h, w, _ = frames.shape
@@ -143,7 +149,7 @@ def main():
     # period = spacing of the deepest local minima after the start
     minima = [i for i in range(3, nf - 3) if sig[i] <= sig[i-1] and sig[i] <= sig[i+1]
               and sig[i] < sig.mean() * 0.6]
-    period = minima[0] if minima else nf // 2
+    period = force_period or (minima[0] if minima else nf // 2)
     # sample one cycle starting mid-video (models often wobble in the first frames)
     start = min(nf - period - 1, max(period, nf // 3))
     picks = [start + round(i * period / n_out) for i in range(n_out)]

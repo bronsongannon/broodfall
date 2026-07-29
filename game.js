@@ -733,12 +733,12 @@ const MISSIONS = [
       ['ops', 'That would be Rubicon. Escort the convoy out and back, Commander — and shoot anything that touches a harvester.'],
     ],
     intro: [
-      ['ops', 'The convoy is fueled and your escorts are standing by. Take them north-east along the marked route — swing EAST around the nest mounds, and keep rifles between the raiders and the haulers.'],
+      ['ops', 'Six haulers, and Beta needs at least FOUR of them on the pad — select the whole convoy, not half of it. Take them north-east along the marked route, swing EAST around the nest mounds, and keep rifles between the raiders and the cargo.'],
     ],
     objectives: [
-      { id: 'out',  text: 'Escort the convoy to Survey Post Beta (4+ harvesters alive)', type: 'groupReach', group: 'convoy', x: 2760, y: 520, r: 240, count: 4, mark: [2760, 520] },
+      { id: 'out',  text: 'Deliver 4 harvesters to Survey Post Beta', type: 'groupReach', group: 'convoy', unit: 'harvester', x: 2760, y: 520, r: 240, count: 4, mark: [2760, 520] },
       { id: 'load', text: 'Hold Survey Post Beta while the haulers load', type: 'survive', secs: 60, hidden: true, mark: [2760, 520] },
-      { id: 'back', text: 'Bring the convoy home (4+ harvesters alive)', type: 'groupReach', group: 'convoy', x: 300, y: 2000, r: 260, count: 4, hidden: true, mark: [300, 2000] },
+      { id: 'back', text: 'Bring 4 harvesters home', type: 'groupReach', group: 'convoy', unit: 'harvester', x: 300, y: 2000, r: 260, count: 4, hidden: true, mark: [300, 2000] },
     ],
     winWhen: ['out', 'load', 'back'],
     triggers: [
@@ -784,7 +784,9 @@ const MISSIONS = [
       { when: { time: 100, notDone: ['back'] }, repeat: true, every: 45,
         spawn: { unit: 'raider', team: 2, n: 1, at: [2200, 60], to: [350, 1950] } },
       // lose the convoy, lose the contract
-      { when: { groupBelow: ['convoy', 4] }, lose: true },
+      // NOT before the convoy exists: the player starts with 3 harvesters and
+      // the haulers spawn at t=0.5s, so an ungated quota check loses at tick 0
+      { when: { time: 5, unitsBelow: ['harvester', 4] }, lose: true },
     ],
     outro: [
       ['ops', 'Convoy home, silos full, and every raider they sent is cooling in the flats. That is a route, Commander.'],
@@ -2795,6 +2797,21 @@ function moveToward(u, tx, ty) {
       o._pgx = tx; o._pgy = ty;
     }
     while (o._path.length && dist2(u.x, u.y, o._path[0].x, o._path[0].y) < 24 * 24) o._path.shift();
+    // …and drop a waypoint we've been PUSHED past. Proximity alone can't retire
+    // one: shove a unit off a waypoint (an ambush crowd, a wall slide) without
+    // it ever coming within 24px and that waypoint stays at the head forever —
+    // the unit turns around, walks back toward ground it already cleared, the
+    // crowd pushes it forward, and it nets zero movement permanently. The ghost
+    // watchdog fires and changes nothing, because nothing is actually colliding.
+    // (Playtest, M2: the convoy froze mid-road at the ambush with three raiders
+    // on it and never reached Survey Post Beta.)
+    // "Behind us" = we're already at least as close to the NEXT waypoint as this
+    // one is. Gated on line of sight so a genuine detour can't be corner-cut.
+    while (o._path.length > 1
+           && dist2(u.x, u.y, o._path[1].x, o._path[1].y)
+              <= dist2(o._path[0].x, o._path[0].y, o._path[1].x, o._path[1].y)
+           && losClear(u.x, u.y, o._path[1].x, o._path[1].y, foot))
+      o._path.shift();
     if (o._path.length) { gx = o._path[0].x; gy = o._path[0].y; a = Math.atan2(gy - u.y, gx - u.x); }
   }
   // If a building or rock blocks the path just ahead, slide along its wall
@@ -7113,11 +7130,30 @@ function dlgUpdate() {
 }
 
 let lastObjSig = '';
+// How far along a counted objective is, as "3/4" — null when it doesn't count.
+// Playtest, M2: a player delivered three haulers, left three idle at the start,
+// and the HUD said only "Escort the convoy to Survey Post Beta (4+ harvesters
+// alive)" — which reads as a survival rule, not a delivery quota. Nothing on
+// screen showed 3 of 4. Progress has to be visible or the objective is a riddle.
+function objProgress(o) {
+  if (o.done || !o.count) return null;
+  if (o.type === 'groupReach') {
+    const g = o.unit ? units.filter(u => u.team === 1 && u.hp > 0 && u.type === o.unit)
+                     : (groupAlive(o.group) || []);
+    return (o.arrived ? g.filter(u => o.arrived[u.id]).length : 0) + '/' + o.count;
+  }
+  if (o.type === 'unitCount')
+    return Math.min(o.count, units.filter(u => u.team === 1 && u.hp > 0 && u.type === o.unit).length) + '/' + o.count;
+  if (o.type === 'built')
+    return Math.min(o.count, buildings.filter(b => b.team === 1 && b.hp > 0 && b.type === o.bld && b.built >= 1
+      && (o.r == null || dist2(b.x, b.y, o.x, o.y) < o.r * o.r)).length) + '/' + o.count;
+  return null;
+}
 function refreshObjectives() {
   if (!mission || !ms) { elObjectives.classList.add('hidden'); lastObjSig = ''; return; }
   const objs = ms.objectives.filter(o => o.active);
-  // clocks are in the signature so the countdown actually repaints each second
-  const sig = objs.map(o => o.id + (o.done ? '1' : '0') + (objClock(o) ?? '')).join(',');
+  // clocks AND counts are in the signature so both actually repaint
+  const sig = objs.map(o => o.id + (o.done ? '1' : '0') + (objClock(o) ?? '') + (objProgress(o) ?? '')).join(',');
   if (sig === lastObjSig) return;
   lastObjSig = sig;
   elObjTitle.textContent = `Mission ${ms.idx + 1} — ${mission.title}`;
@@ -7125,7 +7161,9 @@ function refreshObjectives() {
     const c = objClock(o);
     const clock = c == null ? ''
       : `<span class="obj-clock${c <= 60 ? ' urgent' : ''}">${mmss(c)}</span>`;
-    return `<div class="obj${o.done ? ' done' : ''}">${o.done ? '✔' : '◈'} ${o.text}${clock}</div>`;
+    const prog = objProgress(o);
+    const count = prog ? `<span class="obj-count">${prog}</span>` : '';
+    return `<div class="obj${o.done ? ' done' : ''}">${o.done ? '✔' : '◈'} ${o.text}${count}${clock}</div>`;
   }).join('');
   elObjectives.classList.remove('hidden');
 }
@@ -7149,7 +7187,12 @@ function objMet(o) {
     // arrivals scatter to mine before the stragglers reach the post. Once a unit
     // has touched the circle it counts as delivered for as long as it lives.
     case 'groupReach': {
-      const g = groupAlive(o.group) || [];
+      // `unit` widens the pool to every living unit of that type the player
+      // owns — a replacement hauler built after an ambush is worth exactly as
+      // much as an original, and a delivery quota that only accepts SPECIFIC
+      // bodies is a trap (Bronson, 2026-07-29).
+      const g = o.unit ? units.filter(u => u.team === 1 && u.hp > 0 && u.type === o.unit)
+                       : (groupAlive(o.group) || []);
       o.arrived = o.arrived || {};
       for (const u of g) if (dist2(u.x, u.y, o.x, o.y) < o.r * o.r) o.arrived[u.id] = 1;
       return g.filter(u => o.arrived[u.id]).length >= o.count;
@@ -7187,6 +7230,13 @@ function condMet(w) {
   if (w.groupDead) {
     const g = groupAlive(w.groupDead);
     if (!g || g.length) return false;
+  }
+  // too few of a UNIT TYPE left alive — the type-based twin of groupBelow, so a
+  // convoy mission fails on "you cannot deliver the quota any more" rather than
+  // on which particular haulers died
+  if (w.unitsBelow) {
+    if (units.filter(u => u.team === 1 && u.hp > 0 && u.type === w.unitsBelow[0]).length >= w.unitsBelow[1])
+      return false;
   }
   // too few of a group left alive (convoy attrition → mission failure)
   if (w.groupBelow) {

@@ -179,23 +179,40 @@ She keeps the Broodfallen palette (rust `#8f4a3e` + purple biolum) because
 that is the corruption Act 2 and 3 are about, but it should sit ON dinosaur
 anatomy, like something that grew over her.
 
-**Static sprite — paste exactly:**
+**Static sprite — paste exactly (v3, 2026-07-28 — the v2 rewrite still read
+as a tick: a swollen belly "far wider than her shoulders" with limbs "splayed
+out to the sides" is bug geometry from overhead no matter what the words say.
+What reads as DINOSAUR from above is the LONG AXIS — mostly skull and tail,
+legs hidden under the mass. Length, not width):**
 
 > top-down orthographic 2D video game sprite, viewed directly from above,
 > single creature centered on a plain solid light-gray background, cartoonish
 > chunky proportions with flat cel shading and clean dark outlines, like Kenney
 > game assets, crisp silhouette readable at small size, no text, no watermark,
-> no shadow on the ground. An enormous brooding mother dinosaur seen from
-> directly above, built like a huge low-slung theropod: one broad heavy
-> reptilian skull with a wide toothed jaw pointing toward the top of the frame,
-> a thick muscular neck, four powerful clawed limbs splayed out to the sides
-> carrying her weight, and a vastly swollen egg-heavy belly and hindquarters
-> dragging low behind her, far wider than her shoulders. A ridge of bony spines
-> runs down her spine to a short thick tail. Symmetric down the centre line.
-> Dark rust-red hide with a heavy plated carapace grown over her back and
-> flanks, deep purple bioluminescent veins glowing in the seams between the
-> plates and along the swollen belly, amber eyes, oily desaturated colors, no
-> bright colors except the purple glow.
+> no shadow on the ground. An enormous tyrannosaur matriarch seen from directly
+> above, mid-stride, her whole body stretched along the vertical axis of the
+> frame: a huge broad toothed skull at the top of the frame, a thick muscular
+> neck, wide shoulders with two small clawed forearms tucked under her chest, a
+> deep ribcage narrowing to the waist, broad egg-swollen hips, and a long thick
+> tapering tail running straight down to the bottom of the frame — skull, spine
+> and tail in one continuous line, and she is three times longer than she is
+> wide. Her two massive hind legs are tucked beneath her hips, mostly hidden
+> under the body. A ridge of bony spines runs from the back of her skull all
+> the way down to the tail tip. Dark rust-red hide with a slate-gray plated
+> carapace grown over her back and hips, thin deep-purple bioluminescent veins
+> glowing in the seams between the plates and clustered over her swollen hips,
+> amber eyes, oily desaturated natural colors, no bright color except the
+> purple glow. Her silhouette is a long striding dinosaur: no oval abdomen, no
+> legs radiating out from her sides.
+
+Why v3 differs: (1) names the species family — the Ironback worked first try
+because its prompt said "ankylosaur"; v2 never named a dinosaur and the
+generator filled the gap with bug. (2) "Three times longer than wide" states
+the fix as geometry. (3) The eggs moved from belly to HIPS — keeps the brood
+fiction, puts the width where a theropod is genuinely wide. (4) Legs "tucked
+beneath, mostly hidden" — visible splayed legs are the strongest single bug
+cue from overhead. (5) The one negative is geometric, not species-relational
+("looks like X, not Y" phrasing steered v1 wrong).
 
 Keep the glow to thin veins and belly seams. If the whole body glows she reads
 as a UI element instead of an animal.

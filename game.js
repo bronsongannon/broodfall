@@ -118,7 +118,11 @@ const UNIT = {
   // by artillery and rockets so the existing RPS still holds.
   screecher: { label: 'Screecher', cost: 0,   supply: 1, hp: 70,  speed: 3.0,  r: 12, dmg: 9,  range: 95, cooldown: 40,  buildTime: 0, sight: 240, fly: 1 },
   ironback:  { label: 'Ironback',  cost: 0,   supply: 2, hp: 620, speed: 0.95, r: 16, dmg: 24, range: 34, cooldown: 62,  buildTime: 0, sight: 190, noAA: 1, bldBonus: 2.0 },
-  raptor:    { label: 'Raptor',    cost: 0,   supply: 1, hp: 65,  speed: 3.4,  r: 12,  dmg: 9,  range: 20,  cooldown: 32,  buildTime: 0, sight: 220, noAA: 1, infBonus: 1.5 },
+  // The finale boss (M13 scripted walker, M20 combat). A walking den: while she
+  // lives she lays broods — see BROODMOTHER_* + updateUnit. Jaw is fake melee
+  // like the raptor's claws. Slow on purpose: she is terrain that advances.
+  broodmother: { label: 'Broodmother', cost: 0, supply: 0, hp: 4200, speed: 0.55, r: 30, dmg: 85, range: 42, cooldown: 95, buildTime: 0, sight: 280, noAA: 1, bldBonus: 1.6, melee: 1 },
+  raptor:    { label: 'Raptor',    cost: 0,   supply: 1, hp: 65,  speed: 3.4,  r: 12,  dmg: 9,  range: 20,  cooldown: 32,  buildTime: 0, sight: 220, noAA: 1, infBonus: 1.5, melee: 1 },
   // Ambient wildlife: harmless grazers that wander campaign maps. No weapon
   // auto-targets them — but a deliberate kill enrages every real dino on the
   // level (dinoRage). Atmosphere with a conscience.
@@ -185,6 +189,11 @@ const DEN_BIRTH_MIN = 5, DEN_BIRTH_MAX = 7;
 const DEN_PACK_SIZE = 3;       // raptors per hunting pack
 const DEN_PACK_EVERY = 50 * 60; // a new hunt leaves the den every 50s
 const DEN_RAPTOR_CAP = 12;     // max living raptors per den — hunts pause at cap
+// The Broodmother's laying clock (she is a den on legs — see updateUnit).
+// Slower than a den's hunts but relentless: left alone she snowballs an escort.
+const BROODMOTHER_LAY_EVERY = 40 * 60;
+const BROODMOTHER_LAY_SIZE = 2;
+const BROODMOTHER_BROOD_CAP = 8;
 // an engineer must stand at the site for the whole build. Wide enough that a
 // crew on the bank can raise a dam spanning mid-channel (WALK_HALF_L is 155).
 const ENG_BUILD_RANGE = 175;
@@ -1233,7 +1242,7 @@ const UPG = {
   harvest:    { label: 'Harvester Systems', at: 'hq',      max: 3, cost: [125, 200, 275], time: [20 * 60, 25 * 60, 30 * 60] },
 };
 const IS_INF = { marine: 1, sniper: 1, engineer: 1, medic: 1, rocket: 1 };
-const IS_DINO = { spitter: 1, raptor: 1, critter: 1, screecher: 1, ironback: 1 };
+const IS_DINO = { spitter: 1, raptor: 1, critter: 1, screecher: 1, ironback: 1, broodmother: 1 };
 const isFlesh = (u) => !!IS_INF[u.type] || !!IS_DINO[u.type];   // what a medic can heal: infantry + dinos
 const isVehicle = (u) => u.kind === 'unit' && !IS_INF[u.type] && !IS_DINO[u.type];   // what an engineer can repair
 // Veterancy: every unit remembers its kills. 2/4/8 kills → +10% damage and
@@ -1362,7 +1371,10 @@ const OPT = {};
   names.push('unit_marine_hunker_teal', 'unit_marine_hunker_red',
     'unit_sniper_hunker_teal', 'unit_sniper_hunker_red',
     'unit_artillery_hunker_teal', 'unit_artillery_hunker_red',
-    'unit_spitter_wild', 'unit_raptor_wild', 'unit_critter_wild', 'turret_gun_teal', 'turret_gun_red');
+    'turret_gun_teal', 'turret_gun_red');
+  // every dino gets a _wild static slot — the hand-list this replaces silently
+  // skipped the Screecher and Ironback, so their installed art never loaded
+  for (const k in IS_DINO) names.push('unit_' + k + '_wild');
   // animation frame slots. Any prefix of frames works — the game uses however
   // many it finds. death: sliced from Gemini spritesheets. walk: sliced from
   // AI walk-in-place videos via slice_walk.py (2026-07-20, DaVinci marine first;
@@ -2297,6 +2309,7 @@ function nearestEnemyUnit(x, y, team, range, aa, airOnly, fromAir) {
   for (const u of units) {
     if (u.team === team) continue;
     if (u.type === 'critter') continue;                   // wildlife: never auto-targeted, by anyone
+    if (u.invuln) continue;                               // unkillable set-piece — don't park the army on it
     if (airOnly && !UNIT[u.type].fly) continue;           // flak ignores the ground war
     if (aa === false && UNIT[u.type].fly) continue;       // gun can't elevate — skip flyers
     if (team === 1 && !isVisibleAt(u.x, u.y)) continue;   // player can't target into the fog
@@ -2604,13 +2617,13 @@ function updateNukes() {
 
 // ---------------- Combat ----------------
 function fire(src, target) {
-  if (src.type === 'raptor') {
-    // fake melee: no projectile — the pounce IS the hit. Claws land instantly,
-    // with the infantry bonus for anything made of meat and cloth.
+  if (src.kind === 'unit' && UNIT[src.type].melee) {
+    // fake melee (raptor claws, the Broodmother's jaw): no projectile — the
+    // pounce IS the hit, with the infantry bonus for anything meat and cloth.
     src.cool = src.cooldown;
     src.faceA = Math.atan2(target.y - src.y, target.x - src.x);
-    src.recoil = 3;   // the recoil kick reads as a lunge-and-recover
-    const infBonus = target.kind === 'unit' && IS_INF[target.type] ? UNIT.raptor.infBonus : 1;
+    src.recoil = src.type === 'broodmother' ? 6 : 3;   // the kick reads as a lunge-and-recover
+    const infBonus = target.kind === 'unit' && IS_INF[target.type] ? (UNIT[src.type].infBonus || 1) : 1;
     fxs.push({ kind: 'slash', x: target.x, y: target.y, a: src.faceA, t: 0, max: 12 });
     if (src.team === 1 || Math.random() < 0.4) snd.bite();
     damage(target, src.dmg * weaponMult(src) * infBonus, src);
@@ -2891,6 +2904,23 @@ function updateUnit(u) {
     }
   }
   if (u.hp < u.maxHp && rankOf(u) >= 3) u.hp = Math.min(u.maxHp, u.hp + 0.05);   // Legends field-patch themselves
+  // The Broodmother is a walking den: while she lives she lays raptor broods.
+  // Her children escort her (guard where they hatch, so they aggro whatever
+  // comes near the column) — killing her is the only way to stop the bleeding.
+  if (u.type === 'broodmother' && u.hp > 0) {
+    const kids = units.filter(k => k.hp > 0 && k.type === 'raptor' && k.home === u.id).length;
+    if (kids < BROODMOTHER_BROOD_CAP) {
+      u.broodT = (u.broodT || 0) + 1;
+      if (u.broodT >= BROODMOTHER_LAY_EVERY) {
+        u.broodT = 0;
+        for (let i = 0; i < BROODMOTHER_LAY_SIZE; i++) spawnRaptor(u);
+        if (isShownAt(u.x, u.y)) {
+          toast('⚠ The Broodmother has laid a new brood!');
+          snd.screech();
+        }
+      }
+    } else u.broodT = 0;   // at cap: the clock idles, same rule as the den
+  }
   const o = u.order;
 
   switch (o.type) {
@@ -5747,7 +5777,7 @@ function drawRigCage(u) {
 // a dino's size ignored its own radius — the Ironback drew at 26px with a 43px
 // hit circle). dinoBox is shared with the corpse fx so a body can't change
 // size the instant it dies.
-const DINO_BOX = { raptor: 1.9, screecher: 1.35, ironback: 1.35 };
+const DINO_BOX = { raptor: 1.9, screecher: 1.35, ironback: 1.35, broodmother: 1.5 };
 const dinoBox = (type, r) => r * (DINO_BOX[type] || 1.3);
 function drawDino(u) {
   // pre-colored colorway first (wild bone/moss art, or teal for tamed)
@@ -5810,6 +5840,68 @@ function drawDino(u) {
     cx.beginPath(); cx.arc(8.5, -1.7, 0.9, 0, Math.PI * 2); cx.arc(8.5, 1.7, 0.9, 0, Math.PI * 2); cx.fill();
     cx.strokeStyle = '#cfc5a8'; cx.lineWidth = 1;     // bared teeth at the jaw line
     cx.beginPath(); cx.moveTo(11, -1); cx.lineTo(13.5, 0); cx.lineTo(11, 1); cx.stroke();
+    return;
+  }
+  if (u.type === 'broodmother') {
+    // The finale boss, v3 anatomy (DINOS-ACT23): what reads as DINOSAUR from
+    // overhead is the LONG AXIS — skull, spine and tail in one line, ~3x
+    // longer than wide, legs hidden under the mass. Round body + splayed
+    // limbs is a tick, whatever the label says (Bronson, twice now).
+    // Facing +x like every procedural dino.
+    const pulse = 0.5 + 0.35 * Math.abs(Math.sin(tick * 0.06));
+    const sway = u.moving ? Math.sin(u.walkT * 0.18) * 4 : Math.sin(tick * 0.03 + u.id) * 1.5;
+    const RUST = '#8f4a3e', RUST_D = '#5e2f28', PLATE = '#4a4148', VEIN = `rgba(176,106,232,${pulse})`;
+    // the long heavy tail — a third of her whole length, swinging with the stride
+    cx.fillStyle = RUST;
+    cx.beginPath();
+    cx.moveTo(-8, -7);
+    cx.quadraticCurveTo(-26, -6, -44, sway - 1.5);
+    cx.lineTo(-44, sway + 1.5);
+    cx.quadraticCurveTo(-26, 6, -8, 7);
+    cx.closePath(); cx.fill();
+    // hind feet: claws just peeking out from UNDER the hips, not splayed wide
+    const gait = u.moving ? Math.sin(u.walkT * 0.32) * 5 : 0;
+    cx.strokeStyle = RUST_D; cx.lineWidth = 4.5;
+    cx.beginPath();
+    cx.moveTo(-4, -6); cx.lineTo(0 + gait, -12);
+    cx.moveTo(-4, 6);  cx.lineTo(0 - gait, 12);
+    cx.stroke();
+    cx.fillStyle = RUST;                                // egg-swollen hips: the widest point of a LONG body
+    cx.beginPath(); cx.ellipse(-5, 0, 13, 10.5, 0, 0, Math.PI * 2); cx.fill();
+    cx.fillStyle = RUST;                                // ribcage narrowing to the waist, then shoulders
+    cx.beginPath(); cx.ellipse(10, 0, 11, 7.5, 0, 0, Math.PI * 2); cx.fill();
+    cx.strokeStyle = RUST_D; cx.lineWidth = 2.6;        // small forearms tucked under the chest
+    cx.beginPath();
+    cx.moveTo(16, -4); cx.lineTo(20, -6.5);
+    cx.moveTo(16, 4);  cx.lineTo(20, 6.5);
+    cx.stroke();
+    cx.fillStyle = PLATE;                               // carapace grown over back and hips
+    cx.beginPath(); cx.ellipse(-5, 0, 9.5, 7.5, 0, 0, Math.PI * 2); cx.fill();
+    cx.beginPath(); cx.ellipse(9, 0, 7, 5, 0, 0, Math.PI * 2); cx.fill();
+    cx.fillStyle = VEIN;                                // egg-glow clustered over the hips
+    for (const [ex, ey] of [[-8, -4.5], [-2, 5], [-9, 4], [-1, -5]]) {
+      cx.beginPath(); cx.arc(ex, ey, 1.9, 0, Math.PI * 2); cx.fill();
+    }
+    cx.strokeStyle = VEIN; cx.lineWidth = 1.4;          // one biolum vein riding the spine seam
+    cx.beginPath(); cx.moveTo(18, 0); cx.quadraticCurveTo(-20, 0, -40, sway); cx.stroke();
+    cx.fillStyle = RUST;                                // thick neck flowing into the skull
+    cx.beginPath(); cx.ellipse(20, 0, 6.5, 5, 0, 0, Math.PI * 2); cx.fill();
+    cx.fillStyle = RUST;                                // the skull: huge, broad, a real jaw
+    cx.beginPath();
+    cx.moveTo(24, -6.5);
+    cx.quadraticCurveTo(36, -5.5, 40, -1.8);
+    cx.lineTo(40, 1.8);
+    cx.quadraticCurveTo(36, 5.5, 24, 6.5);
+    cx.closePath(); cx.fill();
+    cx.strokeStyle = '#cfc5a8'; cx.lineWidth = 1.3;     // toothline down the snout
+    cx.beginPath(); cx.moveTo(34, -3.4); cx.lineTo(40.5, 0); cx.lineTo(34, 3.4); cx.stroke();
+    cx.fillStyle = RUST_D;                              // bony spine ridge, skull to tail
+    for (let i = 0; i < 7; i++) {
+      const sx2 = 20 - i * 8;
+      cx.beginPath(); cx.moveTo(sx2, -1.8); cx.lineTo(sx2 - 3, 0); cx.lineTo(sx2, 1.8); cx.closePath(); cx.fill();
+    }
+    cx.fillStyle = '#e0a43c';                           // amber eyes — the lineage cue
+    cx.beginPath(); cx.arc(26, -4, 1.4, 0, Math.PI * 2); cx.arc(26, 4, 1.4, 0, Math.PI * 2); cx.fill();
     return;
   }
   const wag = Math.sin(tick * 0.25 + u.id) * 3;    // tail sway
@@ -7067,6 +7159,7 @@ function doSpawn(sp) {
     else if (sp.order === 'guard') u.order = { type: 'guard', hx: u.x, hy: u.y };
     else if (sp.to) u.order = { type: isCombat(u) ? 'attackmove' : 'move', x: sp.to[0], y: sp.to[1] };
     if (sp.specimen) u.specimen = true;   // protected: player weapons won't track it
+    if (sp.invuln) u.invuln = true;       // scripted set-piece (M13's Broodmother walk): the story owns it
     if (ids) ids.push(u.id);
   }
 }

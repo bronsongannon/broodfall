@@ -34,6 +34,8 @@ file and the widget's task lists in sync.
 - [x] Act 2 opener M8 "Strip Mine" BUILT 2026-07-28 — economy race (out-haul Krauss before his counter hits 7000), his forward refinery is the valve that throttles it, he nukes the pit colonies as "overburden", and a Raptor Den erupts from the crater hunting BOTH sides. New engine: scripted rival `haul` counter + trigger action, per-team mined tally
 - [x] Screecher + Ironback art COMPLETE 2026-07-28 — statics, walk/flap cycles, death frames, both installed with provisional stats. Broodmother SCRAPPED (read as a tick; redesign brief in assets/sprites/DINOS-ACT23.md)
 - [x] Raptor scaled up 2026-07-28 (Bronson: should read scary) — 34px → 46px; drawDino now derives size from `r` instead of hard-coding it (the Ironback was drawing at 26px with a 43px hit circle), melee reach grown with the body, raptor death frames renormalized
+- [x] Playtest fixes 2026-07-29 — M2 convoy arrival LATCHES (it needed 4 haulers inside the circle simultaneously; a trickling convoy could peak at 3 and hang) + a visible 60s loading clock replaces the dead window at Beta; unarmed units hold a 190px standoff on attack-move instead of walking through their own firing line (medic was ending up 100px AHEAD of the lead marine and dying in 6s — not a speed problem); medic speed 1.8 → 1.6; WASD camera toggle on the start menu
+- [ ] OPEN: possible pathing pocket on the trade road near (2270, 950) — a raw move order wedged 3 haulers 650px short of Beta holding a 2-node path. Not seen when steering around the mounds; needs a look
 - [ ] Pacing pass toward 20–30 minute matches
 
 ## Art and audio

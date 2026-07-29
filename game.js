@@ -84,7 +84,7 @@ const UNIT = {
   marine:    { label: 'Marine',    cost: 80,  supply: 1, hp: 70,  speed: 1.9,  r: 9,  dmg: 9,  range: 125, cooldown: 36,  buildTime: 5 * 60,  sight: 200 },
   sniper:    { label: 'Sniper',    cost: 130, supply: 1, hp: 45,  speed: 1.7,  r: 8,  dmg: 30, range: 190, cooldown: 110, buildTime: 7 * 60,  sight: 310 },
   // Unarmed. Follows wounded flesh (infantry + dinos) and patches it up.
-  medic:     { label: 'Medic',     cost: 100, supply: 1, hp: 60,  speed: 1.8,  r: 9,  dmg: 0,  range: 0,   cooldown: 0,   buildTime: 6 * 60,  sight: 200, heal: 0.4, noAA: 1 },
+  medic:     { label: 'Medic',     cost: 100, supply: 1, hp: 60,  speed: 1.6,  r: 9,  dmg: 0,  range: 0,   cooldown: 0,   buildTime: 6 * 60,  sight: 200, heal: 0.4, noAA: 1 },
   raider:    { label: 'Raider',    cost: 150, supply: 1, hp: 155, speed: 3.0,  r: 11, dmg: 7,  range: 100, cooldown: 20,  buildTime: 6 * 60,  sight: 240 },
   tank:      { label: 'Tank',      cost: 220, supply: 2, hp: 280, speed: 1.25, r: 14, dmg: 34, range: 155, cooldown: 95,  buildTime: 10 * 60, sight: 210, noAA: 1 },
   // Anti-armor specialist: slow rockets that hit vehicles 1.6x — and can hit air.
@@ -191,6 +191,10 @@ const DEN_PACK_EVERY = 50 * 60; // a new hunt leaves the den every 50s
 const DEN_RAPTOR_CAP = 12;     // max living raptors per den — hunts pause at cap
 // The Broodmother's laying clock (she is a den on legs — see updateUnit).
 // Slower than a den's hunts but relentless: left alone she snowballs an escort.
+// How close a hostile gets before an unarmed unit stops advancing on
+// attack-move. Wider than a marine's 125 range so support holds BEHIND the
+// line the escorts form, not level with it.
+const SUPPORT_STANDOFF = 190;
 const BROODMOTHER_LAY_EVERY = 40 * 60;
 const BROODMOTHER_LAY_SIZE = 2;
 const BROODMOTHER_BROOD_CAP = 8;
@@ -733,9 +737,10 @@ const MISSIONS = [
     ],
     objectives: [
       { id: 'out',  text: 'Escort the convoy to Survey Post Beta (4+ harvesters alive)', type: 'groupReach', group: 'convoy', x: 2760, y: 520, r: 240, count: 4, mark: [2760, 520] },
+      { id: 'load', text: 'Hold Survey Post Beta while the haulers load', type: 'survive', secs: 60, hidden: true, mark: [2760, 520] },
       { id: 'back', text: 'Bring the convoy home (4+ harvesters alive)', type: 'groupReach', group: 'convoy', x: 300, y: 2000, r: 260, count: 4, hidden: true, mark: [300, 2000] },
     ],
-    winWhen: ['out', 'back'],
+    winWhen: ['out', 'load', 'back'],
     triggers: [
       { when: { time: 0.5 }, crystals: 250,
         spawn: [
@@ -753,7 +758,7 @@ const MISSIONS = [
           { unit: 'raider', team: 2, n: 1, at: [2990, 1500], to: [2400, 1100] },
         ],
         say: [['red', 'Attention, expedition convoy: you are traversing a Rubicon resource corridor. Per intersystem claim law, your cargo is subject to a toll. My associates will collect.']] },
-      { when: { done: ['out'] },
+      { when: { done: ['out'] }, objective: 'load',
         spawn: [
           { unit: 'marine', team: 1, n: 2, at: [2650, 600] },
           { unit: 'rocket', team: 1, n: 1, at: [2700, 640] },
@@ -3034,6 +3039,18 @@ function updateUnit(u) {
         if (moveToward(u, o.x, o.y)) u.order = { type: 'idle' };
         break;
       }
+      // Unarmed support must not walk THROUGH its own firing line. Armed
+      // escorts stop at weapon range to shoot; a unit with no weapon has
+      // nothing to stop it, so it marches past them into the enemy — measured
+      // at 100px ahead of the lead marine and dead in six seconds, and NOT a
+      // speed problem (the medic is already slower than a marine). It holds at
+      // standoff instead, and the idle auto-heal/repair services whoever falls
+      // back to it.
+      if (u.dmg <= 0) {
+        if (acquireTarget(u.x, u.y, u.team, SUPPORT_STANDOFF, u)) { u.order = { type: 'idle' }; break; }
+        if (moveToward(u, o.x, o.y)) u.order = { type: 'idle' };
+        break;
+      }
       const t = acquireTarget(u.x, u.y, u.team, u.range + 90, u);
       if (t) { u.order = { type: 'attack', target: t, resume: { x: o.x, y: o.y } }; break; }
       if (moveToward(u, o.x, o.y)) u.order = { type: 'idle' };
@@ -4015,14 +4032,14 @@ window.addEventListener('keydown', (e) => {
   if (skipOutro()) return;   // debrief running: any key jumps to the scoreboard
 
   pruneSelection();
-  if (e.code === 'KeyA' && selection.some(s => s.kind === 'unit' && isCombat(s))) { attackMoveMode = true; placing = null; nukeTargeting = null; setCursor(); return; }
-  if (e.code === 'KeyS') { for (const s of selection) if (s.kind === 'unit') s.order = { type: 'idle' }; return; }
+  if (e.code === KEY_AMOVE() && selection.some(s => s.kind === 'unit' && isCombat(s))) { attackMoveMode = true; placing = null; nukeTargeting = null; setCursor(); return; }
+  if (e.code === KEY_STOP()) { for (const s of selection) if (s.kind === 'unit') s.order = { type: 'idle' }; return; }
   // H = home: snap the camera to base (Bronson 2026-07-27 — hunker moved to D).
   // With no HQ (commando missions) it centres on whatever you still have.
   if (e.code === 'KeyH') { goHome(); return; }
   // D = hunker. A building that trains still owns D as its 5th card slot, so
   // production wins when one is selected — the two can't both be selected.
-  if (e.code === 'KeyD' && selection.some(s => s.kind === 'unit' && canHunker(s))
+  if (e.code === KEY_HUNKER() && selection.some(s => s.kind === 'unit' && canHunker(s))
       && !selection.some(s => s.kind === 'building' && BLD[s.type].trains)) { toggleHunker(); return; }
   if (e.code === 'KeyU' && selection.some(s => s.kind === 'unit' && s.cargo && s.cargo.length)) {
     for (const s of selection) if (s.kind === 'unit' && s.cargo && s.cargo.length) unloadAPC(s);
@@ -4207,10 +4224,10 @@ function tryPlaceBuilding(type, wx, wy) {
 function updateCamera() {
   const sp = 16;
   let manual = false;
-  if (keys['ArrowLeft']) { cam.x -= sp; manual = true; }
-  if (keys['ArrowRight']) { cam.x += sp; manual = true; }
-  if (keys['ArrowUp']) { cam.y -= sp; manual = true; }
-  if (keys['ArrowDown']) { cam.y += sp; manual = true; }
+  if (keys['ArrowLeft'] || (wasdPanning() && keys['KeyA'])) { cam.x -= sp; manual = true; }
+  if (keys['ArrowRight'] || (wasdPanning() && keys['KeyD'])) { cam.x += sp; manual = true; }
+  if (keys['ArrowUp'] || (wasdPanning() && keys['KeyW'])) { cam.y -= sp; manual = true; }
+  if (keys['ArrowDown'] || (wasdPanning() && keys['KeyS'])) { cam.y += sp; manual = true; }
   if (mouse.inWindow && !miniDown) {
     const edge = 14;
     if (mouse.sx < edge) { cam.x -= sp; manual = true; }
@@ -7127,9 +7144,15 @@ function objMet(o) {
     case 'reach': return units.some(u => u.team === 1 && u.hp > 0 && dist2(u.x, u.y, o.x, o.y) < o.r * o.r);
     case 'captive': return teams[1].captives >= o.count;
     // enough of a named group has made it to the marked spot (convoy escort)
+    // Arrival LATCHES per unit: a convoy that trickles in over a minute would
+    // otherwise never have N inside the circle at the same instant — the early
+    // arrivals scatter to mine before the stragglers reach the post. Once a unit
+    // has touched the circle it counts as delivered for as long as it lives.
     case 'groupReach': {
       const g = groupAlive(o.group) || [];
-      return g.filter(u => dist2(u.x, u.y, o.x, o.y) < o.r * o.r).length >= o.count;
+      o.arrived = o.arrived || {};
+      for (const u of g) if (dist2(u.x, u.y, o.x, o.y) < o.r * o.r) o.arrived[u.id] = 1;
+      return g.filter(u => o.arrived[u.id]).length >= o.count;
     }
     // no living hostile building of this type left near the mark (nest cracks).
     // It must have been THERE first: a target the mission spawns on a trigger
@@ -7435,6 +7458,33 @@ function renderStoreStrip() {
 // ---------------- Start menu ----------------
 let started = false;
 const elMenu = document.getElementById('menu');
+// WASD camera (opt-in). Every letter WASD wants is already a command, and only
+// I and K are unbound in the whole alphabet — so turning this on MOVES two unit
+// commands rather than stacking them. attack-move and stop go to E and Q, which
+// collide with nothing: those are production keys, and production only fires
+// with a building selected while attack-move/stop only matter with units
+// selected. Same trick D already uses (hunker on units, artillery on a Factory).
+let wasdCam = localStorage.getItem('cc.wasd') === '1';
+const KEY_AMOVE = () => (wasdCam ? 'KeyE' : 'KeyA');
+const KEY_STOP  = () => (wasdCam ? 'KeyQ' : 'KeyS');
+const KEY_HUNKER = () => (wasdCam ? 'KeyR' : 'KeyD');
+// WASD pans only while NO building is selected. W and D are production slots
+// and can't be given up, so selecting a building hands those letters back to
+// the build card — which is also when you are least likely to be panning.
+const wasdPanning = () => wasdCam && !selection.some(x => x.kind === 'building');
+const MENU_CONTROLS = {
+  arrows: { label: 'Arrows', desc: 'Classic RTS. A = attack-move, S = stop.' },
+  wasd:   { label: 'WASD + arrows', desc: 'WASD also pans. Attack-move moves to E, stop to Q.' },
+};
+function applyControlScheme() {
+  const cam = document.getElementById('hk-cam');
+  if (cam) cam.textContent = wasdCam
+    ? 'WASD / arrow keys / screen edge / minimap' : 'Arrow keys / screen edge / minimap';
+  const am = document.getElementById('hk-amove'); if (am) am.textContent = wasdCam ? 'E' : 'A';
+  const st = document.getElementById('hk-stop');  if (st) st.textContent = wasdCam ? 'Q' : 'S';
+  const hk = document.getElementById('hk-hunker'); if (hk) hk.textContent = wasdCam ? 'R' : 'D';
+  lastCardSig = '';   // card labels name these keys — force a repaint
+}
 let chosenMap = localStorage.getItem('cc.map') || 'basin';
 let chosenDiff = localStorage.getItem('cc.diff') || 'normal';
 if (!MAPS[chosenMap]) chosenMap = 'basin';
@@ -7471,6 +7521,12 @@ function renderMenu() {
   } else {
     renderMissionList();
   }
+  menuButtons(document.getElementById('menu-controls'), MENU_CONTROLS, wasdCam ? 'wasd' : 'arrows', k => {
+    wasdCam = (k === 'wasd');
+    localStorage.setItem('cc.wasd', wasdCam ? '1' : '0');
+    applyControlScheme();
+    renderMenu();
+  });
   renderStoreStrip();
 }
 function renderMissionList() {
@@ -7615,6 +7671,7 @@ function startMission(idx) {
   if (missionPaywalled(idx)) { storeNudge(); return; }   // paywall backstop (CC/console path)
   startGame(m.map, m.diff || 'normal', idx);
 }
+applyControlScheme();   // help text must match the remembered scheme on first paint
 renderMenu();
 document.getElementById('btn-start').addEventListener('click', () => {
   audioInit();

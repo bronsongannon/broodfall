@@ -13,14 +13,19 @@ mission	context	speaker	file	line
 1	trigger	CPT. VEGA	ops_2d77a35d.mp3	Clean work. The perimeter holds.
 1	trigger	DR. LIN	sci_3c59315c.mp3	They only came because we were seen. Noted. Now — before anything else, I need one alive. A living specimen changes everything.
 1	trigger	CPT. VEGA	ops_5519bd79.mp3	Lin's Capture Rig just dropped at the base — the caged harvester wearing the green ring. It is the ONLY unit that can take the specimen alive. A lone spitter is prowling the flats, marked on your map and wearing the SAME green ring: select the rig and right-click it. Your troops fire at half rate near the specimen — keep them clear and let the rig work. Lin needs this one breathing.
+1	trigger	DR. LIN	sci_d086a77a.mp3	Commander — every mound on this map went active in the same second. Not the ones that saw you. ALL of them. They did not see this one taken, they FELT it taken.
+1	trigger	CPT. VEGA	ops_13e6bcdd.mp3	That is the whole valley walking at us and we have about twenty seconds. Queue marines, drop another turret — spend everything, Commander. Nothing we mined matters if the outpost is gone.
+1	trigger	CPT. VEGA	ops_c09fe77f.mp3	Here they come — north field and east field, converging. Everything on the wall. Hold the outpost, Commander.
+1	trigger	CPT. VEGA	ops_64bec55f.mp3	Perimeter held. Every one of them is down, Commander.
+1	trigger	DR. LIN	sci_46b9daae.mp3	They emptied their own nests to come here. Left the broods, left the crystal, and walked into rifles for one caged animal. Log that. That is not territorial behaviour — that is a response.
 1	trigger	DR. LIN	sci_9f465def.mp3	We lost track of that one. Another is prowling the same ground — send the rig, Commander.
 1	trigger	CPT. VEGA	ops_df3c0bff.mp3	We lost the rig. Orbital is dropping another — they are not cheap, Commander. Patch the next one with an engineer.
 1	outro	CPT. VEGA	ops_0b8fcc3f.mp3	Specimen crated, walls manned, stockpile growing. Textbook landfall, Commander.
 1	outro	DR. LIN	sci_b02f49a0.mp3	Remarkable… its tissue is laced with crystal. They aren't just defending territory — they're connected to it. I need time. And a much bigger lab.
-2	briefing	CPT. VEGA	ops_3226b70f.mp3	Survey Post Beta sits on a rich northern field, but its silos are empty and our home patch is thinning. We are opening a convoy route across the valley — today.
+2	briefing	CPT. VEGA	ops_591d1cd1.mp3	Survey Post Beta sits on a rich northern field, but its silos are empty and our home patch is thinning. We are opening a convoy route up the old trade road — today.
 2	briefing	CDR. KRAUSS	red_5f9e7dab.mp3	Intercepted, unregistered channel: "To the expedition in grid four: this valley is a Rubicon Mining resource corridor. Consider your route subject to... review." — C. Krauss, Field Commander.
 2	briefing	CPT. VEGA	ops_39465b48.mp3	That would be Rubicon. Escort the convoy out and back, Commander — and shoot anything that touches a harvester.
-2	intro	CPT. VEGA	ops_b5a7cfa5.mp3	The convoy is fueled and your escorts are standing by. Take them north-east along the marked route — swing EAST around the nest mounds, and keep rifles between the raiders and the haulers.
+2	intro	CPT. VEGA	ops_3ca4f423.mp3	Six haulers, and Beta needs at least FOUR of them on the pad — select the whole convoy, not half of it. Take them north-east along the marked route, swing EAST around the nest mounds, and keep rifles between the raiders and the cargo.
 2	trigger	CDR. KRAUSS	red_dcb86c0f.mp3	Attention, expedition convoy: you are traversing a Rubicon resource corridor. Per intersystem claim law, your cargo is subject to a toll. My associates will collect.
 2	trigger	CPT. VEGA	ops_14d3749d.mp3	Beta's silos are filling — sixty seconds to load the haulers. The post garrison is yours, Commander. Dig in; nobody rolls until the cargo is aboard.
 2	trigger	CDR. KRAUSS	red_27d03587.mp3	Still rolling? I respect persistence. My accountants do not.
@@ -40,6 +45,99 @@ mission	context	speaker	file	line
 3	trigger	CDR. KRAUSS	red_b74af4cd.mp3	...Casualty reports are a rounding error. Second shift, forward. Payroll — stop counting.
 3	trigger	CDR. KRAUSS	red_485c44bb.mp3	Where is my third shift? ...Fine. Contractors, then. Contractors love bonuses.
 3	trigger	CPT. VEGA	ops_a1323290.mp3	Mound down, brood scattered, nobody scratched. Salvage crew — those eggs ride home with the crystal.
-3	trigger	DR. LIN	sci_126ba293.mp3	Careful with the clutch! I want one incubated. If we cannot stop the digging, we will at least understand what it wakes.
-3	outro	CPT. VEGA	ops_47496713.mp3	The field is ours and Rubicon is still feeding riflemen to their own mound. Efficiency, Commander.
-3	outro	DR. LIN	sci_68e5c16f.mp3	The moment our mound fell, the seismic hum deepened — and two valleys over, something answered it. I am filing that under "later."
+3	trigger	DR. LIN	sci_57b2d745.mp3	Careful with the clutch! I want the whole thing incubated — three at least. If we cannot stop the digging, we will at least understand what it wakes.
+3	trigger	DR. LIN	sci_4dc007c7.mp3	They imprinted. Commander, they are following your units around like the fence is not there — and I would like to know what they do at a mound that is not theirs.
+3	trigger	CPT. VEGA	ops_e395ac86.mp3	The northern mound. Rubicon has fed three shifts into it and it is still standing. Walk your pack up there and let us find out whose side biology is on.
+3	trigger	DR. LIN	sci_37f3e9c9.mp3	The wild brood is not fleeing them — it is engaging them. Same species, and they are tearing at each other. Whatever binds these colonies, WE just broke it by hatching one in a lab.
+3	trigger	CPT. VEGA	ops_ea02326a.mp3	Save the philosophy, doctor. Finish the mound.
+3	trigger	CDR. KRAUSS	red_673793f5.mp3	Open channel: the expedition just cleared in ten minutes what cost me three shifts. ...I want to know how.
+3	trigger	DR. LIN	sci_7cfa996d.mp3	He should not want to know how. Nobody should.
+3	outro	CPT. VEGA	ops_8845415d.mp3	Both mounds down, the field is ours, and the things that cracked the second one are eating out of our hands.
+3	outro	DR. LIN	sci_bd358cf6.mp3	That is what troubles me. They turned on their own colony without hesitating — and the moment it fell, the hum deepened. Two valleys over, something answered it. I am filing that under "later."
+4	briefing	CPT. VEGA	ops_3f58f8a5.mp3	Rubicon has stopped pretending this is paperwork, Commander. Their survey teams pulled back overnight and their armor moved up. That means an offensive.
+4	briefing	CPT. VEGA	ops_ac95d6ff.mp3	We are not going to sit in the camp and take it. The center field of the Gauntlet is the richest ground on this map — we take it, we fortify it, and we make Krauss pay for every meter.
+4	briefing	CDR. KRAUSS	red_22288d1a.mp3	Open channel, Rubicon Actual: you are welcome to try holding the middle. I have been watching how you power that little camp of yours. Everything you own runs off a handful of very soft buildings.
+4	briefing	DR. LIN	sci_c02ffa9a.mp3	He is not wrong, Commander. Turrets without power are ornaments. Keep the grid alive or the wall stops being a wall.
+4	intro	CPT. VEGA	ops_5cd126a1.mp3	First, the tenants. There is a nest sitting on the center field — you know the drill by now. Artillery, from beyond the leash.
+4	trigger	CPT. VEGA	ops_d038c456.mp3	Mound down. Now plant a Refinery on that field — the crystal under it is what this whole fight is about.
+4	trigger	CPT. VEGA	ops_efc1c359.mp3	Refinery online. Now make it a position, not a target: a Power Plant to run the guns, and two Turrets to be the guns.
+4	trigger	DR. LIN	sci_ae9fba2c.mp3	And keep the plant behind the turrets, not in front of them. I should not have to say that. I am saying it anyway.
+4	trigger	CDR. KRAUSS	red_79b0891d.mp3	There it is. A refinery, a power plant, and two guns you cannot afford to lose. Thank you for putting them all in one place.
+4	trigger	CPT. VEGA	ops_e5e48652.mp3	Contacts on the east approach. Dig in, Commander — hold this ground and the middle of the map is ours.
+4	trigger	CDR. KRAUSS	red_c2fe97ea.mp3	Cut the power and the wall is just masonry. Second element — find their plants.
+4	trigger	CPT. VEGA	ops_8daef0d8.mp3	That is everything he has been holding back. Repair through it, Commander — Engineers on the turrets, and keep the grid up.
+4	trigger	CDR. KRAUSS	red_45960181.mp3	Enough. Pull them back. ...Noted, Commander. You dig well.
+4	outro	CPT. VEGA	ops_61356228.mp3	The line held and the field is ours. That is the first ground Rubicon has actually lost, Commander.
+4	outro	DR. LIN	sci_d0a70720.mp3	I logged something odd through all of it. Every time their armor came through the pass, the nests along the ridge went quiet. Not scattered — quiet. Listening.
+5	briefing	CPT. VEGA	ops_6d2ddee1.mp3	No base this time, Commander. One transport, one squad, and a swamp Rubicon thinks is empty.
+5	briefing	CPT. VEGA	ops_17bbfb94.mp3	Krauss has four survey relays strung across Blackwater Fen feeding a field lab on the north bank. We are going to take the relays off the board and walk out of that lab with his geological data.
+5	briefing	DR. LIN	sci_2d1d9faf.mp3	I want the drilling logs specifically. He has been sinking bores far deeper than any crystal deposit justifies, and I would very much like to know what he thinks is down there.
+5	briefing	CPT. VEGA	ops_96a54c75.mp3	Fog is heavy and the causeways are the only crossings. Move carefully — nothing is coming to bail you out.
+5	intro	CPT. VEGA	ops_cf4715d7.mp3	Squad is on the ground. Relays are marked — work north, and use the medic. Every body you lose is a body you do not get back.
+5	trigger	DR. LIN	sci_e5744369.mp3	The relays are listening posts, Commander — if one of them sees you before it dies, the lab knows you are coming.
+5	trigger	CPT. VEGA	ops_7f8bcff8.mp3	All four relays are dark. Krauss just went blind across the whole fen.
+5	trigger	CDR. KRAUSS	red_398bd2b8.mp3	Relay net is down. ...All of it? In a swamp? Seal the lab and get me eyes on the north bank.
+5	trigger	DR. LIN	sci_06cf985f.mp3	Sealed means powered, Commander. Two generators behind the lab — take those and the door is just a door.
+5	trigger	DR. LIN	sci_59cf6df7.mp3	Lab is dark. Walk in and pull the drilling logs — everything he has on what is under this swamp.
+5	trigger	DR. LIN	sci_cb93bbff.mp3	I have the logs. His deepest bore is four kilometers down and still reading crystal. That is not a deposit — a deposit has a bottom.
+5	trigger	CDR. KRAUSS	red_2951055c.mp3	They are in my lab. Burn the swamp behind them and put a platoon on that landing zone. Nobody flies out of here.
+5	trigger	CPT. VEGA	ops_470cbc48.mp3	Original LZ is gone. New extraction on the east coast, marked — move, Commander, and do not stop to win anything.
+5	trigger	DR. LIN	sci_e2fa78aa.mp3	Commander, while you walk — I have been reading. He is not drilling toward a deposit. He is drilling toward a single crystal. One structure, kilometers across.
+5	trigger	CPT. VEGA	ops_42aff980.mp3	That is not possible.
+5	trigger	DR. LIN	sci_6e1f9987.mp3	The seismic returns say it is not inert either. It has a rhythm. A slow one. I would very much like to be wrong about this.
+5	outro	CPT. VEGA	ops_b2affd6c.mp3	Transport is up and everyone aboard is breathing. Clean work in a filthy swamp.
+6	briefing	CPT. VEGA	ops_42520ca6.mp3	Priority flash, Commander. Rubicon has a missile silo on the east side of the Silo Fields and our intercepts say it is fuelling now. The targeting package is our headquarters.
+6	briefing	CDR. KRAUSS	red_79d40166.mp3	Rubicon Actual, recorded for the claim board: the expedition has repeatedly interfered with lawful resource operations. Escalation is regrettable and entirely theirs.
+6	briefing	CPT. VEGA	ops_5423ab67.mp3	He has built a defense line to buy the clock time. We do not have time to be elegant — assemble, push east, and put that silo in the ground.
+6	briefing	DR. LIN	sci_447a63a7.mp3	And Commander — he has been firing tactical warheads into nest fields all week to clear ground. Whatever he thinks he is clearing, he is not clearing it. He is waking it.
+6	intro	CPT. VEGA	ops_0134a0d8.mp3	Orbital dropped a strike element with you. Clock is live and it is not generous — build what you need and move.
+6	trigger	DR. LIN	sci_09323641.mp3	The silo is drawing power from two plants behind the line. Take those and the launch stalls — it will not stop the clock, but it will slow it.
+6	trigger	CDR. KRAUSS	red_c21298f2.mp3	Clearance shot on the center field. Log it as geological obstruction removal.
+6	trigger	DR. LIN	sci_5bae2a58.mp3	He is firing on the CENTER FIELD? There are two colonies on that ground — Commander, if you have anything near the middle of this map, move it NOW.
+6	trigger	DR. LIN	sci_04d400f7.mp3	Seismographs just went off the scale, and it is not the blast. The hum did not stop when the colonies died. It got LOUDER. Something answered that.
+6	trigger	CPT. VEGA	ops_fcfd87b2.mp3	Log it and keep it off the open channel, doctor. One war at a time.
+6	trigger	CPT. VEGA	ops_35a6cf2f.mp3	Six minutes on the clock, Commander. Whatever is left of that line, go through it.
+6	trigger	CDR. KRAUSS	red_f2b05465.mp3	Fuelling complete. Two minutes. I would start running, but I am told you people dig in.
+6	outro	CPT. VEGA	ops_824a530d.mp3	Silo is wreckage and the warhead never left the tube. That was closer than I will be putting in the report.
+6	outro	CDR. KRAUSS	red_374acfb9.mp3	An expensive afternoon. ...You should know the launch order did not originate with me. I only build what the claim board pays for.
+6	outro	DR. LIN	sci_56d28084.mp3	Commander — while you were shooting, I was listening. The field he burned is still humming. Dead colonies do not hum. Something is using them.
+7	briefing	CPT. VEGA	ops_11eec130.mp3	Rubicon has dug in across the river, Commander. One channel, two causeways, and Krauss has a fort staring down each of them. That is the whole war in one map.
+7	briefing	CDR. KRAUSS	red_f3f9be1f.mp3	Rubicon Actual to expedition command: you are welcome to the west bank. It is the cheaper half. Cross the water and we will discuss it at length.
+7	briefing	CPT. VEGA	ops_0a4ff467.mp3	Then we cross. Break both river forts, put his headquarters in the mud, and this contract dispute is over.
+7	briefing	DR. LIN	sci_770bb116.mp3	One request before you start shelling. The riverbed reads hollow for two kilometers — the hum I have been logging since the first nest runs directly under his fortress. Whatever you break over there, break it carefully.
+7	intro	CPT. VEGA	ops_5d849b35.mp3	Your engineers can put that river to work first: a Hydro Dam spans the channel and powers a third of a base by itself — and its walkway carries infantry straight across. Depot, plant, then dam. Key J.
+7	trigger	CPT. VEGA	ops_279b6b59.mp3	Dam is holding and the grid has never looked better. Note the walkway, Commander — rifles cross there, tracks do not. Vehicles still take a causeway.
+7	trigger	CPT. VEGA	ops_4f35deb3.mp3	Now the forts. North and south crossing, both marked. Artillery from the overlooks will out-range those turrets if you spot for it.
+7	trigger	CDR. KRAUSS	red_e62d0499.mp3	Ah — the dam. Enjoy it. I built my quarter on the assumption that nobody would spend four hundred on scenery.
+7	trigger	CPT. VEGA	ops_e66047df.mp3	Northern crossing is open. Push armor through before he plugs it.
+7	trigger	CPT. VEGA	ops_9ef7957f.mp3	Southern fort is rubble. Both causeways are ours, Commander.
+7	trigger	CDR. KRAUSS	red_3011530b.mp3	Both crossings. In one afternoon. ...Fine. Pull the line back to the headquarters — everything we have, on the wire.
+7	trigger	CPT. VEGA	ops_b1662772.mp3	He is out of river to hide behind. Finish it.
+7	trigger	CDR. KRAUSS	red_cfdae73b.mp3	Corporate wants a status update. Tell them the corridor is contested and the bonuses are suspended.
+7	trigger	DR. LIN	sci_0346f766.mp3	Commander — the seismographs. Every shell that lands over there rings something underneath it. That is not bedrock answering.
+7	trigger	CDR. KRAUSS	red_ee2fbdd1.mp3	Second line, hold. HOLD. We are not losing a claim to a survey crew with a dam fetish.
+7	trigger	CPT. VEGA	ops_e879832f.mp3	Rubicon headquarters is down. Krauss is off the air and his people are walking out with their hands up.
+7	trigger	CPT. VEGA	ops_7c133820.mp3	Commander — on behalf of the expedition, that is the war. The crystal fields are ours, the charter is ours, and as of this moment Rubicon Mining's claim on this planet is—
+7	trigger	DR. LIN	sci_b38e010d.mp3	THE GROUND — Commander, get your people off that ridge, the whole plate just—
+7	trigger	CPT. VEGA	ops_7f9efe72.mp3	What IS that? They came up through the foundations. Through solid rock, doctor, how—
+7	trigger	DR. LIN	sci_14750372.mp3	Faster than anything we have catalogued. And they are not coming out of the river or the fields. They are coming out of HIS base.
+7	outro	CPT. VEGA	ops_f8d16634.mp3	Expedition command, this is Vega. Rubicon Mining is finished on this planet. We did not win it.
+7	outro	DR. LIN	sci_a6c1c848.mp3	They waited until you were done.
+8	briefing	CPT. VEGA	ops_c410a2c4.mp3	The motherlode at the bottom of the Strip Mine is the richest single field either outfit has surveyed, and Rubicon started hauling it out four days ago. They are not contesting the ground, Commander. They are just taking it faster than we are.
+8	briefing	CDR. KRAUSS	red_d2a9a25f.mp3	Open channel, Rubicon side: "The claim board rewards tonnage, not paperwork. Dig, gentlemen. Whatever is in the way is overburden."
+8	briefing	DR. LIN	sci_0962ce9f.mp3	Overburden. There are two colonies on that field and he is calling them overburden. Commander, I have asked for this on the record before and I will ask again: do not let him clear that ground.
+8	intro	CPT. VEGA	ops_7285b61e.mp3	Simple terms: out-haul him. Bank twenty-five hundred before his counter hits four thousand, and put his forward refinery in the pit while you are at it.
+8	trigger	CPT. VEGA	ops_af47c281.mp3	His forward refinery sits on the high bench above the pit, deep on his side — it is feeding his whole strip-mining operation. Put it in the ground and his haul collapses to a trickle — that is the mission, Commander, not out-digging him.
+8	trigger	DR. LIN	sci_79ec5280.mp3	The benches are the high ground here, Commander. Whoever holds them sees the whole motherlode. Whoever does not, does not.
+8	trigger	CDR. KRAUSS	red_42e25417.mp3	Twenty-five hundred tons off the motherlode and the day is young. Do send my regards to your accountants.
+8	trigger	CPT. VEGA	ops_ae78a6a1.mp3	He is ahead of us, Commander, and he is not slowing down. More harvesters, more refineries — or take his.
+8	trigger	CDR. KRAUSS	red_53430a0d.mp3	Six thousand. At seven the claim board declares the field worked and the grid is mine on paper. You are welcome to the paperwork.
+8	trigger	CDR. KRAUSS	red_1f666567.mp3	Clearance shot on the pit floor. Both mounds. Bill it to overburden removal.
+8	trigger	DR. LIN	sci_976bd272.mp3	He is doing it AGAIN — Commander, anything you have on the pit floor, move it now!
+8	trigger	DR. LIN	sci_d58cbfc6.mp3	Both colonies are gone and the hum did not stop. It is louder than the Silo Fields and it is coming from UNDER the pit. That is not an echo. That is something moving.
+8	trigger	DR. LIN	sci_cccde40b.mp3	The crater floor just came apart. That is a den, Commander — a nest builds, a den HUNTS. And it is not hunting us specifically.
+8	trigger	CPT. VEGA	ops_041d02f8.mp3	It broke for Rubicon's lines first. Hold what you have for ninety seconds and let it do the math — everything on the wall.
+8	trigger	CDR. KRAUSS	red_214e7f6a.mp3	Expedition, this is Krauss on open channel. My forward camp is gone. Not overrun — GONE. Whatever came out of your pit walked through a turret line without slowing down.
+8	outro	CPT. VEGA	ops_bc3c3fe0.mp3	Quota banked, his refinery is scrap, and the thing in the crater is still down there.
+8	outro	DR. LIN	sci_0ad39961.mp3	It did not come out because we dug. It came out because he BURNED it. Twice. The colonies were an alarm and he has been tripping it all week.
+8	outro	CDR. KRAUSS	red_08408171.mp3	Recorded, expedition. I am filing this as an unclassified hazard and requesting reinforcement. Do not mistake that for an apology.

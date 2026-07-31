@@ -12,7 +12,11 @@ final class FrameDriver {
 
     func start() {
         let t = DispatchSource.makeTimerSource(queue: .main)
-        t.schedule(deadline: .now(), repeating: .milliseconds(16), leeway: .milliseconds(2))
+        // 8ms cadence: twice the fill density. The game-side gate only accepts
+        // a fill when rAF is starving, so on AC this stays a stream of no-ops;
+        // 1ms leeway resists the aggressive timer coalescing macOS applies on
+        // battery — which may itself be why 16ms fills weren't landing.
+        t.schedule(deadline: .now(), repeating: .milliseconds(8), leeway: .milliseconds(1))
         t.setEventHandler { [weak self] in
             self?.webView?.evaluateJavaScript("window.__extFrame && __extFrame()", completionHandler: nil)
         }

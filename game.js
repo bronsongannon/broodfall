@@ -6881,7 +6881,8 @@ function render() {
     const thin = perf.fxLevel < 1 ? ' · FX½' : '';
     cx.fillText(`${perf.fps} fps · ${cv.width}×${cv.height} (${mp}MP) · ${dpr.toFixed(2)}x${floor}${thin}${bat}`,
       view.w - 14, 62);
-    cx.fillText(`sim ${simMs.toFixed(1)}ms · draw ${perf.submit.toFixed(1)}ms · ${units.length}u · ${fxs.length}fx`,
+    if (tick - (perf.extStamp || 0) >= 60) { perf.extRate = perf.extN || 0; perf.extN = 0; perf.extStamp = tick; }
+    cx.fillText(`sim ${simMs.toFixed(1)}ms · draw ${perf.submit.toFixed(1)}ms · ${units.length}u · ${fxs.length}fx · ext ${perf.extRate || 0}/s`,
       view.w - 14, 78);
   }
   if (++frameNo % 3 === 0) renderMinimap();
@@ -7029,7 +7030,10 @@ function frame(now) {
 // `force` is for tests. document.hidden keeps a hidden window paused.
 window.__extFrame = (force) => {
   const now = performance.now();
-  if (force || (!document.hidden && now - lastRaf > 25)) frameBody(now);
+  if (force || (!document.hidden && now - lastRaf > 20)) {
+    perf.extN = (perf.extN || 0) + 1;   // fills that actually ran, for the readout
+    frameBody(now);
+  }
 };
 function frameBody(now) {
   acc += Math.min(100, now - last);

@@ -6,6 +6,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate {
     private var webView: WKWebView!
     private let store = StoreBridge()
     private let power = PowerBridge()
+    private let driver = FrameDriver()
     // Keeps macOS from power-throttling the app on battery: a real-time game
     // wants full frame delivery even unplugged (Bronson's Air read ~30fps on
     // battery with the machine otherwise idle). Held for the app's lifetime.
@@ -46,6 +47,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate {
         store.start()
         power.webView = webView
         power.start()
+        driver.webView = webView
+        driver.start()
         webView.allowsMagnification = false
         webView.allowsBackForwardNavigationGestures = false
         if #available(macOS 12.0, *) {

@@ -6983,6 +6983,20 @@ let last = performance.now(), acc = 0;
 const DRAW_EVERY = 1000 / 61;   // a hair under 60 so we never skip a real frame
 let simMs = 0;                  // rolling update() cost — CPU side of the dev readout
 let lastDraw = -1e9;
+// The verdict both futility paths reach: quality cuts don't move the needle,
+// so the frame cap is upstream (battery throttle, OS pacing). Give the
+// pixels back and hold — sharp at 30 beats blurry at 30.
+function capUpstream() {
+  perf.futile = 0; perf.floorSlow = 0;
+  perf.extern = 60 * 120;   // hold ~2 min before re-testing the theory
+  pxBudget = budgetMax() * 0.85;
+  perf.ceil = PX_BUDGET_MAX;
+  perf.fxLevel = 1;
+  resize(); render();
+  perf.budget = Math.round(pxBudget); perf.scale = +dpr.toFixed(2);
+  perf.frame = 16.7; perf.cool = 300;
+}
+
 // the wrapper's PowerBridge pushes power-source changes here; a plain browser
 // never calls it, so web builds simply stay on the AC profile
 window.BFPower = {
@@ -7001,8 +7015,23 @@ window.BFPower = {
   },
 };
 const perf = { frame: 16.7, fps: 60, submit: 0, budget: Math.round(pxBudget), scale: 1, cool: 240, fxLevel: 1, ceil: storedGfx ? Math.min(PX_BUDGET_MAX, storedGfx * 1.06) : PX_BUDGET_MAX, relaxHold: 0, brandStreak: 0 };
+// rAF-driven scheduler wraps the body so the wrapper's native display timer
+// can also tick the game: WKWebView throttles rAF to ~20-30Hz on battery, and
+// no page-side code can escape that — but a native 60Hz timer calling
+// __extFrame can. The 10ms draw gate keeps the two clocks from double-drawing.
+let lastRaf = -1e9;
 function frame(now) {
   requestAnimationFrame(frame);
+  lastRaf = now;
+  frameBody(now);
+}
+// only fills in when rAF is starving (gap > 25ms), never when it's healthy;
+// `force` is for tests. document.hidden keeps a hidden window paused.
+window.__extFrame = (force) => {
+  const now = performance.now();
+  if (force || (!document.hidden && now - lastRaf > 25)) frameBody(now);
+};
+function frameBody(now) {
   acc += Math.min(100, now - last);
   last = now;
   while (acc >= 1000 / 60) {
@@ -7053,16 +7082,7 @@ function frame(now) {
     if (perf.frame > 21 && perf.frame > perf.judge - 4) perf.futile = (perf.futile || 0) + 1;
     else perf.futile = 0;
     perf.judge = null;
-    if (perf.futile >= 2) {
-      perf.futile = 0;
-      perf.extern = 60 * 120;   // hold ~2 min before re-testing the theory
-      pxBudget = budgetMax() * 0.85;
-      perf.ceil = PX_BUDGET_MAX;
-      perf.fxLevel = 1;
-      resize(); render();
-      perf.budget = Math.round(pxBudget); perf.scale = +dpr.toFixed(2);
-      perf.frame = 16.7; perf.cool = 300;
-    }
+    if (perf.futile >= 2) capUpstream();
   }
   if (perf.extern > 0) perf.extern--;
   if (started && !paused && !userPaused && --perf.cool <= 0) {
@@ -7075,20 +7095,19 @@ function frame(now) {
       : perf.frame < 17.4 && pxBudget * 1.15 <= Math.min(budgetMax(), perf.ceil) ? 1.12   // pinned: sharpen only for a real (15%+) gain
       : 0;
     if (want) {
-      // A down-step brands the level that failed: the ceiling drops to 92% of
-      // it, and climbs may not cross it. Without this the governor rams the
-      // same failing level forever — sharpen, drop frames, cut, recover,
-      // sharpen — and every resize in that loop presents as a flicker
-      // (Bronson 2026-07-30). The ceiling relaxes 3% per successful up-step,
-      // so real headroom is rediscovered over minutes, not seconds.
-      if (want < 1) {
-        perf.ceil = Math.max(PX_BUDGET_MIN, pxBudget * 0.92);
-        perf.judge = perf.frame;   // remember how slow it was, to judge the cut later
-        perf.brandStreak = Math.min(5, (perf.brandStreak || 0) + 1);
-        perf.relaxHold = 60 * 60 * perf.brandStreak;   // backoff: 1 min per failure, capped at 5
-      }
       const next = clamp(Math.min(pxBudget * want, want < 1 ? Infinity : perf.ceil), PX_BUDGET_MIN, budgetMax());
       if (Math.abs(next - pxBudget) > 2e4) {
+        // A down-step brands the level that failed: the ceiling drops to 92%
+        // of it, and climbs may not cross it — otherwise the governor rams the
+        // same failing level forever, and every resize in that loop presents
+        // as a flicker. Brand/judge ONLY on a real resize: at the floor there
+        // is no cut to judge, and the old placement starved the futile logic.
+        if (want < 1) {
+          perf.ceil = Math.max(PX_BUDGET_MIN, pxBudget * 0.92);
+          perf.judge = perf.frame;   // remember how slow it was, to judge the cut later
+          perf.brandStreak = Math.min(5, (perf.brandStreak || 0) + 1);
+          perf.relaxHold = 60 * 60 * perf.brandStreak;   // backoff: 1 min per failure, capped at 5
+        }
         pxBudget = next; resize();
         render();   // repaint INSIDE the same frame — resize clears the canvas,
                     // and presenting that blank was the visible flicker
@@ -7096,8 +7115,14 @@ function frame(now) {
         perf.budget = Math.round(pxBudget); perf.scale = +dpr.toFixed(2);
         perf.frame = 16.7;   // re-measure from scratch at the new size
         perf.cool = want < 1 ? 72 : 180;   // downs re-check in ~1.2s; ups stay patient
+      } else if (want < 1) {
+        // wanted to cut with nowhere lower to go: floor-starved. Sustained
+        // slowness with zero pixels left to give convicts the upstream cap
+        // directly — this was Bronson's 21fps FLOOR·FX½ wrapper state, where
+        // the judge gate could never fire because no resize ever reset it.
+        if ((perf.floorSlow = (perf.floorSlow || 0) + 1) >= 90) capUpstream();
       }
-    }
+    } else if (perf.floorSlow) perf.floorSlow = 0;
     // out of pixels to give and still slow: thin the battle effects themselves.
     // fxLevel 1 = full; 0.5 = explosions spawn half the sprites, dust skipped.
     perf.fxLevel = (pxBudget <= PX_BUDGET_MIN + 1e4 && perf.frame > 21) ? 0.5 : 1;

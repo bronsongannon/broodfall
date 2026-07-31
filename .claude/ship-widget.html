@@ -15,7 +15,7 @@
   </div>
 </div>
 
-<p style="font-size:13px;color:var(--text-secondary);margin:0 0 1rem">Tick boxes as you finish; click a letter chip to start working on that task with me right here.</p>
+<p style="font-size:13px;color:var(--text-secondary);margin:0 0 1rem">Deadline moved +2 weeks on Jul 31 — the final week went to the fps saga (resolved) and finishing Act 1; the store-facing work gets two clean weeks instead of a scrambled two days. Tick boxes as you finish; click a letter chip to start working on that task with me right here.</p>
 
 <div style="background:var(--surface-2);border:0.5px solid var(--border);border-radius:12px;padding:1rem 1.25rem;margin:0 0 1rem">
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
@@ -48,7 +48,7 @@
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
     <i class="ti ti-checklist" style="font-size:20px" aria-hidden="true"></i>
     <p style="font-weight:500;font-size:15px;margin:0">Shipped</p>
-    <span style="margin-left:auto;background:var(--bg-success);color:var(--text-success);font-size:12px;padding:3px 10px;border-radius:var(--radius)">Jul 11–28</span>
+    <span style="margin-left:auto;background:var(--bg-success);color:var(--text-success);font-size:12px;padding:3px 10px;border-radius:var(--radius)">Jul 11–30</span>
   </div>
   <p style="font-size:13px;color:var(--text-secondary);margin:0 0 10px">Everything below is built, verified, and pushed.</p>
   <div id="shipped"></div>
@@ -88,8 +88,8 @@ const TRACKS = {
       'The Mac wrapper is built and verified (mac/README.md). Walk me through what\'s left before archiving: app icon asset catalog, bundle ID match with App Store Connect, and the Distribution signing switch.'],
     ['ap4','App icon DONE — archive-ready, from the game\'s crystal sprite (mac/icon/)','done',
       'The app icon is live (mac/icon/). I want to try the upgraded concept — walk me through generating the crystal + raptor eye-shine icon with the Gemini prompt in mac/icon/README.md and dropping it in as the new master.'],
-    ['ap5','Store listing: screenshots DONE (assets/store/screenshots/) — description, subtitle, keywords left','Aug 8',
-      'Draft the full App Store listing for Broodfall: description, subtitle, keywords, promo text, and a shot list for the required Mac screenshots.'],
+    ['ap5','Store listing: screenshots DONE (assets/store/screenshots/) — description, subtitle, keywords left. RULE: performance copy says \"smooth, adaptive, tuned for battery play\" — never promise a number','Aug 8',
+      'Draft the full App Store listing for Broodfall: description, subtitle, keywords, promo text, and a shot list for the required Mac screenshots. Performance rule: adaptive wording only — plugged is 60fps but battery is ~25fps by macOS policy, so never promise a number.'],
     ['ap6','Privacy policy DONE — bronsongannon.github.io/broodfall/privacy.html','done',
       'Write the privacy policy page for Broodfall (it collects no data) and set it up on GitHub Pages so I have the URL App Store Connect asks for.'],
     ['ap7','Sandbox entitlements, code signing, notarize, test on a clean Mac','Aug 11',
@@ -113,7 +113,7 @@ const TRACKS = {
     ['g6','Missions 2–3: harvester convoy escort, first nest crack','',
       'Let\'s design and build Broodfall missions 2 and 3: the harvester convoy escort and the first nest crack, using the existing mission framework.'],
     ['g10','Performance SETTLED (Jul 30): plugged = 60fps full sharpness; battery = sharp stable ~25fps (macOS paces web content on battery — platform, not us). BAT profile + CAP\u2191 grace path verified live','',
-      'The perf pass is in (60fps cap, 3.2M pixel budget, adaptive governor). Walk me through measuring the before/after on my actual Mac in the wrapper — what to watch in dev mode and what numbers would tell us it is fixed.'],
+      'Recap the final performance posture and the graceful-degradation stack (BAT profile, CAP-up conviction, two-speed recovery) and what each dev-readout marker means, so I can spot a real regression from a platform throttle at a glance.'],
     ['g7','Pacing pass toward 20–30 minute matches','',
       'Let\'s start the Broodfall pacing pass toward 20-30 minute matches: what levers exist (HP, patch sizes, wave cadence, map size) and a tuning plan.'],
     ['g8','Map roster: 15 maps / 20 missions locked (CAMPAIGN.md) — 11 built; 4 to go: Krauss\'s Bastion, Exodus Road, Evac Coast, The Crater','',
@@ -139,13 +139,14 @@ const TRACKS = {
     ['a9','Cast portraits: Vega, Lin, Krauss — DaVinci film-still set, live in the PiP','',
       'The three cast portraits are live (assets/portraits/). Review them in-game across missions 1-3 dialogue and tell me if any need a regenerate before the set is locked.'],
     ['a10','Voice lines (script now 142 across all 8 missions): Vega 12/69 (Cassidy locked — M1\'s original 12 done, 3 reprisal lines + M2-M8 remain), Krauss 9/31 (Rob, cuttable anytime), Lin ON HOLD for revoice — 9 Ember clips live, 2 orphaned by rewording and removed','',
-      'Lin (Ember) and Krauss (Rob) are fully voiced in ElevenLabs; I\'m hunting an ElevenLabs voice for Vega. Two NEW Lin lines from the Landfall reprisal can be cut right now (hashes sci_d086a77a and sci_46b9daae). Help me batch those, then pick Vega candidates against her voice brief in assets/sprites/PORTRAITS.md and generate her lines from assets/voice/voice-script.tsv — I\'ll drop the mp3s on you to hash-match and install.'],
+      'Vega is locked (Cassidy) with M1\'s original 12 lines installed. Regenerate assets/voice/voice-script.tsv FIRST (row numbering shifts when lines are added), then help me cut her next batch in per-speaker TSV row order — I\'ll drop the mp3s on you to hash-match and install. Krauss\'s 22 remaining Rob lines can batch anytime. Lin waits for her new voice.'],
     ['a11','Walk cycles COMPLETE: all 13 walkers animated (DaVinci videos + derived colorways)','',
       'All walk cycles are live. Playtest a big mixed battle and tell me if any unit\'s gait cadence or frame count feels off — WALK_STRIDE_PX is the knob.'],
   ],
 };
 const SHIPPED = [
   'THE FPS SAGA, CLOSED (Jul 30, one long night of live readouts from the M5 Air): the mystery 25fps was three stacked causes — a frame-gate bug eating every other vsync frame (fixed), a governor limit-cycle causing the flicker (fixed with ceiling memory + same-frame repaint), and the real wall: macOS paces WKWebView and Safari at ~22-26Hz on battery, dynamically, and nothing App-Store-safe pierces it — native 60Hz frame driver tried, instrumented (104 fills/s executing, zero effect), removed; Game Mode engages and does not lift it. Shipped instead: battery detection in the wrapper (PowerBridge), a BAT power profile, futile-cut + floor-starve conviction that restores full sharpness when quality cuts cannot help (CAP\u2191), two-speed recovery, and an sfx rate limiter. Final posture: 60fps plugged, sharp stable full-effects ~25fps unplugged — verified in a 58-unit brawl',
+  'VEGA SPEAKS (Jul 30): Cassidy locked as her voice — M1\'s twelve original lines cut, hash-matched and installed, the legacy DaVinci opener replaced. The Broodmother is COMPLETE (Jul 28 night): approved tyrannosaur static, walk cycle, death sequence, boss-scale draw box, pulsing spine glow, brood-laying (a den on legs), and invuln support for her M13 scripted walk. voice-script.tsv regenerated: 142 lines across all 8 missions',
   'PLAYTEST FIXES (Jul 29): Claim Jumpers looked broken and was not — three of six haulers had never left the start, the quota sat at 3 of 4, and nothing on screen said so. Objectives with a count now show live progress (3/4) in the HUD, any harvester counts toward a delivery instead of only the tagged convoy, and the loss rule matches so you can no longer hold six harvesters and still fail because the wrong three died. Earlier in the same session: Claim Jumpers could also hang at Survey Post Beta — the arrival check wanted four haulers inside the circle at the same instant, and a convoy that trickles in never gets there, so arrival now latches per hauler. The silent minute after arriving is a visible loading clock now. Medics stopped walking into the firing line: an unarmed unit had nothing to stop it where armed escorts halt at weapon range, so it ended up a hundred pixels AHEAD of the lead marine and died in six seconds — it holds behind the line now and the squad finishes healed. WASD camera is a toggle on the start menu',
   'BUSINESS MODEL REVISED (Jul 28, from the competitive research): free tier widens to ALL of Act 1 + 4 skirmish maps, base price $14.99 (was 3 missions + 1 map at $9.99), sale $9.99 on a ~45-day cadence mirrored across stores. DLC ladder ordered: dino faction ($7.99-9.99 flagship), commando + light-vehicles pack, endless horde-survival, Rubicon mini-campaign banked. Steam launch targeted Feb 10 2027 so the first legal discount lands inside Valve\'s Dinos vs. Robots Fest; Next Fest demo Oct 2026. Full calendar in BROODFALL-BRIEF.md. NOTE: the in-game gate still reads FREE_MISSIONS 3 / basin-only — moving it is an open decision, not an oversight',
   'ACT 2 HAS OPENED (Jul 28): mission 8 "Strip Mine" is built — the first mission you can lose without losing a fight. Krauss is strip-mining the motherlode and his haul counter is the enemy; his forward refinery is the valve, and razing it drops him from 642 crystals a minute to 210, which turns a loss at 11 minutes into breathing room out past 24. Mid-mission he nukes the pit colonies as "overburden removal" and something answers: a Raptor Den erupts out of the crater floor and goes for HIS lines first',

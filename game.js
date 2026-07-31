@@ -1549,10 +1549,19 @@ function addShake(x, y, amp) {
 
 function fxSprite(o) {
   if (fxs.length > FX_CAP) return;
-  fxs.push(Object.assign({
-    kind: 'sprite', t: 0, delay: 0, vx: 0, vy: 0,
-    rot: Math.random() * Math.PI * 2, rotV: 0, a0: 1, a1: 0, add: false,
-  }, o));
+  // Was Object.assign onto a fresh literal: two allocations per effect, and
+  // this is the hottest spawner in the game. Write the defaults onto the
+  // caller's own object instead — one allocation, at the call site.
+  o.kind = 'sprite'; o.t = 0;
+  if (o.delay === undefined) o.delay = 0;
+  if (o.vx === undefined) o.vx = 0;
+  if (o.vy === undefined) o.vy = 0;
+  if (o.rot === undefined) o.rot = Math.random() * Math.PI * 2;
+  if (o.rotV === undefined) o.rotV = 0;
+  if (o.a0 === undefined) o.a0 = 1;
+  if (o.a1 === undefined) o.a1 = 0;
+  if (o.add === undefined) o.add = false;
+  fxs.push(o);
 }
 function fxExplosion(x, y, size, big) {
   addShake(x, y, big ? 9 : Math.min(6, size * 0.3));
@@ -3654,10 +3663,25 @@ function updateBullets() {
   bullets = bullets.filter(p => !p.dead);
 }
 function updateFx() {
-  for (const f of fxs) f.t++;
-  fxs = fxs.filter(f => f.t < f.max);
-  for (const a of alerts) a.t++;
-  alerts = alerts.filter(a => a.t < 150);
+  // Compact IN PLACE. `fxs = fxs.filter(...)` allocated a brand-new array every
+  // tick — 60 a second, each up to FX_CAP long — and the same for alerts. That
+  // garbage is collected BETWEEN frames, so it never showed up in the sim or
+  // draw timers while still costing frames. Measured on Bronson's Mac mini:
+  // fps tracked fx COUNT and ignored unit count entirely (84u/47fx = 60fps,
+  // 83u/96fx = 23fps), and suppressing fx DRAWING changed nothing — the cost
+  // was the effects existing, not being drawn.
+  let w = 0;
+  for (let i = 0; i < fxs.length; i++) {
+    const f = fxs[i];
+    if (++f.t < f.max) fxs[w++] = f;
+  }
+  fxs.length = w;
+  w = 0;
+  for (let i = 0; i < alerts.length; i++) {
+    const a = alerts[i];
+    if (++a.t < 150) alerts[w++] = a;
+  }
+  alerts.length = w;
   // smoke + fire from badly damaged buildings and tanks (only where the player can see)
   if (spritesReady && tick % 7 === 0) {
     for (const b of buildings) {

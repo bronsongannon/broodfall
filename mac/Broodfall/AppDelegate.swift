@@ -6,7 +6,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate {
     private var webView: WKWebView!
     private let store = StoreBridge()
     private let power = PowerBridge()
-    private let driver = FrameDriver()
     // Keeps macOS from power-throttling the app on battery: a real-time game
     // wants full frame delivery even unplugged (Bronson's Air read ~30fps on
     // battery with the machine otherwise idle). Held for the app's lifetime.
@@ -47,8 +46,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate {
         store.start()
         power.webView = webView
         power.start()
-        driver.webView = webView
-        driver.start()
+        // NOTE: a native 60Hz FrameDriver was tried here (2026-07-30) and
+        // removed. Measured with in-game instrumentation: 104 injected fills
+        // per second EXECUTED, yet draws stayed on WebKit's throttled ~22Hz
+        // battery beat — evaluateJavaScript calls coalesce into WebContent's
+        // wakes, so injection cannot raise the wake rate, and 125 IPC calls a
+        // second just burned the battery the feature existed to protect. The
+        // page-side __extFrame hook remains for future diagnosis.
+        if #available(macOS 14.0, *) {
+            webView.configuration.preferences.inactiveSchedulingPolicy = .none
+        }
         webView.allowsMagnification = false
         webView.allowsBackForwardNavigationGestures = false
         if #available(macOS 12.0, *) {

@@ -4122,6 +4122,12 @@ window.addEventListener('keydown', (e) => {
   if (e.code === 'KeyH') { goHome(); return; }
   // D = hunker. A building that trains still owns D as its 5th card slot, so
   // production wins when one is selected — the two can't both be selected.
+  // K cycles effect DRAWING off (dev only) — a measurement tool, not a setting
+  if (e.code === 'KeyK' && devMode) {
+    fxDraw = (fxDraw + 1) % 3;
+    toast(['🛠 Effects: drawing ALL', '🛠 Effects: drawing HALF', '🛠 Effects: drawing NONE (still simulated)'][fxDraw]);
+    return;
+  }
   if (e.code === KEY_HUNKER() && selection.some(s => s.kind === 'unit' && canHunker(s))
       && !selection.some(s => s.kind === 'building' && BLD[s.type].trains)) { toggleHunker(); return; }
   if (e.code === 'KeyU' && selection.some(s => s.kind === 'unit' && s.cargo && s.cargo.length)) {
@@ -6766,7 +6772,9 @@ function render() {
   // globalCompositeOperation per sprite breaks the GPU's batching, and a nest
   // fight can have a hundred muzzle flashes and fireballs queued at once.
   addFx.length = 0;
-  for (const f of fxs) {
+  let fxSeen = 0;
+  if (fxDraw < 2) for (const f of fxs) {
+    if (fxDraw === 1 && (fxSeen++ & 1)) continue;   // draw every other one
     if (!inView(f.x, f.y, 260)) continue;
     const worldFx = f.kind === 'boom' || f.kind === 'sprite' || f.kind === 'muzzle' || f.kind === 'corpse';
     if (worldFx && !isVisibleAt(f.x, f.y)) continue;
@@ -6878,7 +6886,7 @@ function render() {
     const mp = (cv.width * cv.height / 1e6).toFixed(1);
     const floor = perf.extern > 0 ? ' · CAP↑' : perf.budget <= PX_BUDGET_MIN + 1e4 ? ' · FLOOR' : '';
     const bat = onBattery ? ' · BAT' : '';
-    const thin = perf.fxLevel < 1 ? ' · FX½' : '';
+    const thin = (perf.fxLevel < 1 ? ' · FX½' : '') + FX_DRAW_LABEL[fxDraw];
     cx.fillText(`${perf.fps} fps · ${cv.width}×${cv.height} (${mp}MP) · ${dpr.toFixed(2)}x${floor}${thin}${bat}`,
       view.w - 14, 62);
     if (tick - (perf.extStamp || 0) >= 60) { perf.extRate = perf.extN || 0; perf.extN = 0; perf.extStamp = tick; }
@@ -6889,6 +6897,14 @@ function render() {
 }
 let frameNo = 0;
 const addFx = [];   // additive-blend effects, batched into one pass
+// Diagnostic only (dev mode, key K): 0 = draw every effect, 1 = draw half,
+// 2 = draw none. It suppresses DRAWING ONLY — effects still spawn, update and
+// expire, so the fx counter and the whole sim are untouched and the reading
+// isolates draw-call cost from everything else. Answers one question: is the
+// wrapper's collapse under battle load the volume of small blended drawImage
+// calls? (Chrome carries 286fx at 60; the WKWebView wrapper stalls at 55fx/28.)
+let fxDraw = 0;
+const FX_DRAW_LABEL = ['', ' · FX½·dev', ' · FX-OFF·dev'];
 
 function renderMinimap() {
   const sx = mini.width / W, sy = mini.height / H;
@@ -8004,6 +8020,10 @@ window.CC = {
   get fogMemory() { return fogMemory; },
   get devReveal() { return devReveal; },
   set devReveal(v) { devReveal = !!v; updateFog(); },
+  // fx draw mode: 0 all / 1 half / 2 none. Diagnostic handle so a test can set
+  // it outright instead of counting keypresses and inferring the state.
+  get fxDraw() { return fxDraw; },
+  set fxDraw(v) { fxDraw = ((v | 0) % 3 + 3) % 3; },
   get devMode() { return devMode; },
   set devMode(v) { if (BFStore.devAllowed()) devMode = !!v; },
   get fxs() { return fxs; },

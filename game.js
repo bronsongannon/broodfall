@@ -4146,6 +4146,29 @@ window.addEventListener('keydown', (e) => {
   if (e.code === 'KeyH') { goHome(); return; }
   // D = hunker. A building that trains still owns D as its 5th card slot, so
   // production wins when one is selected — the two can't both be selected.
+  // I injects a repeatable stress wave (dev only). Each press adds the SAME
+  // increment at the camera centre, so pressing it N times walks the load up a
+  // known curve and every screenshot is comparable — across presses, across
+  // builds, and across machines. Beats trying to reproduce "a big battle" by
+  // hand, which is what made the earlier readings hard to line up.
+  if (e.code === 'KeyI' && devMode) {
+    const cxw = cam.x + view.w / 2, cyw = cam.y + view.h / 2;
+    const tough = (t, team, x, y) => {
+      const u = makeUnit(t, team, x, y);
+      u.maxHp = 999999; u.hp = 999999;   // nothing dies: the load holds still while you read it
+      return u;
+    };
+    const mine = [], theirs = [];
+    for (let i = 0; i < 10; i++) mine.push(tough('marine', 1, cxw - 190 + (i % 5) * 26, cyw - 60 + ((i / 5) | 0) * 26));
+    for (let i = 0; i < 4; i++) mine.push(tough('tank', 1, cxw - 250, cyw + 40 + i * 30));
+    for (let i = 0; i < 10; i++) theirs.push(tough('marine', 2, cxw + 150 + (i % 5) * 26, cyw - 40 + ((i / 5) | 0) * 26));
+    for (let i = 0; i < 4; i++) theirs.push(tough('tank', 2, cxw + 240, cyw + 40 + i * 30));
+    mine.forEach(u => u.order = { type: 'attackmove', x: cxw + 220, y: cyw });
+    theirs.forEach(u => u.order = { type: 'attackmove', x: cxw - 220, y: cyw });
+    stressWaves++;
+    toast(`🛠 Stress wave ${stressWaves} — ${units.length} units. Read the u/fx counts.`);
+    return;
+  }
   // K cycles effect DRAWING off (dev only) — a measurement tool, not a setting
   if (e.code === 'KeyK' && devMode) {
     fxDraw = (fxDraw + 1) % 3;
@@ -6928,6 +6951,7 @@ const addFx = [];   // additive-blend effects, batched into one pass
 // wrapper's collapse under battle load the volume of small blended drawImage
 // calls? (Chrome carries 286fx at 60; the WKWebView wrapper stalls at 55fx/28.)
 let fxDraw = 0;
+let stressWaves = 0;   // dev stress-test counter (key I)
 const FX_DRAW_LABEL = ['', ' · FX½·dev', ' · FX-OFF·dev'];
 
 function renderMinimap() {

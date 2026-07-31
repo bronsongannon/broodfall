@@ -6975,7 +6975,7 @@ let last = performance.now(), acc = 0;
 const DRAW_EVERY = 1000 / 61;   // a hair under 60 so we never skip a real frame
 let simMs = 0;                  // rolling update() cost — CPU side of the dev readout
 let lastDraw = -1e9;
-const perf = { frame: 16.7, fps: 60, submit: 0, budget: Math.round(pxBudget), scale: 1, cool: 240, fxLevel: 1, ceil: storedGfx ? Math.min(PX_BUDGET_MAX, storedGfx * 1.06) : PX_BUDGET_MAX };
+const perf = { frame: 16.7, fps: 60, submit: 0, budget: Math.round(pxBudget), scale: 1, cool: 240, fxLevel: 1, ceil: storedGfx ? Math.min(PX_BUDGET_MAX, storedGfx * 1.06) : PX_BUDGET_MAX, relaxHold: 0, brandStreak: 0 };
 function frame(now) {
   requestAnimationFrame(frame);
   acc += Math.min(100, now - last);
@@ -7012,9 +7012,14 @@ function frame(now) {
   // when healthy and stretches the moment the GPU can't keep up.
   if (gap < 100 && !document.hidden) perf.frame += (gap - perf.frame) * 0.05;
   perf.fps = Math.round(1000 / perf.frame);
-  // the ceiling relaxes slowly while frames are healthy (~0.6%/s), so real
-  // headroom is re-probed over minutes — a boundary re-test, not a ram
-  if (perf.frame < 17.4 && perf.ceil < PX_BUDGET_MAX) perf.ceil = Math.min(PX_BUDGET_MAX, perf.ceil * 1.000003);
+  // The ceiling relaxes FAST while healthy (~1.2%/s) so sharpness returns
+  // within a minute of conditions improving (plugging in: Bronson sat at 60fps
+  // on the FLOOR because the old rate needed ~90 minutes). What prevents
+  // wall-ramming is the brand streak: every failed probe freezes relaxation
+  // for 1 minute per consecutive failure, so a genuine GPU wall settles into
+  // a probe every few minutes while a lifted cap recovers almost immediately.
+  if (perf.relaxHold > 0) perf.relaxHold--;
+  else if (perf.frame < 17.4 && perf.ceil < PX_BUDGET_MAX) perf.ceil = Math.min(PX_BUDGET_MAX, perf.ceil * 1.0002);
   // Judgement for the last down-step: if frames are exactly as slow at the
   // lower quality, pixels were never the problem. Two futile cuts in a row
   // means the frame cap is upstream (battery throttling, OS frame pacing) —
@@ -7054,6 +7059,8 @@ function frame(now) {
       if (want < 1) {
         perf.ceil = Math.max(PX_BUDGET_MIN, pxBudget * 0.92);
         perf.judge = perf.frame;   // remember how slow it was, to judge the cut later
+        perf.brandStreak = Math.min(5, (perf.brandStreak || 0) + 1);
+        perf.relaxHold = 60 * 60 * perf.brandStreak;   // backoff: 1 min per failure, capped at 5
       }
       const next = clamp(Math.min(pxBudget * want, want < 1 ? Infinity : perf.ceil), PX_BUDGET_MIN, PX_BUDGET_MAX);
       if (Math.abs(next - pxBudget) > 2e4) {

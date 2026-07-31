@@ -1,4 +1,4 @@
-<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Checklist of tasks to submit Broodfall to the Mac App Store by July 31, a log of shipped fixes, and a lettered button per task that starts a working session on it.</h2>
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Checklist of tasks to submit Broodfall to the Mac App Store by August 14, a log of shipped fixes, and a lettered button per task that starts a working session on it.</h2>
 
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:0 0 1.5rem">
   <div style="background:var(--surface-1);border-radius:var(--radius);padding:1rem">
@@ -7,7 +7,7 @@
   </div>
   <div style="background:var(--surface-1);border-radius:var(--radius);padding:1rem">
     <p style="font-size:13px;color:var(--text-secondary);margin:0 0 4px">Submit by</p>
-    <p style="font-size:24px;font-weight:500;margin:0">Jul 31</p>
+    <p style="font-size:24px;font-weight:500;margin:0">Aug 14</p>
   </div>
   <div style="background:var(--surface-1);border-radius:var(--radius);padding:1rem">
     <p style="font-size:13px;color:var(--text-secondary);margin:0 0 4px">Progress</p>
@@ -80,7 +80,7 @@ const TRACKS = {
   apple: [
     ['ap1','Developer Program membership — covered by your existing account','done',
       'My Apple Developer membership already exists. What exactly do I do in App Store Connect to add Broodfall as a second app — app record, bundle ID, and anything that could trip me up?'],
-    ['ap2','NEXT UP: Create the Broodfall app record in App Store Connect — and the IAP itself: non-consumable com.bronsongannon.broodfall.full at $14.99 (REVISED Jul 28 — sale $9.99 on a 45-day cadence; the shipped gate expects that exact product id)','Jul 28',
+    ['ap2','NEXT UP: Create the Broodfall app record in App Store Connect — and the IAP itself: non-consumable com.bronsongannon.broodfall.full at $14.99 (REVISED Jul 28 — sale $9.99 on a 45-day cadence; the shipped gate expects that exact product id)','Aug 4',
       'Walk me through creating the Broodfall app record in App Store Connect: reserving the "Broodfall" name, bundle ID com.bronsongannon.broodfall (must match the Xcode project), category Games > Strategy, age rating for a cartoon RTS, the free-with-IAP setup — and creating the IAP product itself: non-consumable, product id com.bronsongannon.broodfall.full, at the REVISED $14.99 base price from the 2026-07-28 business model (StoreBridge.swift ships expecting exactly that product id; price tier is set in App Store Connect, not code). Also flag the open decision: the revised free tier is all of Act 1 + 4 skirmish maps, but game.js still gates at FREE_MISSIONS 3 and basin-only — should the constants move now or at Steam launch?'],
     ['ap9','IAP gate DONE — BFStore entitlement layer + StoreBridge.swift (StoreKit 2), missions 4+ and 3 maps gated, restore UI, dev cheats dead in release builds; test-purchase via mac/Products.storekit in the Run scheme','done',
       'The IAP gate is built and verified (BFStore in game.js + mac/Broodfall/StoreBridge.swift). Walk me through the one live check left: Run in Xcode with the Products.storekit test config, buy and restore in the app, then how review\'s sandbox purchase will differ once the real IAP exists in App Store Connect.'],
@@ -88,13 +88,13 @@ const TRACKS = {
       'The Mac wrapper is built and verified (mac/README.md). Walk me through what\'s left before archiving: app icon asset catalog, bundle ID match with App Store Connect, and the Distribution signing switch.'],
     ['ap4','App icon DONE — archive-ready, from the game\'s crystal sprite (mac/icon/)','done',
       'The app icon is live (mac/icon/). I want to try the upgraded concept — walk me through generating the crystal + raptor eye-shine icon with the Gemini prompt in mac/icon/README.md and dropping it in as the new master.'],
-    ['ap5','Store listing: screenshots DONE (assets/store/screenshots/) — description, subtitle, keywords left','Jul 29',
+    ['ap5','Store listing: screenshots DONE (assets/store/screenshots/) — description, subtitle, keywords left','Aug 8',
       'Draft the full App Store listing for Broodfall: description, subtitle, keywords, promo text, and a shot list for the required Mac screenshots.'],
     ['ap6','Privacy policy DONE — bronsongannon.github.io/broodfall/privacy.html','done',
       'Write the privacy policy page for Broodfall (it collects no data) and set it up on GitHub Pages so I have the URL App Store Connect asks for.'],
-    ['ap7','Sandbox entitlements, code signing, notarize, test on a clean Mac','Jul 29',
+    ['ap7','Sandbox entitlements, code signing, notarize, test on a clean Mac','Aug 11',
       'Guide me through sandbox entitlements, code signing, and notarization for the Broodfall Mac app, plus how to test the built .app cleanly and dodge the guideline 4.2 thin-wrapper flag.'],
-    ['ap8','Archive, upload, submit for review. FIRST: flip DEV_PRERELEASE to false in game.js (dev tools must not ship)','Jul 30',
+    ['ap8','Archive, upload, submit for review. FIRST: flip DEV_PRERELEASE to false in game.js (dev tools must not ship)','Aug 12',
       'Time to submit Broodfall: FIRST flip DEV_PRERELEASE to false in game.js (it keeps dev tools alive in local wrapper builds — shipping it true is a paywall bypass), then walk me through archiving in Xcode, uploading to App Store Connect, filling out the review form, and submitting.'],
   ],
   game: [
@@ -112,7 +112,7 @@ const TRACKS = {
       'Let\'s build the Raptor and Raptor Den for Broodfall: fast melee pack hunter (short-range fake melee) and a den that sends periodic hunting packs.'],
     ['g6','Missions 2–3: harvester convoy escort, first nest crack','',
       'Let\'s design and build Broodfall missions 2 and 3: the harvester convoy escort and the first nest crack, using the existing mission framework.'],
-    ['g10','GPU/perf pass DONE — still needs your own before/after on real hardware','',
+    ['g10','Performance SETTLED (Jul 30): plugged = 60fps full sharpness; battery = sharp stable ~25fps (macOS paces web content on battery — platform, not us). BAT profile + CAP\u2191 grace path verified live','',
       'The perf pass is in (60fps cap, 3.2M pixel budget, adaptive governor). Walk me through measuring the before/after on my actual Mac in the wrapper — what to watch in dev mode and what numbers would tell us it is fixed.'],
     ['g7','Pacing pass toward 20–30 minute matches','',
       'Let\'s start the Broodfall pacing pass toward 20-30 minute matches: what levers exist (HP, patch sizes, wave cadence, map size) and a tuning plan.'],
@@ -145,6 +145,7 @@ const TRACKS = {
   ],
 };
 const SHIPPED = [
+  'THE FPS SAGA, CLOSED (Jul 30, one long night of live readouts from the M5 Air): the mystery 25fps was three stacked causes — a frame-gate bug eating every other vsync frame (fixed), a governor limit-cycle causing the flicker (fixed with ceiling memory + same-frame repaint), and the real wall: macOS paces WKWebView and Safari at ~22-26Hz on battery, dynamically, and nothing App-Store-safe pierces it — native 60Hz frame driver tried, instrumented (104 fills/s executing, zero effect), removed; Game Mode engages and does not lift it. Shipped instead: battery detection in the wrapper (PowerBridge), a BAT power profile, futile-cut + floor-starve conviction that restores full sharpness when quality cuts cannot help (CAP\u2191), two-speed recovery, and an sfx rate limiter. Final posture: 60fps plugged, sharp stable full-effects ~25fps unplugged — verified in a 58-unit brawl',
   'PLAYTEST FIXES (Jul 29): Claim Jumpers looked broken and was not — three of six haulers had never left the start, the quota sat at 3 of 4, and nothing on screen said so. Objectives with a count now show live progress (3/4) in the HUD, any harvester counts toward a delivery instead of only the tagged convoy, and the loss rule matches so you can no longer hold six harvesters and still fail because the wrong three died. Earlier in the same session: Claim Jumpers could also hang at Survey Post Beta — the arrival check wanted four haulers inside the circle at the same instant, and a convoy that trickles in never gets there, so arrival now latches per hauler. The silent minute after arriving is a visible loading clock now. Medics stopped walking into the firing line: an unarmed unit had nothing to stop it where armed escorts halt at weapon range, so it ended up a hundred pixels AHEAD of the lead marine and died in six seconds — it holds behind the line now and the squad finishes healed. WASD camera is a toggle on the start menu',
   'BUSINESS MODEL REVISED (Jul 28, from the competitive research): free tier widens to ALL of Act 1 + 4 skirmish maps, base price $14.99 (was 3 missions + 1 map at $9.99), sale $9.99 on a ~45-day cadence mirrored across stores. DLC ladder ordered: dino faction ($7.99-9.99 flagship), commando + light-vehicles pack, endless horde-survival, Rubicon mini-campaign banked. Steam launch targeted Feb 10 2027 so the first legal discount lands inside Valve\'s Dinos vs. Robots Fest; Next Fest demo Oct 2026. Full calendar in BROODFALL-BRIEF.md. NOTE: the in-game gate still reads FREE_MISSIONS 3 / basin-only — moving it is an open decision, not an oversight',
   'ACT 2 HAS OPENED (Jul 28): mission 8 "Strip Mine" is built — the first mission you can lose without losing a fight. Krauss is strip-mining the motherlode and his haul counter is the enemy; his forward refinery is the valve, and razing it drops him from 642 crystals a minute to 210, which turns a loss at 11 minutes into breathing room out past 24. Mid-mission he nukes the pit colonies as "overburden removal" and something answers: a Raptor Den erupts out of the crater floor and goes for HIS lines first',
@@ -277,7 +278,7 @@ for (const [act, rows] of Object.entries(ACTS)) {
 document.querySelectorAll('button[data-m]').forEach(btn => {
   btn.addEventListener('click', () => sendPrompt('Let\'s build Broodfall mission ' + btn.dataset.m.slice(1) + ' "' + btn.dataset.t + '" — pull its design from CAMPAIGN.md, list any engine prerequisites still missing, and start implementing.'));
 });
-const days = Math.max(0, Math.ceil((new Date('2026-07-31T23:59:00') - new Date()) / 86400000));
+const days = Math.max(0, Math.ceil((new Date('2026-08-14T23:59:00') - new Date()) / 86400000));
 document.getElementById('days-left').textContent = days;
 refresh();
 </script>

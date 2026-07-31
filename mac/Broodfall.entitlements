@@ -9,5 +9,14 @@
 	     The game itself makes zero network requests. -->
 	<key>com.apple.security.network.client</key>
 	<true/>
+	<!-- Hardened Runtime blocks JIT unless asked. Without this JavaScriptCore
+	     falls back to its interpreter, and this game is simulation-heavy: the
+	     wrapper measured sim 5.4ms at 58 units where Chrome measured 0.6ms at
+	     82 — roughly a 10x script gap, which is the signature of a missing JIT.
+	     Rendering was ruled out first (frame rate is independent of pixel count,
+	     and the dev fx-draw toggle moved nothing: 27 off / 31 all / 33 half).
+	     Permitted for Mac App Store distribution. -->
+	<key>com.apple.security.cs.allow-jit</key>
+	<true/>
 </dict>
 </plist>

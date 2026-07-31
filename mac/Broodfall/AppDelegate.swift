@@ -5,6 +5,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate {
     private var window: NSWindow!
     private var webView: WKWebView!
     private let store = StoreBridge()
+    private let power = PowerBridge()
     // Keeps macOS from power-throttling the app on battery: a real-time game
     // wants full frame delivery even unplugged (Bronson's Air read ~30fps on
     // battery with the machine otherwise idle). Held for the app's lifetime.
@@ -43,6 +44,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate {
         webView.navigationDelegate = self
         store.webView = webView
         store.start()
+        power.webView = webView
+        power.start()
         webView.allowsMagnification = false
         webView.allowsBackForwardNavigationGestures = false
         if #available(macOS 12.0, *) {
@@ -90,18 +93,24 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate {
         decisionHandler(navigationAction.request.url?.isFileURL == true ? .allow : .cancel)
     }
 
-    #if DEBUG
-    // Load-failure diagnostics surfaced in the window title. Verified 2026-07-22
-    // via a temporary smoke test: skirmish sim, sprites, all 18 sfx slots, and
-    // localStorage persistence across relaunch all work inside the sandboxed
-    // wrapper (title read "launch:2 units:16 sprites:true sfx:18").
+    // Runs in Release too: the page defines BFPower at parse time, but the
+    // bridge's first push can race the load — re-push once the page is in.
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        power.push()
+        #if DEBUG
+        // Load-failure diagnostics surfaced in the window title. Verified 2026-07-22
+        // via a temporary smoke test: skirmish sim, sprites, all 18 sfx slots, and
+        // localStorage persistence across relaunch all work inside the sandboxed
+        // wrapper (title read "launch:2 units:16 sprites:true sfx:18").
         webView.evaluateJavaScript("typeof CC === 'object' ? 'ready' : 'loaded, game absent'") { result, _ in
             if let status = result as? String, status != "ready" {
                 self.window.title = "Broodfall — \(status)"
             }
         }
+        #endif
     }
+
+    #if DEBUG
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         window.title = "Broodfall — provisional fail: \(error.localizedDescription)"
     }

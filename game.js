@@ -43,6 +43,13 @@ const view = { w: window.innerWidth, h: window.innerHeight };
 // running hot). So: cap the backing store to a pixel budget and adapt it to
 // whatever the machine actually manages.
 const PX_BUDGET_MAX = 3.2e6, PX_BUDGET_MIN = 1.15e6;
+// On battery the budget cap tightens: WebKit demotes energy-hungry pages to
+// ~30Hz on battery power, and unplugged couch play is the point of the Mac
+// build — better to render a touch softer and NEVER attract the throttle.
+// Only the wrapper can see the power source; it reports through BFPower.
+const PX_BUDGET_BATTERY = 2.0e6;
+let onBattery = false;
+const budgetMax = () => onBattery ? PX_BUDGET_BATTERY : PX_BUDGET_MAX;
 // The governor's finding is remembered, so a machine that had to give up pixels
 // starts there next launch instead of stuttering its way back down every time.
 const GFX_KEY = 'cc.gfx';
@@ -6870,8 +6877,9 @@ function render() {
       : perf.fps >= 40 ? 'rgba(240,200,106,0.9)' : 'rgba(224,86,74,0.95)';
     const mp = (cv.width * cv.height / 1e6).toFixed(1);
     const floor = perf.extern > 0 ? ' · CAP↑' : perf.budget <= PX_BUDGET_MIN + 1e4 ? ' · FLOOR' : '';
+    const bat = onBattery ? ' · BAT' : '';
     const thin = perf.fxLevel < 1 ? ' · FX½' : '';
-    cx.fillText(`${perf.fps} fps · ${cv.width}×${cv.height} (${mp}MP) · ${dpr.toFixed(2)}x${floor}${thin}`,
+    cx.fillText(`${perf.fps} fps · ${cv.width}×${cv.height} (${mp}MP) · ${dpr.toFixed(2)}x${floor}${thin}${bat}`,
       view.w - 14, 62);
     cx.fillText(`sim ${simMs.toFixed(1)}ms · draw ${perf.submit.toFixed(1)}ms · ${units.length}u · ${fxs.length}fx`,
       view.w - 14, 78);
@@ -6975,6 +6983,23 @@ let last = performance.now(), acc = 0;
 const DRAW_EVERY = 1000 / 61;   // a hair under 60 so we never skip a real frame
 let simMs = 0;                  // rolling update() cost — CPU side of the dev readout
 let lastDraw = -1e9;
+// the wrapper's PowerBridge pushes power-source changes here; a plain browser
+// never calls it, so web builds simply stay on the AC profile
+window.BFPower = {
+  _update(b) {
+    b = !!b;
+    if (b === onBattery) return;
+    onBattery = b;
+    if (onBattery && pxBudget > PX_BUDGET_BATTERY) {
+      pxBudget = PX_BUDGET_BATTERY;
+      resize();
+      if (started) render();   // repaint the cleared canvas inside the same beat
+      perf.budget = Math.round(pxBudget); perf.scale = +dpr.toFixed(2);
+      perf.frame = 16.7; perf.cool = 180;
+    }
+    // going to AC needs no action: the governor climbs on its own
+  },
+};
 const perf = { frame: 16.7, fps: 60, submit: 0, budget: Math.round(pxBudget), scale: 1, cool: 240, fxLevel: 1, ceil: storedGfx ? Math.min(PX_BUDGET_MAX, storedGfx * 1.06) : PX_BUDGET_MAX, relaxHold: 0, brandStreak: 0 };
 function frame(now) {
   requestAnimationFrame(frame);
@@ -7031,7 +7056,7 @@ function frame(now) {
     if (perf.futile >= 2) {
       perf.futile = 0;
       perf.extern = 60 * 120;   // hold ~2 min before re-testing the theory
-      pxBudget = Math.min(PX_BUDGET_MAX * 0.85, PX_BUDGET_MAX);
+      pxBudget = budgetMax() * 0.85;
       perf.ceil = PX_BUDGET_MAX;
       perf.fxLevel = 1;
       resize(); render();
@@ -7047,7 +7072,7 @@ function frame(now) {
     const want = perf.extern > 0 ? 0         // cap proven upstream: cuts are futile, hold
       : perf.frame > 33 ? 0.6                // under ~30fps: emergency cut
       : perf.frame > 21 ? 0.75               // under ~48fps: give up pixels
-      : perf.frame < 17.4 && pxBudget * 1.15 <= Math.min(PX_BUDGET_MAX, perf.ceil) ? 1.12   // pinned: sharpen only for a real (15%+) gain
+      : perf.frame < 17.4 && pxBudget * 1.15 <= Math.min(budgetMax(), perf.ceil) ? 1.12   // pinned: sharpen only for a real (15%+) gain
       : 0;
     if (want) {
       // A down-step brands the level that failed: the ceiling drops to 92% of
@@ -7062,7 +7087,7 @@ function frame(now) {
         perf.brandStreak = Math.min(5, (perf.brandStreak || 0) + 1);
         perf.relaxHold = 60 * 60 * perf.brandStreak;   // backoff: 1 min per failure, capped at 5
       }
-      const next = clamp(Math.min(pxBudget * want, want < 1 ? Infinity : perf.ceil), PX_BUDGET_MIN, PX_BUDGET_MAX);
+      const next = clamp(Math.min(pxBudget * want, want < 1 ? Infinity : perf.ceil), PX_BUDGET_MIN, budgetMax());
       if (Math.abs(next - pxBudget) > 2e4) {
         pxBudget = next; resize();
         render();   // repaint INSIDE the same frame — resize clears the canvas,

@@ -1764,14 +1764,24 @@ const sfx = {};       // name -> { pool: [HTMLAudio...], i }
     el.src = 'assets/sfx/' + name + '.' + SFX_EXTS[i];
   }
 })();
+// Per-sound and global rate limits. Every play() is a main-thread trip through
+// Safari's media stack, invisible to the sim/draw timers — a battle spamming
+// booms and screeches can stall the frame pipeline while both timers read
+// idle. Two plays per tick, minimum spacing per sound: denser than that is
+// audio mush anyway.
+const SFX_MIN_GAP = { boom: 5, screech: 7, bite: 5, collapse: 8, alert: 10 };
+const sfxBudget = { tick: -1, n: 0 };
 function playSfx(name) {
   const s = sfx[name];
   if (!s) return false;   // no sample loaded — caller falls back to beep
-  if (!muted) {
-    const el = s.pool[s.i = (s.i + 1) % s.pool.length];
-    el.volume = SFX_VOL[name] !== undefined ? SFX_VOL[name] : 0.3;
-    try { el.currentTime = 0; el.play().catch(() => { /* pre-gesture autoplay block */ }); } catch (e) { /* ignore */ }
-  }
+  if (muted) return true;
+  if (s.lastAt !== undefined && tick - s.lastAt < (SFX_MIN_GAP[name] || 2)) return true;   // swallowed, no beep
+  if (sfxBudget.tick === tick) { if (sfxBudget.n >= 2) return true; }
+  else { sfxBudget.tick = tick; sfxBudget.n = 0; }
+  sfxBudget.n++; s.lastAt = tick;
+  const el = s.pool[s.i = (s.i + 1) % s.pool.length];
+  el.volume = SFX_VOL[name] !== undefined ? SFX_VOL[name] : 0.3;
+  try { el.currentTime = 0; el.play().catch(() => { /* pre-gesture autoplay block */ }); } catch (e) { /* ignore */ }
   return true;
 }
 const snd = {

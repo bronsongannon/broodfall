@@ -1550,7 +1550,8 @@ function fxSprite(o) {
 function fxExplosion(x, y, size, big) {
   addShake(x, y, big ? 9 : Math.min(6, size * 0.3));
   if (!spritesReady) return;
-  const nf = big ? 4 : 2;
+  // a struggling GPU gets half the pyrotechnics — invisible in the chaos
+  const nf = Math.max(1, Math.round((big ? 4 : 2) * perf.fxLevel));
   for (let i = 0; i < nf; i++) {
     const off = i ? size * 1.1 : 0;
     fxSprite({
@@ -1561,7 +1562,7 @@ function fxExplosion(x, y, size, big) {
       rotV: (Math.random() - 0.5) * 0.05, add: true,
     });
   }
-  const ns = big ? 6 : 3;
+  const ns = Math.max(1, Math.round((big ? 6 : 3) * perf.fxLevel));
   for (let i = 0; i < ns; i++) {
     fxSprite({
       img: pick(SPR.smoke),
@@ -2932,8 +2933,8 @@ function moveToward(u, tx, ty) {
   if (step > 0.2) {
     u.walkT += step;
     u.moving = true;
-    // ground vehicles kick up dust while driving
-    if (spritesReady && step > 0.6 && !IS_INF[u.type] && u.type !== 'spitter' && (tick + u.id) % 8 === 0) {
+    // ground vehicles kick up dust while driving (skipped when the GPU is drowning)
+    if (spritesReady && perf.fxLevel >= 1 && step > 0.6 && !IS_INF[u.type] && u.type !== 'spitter' && (tick + u.id) % 8 === 0) {
       fxSprite({
         img: pick(SPR.puff),
         x: u.x - Math.cos(a) * u.r, y: u.y - Math.sin(a) * u.r,
@@ -6857,8 +6858,13 @@ function render() {
     cx.textAlign = 'right';
     cx.fillStyle = perf.fps >= 55 ? 'rgba(143,216,207,0.85)'
       : perf.fps >= 40 ? 'rgba(240,200,106,0.9)' : 'rgba(224,86,74,0.95)';
-    cx.fillText(`${perf.fps} fps · ${cv.width}×${cv.height} · ${dpr.toFixed(2)}x · ${units.length}u`,
+    const mp = (cv.width * cv.height / 1e6).toFixed(1);
+    const floor = perf.budget <= PX_BUDGET_MIN + 1e4 ? ' · FLOOR' : '';
+    const thin = perf.fxLevel < 1 ? ' · FX½' : '';
+    cx.fillText(`${perf.fps} fps · ${cv.width}×${cv.height} (${mp}MP) · ${dpr.toFixed(2)}x${floor}${thin}`,
       view.w - 14, 62);
+    cx.fillText(`sim ${simMs.toFixed(1)}ms · draw ${perf.submit.toFixed(1)}ms · ${units.length}u · ${fxs.length}fx`,
+      view.w - 14, 78);
   }
   if (++frameNo % 3 === 0) renderMinimap();
 }
@@ -6957,15 +6963,20 @@ let last = performance.now(), acc = 0;
 // refresh rate, so a 120Hz ProMotion Mac was doing double the GPU work for a
 // sim that only ever advances 60 times a second — pure heat, no extra motion.
 const DRAW_EVERY = 1000 / 61;   // a hair under 60 so we never skip a real frame
+let simMs = 0;                  // rolling update() cost — CPU side of the dev readout
 let lastDraw = -1e9;
-const perf = { frame: 16.7, fps: 60, submit: 0, budget: Math.round(pxBudget), scale: 1, cool: 240 };
+const perf = { frame: 16.7, fps: 60, submit: 0, budget: Math.round(pxBudget), scale: 1, cool: 240, fxLevel: 1 };
 function frame(now) {
   requestAnimationFrame(frame);
   acc += Math.min(100, now - last);
   last = now;
   while (acc >= 1000 / 60) {
     if (!started || paused || userPaused) { /* menu, controls, or pause — world waits */ }
-    else if (!gameOver) update();
+    else if (!gameOver) {
+      const s0 = performance.now();
+      update();
+      simMs += (performance.now() - s0 - simMs) * 0.06;   // rolling sim cost for the dev readout
+    }
     else { tick++; updateFx(); updateCamera(); }   // aftermath keeps burning behind the overlay
     acc -= 1000 / 60;
   }
@@ -6984,7 +6995,11 @@ function frame(now) {
   if (gap < 100 && !document.hidden) perf.frame += (gap - perf.frame) * 0.05;
   perf.fps = Math.round(1000 / perf.frame);
   if (started && !paused && !userPaused && --perf.cool <= 0) {
-    const want = perf.frame > 21 ? 0.75      // under ~48fps: give up pixels
+    // Battles are where it hurts (Bronson 2026-07-30: under 25fps in the dino
+    // fight), so the DOWN reaction is fast and hard — deep drops cut deeper and
+    // reconsider in ~1.2s, while sharpening back up stays slow and cautious.
+    const want = perf.frame > 33 ? 0.6       // under ~30fps: emergency cut
+      : perf.frame > 21 ? 0.75               // under ~48fps: give up pixels
       : perf.frame < 17.4 && pxBudget < PX_BUDGET_MAX ? 1.12   // pinned at 60: try for sharper
       : 0;
     if (want) {
@@ -6994,9 +7009,12 @@ function frame(now) {
         try { localStorage.setItem(GFX_KEY, String(Math.round(pxBudget))); } catch (e) { /* private mode */ }
         perf.budget = Math.round(pxBudget); perf.scale = +dpr.toFixed(2);
         perf.frame = 16.7;   // re-measure from scratch at the new size
-        perf.cool = 180;     // ~3s before reconsidering — resizing clears the canvas
+        perf.cool = want < 1 ? 72 : 180;   // downs re-check in ~1.2s; ups stay patient
       }
     }
+    // out of pixels to give and still slow: thin the battle effects themselves.
+    // fxLevel 1 = full; 0.5 = explosions spawn half the sprites, dust skipped.
+    perf.fxLevel = (pxBudget <= PX_BUDGET_MIN + 1e4 && perf.frame > 21) ? 0.5 : 1;
   }
 }
 

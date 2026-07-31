@@ -47,8 +47,8 @@ const PX_BUDGET_MAX = 3.2e6, PX_BUDGET_MIN = 1.15e6;
 // starts there next launch instead of stuttering its way back down every time.
 const GFX_KEY = 'cc.gfx';
 // (clamp() isn't defined this early in the file — inline the bounds)
-let pxBudget = Math.max(PX_BUDGET_MIN,
-  Math.min(PX_BUDGET_MAX, +localStorage.getItem(GFX_KEY) || PX_BUDGET_MAX));
+const storedGfx = +localStorage.getItem(GFX_KEY) || 0;
+let pxBudget = Math.max(PX_BUDGET_MIN, Math.min(PX_BUDGET_MAX, storedGfx || PX_BUDGET_MAX));
 let dpr = 1;
 function resize() {
   const raw = window.devicePixelRatio || 1;
@@ -6965,7 +6965,7 @@ let last = performance.now(), acc = 0;
 const DRAW_EVERY = 1000 / 61;   // a hair under 60 so we never skip a real frame
 let simMs = 0;                  // rolling update() cost — CPU side of the dev readout
 let lastDraw = -1e9;
-const perf = { frame: 16.7, fps: 60, submit: 0, budget: Math.round(pxBudget), scale: 1, cool: 240, fxLevel: 1 };
+const perf = { frame: 16.7, fps: 60, submit: 0, budget: Math.round(pxBudget), scale: 1, cool: 240, fxLevel: 1, ceil: storedGfx ? Math.min(PX_BUDGET_MAX, storedGfx * 1.06) : PX_BUDGET_MAX };
 function frame(now) {
   requestAnimationFrame(frame);
   acc += Math.min(100, now - last);
@@ -7002,18 +7002,30 @@ function frame(now) {
   // when healthy and stretches the moment the GPU can't keep up.
   if (gap < 100 && !document.hidden) perf.frame += (gap - perf.frame) * 0.05;
   perf.fps = Math.round(1000 / perf.frame);
+  // the ceiling relaxes slowly while frames are healthy (~0.6%/s), so real
+  // headroom is re-probed over minutes — a boundary re-test, not a ram
+  if (perf.frame < 17.4 && perf.ceil < PX_BUDGET_MAX) perf.ceil = Math.min(PX_BUDGET_MAX, perf.ceil * 1.000003);
   if (started && !paused && !userPaused && --perf.cool <= 0) {
     // Battles are where it hurts (Bronson 2026-07-30: under 25fps in the dino
     // fight), so the DOWN reaction is fast and hard — deep drops cut deeper and
     // reconsider in ~1.2s, while sharpening back up stays slow and cautious.
     const want = perf.frame > 33 ? 0.6       // under ~30fps: emergency cut
       : perf.frame > 21 ? 0.75               // under ~48fps: give up pixels
-      : perf.frame < 17.4 && pxBudget < PX_BUDGET_MAX ? 1.12   // pinned at 60: try for sharper
+      : perf.frame < 17.4 && pxBudget * 1.15 <= Math.min(PX_BUDGET_MAX, perf.ceil) ? 1.12   // pinned: sharpen only for a real (15%+) gain
       : 0;
     if (want) {
-      const next = clamp(pxBudget * want, PX_BUDGET_MIN, PX_BUDGET_MAX);
+      // A down-step brands the level that failed: the ceiling drops to 92% of
+      // it, and climbs may not cross it. Without this the governor rams the
+      // same failing level forever — sharpen, drop frames, cut, recover,
+      // sharpen — and every resize in that loop presents as a flicker
+      // (Bronson 2026-07-30). The ceiling relaxes 3% per successful up-step,
+      // so real headroom is rediscovered over minutes, not seconds.
+      if (want < 1) perf.ceil = Math.max(PX_BUDGET_MIN, pxBudget * 0.92);
+      const next = clamp(Math.min(pxBudget * want, want < 1 ? Infinity : perf.ceil), PX_BUDGET_MIN, PX_BUDGET_MAX);
       if (Math.abs(next - pxBudget) > 2e4) {
         pxBudget = next; resize();
+        render();   // repaint INSIDE the same frame — resize clears the canvas,
+                    // and presenting that blank was the visible flicker
         try { localStorage.setItem(GFX_KEY, String(Math.round(pxBudget))); } catch (e) { /* private mode */ }
         perf.budget = Math.round(pxBudget); perf.scale = +dpr.toFixed(2);
         perf.frame = 16.7;   // re-measure from scratch at the new size

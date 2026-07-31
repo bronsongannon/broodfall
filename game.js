@@ -6980,8 +6980,16 @@ function frame(now) {
     else { tick++; updateFx(); updateCamera(); }   // aftermath keeps burning behind the overlay
     acc -= 1000 / 60;
   }
-  if (now - lastDraw < DRAW_EVERY) return;
+  // Frame gate, minimum-interval form. The first version skipped any frame
+  // arriving under 16.39ms — but a clean 60Hz vsync feed jitters around
+  // 16.67ms, and every timestamp landing a hair early got skipped, turning
+  // the next gap into 33ms: HALF the frames dropped, an idle machine pinned
+  // at ~27fps (Bronson's readout: 27fps with sim 0.2ms / draw 0.1ms at the
+  // budget floor — the governor punishing resolution for a stall this gate
+  // was causing). The 12ms form can never skip a real 60Hz frame; it exists
+  // only to halve 120Hz ProMotion down to 60, which it still does.
   const gap = now - lastDraw;
+  if (gap < 10) return;   // 120Hz halves to 60; 90/100Hz feeds draw natively
   lastDraw = now;
   const t0 = performance.now();
   render();

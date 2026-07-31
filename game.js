@@ -6869,7 +6869,7 @@ function render() {
     cx.fillStyle = perf.fps >= 55 ? 'rgba(143,216,207,0.85)'
       : perf.fps >= 40 ? 'rgba(240,200,106,0.9)' : 'rgba(224,86,74,0.95)';
     const mp = (cv.width * cv.height / 1e6).toFixed(1);
-    const floor = perf.budget <= PX_BUDGET_MIN + 1e4 ? ' · FLOOR' : '';
+    const floor = perf.extern > 0 ? ' · CAP↑' : perf.budget <= PX_BUDGET_MIN + 1e4 ? ' · FLOOR' : '';
     const thin = perf.fxLevel < 1 ? ' · FX½' : '';
     cx.fillText(`${perf.fps} fps · ${cv.width}×${cv.height} (${mp}MP) · ${dpr.toFixed(2)}x${floor}${thin}`,
       view.w - 14, 62);
@@ -7015,11 +7015,32 @@ function frame(now) {
   // the ceiling relaxes slowly while frames are healthy (~0.6%/s), so real
   // headroom is re-probed over minutes — a boundary re-test, not a ram
   if (perf.frame < 17.4 && perf.ceil < PX_BUDGET_MAX) perf.ceil = Math.min(PX_BUDGET_MAX, perf.ceil * 1.000003);
+  // Judgement for the last down-step: if frames are exactly as slow at the
+  // lower quality, pixels were never the problem. Two futile cuts in a row
+  // means the frame cap is upstream (battery throttling, OS frame pacing) —
+  // give the resolution back and hold. Sharp at 30 beats blurry at 30.
+  if (perf.judge != null && perf.cool === 1) {
+    if (perf.frame > 21 && perf.frame > perf.judge - 4) perf.futile = (perf.futile || 0) + 1;
+    else perf.futile = 0;
+    perf.judge = null;
+    if (perf.futile >= 2) {
+      perf.futile = 0;
+      perf.extern = 60 * 120;   // hold ~2 min before re-testing the theory
+      pxBudget = Math.min(PX_BUDGET_MAX * 0.85, PX_BUDGET_MAX);
+      perf.ceil = PX_BUDGET_MAX;
+      perf.fxLevel = 1;
+      resize(); render();
+      perf.budget = Math.round(pxBudget); perf.scale = +dpr.toFixed(2);
+      perf.frame = 16.7; perf.cool = 300;
+    }
+  }
+  if (perf.extern > 0) perf.extern--;
   if (started && !paused && !userPaused && --perf.cool <= 0) {
     // Battles are where it hurts (Bronson 2026-07-30: under 25fps in the dino
     // fight), so the DOWN reaction is fast and hard — deep drops cut deeper and
     // reconsider in ~1.2s, while sharpening back up stays slow and cautious.
-    const want = perf.frame > 33 ? 0.6       // under ~30fps: emergency cut
+    const want = perf.extern > 0 ? 0         // cap proven upstream: cuts are futile, hold
+      : perf.frame > 33 ? 0.6                // under ~30fps: emergency cut
       : perf.frame > 21 ? 0.75               // under ~48fps: give up pixels
       : perf.frame < 17.4 && pxBudget * 1.15 <= Math.min(PX_BUDGET_MAX, perf.ceil) ? 1.12   // pinned: sharpen only for a real (15%+) gain
       : 0;
@@ -7030,7 +7051,10 @@ function frame(now) {
       // sharpen — and every resize in that loop presents as a flicker
       // (Bronson 2026-07-30). The ceiling relaxes 3% per successful up-step,
       // so real headroom is rediscovered over minutes, not seconds.
-      if (want < 1) perf.ceil = Math.max(PX_BUDGET_MIN, pxBudget * 0.92);
+      if (want < 1) {
+        perf.ceil = Math.max(PX_BUDGET_MIN, pxBudget * 0.92);
+        perf.judge = perf.frame;   // remember how slow it was, to judge the cut later
+      }
       const next = clamp(Math.min(pxBudget * want, want < 1 ? Infinity : perf.ceil), PX_BUDGET_MIN, PX_BUDGET_MAX);
       if (Math.abs(next - pxBudget) > 2e4) {
         pxBudget = next; resize();

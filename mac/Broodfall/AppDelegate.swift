@@ -5,10 +5,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate {
     private var window: NSWindow!
     private var webView: WKWebView!
     private let store = StoreBridge()
+    // Keeps macOS from power-throttling the app on battery: a real-time game
+    // wants full frame delivery even unplugged (Bronson's Air read ~30fps on
+    // battery with the machine otherwise idle). Held for the app's lifetime.
+    private var activity: NSObjectProtocol?
 
     // MARK: - Lifecycle
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        activity = ProcessInfo.processInfo.beginActivity(
+            options: [.userInitiated, .latencyCritical],
+            reason: "Real-time game rendering")
         buildMenuBar()
         buildWindow()
         loadGame()

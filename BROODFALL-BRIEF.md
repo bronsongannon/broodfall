@@ -219,6 +219,20 @@ a launch outreach agency (low five figures, verify with agencies).
    layer (iOS) and Deck UI share design work.
 8. Logistics: $100 Steam Direct fee, builds via steampipe (depots per OS),
    store page needs capsule art + trailer (reuse DaVinci pipeline).
+9. **Engine note for Broodfall 2 (decided 2026-08-01, Bronson + Claude):**
+   Broodfall 1 ships and stays on the custom vanilla-JS/Canvas engine — no
+   port, ever; the engine is an asset (seconds-long iteration loop, CC test
+   harness, ~19MB app) and the only thing a native engine would fix is the
+   WKWebView battery pacing, which the BAT profile already handles gracefully.
+   **If Broodfall 2 targets Steam-first with native ambitions (bigger battles,
+   true 60fps on battery, maybe multiplayer), evaluate Godot FIRST** — before
+   Unity or Unreal. Reasons: open source with zero licensing risk (Unity's
+   2023 runtime-fee episode; Unreal is a AAA 3D engine, wrong tool for 2D
+   sprite RTS), first-class 2D, tiny native Mac/Windows/Linux exports that
+   escape the WKWebView/Electron wrapper problem entirely, and GDScript reads
+   close to the JS the codebase is already written in. Starting a new game in
+   an engine is cheap; porting a finished, playtest-verified one is expensive
+   and earns almost nothing.
 
 ## Sources
 

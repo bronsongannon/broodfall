@@ -973,6 +973,9 @@ const MISSIONS = [
       { id: 'relays',  text: 'Destroy Krauss\'s four survey relays', type: 'groupDead', group: 'relays', mark: [700, 980] },
       { id: 'power',   text: 'Cut the field lab\'s power — both generators', type: 'groupDead', group: 'labpower', hidden: true, mark: [2620, 200] },
       { id: 'lab',     text: 'Reach the darkened lab and pull the drilling logs', type: 'reach', x: 2450, y: 300, r: 150, hidden: true, mark: [2450, 300] },
+      // optional: NOT in winWhen — torching the dump gates the exfil pursuit
+      // down from the heavy cadence to the light one (see the pursuit triggers)
+      { id: 'cache',   text: 'Optional: torch the fuel dump — starve the pursuit', type: 'destroy', bld: 'supply', x: 2760, y: 900, r: 200, hidden: true, mark: [2760, 900] },
       { id: 'exfil',   text: 'Reach the emergency LZ on the east coast (3+ alive)', type: 'groupReach', group: 'squad', x: 2880, y: 2040, r: 220, count: 3, hidden: true, mark: [2880, 2040] },
     ],
     winWhen: ['relays', 'power', 'lab', 'exfil'],
@@ -994,24 +997,41 @@ const MISSIONS = [
           // the lab runs off its own grid; dark, its door opens
           { group: 'labpower', bld: 'power', team: 2, at: [2620, 200] },
           { group: 'labpower', bld: 'power', team: 2, at: [2270, 170] },
-          { unit: 'marine', team: 2, n: 2, at: [760, 1040], order: 'guard' },
-          { unit: 'marine', team: 2, n: 2, at: [2340, 1280], order: 'guard' },
+          // the fuel dump feeding his sweep boats — the optional detour
+          { bld: 'supply', team: 2, at: [2760, 900] },
+          // difficulty pass (2026-08-01, Bronson speedran the fen in <4 min):
+          // every relay is properly garrisoned — marines screen, a sniper or
+          // rocket gives each post reach. Guards, not nests: visible, plannable.
+          { unit: 'marine', team: 2, n: 3, at: [760, 1040],  order: 'guard' },
+          { unit: 'sniper', team: 2, n: 1, at: [700, 900],   order: 'guard' },
+          { unit: 'marine', team: 2, n: 3, at: [2340, 1280], order: 'guard' },
+          { unit: 'rocket', team: 2, n: 1, at: [2460, 1390], order: 'guard' },
           { unit: 'marine', team: 2, n: 3, at: [1400, 480],  order: 'guard' },
-          { unit: 'marine', team: 2, n: 2, at: [560, 450],   order: 'guard' },
-          { unit: 'marine', team: 2, n: 2, at: [2450, 240],  order: 'guard' },
+          { unit: 'sniper', team: 2, n: 1, at: [1290, 370],  order: 'guard' },
+          { unit: 'marine', team: 2, n: 3, at: [560, 450],   order: 'guard' },
+          { unit: 'marine', team: 2, n: 3, at: [2450, 240],  order: 'guard' },
+          { unit: 'sniper', team: 2, n: 1, at: [2530, 370],  order: 'guard' },
+          { unit: 'marine', team: 2, n: 2, at: [2820, 960],  order: 'guard' },
+          { unit: 'rocket', team: 2, n: 1, at: [2700, 850],  order: 'guard' },
+          // the swamp isn't empty either: a wild pack claims the center
+          // crystal field (OFF the causeway line — routable around, per the
+          // no-nests-on-the-route rule) and a pair haunts the south-east bank
+          { unit: 'spitter', team: 3, n: 3, at: [1536, 1152], order: 'guard' },
+          { unit: 'spitter', team: 3, n: 2, at: [2700, 1720], order: 'guard' },
         ] },
       { when: { time: 14 },
         say: [['sci', 'The relays are listening posts, Commander — if one of them sees you before it dies, the lab knows you are coming.']] },
       // patrols sweep the causeways from the start: the fen is watched, not empty
-      { when: { time: 70, notDone: ['exfil'] }, repeat: true, every: 100,
-        spawn: { unit: 'marine', team: 2, n: 2, at: [2900, 250], order: 'attackhq', to: [1600, 1100] } },
-      { when: { groupDead: 'relays' }, objective: 'power',
+      { when: { time: 70, notDone: ['exfil'] }, repeat: true, every: 80,
+        spawn: { unit: 'marine', team: 2, n: 3, at: [2900, 250], order: 'attackhq', to: [1600, 1100] } },
+      { when: { groupDead: 'relays' }, objective: ['power', 'cache'],
         say: [['ops', 'All four relays are dark. Krauss just went blind across the whole fen.'],
               ['red', 'Relay net is down. ...All of it? In a swamp? Seal the lab and get me eyes on the north bank.'],
-              ['sci', 'Sealed means powered, Commander. Two generators behind the lab — take those and the door is just a door.']] },
+              ['sci', 'Sealed means powered, Commander. Two generators behind the lab — take those and the door is just a door.'],
+              ['sci', 'One more thing on the scan — a fuel dump on the east bank. His sweep boats drink from it. Burn it and the hunt gets a lot thinner.']] },
       // he starts sweeping for you once the relays drop
-      { when: { groupDead: 'relays', notDone: ['exfil'] }, delay: 30, repeat: true, every: 85,
-        spawn: { unit: 'raider', team: 2, n: 2, at: [2900, 200], order: 'attackhq', to: [1500, 900] } },
+      { when: { groupDead: 'relays', notDone: ['exfil'] }, delay: 30, repeat: true, every: 70,
+        spawn: { unit: 'raider', team: 2, n: 3, at: [2900, 200], order: 'attackhq', to: [1500, 900] } },
       { when: { groupDead: 'labpower' }, objective: 'lab',
         say: [['sci', 'Lab is dark. Walk in and pull the drilling logs — everything he has on what is under this swamp.']] },
       { when: { groupDead: 'labpower', notDone: ['exfil'] }, delay: 25, repeat: true, every: 80,
@@ -1023,10 +1043,22 @@ const MISSIONS = [
               ['ops', 'Original LZ is gone. New extraction on the east coast, marked — move, Commander, and do not stop to win anything.']] },
       { when: { done: ['lab'] }, delay: 4,
         spawn: { unit: 'marine', team: 2, n: 4, at: [600, 1900], order: 'guard' } },
-      { when: { done: ['lab'], notDone: ['exfil'] }, delay: 14, repeat: true, every: 58,
+      // Krauss's platoon actually LANDS on the LZ (his line above promises it —
+      // pre-difficulty-pass nothing spawned there and the walk ended in a hug)
+      { when: { done: ['lab'] }, delay: 10,
+        spawn: [
+          { unit: 'marine', team: 2, n: 4, at: [2880, 2040], order: 'guard' },
+          { unit: 'sniper', team: 2, n: 1, at: [2820, 1980], order: 'guard' } ] },
+      // pursuit runs at two intensities: heavy while the fuel dump stands,
+      // light once it's torched — the optional objective IS the valve
+      { when: { done: ['lab'], notDone: ['exfil', 'cache'] }, delay: 14, repeat: true, every: 45,
         spawn: { unit: 'marine', team: 2, n: 3, at: [2500, 250], order: 'attackhq', to: [2700, 1500] } },
-      { when: { done: ['lab'], notDone: ['exfil'] }, delay: 65, repeat: true, every: 75,
+      { when: { done: ['lab'], notDone: ['exfil', 'cache'] }, delay: 50, repeat: true, every: 60,
         spawn: { unit: 'raider', team: 2, n: 2, at: [2990, 1200], order: 'attackhq', to: [2880, 2040] } },
+      { when: { done: ['lab', 'cache'], notDone: ['exfil'] }, delay: 14, repeat: true, every: 95,
+        spawn: { unit: 'marine', team: 2, n: 2, at: [2500, 250], order: 'attackhq', to: [2700, 1500] } },
+      { when: { done: ['cache'] },
+        say: [['sci', 'Fuel dump is burning. Those sweep boats are rowing home, Commander.']] },
       // the long walk gets the reveal, so the debrief doesn't have to carry it
       { when: { done: ['lab'] }, delay: 30,
         say: [['sci', 'Commander, while you walk — I have been reading. He is not drilling toward a deposit. He is drilling toward a single crystal. One structure, kilometers across.'],
@@ -3895,6 +3927,10 @@ function checkEnd() {
   if (gameOver) return;
   const pAlive = buildings.some(b => b.team === 1 && b.type === 'hq');
   if (mission) {
+    // once every win objective is done the outro is ceremony — no defeat path
+    // may fire during the drain (M5: the exfil latches, the transport is away,
+    // and the LZ garrison gunning down a straggler must not flip the verdict)
+    if (ms && ms.outroDone) return;
     // campaign: victory comes from objectives (missionUpdate); HQ loss is always defeat
     // — except on commando missions, where there IS no HQ and the squad is the
     // mission: you lose when the last of them falls.
@@ -6860,19 +6896,20 @@ function render() {
   if (mission && ms) {
     for (const o of ms.objectives) {
       if (!o.active || o.done || !o.mark) continue;
-      const [mx, my] = o.mark;
-      if (!inView(mx, my, 120)) continue;
-      const k = Math.abs(Math.sin(tick * 0.06));
-      const rad = 24 + 9 * k;
-      cx.strokeStyle = `rgba(111,227,208,${0.4 + 0.4 * k})`;
-      cx.lineWidth = 2.5;
-      cx.beginPath(); cx.arc(mx, my, rad, 0, Math.PI * 2); cx.stroke();
-      cx.lineWidth = 1.5;
-      cx.beginPath(); cx.arc(mx, my, 5, 0, Math.PI * 2); cx.stroke();
-      cx.fillStyle = `rgba(159,232,239,${0.6 + 0.35 * k})`;
-      cx.font = 'bold 13px -apple-system, sans-serif';
-      cx.textAlign = 'center';
-      cx.fillText('◈', mx, my - rad - 8);
+      for (const [mx, my] of objMarks(o)) {
+        if (!inView(mx, my, 120)) continue;
+        const k = Math.abs(Math.sin(tick * 0.06));
+        const rad = 24 + 9 * k;
+        cx.strokeStyle = `rgba(111,227,208,${0.4 + 0.4 * k})`;
+        cx.lineWidth = 2.5;
+        cx.beginPath(); cx.arc(mx, my, rad, 0, Math.PI * 2); cx.stroke();
+        cx.lineWidth = 1.5;
+        cx.beginPath(); cx.arc(mx, my, 5, 0, Math.PI * 2); cx.stroke();
+        cx.fillStyle = `rgba(159,232,239,${0.6 + 0.35 * k})`;
+        cx.font = 'bold 13px -apple-system, sans-serif';
+        cx.textAlign = 'center';
+        cx.fillText('◈', mx, my - rad - 8);
+      }
     }
   }
 
@@ -7000,7 +7037,9 @@ function renderMinimap() {
       if (!o.active || o.done || !o.mark || tick % 40 >= 28) continue;
       mcx.strokeStyle = '#6fe3d0';
       mcx.lineWidth = 1.5;
-      mcx.beginPath(); mcx.arc(o.mark[0] * sx, o.mark[1] * sy, 4, 0, Math.PI * 2); mcx.stroke();
+      for (const m of objMarks(o)) {
+        mcx.beginPath(); mcx.arc(m[0] * sx, m[1] * sy, 4, 0, Math.PI * 2); mcx.stroke();
+      }
     }
   }
   mcx.strokeStyle = 'rgba(255,255,255,0.7)';
@@ -7384,13 +7423,34 @@ function dlgUpdate() {
 }
 
 let lastObjSig = '';
+// A groupDead objective with a mark tracks its SURVIVORS — one beacon per
+// living member — instead of pinning the authored spot forever. Playtest, M5:
+// three relays down, the fourth alive in heavy fog, and the only beacon pulsed
+// over the FIRST relay's rubble; nothing on screen pointed at the survivor.
+// The authored mark still serves as the pre-spawn / all-dead fallback, and an
+// objective with no mark stays unmarked (M1's reprisal must not leak positions).
+function objMarks(o) {
+  if (!o.mark) return [];
+  if (o.type === 'groupDead') {
+    const g = groupAlive(o.group);
+    if (g && g.length) return g.map(m => [m.x, m.y]);
+  }
+  return [o.mark];
+}
 // How far along a counted objective is, as "3/4" — null when it doesn't count.
 // Playtest, M2: a player delivered three haulers, left three idle at the start,
 // and the HUD said only "Escort the convoy to Survey Post Beta (4+ harvesters
 // alive)" — which reads as a survival rule, not a delivery quota. Nothing on
 // screen showed 3 of 4. Progress has to be visible or the objective is a riddle.
 function objProgress(o) {
-  if (o.done || !o.count) return null;
+  if (o.done) return null;
+  // groupDead counts kills against the group's fixed roster (same M5 lesson:
+  // "3/4 relays" is the difference between a hung objective and a hunt)
+  if (o.type === 'groupDead' && ms.groups[o.group]) {
+    const total = ms.groups[o.group].length;
+    return (total - (groupAlive(o.group) || []).length) + '/' + total;
+  }
+  if (!o.count) return null;
   if (o.type === 'groupReach')
     return (o.arrived ? reachPool(o).filter(u => o.arrived[u.id]).length : 0) + '/' + o.count;
   if (o.type === 'unitCount')
@@ -7615,7 +7675,10 @@ function fireTrigger(t) {
   }
   if (t.haul) ms.haul += t.haul;   // the rival's off-map operation ticking over
   if (t.crystals) teams[1].crystals += t.crystals;
-  if (t.lose) missionEnd(false);   // scripted defeat (convoy lost, etc.)
+  // scripted defeat (convoy lost, etc.) — but never once the win is already
+  // draining: all objectives ✔ + outro playing, then a straggler dying to the
+  // LZ garrison flipped M5 to FAILED mid-victory-speech. Won is won.
+  if (t.lose && !ms.outroDone) missionEnd(false);
 }
 
 function missionUpdate() {
@@ -7623,12 +7686,17 @@ function missionUpdate() {
   dlgUpdate();
   if (tick % 10 !== 0) return;
   for (const o of ms.objectives) latchArrivals(o);
+  // destroy targets latch `seen` even before the objective reveals — a target
+  // the player razes early must still count once it activates (M5's optional
+  // fuel dump stands from t=0). A target that doesn't exist yet still never
+  // latches, so the M6 tick-0 false-complete fix is preserved.
+  for (const o of ms.objectives) if (o.type === 'destroy' && !o.done && !o.seen) objMet(o);
   for (const o of ms.objectives) {
     if (!o.active || o.done) continue;
     // a deadline that runs out: the mission decides what that costs
     if (o.limit != null && objClock(o) === 0) {
       o.expired = true;
-      if (o.onExpire === 'lose') { missionEnd(false); return; }
+      if (o.onExpire === 'lose') { if (!ms.outroDone) { missionEnd(false); return; } }
       o.limit = null;   // soft deadline — the clock just stops mattering
       continue;
     }

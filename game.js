@@ -917,18 +917,34 @@ const MISSIONS = [
         spawn: { unit: 'raider', team: 2, n: 2, at: [3000, 1152], aim: 'power', order: 'attackhq' } },
       { when: { done: ['plant', 'turret'], notDone: ['hold'] }, delay: 70, repeat: true, every: 55,
         spawn: { unit: 'marine', team: 2, n: 3, at: [2990, 940], aim: 'turret', order: 'attackhq' } },
+      // surge waves (2026-08-01, Bronson: "some waves with twice the people
+      // so it is a scary challenge") — the repeats are the drumbeat, these
+      // three one-shots are the punches. Each is ~double a standing wave and
+      // arrives with an alarm so the fear is seen coming.
+      { when: { done: ['plant', 'turret'], notDone: ['hold'] }, delay: 90, alarm: '⚠ Massed raider wave — double strength!',
+        spawn: [
+          { unit: 'raider', team: 2, n: 4, at: [3000, 1152], aim: 'power',  order: 'attackhq' },
+          { unit: 'marine', team: 2, n: 3, at: [2990, 1000], aim: 'turret', order: 'attackhq' },
+        ] },
       { when: { done: ['plant', 'turret'] }, delay: 120,
         say: [['red', 'Cut the power and the wall is just masonry. Second element — find their plants.']] },
       { when: { done: ['plant', 'turret'], notDone: ['hold'] }, delay: 130, repeat: true, every: 60,
         spawn: { unit: 'tank', team: 2, n: 1, at: [3000, 1360], aim: 'power', order: 'attackhq' } },
-      { when: { done: ['plant', 'turret'] }, delay: 210, alarm: '⚠ Heavy push on the expansion!',
+      { when: { done: ['plant', 'turret'] }, delay: 210, alarm: '⚠ Heavy armor push — double strength!',
         spawn: [
-          { unit: 'tank',   team: 2, n: 2, at: [3000, 1152], aim: 'power', order: 'attackhq' },
-          { unit: 'rocket', team: 2, n: 3, at: [2990, 1300], aim: 'turret', order: 'attackhq' },
+          { unit: 'tank',   team: 2, n: 4, at: [3000, 1152], aim: 'power', order: 'attackhq' },
+          { unit: 'rocket', team: 2, n: 5, at: [2990, 1300], aim: 'turret', order: 'attackhq' },
         ],
         say: [['ops', 'That is everything he has been holding back. Repair through it, Commander — Engineers on the turrets, and keep the grid up.']] },
       { when: { done: ['plant', 'turret'], notDone: ['hold'] }, delay: 290, repeat: true, every: 45,
         spawn: { unit: 'raider', team: 2, n: 3, at: [2990, 980], aim: 'power', order: 'attackhq' } },
+      { when: { done: ['plant', 'turret'], notDone: ['hold'] }, delay: 305, alarm: '⚠ Krauss commits everything!',
+        spawn: [
+          { unit: 'raider', team: 2, n: 6, at: [3000, 1100], aim: 'power',  order: 'attackhq' },
+          { unit: 'marine', team: 2, n: 4, at: [2990, 1250], aim: 'turret', order: 'attackhq' },
+          { unit: 'tank',   team: 2, n: 2, at: [3000, 1360], aim: 'power',  order: 'attackhq' },
+        ],
+        say: [['red', 'All elements, final push. Flatten it or stop billing me.']] },
       { when: { done: ['hold'] },
         say: [['red', 'Enough. Pull them back. ...Noted, Commander. You dig well.']] },
     ],

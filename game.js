@@ -973,9 +973,6 @@ const MISSIONS = [
       { id: 'relays',  text: 'Destroy Krauss\'s four survey relays', type: 'groupDead', group: 'relays', mark: [700, 980] },
       { id: 'power',   text: 'Cut the field lab\'s power — both generators', type: 'groupDead', group: 'labpower', hidden: true, mark: [2620, 200] },
       { id: 'lab',     text: 'Reach the darkened lab and pull the drilling logs', type: 'reach', x: 2450, y: 300, r: 150, hidden: true, mark: [2450, 300] },
-      // optional: NOT in winWhen — torching the dump gates the exfil pursuit
-      // down from the heavy cadence to the light one (see the pursuit triggers)
-      { id: 'cache',   text: 'Optional: torch the fuel dump — starve the pursuit', type: 'destroy', bld: 'supply', x: 2760, y: 900, r: 200, hidden: true, mark: [2760, 900] },
       { id: 'exfil',   text: 'Reach the emergency LZ on the east coast (3+ alive)', type: 'groupReach', group: 'squad', x: 2880, y: 2040, r: 220, count: 3, hidden: true, mark: [2880, 2040] },
     ],
     winWhen: ['relays', 'power', 'lab', 'exfil'],
@@ -997,8 +994,6 @@ const MISSIONS = [
           // the lab runs off its own grid; dark, its door opens
           { group: 'labpower', bld: 'power', team: 2, at: [2620, 200] },
           { group: 'labpower', bld: 'power', team: 2, at: [2270, 170] },
-          // the fuel dump feeding his sweep boats — the optional detour
-          { bld: 'supply', team: 2, at: [2760, 900] },
           // difficulty pass (2026-08-01, Bronson speedran the fen in <4 min):
           // every relay is properly garrisoned — marines screen, a sniper or
           // rocket gives each post reach. Guards, not nests: visible, plannable.
@@ -1024,11 +1019,10 @@ const MISSIONS = [
       // patrols sweep the causeways from the start: the fen is watched, not empty
       { when: { time: 70, notDone: ['exfil'] }, repeat: true, every: 80,
         spawn: { unit: 'marine', team: 2, n: 3, at: [2900, 250], order: 'attackhq', to: [1600, 1100] } },
-      { when: { groupDead: 'relays' }, objective: ['power', 'cache'],
+      { when: { groupDead: 'relays' }, objective: 'power',
         say: [['ops', 'All four relays are dark. Krauss just went blind across the whole fen.'],
               ['red', 'Relay net is down. ...All of it? In a swamp? Seal the lab and get me eyes on the north bank.'],
-              ['sci', 'Sealed means powered, Commander. Two generators behind the lab — take those and the door is just a door.'],
-              ['sci', 'One more thing on the scan — a fuel dump on the east bank. His sweep boats drink from it. Burn it and the hunt gets a lot thinner.']] },
+              ['sci', 'Sealed means powered, Commander. Two generators behind the lab — take those and the door is just a door.']] },
       // he starts sweeping for you once the relays drop
       { when: { groupDead: 'relays', notDone: ['exfil'] }, delay: 30, repeat: true, every: 70,
         spawn: { unit: 'raider', team: 2, n: 3, at: [2900, 200], order: 'attackhq', to: [1500, 900] } },
@@ -1049,16 +1043,13 @@ const MISSIONS = [
         spawn: [
           { unit: 'marine', team: 2, n: 4, at: [2880, 2040], order: 'guard' },
           { unit: 'sniper', team: 2, n: 1, at: [2820, 1980], order: 'guard' } ] },
-      // pursuit runs at two intensities: heavy while the fuel dump stands,
-      // light once it's torched — the optional objective IS the valve
-      { when: { done: ['lab'], notDone: ['exfil', 'cache'] }, delay: 14, repeat: true, every: 45,
+      // the pursuit: one cadence, no valve (the optional fuel-dump objective
+      // was tried 2026-08-01 and cut same day — Bronson: "kill the secondary
+      // mission"). Tuned between the old 58/75 and the valve-era heavy 45/60.
+      { when: { done: ['lab'], notDone: ['exfil'] }, delay: 14, repeat: true, every: 50,
         spawn: { unit: 'marine', team: 2, n: 3, at: [2500, 250], order: 'attackhq', to: [2700, 1500] } },
-      { when: { done: ['lab'], notDone: ['exfil', 'cache'] }, delay: 50, repeat: true, every: 60,
+      { when: { done: ['lab'], notDone: ['exfil'] }, delay: 55, repeat: true, every: 70,
         spawn: { unit: 'raider', team: 2, n: 2, at: [2990, 1200], order: 'attackhq', to: [2880, 2040] } },
-      { when: { done: ['lab', 'cache'], notDone: ['exfil'] }, delay: 14, repeat: true, every: 95,
-        spawn: { unit: 'marine', team: 2, n: 2, at: [2500, 250], order: 'attackhq', to: [2700, 1500] } },
-      { when: { done: ['cache'] },
-        say: [['sci', 'Fuel dump is burning. Those sweep boats are rowing home, Commander.']] },
       // the long walk gets the reveal, so the debrief doesn't have to carry it
       { when: { done: ['lab'] }, delay: 30,
         say: [['sci', 'Commander, while you walk — I have been reading. He is not drilling toward a deposit. He is drilling toward a single crystal. One structure, kilometers across.'],
@@ -1409,6 +1400,11 @@ const dist2 = (x1, y1, x2, y2) => { const dx = x2 - x1, dy = y2 - y1; return dx 
 const dist = (x1, y1, x2, y2) => Math.sqrt(dist2(x1, y1, x2, y2));
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const isCombat = (u) => u.type !== 'harvester' && u.type !== 'engineer' && u.type !== 'medic' && u.type !== 'rig' && u.type !== 'critter';
+// Professional non-combatants: heal/repair crews ignore attack commands and
+// hold at standoff on A-moves. Keyed by TYPE, not dmg — the engineer carries a
+// token dmg 2 melee poke that slipped it past every `dmg <= 0` guard (playtest
+// 2026-08-01: engineers charged the A-move point right alongside the medics).
+const isSupport = (u) => u.type === 'medic' || u.type === 'engineer';
 
 // ---------------- FX sprites (Kenney particle packs, CC0 — see assets/fx/) ----------------
 // If the images fail to load (e.g. moved/deleted), spritesReady stays false and
@@ -2498,7 +2494,11 @@ function commandMove(sel, wx, wy, attackMove) {
   for (const e of sel) {
     if (e.kind !== 'unit') continue;
     const p = spreadPoint(wx, wy, i++);
-    e.order = { type: attackMove && isCombat(e) ? 'attackmove' : 'move', x: p.x, y: p.y };
+    // support takes the A-move as attackmove too — NOT for fighting, but
+    // because that case's standoff branch is where the hold-behind lives.
+    // Routing them to plain 'move' (the old behavior) sent them beelining the
+    // destination THROUGH the firing line while the escorts stopped to shoot.
+    e.order = { type: attackMove && (isCombat(e) || isSupport(e)) ? 'attackmove' : 'move', x: p.x, y: p.y };
   }
 }
 function commandAttack(sel, target) {
@@ -2508,7 +2508,7 @@ function commandAttack(sel, target) {
     // (dmg 0) sprinting into the line of fire ahead of the army (playtest
     // 2026-07-25). They keep their current order — a medic's idle auto-heal
     // follows the wounded into the fight at its own pace.
-    if (e.dmg <= 0 && !e.bomb) continue;
+    if ((e.dmg <= 0 && !e.bomb) || isSupport(e)) continue;
     e.order = e.type === 'harrier'
       ? { type: 'strike', target }
       : { type: 'attack', target, resume: null };
@@ -3170,7 +3170,7 @@ function updateUnit(u) {
       // speed problem (the medic is already slower than a marine). It holds at
       // standoff instead, and the idle auto-heal/repair services whoever falls
       // back to it.
-      if (u.dmg <= 0) {
+      if (u.dmg <= 0 || isSupport(u)) {
         if (acquireTarget(u.x, u.y, u.team, SUPPORT_STANDOFF, u)) { u.order = { type: 'idle' }; break; }
         if (moveToward(u, o.x, o.y)) u.order = { type: 'idle' };
         break;

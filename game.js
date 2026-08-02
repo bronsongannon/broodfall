@@ -1175,7 +1175,7 @@ const MISSIONS = [
       { id: 'fortN', text: 'Break the northern river fort', type: 'flag', hidden: true, mark: [1780, 1000] },
       { id: 'fortS', text: 'Break the southern river fort', type: 'flag', hidden: true, mark: [1790, 1860] },
       { id: 'hq',    text: 'Destroy Rubicon headquarters', type: 'destroy', bld: 'hq', x: 2842, y: 1112, r: 420, hidden: true, mark: [2842, 1112] },
-      { id: 'brood', text: 'Something is surfacing in the ruins — stand your ground', type: 'flag', hidden: true, mark: [2760, 1180] },
+      { id: 'brood', text: 'Something is surfacing across the valley — stand your ground', type: 'flag', hidden: true, mark: [2760, 1180] },
     ],
     winWhen: ['dam', 'fortN', 'fortS', 'hq', 'brood'],
     triggers: [
@@ -1223,16 +1223,26 @@ const MISSIONS = [
       { when: { done: ['hq'] },
         say: [['ops', 'Rubicon headquarters is down. Krauss is off the air and his people are walking out with their hands up.'],
               ['ops', 'Commander — on behalf of the expedition, that is the war. The crystal fields are ours, the charter is ours, and as of this moment Rubicon Mining\'s claim on this planet is—']] },
-      { when: { done: ['hq'] }, delay: 7, objective: 'brood', alarm: '⚠ Seismic rupture under the enemy ruins!',
+      // ten full seconds of victory (Bronson 2026-08-01: "let the user think
+      // they have won") — then BOTH dens tear open at once: one in his ruins,
+      // one dead-center in the valley beside the river Lin flagged as hollow
+      // in the briefing. 7 raptors from each, pinned via `birth`.
+      { when: { done: ['hq'] }, delay: 10, objective: 'brood', alarm: '⚠ Seismic rupture — multiple breaches!',
         focus: [2760, 1180],   // the act's cliffhanger — put it on screen, always
-        // invuln: Act 1 does NOT get to answer this. The den erupts, the pack
-        // it births comes with it, and the act ends whatever the player does.
-        spawn: [{ group: 'den', bld: 'den', at: [2760, 1180], invuln: true }],
+        // invuln: Act 1 does NOT get to answer this. The dens erupt, the packs
+        // they birth come with them, and the act ends whatever the player does.
+        spawn: [
+          { group: 'den', bld: 'den', at: [2760, 1180], invuln: true, birth: 7 },
+          { group: 'den', bld: 'den', at: [1330, 1152], invuln: true, birth: 7 },
+        ],
         say: [['sci', 'THE GROUND — Commander, get your people off that ridge, the whole plate just—']] },
-      { when: { done: ['hq'] }, delay: 22,
-        say: [['ops', 'What IS that? They came up through the foundations. Through solid rock, doctor, how—'],
-              ['sci', 'Faster than anything we have catalogued. And they are not coming out of the river or the fields. They are coming out of HIS base.']] },
-      { when: { done: ['hq'] }, delay: 48, complete: 'brood' },
+      // swing the camera to the second breach so both registers land
+      { when: { done: ['hq'] }, delay: 14, focus: [1330, 1152],
+        say: [['sci', 'Another one. Mid-valley, right on the river line — that is TWO, Commander.']] },
+      { when: { done: ['hq'] }, delay: 26,
+        say: [['ops', 'What ARE those? They came up through his foundations and the middle of our valley in the same breath—'],
+              ['sci', 'Faster than anything we have catalogued. The hollow riverbed, the hum, the quiet nests — it was all one thing, and it was UNDER US the entire war.']] },
+      { when: { done: ['hq'] }, delay: 52, complete: 'brood' },
     ],
     outro: [
       ['ops', 'Expedition command, this is Vega. Rubicon Mining is finished on this planet. We did not win it.'],
@@ -1956,10 +1966,12 @@ function spawnRaptor(den) {
   u.order = { type: 'guard', hx: den.x, hy: den.y };
   return u;
 }
-function makeDen(x, y) {
+function makeDen(x, y, birth) {
   const b = makeBuilding('den', 3, x, y);
   b.packT = 0;
-  const burst = DEN_BIRTH_MIN + Math.floor(Math.random() * (DEN_BIRTH_MAX - DEN_BIRTH_MIN + 1));
+  // `birth` pins the eruption size (mission set-pieces: M7's twin dens birth
+  // exactly 7 each); unset = the usual 5–7 roll
+  const burst = birth || (DEN_BIRTH_MIN + Math.floor(Math.random() * (DEN_BIRTH_MAX - DEN_BIRTH_MIN + 1)));
   for (let i = 0; i < burst; i++) spawnRaptor(b);
   // A den tearing open mid-match is the scariest beat in the game and it was
   // being missed entirely (playtest 2026-07-26: "I never saw one, at all").
@@ -7642,7 +7654,7 @@ function doSpawn(sp) {
   if (sp.bld) {   // pre-built structures (outposts, survey posts, dino lairs)
     // dino structures come alive: dens get their door guard + hunt clock,
     // nests their brood — a bare makeBuilding would spawn them inert
-    const b = sp.bld === 'den' ? makeDen(sp.at[0], sp.at[1])
+    const b = sp.bld === 'den' ? makeDen(sp.at[0], sp.at[1], sp.birth)
       : sp.bld === 'nest' ? makeNest(sp.at[0], sp.at[1])
       : makeBuilding(sp.bld, sp.team || 1, sp.at[0], sp.at[1]);
     if (sp.invuln) b.invuln = true;   // scripted, unkillable (M7's den erupts; you don't get to answer it)

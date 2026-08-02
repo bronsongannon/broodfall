@@ -1010,20 +1010,20 @@ const MISSIONS = [
           // the lab runs off its own grid; dark, its door opens
           { group: 'labpower', bld: 'power', team: 2, at: [2620, 200] },
           { group: 'labpower', bld: 'power', team: 2, at: [2270, 170] },
-          // difficulty pass (2026-08-01, Bronson speedran the fen in <4 min):
-          // every relay is properly garrisoned — marines screen, a sniper or
-          // rocket gives each post reach. Guards, not nests: visible, plannable.
-          { unit: 'marine', team: 2, n: 3, at: [760, 1040],  order: 'guard' },
+          // difficulty pass (2026-08-01, tuned across two playtests: <4 min
+          // speedrun → too hard → this): every relay garrisoned — a marine
+          // pair screens, a sniper or rocket gives the post reach. Guards,
+          // not nests: visible, plannable.
+          { unit: 'marine', team: 2, n: 2, at: [760, 1040],  order: 'guard' },
           { unit: 'sniper', team: 2, n: 1, at: [700, 900],   order: 'guard' },
-          { unit: 'marine', team: 2, n: 3, at: [2340, 1280], order: 'guard' },
+          { unit: 'marine', team: 2, n: 2, at: [2340, 1280], order: 'guard' },
           { unit: 'rocket', team: 2, n: 1, at: [2460, 1390], order: 'guard' },
-          { unit: 'marine', team: 2, n: 3, at: [1400, 480],  order: 'guard' },
+          { unit: 'marine', team: 2, n: 2, at: [1400, 480],  order: 'guard' },
           { unit: 'sniper', team: 2, n: 1, at: [1290, 370],  order: 'guard' },
-          { unit: 'marine', team: 2, n: 3, at: [560, 450],   order: 'guard' },
-          { unit: 'marine', team: 2, n: 3, at: [2450, 240],  order: 'guard' },
+          { unit: 'marine', team: 2, n: 2, at: [560, 450],   order: 'guard' },
+          { unit: 'marine', team: 2, n: 2, at: [2450, 240],  order: 'guard' },
           { unit: 'sniper', team: 2, n: 1, at: [2530, 370],  order: 'guard' },
           { unit: 'marine', team: 2, n: 2, at: [2820, 960],  order: 'guard' },
-          { unit: 'rocket', team: 2, n: 1, at: [2700, 850],  order: 'guard' },
           // the swamp isn't empty either: a wild pack claims the center
           // crystal field (OFF the causeway line — routable around, per the
           // no-nests-on-the-route rule) and a pair haunts the south-east bank
@@ -1033,15 +1033,15 @@ const MISSIONS = [
       { when: { time: 14 },
         say: [['sci', 'The relays are listening posts, Commander — if one of them sees you before it dies, the lab knows you are coming.']] },
       // patrols sweep the causeways from the start: the fen is watched, not empty
-      { when: { time: 70, notDone: ['exfil'] }, repeat: true, every: 80,
-        spawn: { unit: 'marine', team: 2, n: 3, at: [2900, 250], order: 'attackhq', to: [1600, 1100] } },
+      { when: { time: 70, notDone: ['exfil'] }, repeat: true, every: 95,
+        spawn: { unit: 'marine', team: 2, n: 2, at: [2900, 250], order: 'attackhq', to: [1600, 1100] } },
       { when: { groupDead: 'relays' }, objective: 'power',
         say: [['ops', 'All four relays are dark. Krauss just went blind across the whole fen.'],
               ['red', 'Relay net is down. ...All of it? In a swamp? Seal the lab and get me eyes on the north bank.'],
               ['sci', 'Sealed means powered, Commander. Two generators behind the lab — take those and the door is just a door.']] },
       // he starts sweeping for you once the relays drop
-      { when: { groupDead: 'relays', notDone: ['exfil'] }, delay: 30, repeat: true, every: 70,
-        spawn: { unit: 'raider', team: 2, n: 3, at: [2900, 200], order: 'attackhq', to: [1500, 900] } },
+      { when: { groupDead: 'relays', notDone: ['exfil'] }, delay: 30, repeat: true, every: 85,
+        spawn: { unit: 'raider', team: 2, n: 2, at: [2900, 200], order: 'attackhq', to: [1500, 900] } },
       { when: { groupDead: 'labpower' }, objective: 'lab',
         say: [['sci', 'Lab is dark. Walk in and pull the drilling logs — everything he has on what is under this swamp.']] },
       { when: { groupDead: 'labpower', notDone: ['exfil'] }, delay: 25, repeat: true, every: 80,
@@ -1057,14 +1057,14 @@ const MISSIONS = [
       // pre-difficulty-pass nothing spawned there and the walk ended in a hug)
       { when: { done: ['lab'] }, delay: 10,
         spawn: [
-          { unit: 'marine', team: 2, n: 4, at: [2880, 2040], order: 'guard' },
+          { unit: 'marine', team: 2, n: 3, at: [2880, 2040], order: 'guard' },
           { unit: 'sniper', team: 2, n: 1, at: [2820, 1980], order: 'guard' } ] },
       // the pursuit: one cadence, no valve (the optional fuel-dump objective
       // was tried 2026-08-01 and cut same day — Bronson: "kill the secondary
-      // mission"). Tuned between the old 58/75 and the valve-era heavy 45/60.
-      { when: { done: ['lab'], notDone: ['exfil'] }, delay: 14, repeat: true, every: 50,
+      // mission"). Softened round 3 same day: back near the original 58/75.
+      { when: { done: ['lab'], notDone: ['exfil'] }, delay: 14, repeat: true, every: 60,
         spawn: { unit: 'marine', team: 2, n: 3, at: [2500, 250], order: 'attackhq', to: [2700, 1500] } },
-      { when: { done: ['lab'], notDone: ['exfil'] }, delay: 55, repeat: true, every: 70,
+      { when: { done: ['lab'], notDone: ['exfil'] }, delay: 55, repeat: true, every: 85,
         spawn: { unit: 'raider', team: 2, n: 2, at: [2990, 1200], order: 'attackhq', to: [2880, 2040] } },
       // the long walk gets the reveal, so the debrief doesn't have to carry it
       { when: { done: ['lab'] }, delay: 30,

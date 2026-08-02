@@ -7928,6 +7928,20 @@ function renderMenu() {
     renderMenu();
   });
   renderStoreStrip();
+  renderDevStrip();
+}
+// A visible dev toggle on the start menu — WRAPPER-ONLY (Bronson 2026-08-01:
+// the Space×5 gesture is a ritual when you playtest daily). Gated on native
+// so the public web build never shows it, and on devAllowed() so it dies in
+// the App Store archive the moment DEV_PRERELEASE flips false (ap8). Same
+// toggle as the gesture — one code path, one paywall audit surface.
+function renderDevStrip() {
+  const el = document.getElementById('menu-dev');
+  if (!el) return;
+  if (!BFStore.native || !BFStore.devAllowed()) { el.classList.add('hidden'); return; }
+  el.classList.remove('hidden');
+  el.innerHTML = `<button id="btn-dev" style="font-size: 12px; opacity: 0.75;${devMode ? ' border-color: rgba(240,200,106,0.8); color: #f0c86a; opacity: 1;' : ''}">🛠 Dev mode: ${devMode ? 'ON' : 'off'} — unlock everything</button>`;
+  document.getElementById('btn-dev').onclick = () => { toggleDevMode(); renderMenu(); };
 }
 function renderMissionList() {
   const el = document.getElementById('menu-missions');
@@ -8102,6 +8116,9 @@ window.addEventListener('keydown', (e) => {
   devTapAt = now;
   if (++devTaps < 5) return;
   devTaps = 0;
+  toggleDevMode();
+});
+function toggleDevMode() {
   // App Store release builds: cheats stay off — free tech + a fully open
   // campaign would be a paywall bypass. DEBUG wrapper builds re-enable them.
   if (!BFStore.devAllowed()) { toast('🛠 Dev mode is disabled in this build.'); return; }
@@ -8128,7 +8145,7 @@ window.addEventListener('keydown', (e) => {
     toast('🛠 Dev mode off — tech, wallet, and campaign progress back to normal');
   }
   snd.ready();
-});
+}
 
 requestAnimationFrame(frame);
 

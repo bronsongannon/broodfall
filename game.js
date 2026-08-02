@@ -1300,15 +1300,28 @@ const MISSIONS = [
       { when: { time: 244 },
         say: [['sci', 'Both colonies are gone and the hum did not stop. It is louder than the Silo Fields and it is coming from UNDER the pit. That is not an echo. That is something moving.']] },
       // the answer: Act 2's first unprovoked dinos, and they do not pick a side
+      // the eruption is a SCRAMBLE, not a wave (2026-08-01, Bronson: "the
+      // raptors need to jump out more aggressively so it's terrifying"): a
+      // six-pack sprints the HQ, a second pack hunts the REFINERIES — pulling
+      // eyes to the mining line while the wall fight starts — and the den's
+      // own birth burst mauls Rubicon's pit crews at the same time
       { when: { done: ['race', 'fwd'] }, delay: 8, objective: 'hold',
         alarm: '⚠ The pit floor is breaking open!',
         focus: [1536, 1152],
         spawn: [
           { bld: 'den', team: 3, at: [1536, 1152] },
-          { unit: 'raptor', team: 3, n: 4, at: [1450, 1230], order: 'attackhq' },
+          { unit: 'raptor', team: 3, n: 6, at: [1450, 1230], order: 'attackhq' },
+          { unit: 'raptor', team: 3, n: 3, at: [1640, 1070], aim: 'refinery' },
         ],
         say: [['sci', 'The crater floor just came apart. That is a den, Commander — a nest builds, a den HUNTS. And it is not hunting us specifically.'],
-              ['ops', 'It broke for Rubicon\'s lines first. Hold what you have for ninety seconds and let it do the math — everything on the wall.']] },
+              ['ops', 'Packs are already through the wire — they are going for the harvest line! Everything on the wall, and get those harvesters HOME.']] },
+      // and it keeps coming: a second surge mid-hold so the scramble can't
+      // settle into a firing line
+      { when: { done: ['race', 'fwd'] }, delay: 30, alarm: '⚠ More raptors out of the crater!',
+        spawn: [
+          { unit: 'raptor', team: 3, n: 4, at: [1536, 1260], order: 'attackhq' },
+          { unit: 'raptor', team: 3, n: 2, at: [1430, 1100], aim: 'refinery' },
+        ] },
       { when: { done: ['hold'] },
         say: [['red', 'Expedition, this is Krauss on open channel. My forward camp is gone. Not overrun — GONE. Whatever came out of your pit walked through a turret line without slowing down.']] },
     ],
@@ -7829,9 +7842,38 @@ const BFStore = (() => {
     },
   };
 })();
-// dev mode implies full access (it's only reachable where devAllowed() is true)
-const missionPaywalled = (i) => i >= FREE_MISSIONS && !BFStore.owns() && !devMode;
-const mapPaywalled = (k) => !FREE_MAPS.includes(k) && !BFStore.owns() && !devMode;
+// Unlock-all is the access half of dev mode split out on its own (Bronson
+// 2026-08-01: play any mission LEGITIMATELY — real economy, real difficulty —
+// without the cheats). Persists across launches; the devAllowed() guard on the
+// read means a release build ignores a flag left behind by a prerelease one.
+let devUnlockAll = BFStore.devAllowed() && localStorage.getItem('cc.devUnlock') === '1';
+// dev mode / unlock-all imply full access (only reachable where devAllowed())
+const missionPaywalled = (i) => i >= FREE_MISSIONS && !BFStore.owns() && !devMode && !devUnlockAll;
+const mapPaywalled = (k) => !FREE_MAPS.includes(k) && !BFStore.owns() && !devMode && !devUnlockAll;
+// One owner for the campaign-progress backup: either toggle unlocks, and the
+// real save comes back only when BOTH are off — two features sharing the .bak
+// key must not clobber or double-restore it.
+function syncCampaignUnlock() {
+  if (devMode || devUnlockAll) {
+    if (localStorage.getItem(CAMPAIGN_KEY + '.bak') === null) {
+      localStorage.setItem(CAMPAIGN_KEY + '.bak', localStorage.getItem(CAMPAIGN_KEY) || '0');
+    }
+    localStorage.setItem(CAMPAIGN_KEY, String(MISSIONS.length));   // every mission open
+  } else {
+    const bak = localStorage.getItem(CAMPAIGN_KEY + '.bak');
+    if (bak !== null) {
+      localStorage.setItem(CAMPAIGN_KEY, bak);
+      localStorage.removeItem(CAMPAIGN_KEY + '.bak');
+    }
+  }
+  if (!started) renderMenu();
+}
+// a persisted unlock must also hold the storage state on a fresh launch
+// (no renderMenu call here — the menu isn't built yet at this point in the load)
+if (devUnlockAll && localStorage.getItem(CAMPAIGN_KEY + '.bak') === null) {
+  localStorage.setItem(CAMPAIGN_KEY + '.bak', localStorage.getItem(CAMPAIGN_KEY) || '0');
+  localStorage.setItem(CAMPAIGN_KEY, String(MISSIONS.length));
+}
 function storeNudge() {
   toast(`🔒 That's part of the full game — one purchase (${BFStore.price || '$9.99'}) unlocks everything, forever.`);
   const el = document.getElementById('menu-store');
@@ -7940,8 +7982,12 @@ function renderDevStrip() {
   if (!el) return;
   if (!BFStore.native || !BFStore.devAllowed()) { el.classList.add('hidden'); return; }
   el.classList.remove('hidden');
-  el.innerHTML = `<button id="btn-dev" style="font-size: 12px; opacity: 0.75;${devMode ? ' border-color: rgba(240,200,106,0.8); color: #f0c86a; opacity: 1;' : ''}">🛠 Dev mode: ${devMode ? 'ON' : 'off'} — unlock everything</button>`;
+  const on = ' border-color: rgba(240,200,106,0.8); color: #f0c86a; opacity: 1;';
+  el.innerHTML =
+    `<button id="btn-dev" style="font-size: 12px; opacity: 0.75;${devMode ? on : ''}">🛠 Dev tools: ${devMode ? 'ON' : 'off'} — free tech + crystals</button> ` +
+    `<button id="btn-unlock" style="font-size: 12px; opacity: 0.75;${devUnlockAll ? on : ''}">🔓 All missions: ${devUnlockAll ? 'ON' : 'off'} — no cheats</button>`;
   document.getElementById('btn-dev').onclick = () => { toggleDevMode(); renderMenu(); };
+  document.getElementById('btn-unlock').onclick = () => { toggleUnlockAll(); renderMenu(); };
 }
 function renderMissionList() {
   const el = document.getElementById('menu-missions');
@@ -8126,24 +8172,23 @@ function toggleDevMode() {
   devChip.style.borderColor = devMode ? 'rgba(240,200,106,0.8)' : '';
   devChip.style.color = devMode ? '#f0c86a' : '';
   lastAvail = null;   // rebaseline the build menu silently (no unlock-toast burst)
+  syncCampaignUnlock();
   if (devMode) {
-    // back up real progress before unlocking — dev mode must never eat the save
-    if (localStorage.getItem(CAMPAIGN_KEY + '.bak') === null) {
-      localStorage.setItem(CAMPAIGN_KEY + '.bak', localStorage.getItem(CAMPAIGN_KEY) || '0');
-    }
-    localStorage.setItem(CAMPAIGN_KEY, String(MISSIONS.length));   // every mission open
-    if (!started) renderMenu();
     if (teams[1]) teams[1].crystals = Math.max(teams[1].crystals, 99999);
-    toast('🛠 DEV MODE — free tech, bottomless crystals, campaign unlocked');
+    toast('🛠 DEV TOOLS — free tech, bottomless crystals, campaign unlocked');
   } else {
-    const bak = localStorage.getItem(CAMPAIGN_KEY + '.bak');
-    if (bak !== null) {
-      localStorage.setItem(CAMPAIGN_KEY, bak);
-      localStorage.removeItem(CAMPAIGN_KEY + '.bak');
-      if (!started) renderMenu();
-    }
-    toast('🛠 Dev mode off — tech, wallet, and campaign progress back to normal');
+    toast('🛠 Dev tools off — tech, wallet, and campaign progress back to normal');
   }
+  snd.ready();
+}
+function toggleUnlockAll() {
+  if (!BFStore.devAllowed()) { toast('🛠 Dev tools are disabled in this build.'); return; }
+  devUnlockAll = !devUnlockAll;
+  localStorage.setItem('cc.devUnlock', devUnlockAll ? '1' : '0');
+  syncCampaignUnlock();
+  toast(devUnlockAll
+    ? '🔓 All missions and maps unlocked — no cheats, real fights (progress backed up)'
+    : '🔓 Unlock off — campaign progress restored');
   snd.ready();
 }
 

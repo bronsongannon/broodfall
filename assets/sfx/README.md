@@ -78,3 +78,5 @@ Avoid ripping from commercial games (C&C, StarCraft) — copyrighted.
 
 Samples load via `<audio>` elements (like the sprites' `<img>`), so they work when
 double-clicking `index.html` — no server needed.
+
+| `roar.wav` | The Broodmother calls (M7 finale recall; later M13/M20) | Distant colossal creature roar with low rumble tail, 2-4s — NOT a death cry; this is a command |

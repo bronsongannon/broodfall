@@ -1232,17 +1232,24 @@ const MISSIONS = [
         // invuln: Act 1 does NOT get to answer this. The dens erupt, the packs
         // they birth come with them, and the act ends whatever the player does.
         spawn: [
-          { group: 'den', bld: 'den', at: [2760, 1180], invuln: true, birth: 7 },
-          { group: 'den', bld: 'den', at: [1330, 1152], invuln: true, birth: 7 },
+          // plot armor: the brood shares a 4-death budget — 4 raptors can be
+          // shot down, the other 10 ride lethal hits to a sliver and keep
+          // killing (Bronson 2026-08-01: "those raptors don't die easy")
+          { group: 'den', bld: 'den', at: [2760, 1180], invuln: true, birth: 7, plot: 'brood7', plotCap: 4 },
+          { group: 'den', bld: 'den', at: [1330, 1152], invuln: true, birth: 7, plot: 'brood7', plotCap: 4 },
         ],
         say: [['sci', 'THE GROUND — Commander, get your people off that ridge, the whole plate just—']] },
       // swing the camera to the second breach so both registers land
       { when: { done: ['hq'] }, delay: 14, focus: [1330, 1152],
         say: [['sci', 'Another one. Mid-valley, right on the river line — that is TWO, Commander.']] },
-      { when: { done: ['hq'] }, delay: 26,
+      { when: { done: ['hq'] }, delay: 19,
         say: [['ops', 'What ARE those? They came up through his foundations and the middle of our valley in the same breath—'],
               ['sci', 'Faster than anything we have catalogued. The hollow riverbed, the hum, the quiet nests — it was all one thing, and it was UNDER US the entire war.']] },
-      { when: { done: ['hq'] }, delay: 52, complete: 'brood' },
+      // the roar: 15 seconds of killing spree, then something below calls
+      // them OFF — not beaten, recalled. The act's last word before the outro.
+      { when: { done: ['hq'] }, delay: 25, recall: 'raptor', alarm: '⚠ Something below ROARS — the packs are breaking off!',
+        say: [['sci', 'They are not fleeing, Commander. All of them, the same second, mid-kill. That was a command. They are being RECALLED.']] },
+      { when: { done: ['hq'] }, delay: 33, complete: 'brood' },
     ],
     outro: [
       ['ops', 'Expedition command, this is Vega. Rubicon Mining is finished on this planet. We did not win it.'],
@@ -1413,6 +1420,10 @@ const CRYSTAL_COLOR = '#6fe3d0';
 let nextId = 1;
 let units = [], buildings = [], crystals = [], bullets = [], fxs = [], eggs = [];
 let rocks = [];   // impassable terrain circles {x, y, r} — flyers ignore them
+// Plot-armored packs (mission set-pieces): units tagged with a plotTag share
+// a death budget — once plotDeaths hits the cap, lethal hits ride survivors
+// down to a sliver instead of killing them. M7's finale brood loses exactly 4.
+let plotDeaths = {}, plotCaps = {};
 let nukes = [];          // inbound warheads {x, y, team, tier, t, max}
 let nukeTargeting = null;   // the silo currently picking a target
 const NUKE = {
@@ -1823,12 +1834,12 @@ function beep(freq, dur, type, vol, slideTo) {
 // plays instead of the procedural beep. Each file independent; missing file = beep fallback.
 const SFX_NAMES = ['shot', 'shell', 'thump', 'spit', 'rocket', 'launch', 'snipe', 'boom',
                    'deposit', 'repair', 'ready', 'error', 'alarm', 'select',
-                   'bite', 'screech', 'collapse', 'nuke'];
+                   'bite', 'screech', 'collapse', 'nuke', 'roar'];
 const SFX_EXTS = ['wav', 'ogg', 'mp3'];
 const SFX_VOL = { shot: 0.16, shell: 0.3, thump: 0.35, spit: 0.2, rocket: 0.25, snipe: 0.2,
                   launch: 0.6, boom: 0.45, deposit: 0.2, repair: 0.15, ready: 0.3,
                   error: 0.3, alarm: 0.4, select: 0.12,
-                  bite: 0.25, screech: 0.3, collapse: 0.5, nuke: 0.7 };
+                  bite: 0.25, screech: 0.3, collapse: 0.5, nuke: 0.7, roar: 0.65 };
 const SFX_POOL = 4;   // simultaneous overlapping plays per sound
 const sfx = {};       // name -> { pool: [HTMLAudio...], i }
 (function loadSfx() {
@@ -1890,6 +1901,9 @@ const snd = {
   collapse() { if (!playSfx('collapse')) this.boom(); },
   // the big one — sample, else the old triple boom
   nuke()    { if (playSfx('nuke')) return; this.boom(); setTimeout(() => this.boom(), 160); setTimeout(() => this.boom(), 340); },
+  // the Broodmother's voice (M7 recall, later M13/M20). Drop roar.wav in
+  // assets/sfx to replace the layered low-sweep placeholder.
+  roar()    { if (playSfx('roar')) return; beep(70, 0.9, 'sawtooth', 0.10, 24); beep(46, 1.4, 'sawtooth', 0.08, 20); },
 };
 
 // ---------------- Factories ----------------
@@ -2849,6 +2863,13 @@ function damage(e, d, src) {
   if (e.invuln) return;   // scripted set-piece (M7's den): the story kills it, not the player
   d *= armorMult(e);
   if (e.kind === 'unit' && e.order.type === 'hunker') d *= 0.5;
+  // plot armor: the pack's shared death budget is spent — this one survives
+  // the lethal hit at a sliver and keeps coming (the "they don't die" beat)
+  if (e.plotTag && e.hp - d <= 0) {
+    const dead = plotDeaths[e.plotTag] || 0;
+    if (dead >= (plotCaps[e.plotTag] || 0)) { e.hp = Math.max(1, e.hp * 0.6); return; }
+    plotDeaths[e.plotTag] = dead + 1;
+  }
   e.hp -= d;
   // warn the player when the home front takes hits (buildings & workers)
   if (e.team === 1 && !gameOver && src && src.team !== 1) {
@@ -3259,6 +3280,19 @@ function updateUnit(u) {
         const min = UNIT[u.type].minRange;
         if (u.cool <= 0 && u.dmg > 0 && !(min && d < min)) fire(u, t);
       }
+      break;
+    }
+    // recalled to the den: break off, walk home, slip inside. ghostT every
+    // tick lets the body pass INTO the den mouth (building separation would
+    // otherwise hold it at the wall forever); arrival is a silent removal —
+    // no death fx, no kill credit, same pattern as the rig capture.
+    case 'denRetreat': {
+      const den = buildings.find(b => b.id === u.home && b.hp > 0)
+        || buildings.find(b => b.type === 'den' && b.hp > 0);
+      if (!den) { u.hp = 0; break; }   // nowhere to go — gone beneath the soil
+      u.ghostT = Math.max(u.ghostT, 5);
+      if (dist(u.x, u.y, den.x, den.y) < den.r * 0.45) { u.hp = 0; break; }
+      moveToward(u, den.x, den.y);
       break;
     }
     case 'harvest': {
@@ -7658,6 +7692,11 @@ function doSpawn(sp) {
       : sp.bld === 'nest' ? makeNest(sp.at[0], sp.at[1])
       : makeBuilding(sp.bld, sp.team || 1, sp.at[0], sp.at[1]);
     if (sp.invuln) b.invuln = true;   // scripted, unkillable (M7's den erupts; you don't get to answer it)
+    // plot-armor the den's birth pack: tag shares sp.plot's death budget
+    if (sp.plot) {
+      plotCaps[sp.plot] = sp.plotCap ?? plotCaps[sp.plot] ?? 0;
+      for (const u of units) if (u.home === b.id && u.hp > 0) u.plotTag = sp.plot;
+    }
     if (ids) ids.push(b.id);
     return;
   }
@@ -7723,6 +7762,14 @@ function fireTrigger(t) {
     }
   }
   if (t.alarm) { toast(t.alarm); snd.alarm(); }
+  // the Broodmother calls her children home: roar + shake, then every living
+  // wild unit of the named type breaks off mid-fight and walks into its den
+  if (t.recall) {
+    snd.roar(); addShake(18);
+    for (const u of units) {
+      if (u.team === 3 && u.type === t.recall && u.hp > 0) u.order = { type: 'denRetreat' };
+    }
+  }
   if (t.focus) focusCam(t.focus[0], t.focus[1]);   // scripted event camera
   // a launch the story orders — no silo required, unlike the player's
   if (t.nuke) {
@@ -8109,6 +8156,7 @@ document.getElementById('btn-deploy').addEventListener('click', () => {
 function resetWorld() {
   units = []; buildings = []; crystals = []; bullets = []; fxs = []; eggs = []; alerts = []; rocks = [];
   nukes = []; nukeTargeting = null;
+  plotDeaths = {}; plotCaps = {};
   blocked.fill(0);
   lastAlert = -1e9;
   stats = { built: 0, lost: 0, kills: 0, mined: 0 };

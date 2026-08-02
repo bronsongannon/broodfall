@@ -2586,11 +2586,30 @@ function trainUnit(b, type) {
   b.queue.push(type);
   return true;
 }
+// Units leave through the building's DOOR, not whichever wall faces the rally
+// (Bronson 2026-08-01: "come out of the actual door"). The art has real
+// entrances, all bottom-center: the barracks awning, the factory vehicle bay,
+// the HQ hatch. Aircraft lift straight off the pad. Buildings without an entry
+// here keep the old face-the-rally spawn.
+const SPAWN_DOOR = {
+  barracks: (b) => ({ x: b.x, y: b.y + b.h / 2 + 14 }),
+  factory:  (b) => ({ x: b.x, y: b.y + b.h / 2 + 16 }),
+  hq:       (b) => ({ x: b.x, y: b.y + b.h / 2 + 14 }),
+  airpad:   (b) => ({ x: b.x, y: b.y }),
+};
 function spawnFromBuilding(b, type) {
   const rally = b.rally || { x: b.x, y: b.y + b.h };
-  const a = Math.atan2(rally.y - b.y, rally.x - b.x);
-  const sx = b.x + Math.cos(a) * (b.r + 16) + (Math.random() - 0.5) * 10;
-  const sy = b.y + Math.sin(a) * (b.r + 16) + (Math.random() - 0.5) * 10;
+  const door = SPAWN_DOOR[b.type];
+  let sx, sy;
+  if (door) {
+    const p = door(b);
+    sx = p.x + (Math.random() - 0.5) * 8;
+    sy = p.y;
+  } else {
+    const a = Math.atan2(rally.y - b.y, rally.x - b.x);
+    sx = b.x + Math.cos(a) * (b.r + 16) + (Math.random() - 0.5) * 10;
+    sy = b.y + Math.sin(a) * (b.r + 16) + (Math.random() - 0.5) * 10;
+  }
   const u = makeUnit(type, b.team, clamp(sx, 20, W - 20), clamp(sy, 20, H - 20));
   if (b.team === 1) stats.built++;
   const c = nearestCrystalTo(rally.x, rally.y, 60);

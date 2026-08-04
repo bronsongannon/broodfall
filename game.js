@@ -1350,6 +1350,100 @@ const MISSIONS = [
     winText: 'You won the field and the claim board will never know why it stopped mattering. Krauss has started asking for help — and the thing under the Strip Mine has learned that the noise comes from the north.',
     loseText: 'Rubicon worked the motherlode dry and the grid is theirs on paper. The colonies are still standing, which is the only mercy in the report.',
   },
+  {
+    // M9 — the dread mission. A Rubicon outpost went silent mid-sentence;
+    // Krauss asks for help and hates every word of it. Commando (noBase, no
+    // economy) through heavy fog into a wrecked camp — pre-damaged ruins via
+    // `hpFrac`, eggs laid in the open streets via `egg` spawns — to the first
+    // SCREECHER contact. Extract his three surviving engineers or lose.
+    // Boneyard's nests are stripped by the mission `fields` override (the M5
+    // rule: no-economy squads never fight mounds on a forced route — and the
+    // emptiness IS the mission's texture).
+    title: 'The Silence', act: 'Act II — The Awakening',
+    allow: { bld: [], unit: [] },
+    map: 'boneyard', diff: 'normal', noEnemy: true, noBase: true, start: [1536, 2100],
+    fields: [
+      { p: [W * 0.16, H * 0.5], n: 8, a: 2600 },
+      { p: [W * 0.84, H * 0.5], n: 8, a: 2600 },
+      { p: [W / 2, H / 2], n: 12, a: 3400 },
+    ],
+    brief: [
+      ['red', 'Expedition command, Rubicon Actual. Outpost K-7 stopped reporting eleven hours ago. Mid-sentence, mid-word. I have nobody spare to send, and I am… asking.'],
+      ['ops', 'A Rubicon outpost going dark is his problem — except K-7 sits square on our northern survey line, and whatever silenced forty-one people is now between us and the fen.'],
+      ['sci', 'Eleven hours and not one automated ping. Power is up. The antennas are standing. Nobody is transmitting. I want instruments on everything, Commander — walk slowly.'],
+      ['ops', 'Small element, no footprint: one squad, one medic. Get in, find his people, get out. Do not start a war with whatever is holding that ground.'],
+    ],
+    intro: [
+      ['ops', 'K-7 is due north through the wall gates. Comms silence the whole way — assume nothing about why.'],
+    ],
+    objectives: [
+      { id: 'camp',    text: 'Push north into the silent outpost', type: 'reach', x: 1536, y: 620, r: 300 },
+      { id: 'bunker',  text: 'Reach the command bunker', type: 'reach', x: 1536, y: 200, r: 180, hidden: true, mark: [1536, 200] },
+      { id: 'extract', text: 'Get all three survivors to the extraction point', type: 'groupReach', group: 'survivors', x: 1536, y: 2150, r: 220, count: 3, hidden: true, mark: [1536, 2150] },
+    ],
+    winWhen: ['camp', 'bunker', 'extract'],
+    triggers: [
+      { when: { time: 0.5 },
+        spawn: [
+          { group: 'squad', unit: 'marine', team: 1, n: 5, at: [1536, 2150] },
+          { group: 'squad', unit: 'rocket', team: 1, n: 2, at: [1470, 2190] },
+          { group: 'squad', unit: 'sniper', team: 1, n: 1, at: [1600, 2190] },
+          { group: 'squad', unit: 'medic',  team: 1, n: 1, at: [1536, 2230] },
+          // K-7, standing and broken — the guns went first, so there are none
+          { bld: 'hq',       team: 2, at: [1536, 200],  hpFrac: 0.18 },
+          { bld: 'barracks', team: 2, at: [1336, 140],  hpFrac: 0.30 },
+          { bld: 'factory',  team: 2, at: [1136, 240],  hpFrac: 0.22 },
+          // no supply depots in the ruins — their repair aura would slowly
+          // heal the camp back to life, and a dead camp must STAY dead
+          { bld: 'airpad',   team: 2, at: [1716, 100],  hpFrac: 0.35 },
+          { bld: 'barracks', team: 2, at: [1396, 340],  hpFrac: 0.30 },
+          { bld: 'power',    team: 2, at: [1856, 180],  hpFrac: 0.20 },
+          { bld: 'power',    team: 2, at: [1246, 120],  hpFrac: 0.25 },
+          { bld: 'refinery', team: 2, at: [1756, 300],  hpFrac: 0.28 },
+          // eggs laid in the open, between the buildings
+          { egg: [1450, 300] }, { egg: [1600, 260] }, { egg: [1500, 420] },
+          { egg: [1380, 480] }, { egg: [1650, 380] }, { egg: [1560, 520] },
+          { egg: [1300, 220] }, { egg: [1700, 180] },
+        ] },
+      { when: { near: [1536, 1500, 280] },
+        say: [['sci', 'No birds. No grazers. The bone flats are never this quiet — everything that could leave already left.']] },
+      { when: { done: ['camp'] }, objective: 'bunker',
+        say: [['sci', 'There are eggs in the streets, Commander. Laid in the OPEN, between the buildings. Whatever nested here was not afraid of anything.'],
+              ['red', 'K-7 had forty-one people on shift, expedition. Keep moving.']] },
+      // first contact — the sky lanes between the walls belong to something new
+      { when: { near: [1536, 430, 260] },
+        alarm: '⚠ Airborne contacts!',
+        spawn: [
+          { unit: 'screecher', team: 3, n: 1, at: [1300, 60], to: [1536, 430] },
+          { unit: 'screecher', team: 3, n: 1, at: [1750, 60], to: [1536, 430] },
+        ],
+        say: [['sci', 'CONTACT — airborne, repeat, AIRBORNE. That is not a spitter. That is not anything we have on file!'],
+              ['ops', 'Rockets up. Watch the sky lanes between the walls.']] },
+      { when: { done: ['bunker'] }, objective: 'extract',
+        spawn: [
+          { group: 'survivors', unit: 'engineer', team: 1, n: 3, at: [1536, 260] },
+        ],
+        say: [['ops', 'Three heartbeats in the command bunker — his engineers welded the door and waited. Good instinct.'],
+              ['red', '…Three. Out of forty-one. Get them home, Commander, and Rubicon will remember it. That is not a small sentence from me.'],
+              ['sci', 'The weld held because the things outside stopped trying after the first night. They were not hungry, Commander. They were clearing ground.']] },
+      { when: { done: ['bunker'] }, delay: 6, alarm: '⚠ Wings inbound from the north!',
+        spawn: { unit: 'screecher', team: 3, n: 3, at: [1536, 40], to: [1536, 350] },
+        say: [['ops', 'They know you have them. Run the gauntlet, Commander — south, and do not stop.']] },
+      { when: { done: ['bunker'], notDone: ['extract'] }, delay: 25, repeat: true, every: 55,
+        spawn: { unit: 'screecher', team: 3, n: 2, at: [1400, 60], to: [1536, 1900] } },
+      { when: { done: ['bunker'], notDone: ['extract'] }, delay: 60, repeat: true, every: 75,
+        spawn: { unit: 'screecher', team: 3, n: 2, at: [2500, 300], to: [1650, 1600] } },
+      // the squad is small and the survivors are the mission
+      { when: { groupBelow: ['squad', 2] }, lose: true },
+      { when: { groupBelow: ['survivors', 3] }, lose: true },
+    ],
+    outro: [
+      ['ops', 'Transport is away with three survivors and the flight recorder from K-7.'],
+      ['sci', 'Forty-one people, and the recorder caught eight seconds of screeching and then nothing at all. Treat that number as a message. It is one.'],
+    ],
+    winText: 'Three engineers came home, and Krauss said thank you like the words cost him blood. K-7 stays silent — and the sky over the bone flats has learned a new sound.',
+    loseText: 'Nobody came back from K-7 twice. The bone flats keep the outpost, the eggs, and the answer, and the sky over the northern line is no longer empty.',
+  },
 ];
 
 // Research, StarCraft-style: bought at the producing building, occupies its queue.
@@ -7685,6 +7779,7 @@ const mmss = (s) => Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
 function doSpawn(sp) {
   const ids = sp.group ? (ms.groups[sp.group] = ms.groups[sp.group] || []) : null;
   const hq = buildings.find(b => b.team === 1 && b.type === 'hq');
+  if (sp.egg) { makeEgg(sp.egg[0], sp.egg[1]); return; }   // set dressing (M9's streets)
   if (sp.bld) {   // pre-built structures (outposts, survey posts, dino lairs)
     // dino structures come alive: dens get their door guard + hunt clock,
     // nests their brood — a bare makeBuilding would spawn them inert
@@ -7692,6 +7787,9 @@ function doSpawn(sp) {
       : sp.bld === 'nest' ? makeNest(sp.at[0], sp.at[1])
       : makeBuilding(sp.bld, sp.team || 1, sp.at[0], sp.at[1]);
     if (sp.invuln) b.invuln = true;   // scripted, unkillable (M7's den erupts; you don't get to answer it)
+    // ruins: spawn pre-damaged (M9's silent camp — standing wrecks that smoke
+    // and burn via the existing hurt-building fx; damage sticks as always)
+    if (sp.hpFrac) b.hp = Math.max(1, b.maxHp * sp.hpFrac);
     // plot-armor the den's birth pack: tag shares sp.plot's death budget
     if (sp.plot) {
       plotCaps[sp.plot] = sp.plotCap ?? plotCaps[sp.plot] ?? 0;

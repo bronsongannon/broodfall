@@ -31,8 +31,8 @@ const btnQuit = document.getElementById('btn-quit');
 const elPauseBanner = document.getElementById('pause-banner');
 
 // ---------------- World ----------------
-// 144x108 (2026-08-04, Bronson: "+50%") — lands almost exactly on Brood War's
-// standard 128x128-tile scale and serves the 20-30 min match goal. Previous
+// 144x108 (2026-08-04, Bronson: "+50%") — lands almost exactly on the classic
+// 128x128-tile standard of late-90s RTS maps and serves the 20-30 min match goal. Previous
 // sizes: 64x48 (launch), 96x72 (2026-07-10). MAPS layouts are W/H-relative and
 // rescale free; MISSION coords are absolute px and were migrated x1.5 in the
 // same commit — never resize one without the other.

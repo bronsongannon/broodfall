@@ -63,3 +63,16 @@ teal all shipped this way. ALL VIDEOS DONE (2026-07-21). Every walking unit has 
 belly, that constant may need loosening per video, same spirit as the per-sheet
 threshold tuning in the death slicers. Asking DaVinci for no shadow avoids the
 problem entirely.
+
+### unit_commando (Boone) — added 2026-08-04
+Reference to attach: `unit_commando_teal.png` (generate the static first).
+> Straight top-down orthographic view, camera completely locked. A veteran
+> special-forces commando soldier in teal-and-sand combat armor with a heavy
+> chest plate, compact suppressed rifle held pointed up, slung field pack, and
+> three bold gold sergeant chevrons across the back of his armor (match the
+> attached reference image exactly) walking in place, facing straight up,
+> legs cycling at a steady unhurried march. The body stays centered in frame
+> the whole time. Flat even lighting, NO drop shadow on the ground, plain
+> solid gray background. Seamless loop, 2 to 4 seconds.
+Slice: `python3 assets/sprites/slice_walk.py <video.mp4> commando teal 8`
+Teal only — Boone is player-only; no red derivation needed.

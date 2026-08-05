@@ -108,3 +108,18 @@ sprite material).
   swampy water surface seen from above, deep teal-black with subtle ripple
   shading, no shore/edges/objects, no strong highlights (the game animates
   sheen on top). Pattern-fills every river channel when present.
+
+## unit_commando (Boone) — prompt of record (2026-08-04; teal static DELIVERED same day)
+Boone is player-only: teal colorway only, no red derivation. Attach the
+approved `unit_marine_teal` (or the delivered commando static) as style anchor.
+Use this prompt for any future variant (hunker pose, DLC operators):
+
+> top-down orthographic 2D video game sprite, viewed directly from above,
+> single character centered on a plain solid light-gray background, cartoonish
+> chunky proportions with flat cel shading and clean dark outlines, crisp
+> silhouette readable at small size, no text, no watermark, no ground shadow —
+> veteran special-forces commando soldier in teal-and-sand combat armor,
+> noticeably heavier chest plate than a standard marine, compact suppressed
+> rifle held pointed up, slung field pack, three bold gold sergeant chevrons
+> across the back of the armor readable from above, darker gray-green helmet,
+> facing up

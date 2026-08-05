@@ -2210,18 +2210,32 @@ const blocked = new Uint8Array(MAP_W * MAP_H);
 // narrows along the run. Straight constant-width bands read as a racetrack
 // (playtest 2026-07-26). Colliders, ground paint, and the water animation all
 // share these exact points.
-function riverPath([x1, y1, x2, y2, r]) {
+function riverPath(seg, all) {
+  const [x1, y1, x2, y2, r] = seg;
   const dxn0 = x2 - x1, dyn0 = y2 - y1;
   const L = Math.hypot(dxn0, dyn0);
   const dxn = dxn0 / L, dyn = dyn0 / L, nx = -dyn, ny = dxn;
   const seed = (x1 * 0.37 + y1 * 0.73 + x2 * 0.11) % 6.283;
+  // an endpoint that lands in/near ANOTHER channel is a CONFLUENCE, not a
+  // mouth — no delta flare there (2026-08-04, Bronson: two flared mouths
+  // overlapping at a junction ballooned into a blob). Mouths at causeway
+  // gaps and map edges keep the flare.
+  const nearOther = (px, py) => (all || []).some(o => {
+    if (o === seg) return false;
+    const ddx = o[2] - o[0], ddy = o[3] - o[1];
+    const tt = Math.max(0, Math.min(1, ((px - o[0]) * ddx + (py - o[1]) * ddy) / (ddx * ddx + ddy * ddy || 1)));
+    return Math.hypot(px - (o[0] + ddx * tt), py - (o[1] + ddy * tt)) < (r + o[4]) * 1.15;
+  });
+  const openStart = !nearOther(x1, y1), openEnd = !nearOther(x2, y2);
   const pts = [];
   for (let d = 0; d <= L; d += 30) {
     // meander eases to zero at the ends so causeway mouths stay put
     const ease = Math.min(1, d / 140, (L - d) / 140);
     const sway = (Math.sin(d * 0.011 + seed) * 0.55 + Math.sin(d * 0.0042 + seed * 2.7) * 0.45) * r * 0.5 * ease;
     // mouths flare outward (delta-style) so causeway gaps pinch hourglass
-    const flare = 1 + 0.38 * (1 - Math.min(1, d / 130, (L - d) / 130));
+    const fs = openStart ? Math.min(1, d / 130) : 1;
+    const fe = openEnd ? Math.min(1, (L - d) / 130) : 1;
+    const flare = 1 + 0.38 * (1 - Math.min(fs, fe));
     const width = r * flare * (0.82 + 0.22 * Math.sin(d * 0.016 + seed * 1.7) + 0.16 * Math.sin(d * 0.0061 - seed));
     pts.push({ x: x1 + dxn * d + nx * sway, y: y1 + dyn * d + ny * sway, r: width, d });
   }
@@ -2487,7 +2501,7 @@ function setup(mapKey) {
   // the causeways. Painted as smooth bands in paintGround; the individual
   // colliders are invisible (paintRock skips water).
   for (const seg of (M.rivers || [])) {
-    for (const p of riverPath(seg)) rocks.push({ x: p.x, y: p.y, r: p.r * 0.95, water: true });
+    for (const p of riverPath(seg, M.rivers)) rocks.push({ x: p.x, y: p.y, r: p.r * 0.95, water: true });
   }
   // trees: solid canopies riding the rock machinery — collision, pathing,
   // placement all come free. Groves scatter a stand inside a disc (min 70px
@@ -5190,25 +5204,34 @@ function paintRidges(g, M) {
     const ax = (x2 - x1) / L, ay = (y2 - y1) / L;
     const nx = -ay, ny = ax;
     const seed = (x1 * 0.7 + y1 * 1.3) % 100;
-    // generate the slab list
+    // generate the slab list — irregular walk along the line (v4: uniform
+    // spacing/size read as vertebrae; the wall must be CHAOTIC to read as
+    // rock). One end is the HIGH end: slabs grow and their faces extrude
+    // deeper toward it, so the formation climbs to a cliff head.
+    const highAtEnd = hn(seed, 777) > 0.5;
     const slabs = [];
-    const spacing = r * 0.85;
-    const n = Math.max(2, Math.round(L / spacing));
-    for (let i = 0; i <= n; i++) {
-      const t = i / n;
-      const off = (hn(seed, i) - 0.5) * r * 0.55;
+    let d = 0, i = 0;
+    while (d <= L + r * 0.3) {
+      const t = Math.min(1, d / L);
+      const tH = highAtEnd ? t : 1 - t;
+      const hFac = 0.35 + tH * tH * 0.95;               // quadratic climb — the head looms
+      const off = (hn(seed, i) - 0.5) * r * (0.45 + 0.6 * hn(seed + 1, i));
       const cxx = x1 + (x2 - x1) * t + nx * off;
       const cyy = y1 + (y2 - y1) * t + ny * off;
-      const sr = r * (0.72 + hn(seed + 2, i) * 0.55) * (i === 0 || i === n ? 0.8 : 1);
+      const sr = r * (0.5 + hn(seed + 2, i) * 0.5 + tH * 0.45);
       const rot = hn(seed + 4, i) * Math.PI * 2;
+      const vn = 5 + Math.floor(hn(seed + 5, i) * 4);   // 5-8 verts: blocky to shard
+      const spike = Math.floor(hn(seed + 7, i) * vn);   // one vertex juts
       const verts = [];
-      const vn = 7;
       for (let k = 0; k < vn; k++) {
-        const va = rot + (k / vn) * Math.PI * 2 + (hn(seed + 6, i * 13 + k) - 0.5) * 0.35;
-        const vr = sr * (0.72 + hn(seed + 8, i * 17 + k) * 0.45);
+        const va = rot + (k / vn) * Math.PI * 2 + (hn(seed + 6, i * 13 + k) - 0.5) * 0.5;
+        let vr = sr * (0.58 + hn(seed + 8, i * 17 + k) * 0.55);
+        if (k === spike) vr *= 1.45;
         verts.push([cxx + Math.cos(va) * vr, cyy + Math.sin(va) * vr]);
       }
-      slabs.push({ cx: cxx, cy: cyy, sr, verts, i });
+      slabs.push({ cx: cxx, cy: cyy, sr, verts, i, hFac });
+      d += r * (0.5 + hn(seed + 3, i) * 0.6);           // ragged spacing
+      i++;
     }
     const poly = (verts, ox, oy) => {
       g.beginPath();
@@ -5216,15 +5239,21 @@ function paintRidges(g, M) {
       for (const [px, py] of verts) g.lineTo(px + ox, py + oy);
       g.closePath();
     };
-    // pass 1: settling ground shadow, all slabs
-    g.fillStyle = 'rgba(0,0,0,0.30)';
-    for (const s of slabs) { poly(s.verts, 10, 14); g.fill(); }
-    // pass 2: the cliff FACES — each top extruded to the south-east; drawing
-    // the dark shape offset then the lit top over it makes the height read
-    g.fillStyle = '#1c211b';
-    for (const s of slabs) { poly(s.verts, s.sr * 0.30, s.sr * 0.42); g.fill(); }
-    g.fillStyle = '#272d26';
-    for (const s of slabs) { poly(s.verts, s.sr * 0.16, s.sr * 0.24); g.fill(); }
+    // pass 1: settling ground shadow — deeper under the tall end
+    for (const s of slabs) {
+      g.fillStyle = 'rgba(0,0,0,0.30)';
+      poly(s.verts, 6 + 10 * s.hFac, 9 + 15 * s.hFac); g.fill();
+    }
+    // pass 2: the cliff FACES — extrusion depth follows the height gradient,
+    // so the low tail hugs the ground and the head stands off it
+    for (const s of slabs) {
+      g.fillStyle = '#1c211b';
+      poly(s.verts, s.sr * (0.16 + 0.34 * s.hFac), s.sr * (0.22 + 0.46 * s.hFac)); g.fill();
+    }
+    for (const s of slabs) {
+      g.fillStyle = '#272d26';
+      poly(s.verts, s.sr * (0.09 + 0.17 * s.hFac), s.sr * (0.12 + 0.23 * s.hFac)); g.fill();
+    }
     // pass 3: lit tops, split into two facets along a random chord
     for (const s of slabs) {
       const half = Math.ceil(s.verts.length / 2);
@@ -5639,7 +5668,7 @@ function paintGround(M) {
     }
   }
   for (const seg of ((M && M.rivers) || [])) {
-    const pts = riverPath(seg);
+    const pts = riverPath(seg, M.rivers);
     const bankPoly = (scale, wobble) => {
       g.beginPath();
       const cap = (p, ang, w2, flip) => {   // rounded mouth, swept around the tip
@@ -7306,7 +7335,7 @@ function drawVents(vx, vy, vw, vh) {
 function drawRivers(vx, vy, vw, vh) {
   const rivers = (groundM && groundM.rivers) || [];
   if (!rivers.length) return;
-  if (!groundM._rp) groundM._rp = rivers.map(riverPath);
+  if (!groundM._rp) groundM._rp = rivers.map(seg => riverPath(seg, rivers));
   // band outlines cached as Path2D for the per-frame texture pass
   if (!groundM._wpaths) {
     groundM._wpaths = groundM._rp.map(pts => {

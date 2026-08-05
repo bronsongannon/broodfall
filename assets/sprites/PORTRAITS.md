@@ -69,3 +69,21 @@ Slight academic precision. Test lines:
 obituary off an invoice. Test lines:
 - "Attention, expedition convoy: your cargo is subject to a toll. My associates will collect."
 - "A courtesy visit, nothing more. The next one is a billing dispute."
+
+**BOONE** (added 2026-08-04 — MSgt. Dominic Boone, callsign "Lighthouse",
+portrait slot `assets/portraits/cdo.png`) — commando lead for M5/M9, seeds the
+commando DLC. THE RULE: he barely speaks, one short sentence at most, flat calm.
+Low register, unhurried, worn — a man who has already seen the worst thing on
+this planet and declines to describe it. Never shouts, even in contact. Test lines:
+- "Rockets up. Watch the lanes."
+- "Eggs in the street means the street is theirs. Keep walking."
+- "It let us leave."
+
+Portrait prompt (match the DaVinci film-still set — photoreal, same lighting
+family as ops/sci/red, bust-crop before install, full-res raw to source/):
+"Photorealistic film still, weathered male special forces master sergeant in
+his mid-40s, expedition teal-accented combat armor with subdued gold sergeant
+chevrons on the chest plate, short gray-flecked hair, calm unreadable
+expression, faint scar through one eyebrow, dark swamp fog background with a
+faint warm light behind him like a distant lighthouse lamp, cinematic
+low-key lighting, head-and-shoulders framing."

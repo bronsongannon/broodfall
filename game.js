@@ -90,6 +90,10 @@ const UNIT = {
   engineer:  { label: 'Engineer',  cost: 90,  supply: 1, hp: 60,  speed: 1.9,  r: 9,  dmg: 2,  range: 22,  cooldown: 55,  buildTime: 6 * 60,  sight: 190, repair: 0.55, noAA: 1 },
   marine:    { label: 'Marine',    cost: 80,  supply: 1, hp: 70,  speed: 1.9,  r: 9,  dmg: 9,  range: 125, cooldown: 36,  buildTime: 5 * 60,  sight: 200 },
   sniper:    { label: 'Sniper',    cost: 130, supply: 1, hp: 45,  speed: 1.7,  r: 8,  dmg: 30, range: 190, cooldown: 110, buildTime: 7 * 60,  sight: 310 },
+  // MSgt. Boone "Lighthouse" — hero commando (mission-granted, NOT in any
+  // trains list; the commando DLC gets the buildable version). Point man:
+  // longest non-sniper infantry sight, hits like two marines, walks fast.
+  commando:  { label: 'Commando',  cost: 0,   supply: 0, hp: 160, speed: 2.0,  r: 9,  dmg: 16, range: 135, cooldown: 30,  buildTime: 0,       sight: 280 },
   // Unarmed. Follows wounded flesh (infantry + dinos) and patches it up.
   medic:     { label: 'Medic',     cost: 100, supply: 1, hp: 60,  speed: 1.6,  r: 9,  dmg: 0,  range: 0,   cooldown: 0,   buildTime: 6 * 60,  sight: 200, heal: 0.4, noAA: 1 },
   raider:    { label: 'Raider',    cost: 150, supply: 1, hp: 155, speed: 3.0,  r: 11, dmg: 7,  range: 100, cooldown: 20,  buildTime: 6 * 60,  sight: 240 },
@@ -622,6 +626,10 @@ const CAST = {
   ops: { name: 'CPT. VEGA',   color: '#8fd8cf', init: 'V' },   // expedition ops commander
   sci: { name: 'DR. LIN',     color: '#e8d38a', init: 'L' },   // xenobiologist
   red: { name: 'CDR. KRAUSS', color: '#f0a898', init: 'K' },   // Rubicon Mining field commander
+  // MSgt. Dominic Boone, "Lighthouse" (2026-08-04, Bronson) — commando lead,
+  // ground voice for M5/M9. THE RULE: he barely speaks, and never more than a
+  // sentence — everyone else observes, Boone is THERE. Seeds the commando DLC.
+  cdo: { name: 'MSGT. BOONE', color: '#a8c8a0', init: 'B' },
 };
 // Cast portraits (optional art slots, same philosophy as sfx): drop
 // assets/portraits/<who>.png (ops/sci/red) — square bust crop, ~256px.
@@ -989,9 +997,11 @@ const MISSIONS = [
     ],
     brief: [
       ['ops', 'No base this time, Commander. One transport, one squad, and a swamp Rubicon thinks is empty.'],
+      ['ops', 'Master Sergeant Boone leads the ground element. Callsign Lighthouse. He does not say much — he does not need to.'],
       ['ops', 'Krauss has four survey relays strung across Blackwater Fen feeding a field lab on the north bank. We are going to take the relays off the board and walk out of that lab with his geological data.'],
       ['sci', 'I want the drilling logs specifically. He has been sinking bores far deeper than any crystal deposit justifies, and I would very much like to know what he thinks is down there.'],
       ['ops', 'Fog is heavy and the causeways are the only crossings. Move carefully — nothing is coming to bail you out.'],
+      ['cdo', 'Quiet feet. We walk out with everything we walk in with.'],
     ],
     intro: [
       ['ops', 'Squad is on the ground. Relays are marked — work north, and use the medic. Every body you lose is a body you do not get back.'],
@@ -1006,6 +1016,9 @@ const MISSIONS = [
     triggers: [
       { when: { time: 0.5 },
         spawn: [
+          // Boone walks point — his own group carries the hero rule: the
+          // mission dies with him (the exfil quota stays on 'squad')
+          { group: 'boone', unit: 'commando', team: 1, n: 1, at: [600, 1850] },
           { group: 'squad', unit: 'marine',   team: 1, n: 5, at: [600, 1900] },
           { group: 'squad', unit: 'sniper',   team: 1, n: 2, at: [660, 1960] },
           { group: 'squad', unit: 'medic',    team: 1, n: 2, at: [540, 1960] },
@@ -1061,7 +1074,8 @@ const MISSIONS = [
       { when: { done: ['lab'] }, objective: 'exfil', alarm: '⚠ Landing zone overrun — divert to the east coast!',
         say: [['sci', 'I have the logs. His deepest bore is four kilometers down and still reading crystal. That is not a deposit — a deposit has a bottom.'],
               ['red', 'They are in my lab. Burn the swamp behind them and put a platoon on that landing zone. Nobody flies out of here.'],
-              ['ops', 'Original LZ is gone. New extraction on the east coast, marked — move, Commander, and do not stop to win anything.']] },
+              ['ops', 'Original LZ is gone. New extraction on the east coast, marked — move, Commander, and do not stop to win anything.'],
+              ['cdo', 'Light\'s on. Everybody home.']] },
       { when: { done: ['lab'] }, delay: 4,
         spawn: { unit: 'marine', team: 2, n: 4, at: [600, 1900], order: 'guard' } },
       // Krauss's platoon actually LANDS on the LZ (his line above promises it —
@@ -1084,6 +1098,8 @@ const MISSIONS = [
               ['sci', 'The seismic returns say it is not inert either. It has a rhythm. A slow one. I would very much like to be wrong about this.']] },
       // the squad is the mission — lose too many and there is nothing to extract
       { when: { groupBelow: ['squad', 3] }, lose: true },
+      // and Lighthouse IS the ground element: lose him, lose the fen
+      { when: { groupBelow: ['boone', 1] }, lose: true },
     ],
     outro: [
       ['ops', 'Transport is up and everyone aboard is breathing. Clean work in a filthy swamp.'],
@@ -1382,7 +1398,8 @@ const MISSIONS = [
       ['red', 'Expedition command, Rubicon Actual. Outpost K-7 stopped reporting eleven hours ago. Mid-sentence, mid-word. I have nobody spare to send, and I am… asking.'],
       ['ops', 'A Rubicon outpost going dark is his problem — except K-7 sits square on our northern survey line, and whatever silenced forty-one people is now between us and the fen.'],
       ['sci', 'Eleven hours and not one automated ping. Power is up. The antennas are standing. Nobody is transmitting. I want instruments on everything, Commander — walk slowly.'],
-      ['ops', 'Small element, no footprint: one squad, one medic. Get in, find his people, get out. Do not start a war with whatever is holding that ground.'],
+      ['ops', 'Small element, no footprint: Boone\'s squad and a medic. Get in, find his people, get out. Do not start a war with whatever is holding that ground.'],
+      ['cdo', 'We will look.'],
     ],
     intro: [
       ['ops', 'K-7 is due north through the wall gates. Comms silence the whole way — assume nothing about why.'],
@@ -1396,6 +1413,7 @@ const MISSIONS = [
     triggers: [
       { when: { time: 0.5 },
         spawn: [
+          { group: 'boone', unit: 'commando', team: 1, n: 1, at: [1536, 2100] },
           { group: 'squad', unit: 'marine', team: 1, n: 5, at: [1536, 2150] },
           { group: 'squad', unit: 'rocket', team: 1, n: 2, at: [1470, 2190] },
           { group: 'squad', unit: 'sniper', team: 1, n: 1, at: [1600, 2190] },
@@ -1420,7 +1438,8 @@ const MISSIONS = [
         say: [['sci', 'No birds. No grazers. The bone flats are never this quiet — everything that could leave already left.']] },
       { when: { done: ['camp'] }, objective: 'bunker',
         say: [['sci', 'There are eggs in the streets, Commander. Laid in the OPEN, between the buildings. Whatever nested here was not afraid of anything.'],
-              ['red', 'K-7 had forty-one people on shift, expedition. Keep moving.']] },
+              ['red', 'K-7 had forty-one people on shift, expedition. Keep moving.'],
+              ['cdo', 'Eggs in the street means the street is theirs. Keep walking.']] },
       // first contact — the sky lanes between the walls belong to something new
       { when: { near: [1536, 430, 260] },
         alarm: '⚠ Airborne contacts!',
@@ -1429,7 +1448,7 @@ const MISSIONS = [
           { unit: 'screecher', team: 3, n: 1, at: [1750, 60], to: [1536, 430] },
         ],
         say: [['sci', 'CONTACT — airborne, repeat, AIRBORNE. That is not a spitter. That is not anything we have on file!'],
-              ['ops', 'Rockets up. Watch the sky lanes between the walls.']] },
+              ['cdo', 'Rockets up. Watch the lanes.']] },
       { when: { done: ['bunker'] }, objective: 'extract',
         spawn: [
           { group: 'survivors', unit: 'engineer', team: 1, n: 3, at: [1536, 260] },
@@ -1444,13 +1463,16 @@ const MISSIONS = [
         spawn: { unit: 'screecher', team: 3, n: 2, at: [1400, 60], to: [1536, 1900] } },
       { when: { done: ['bunker'], notDone: ['extract'] }, delay: 60, repeat: true, every: 75,
         spawn: { unit: 'screecher', team: 3, n: 2, at: [2500, 300], to: [1650, 1600] } },
-      // the squad is small and the survivors are the mission
+      // the squad is small and the survivors are the mission — and Lighthouse
+      // does not get left in the silence
       { when: { groupBelow: ['squad', 2] }, lose: true },
       { when: { groupBelow: ['survivors', 3] }, lose: true },
+      { when: { groupBelow: ['boone', 1] }, lose: true },
     ],
     outro: [
       ['ops', 'Transport is away with three survivors and the flight recorder from K-7.'],
       ['sci', 'Forty-one people, and the recorder caught eight seconds of screeching and then nothing at all. Treat that number as a message. It is one.'],
+      ['cdo', 'It let us leave.'],
     ],
     winText: 'Three engineers came home, and Krauss said thank you like the words cost him blood. K-7 stays silent — and the sky over the bone flats has learned a new sound.',
     loseText: 'Nobody came back from K-7 twice. The bone flats keep the outpost, the eggs, and the answer, and the sky over the northern line is no longer empty.',
@@ -1466,7 +1488,7 @@ const UPG = {
   vehArmor:   { label: 'Vehicle Armor',    at: 'factory',  max: 3, cost: [125, 200, 275], time: [22 * 60, 27 * 60, 32 * 60] },
   harvest:    { label: 'Harvester Systems', at: 'hq',      max: 3, cost: [125, 200, 275], time: [20 * 60, 25 * 60, 30 * 60] },
 };
-const IS_INF = { marine: 1, sniper: 1, engineer: 1, medic: 1, rocket: 1 };
+const IS_INF = { marine: 1, sniper: 1, engineer: 1, medic: 1, rocket: 1, commando: 1 };
 const IS_DINO = { spitter: 1, raptor: 1, critter: 1, screecher: 1, ironback: 1, broodmother: 1 };
 const isFlesh = (u) => !!IS_INF[u.type] || !!IS_DINO[u.type];   // what a medic can heal: infantry + dinos
 const isVehicle = (u) => u.kind === 'unit' && !IS_INF[u.type] && !IS_DINO[u.type];   // what an engineer can repair
@@ -6039,19 +6061,23 @@ function drawBuilding(b) {
 // called inside a translate(u.x,u.y)+rotate(u.faceA) transform, so +x is forward.
 // Infantry art faces right (no extra rotation); vehicle art points up (rotate +90°).
 function drawUnitSprite(u) {
+  // Boone wears marine art until his own sprite lands (ART-WANTED) — his own
+  // slots win the moment they exist; the rank chevrons in drawUnitDecor are
+  // what marks him out meanwhile. Walk frames alias too.
+  const ty = (u.type === 'commando' && !optCW('unit_commando', u.team) && !opt('unit_commando')) ? 'marine' : u.type;
   // walk cycle: real frames sliced from an AI walk video (slice_walk.py).
   // Frame advances with DISTANCE (walkT), not time, so feet read planted.
   // (A 2026-07-12 spritesheet walk attempt was reverted — too few frames,
   // wrong cadence; this 8-frame video slice is the do-over, 2026-07-20.)
   let walk = null;
   if (u.moving && u.order.type !== 'hunker') {
-    const wf = animFrames(u.type, 'walk', u.team, 8);
-    if (wf.length) walk = wf[Math.floor(u.walkT / (strideOf(u.type) / wf.length)) % wf.length];
+    const wf = animFrames(ty, 'walk', u.team, 8);
+    if (wf.length) walk = wf[Math.floor(u.walkT / (strideOf(ty) / wf.length)) % wf.length];
   }
   // pre-colored colorway art wins outright — drawn as-is, no tint
   const pre = walk
-    || (u.order.type === 'hunker' && optCW('unit_' + u.type + '_hunker', u.team))
-    || optCW('unit_' + u.type, u.team);
+    || (u.order.type === 'hunker' && optCW('unit_' + ty + '_hunker', u.team))
+    || optCW('unit_' + ty, u.team);
   if (pre) {
     cx.rotate(Math.PI / 2);              // generated art faces up
     const s = u.r * 2.7;
@@ -6060,8 +6086,8 @@ function drawUnitSprite(u) {
   }
   // dug-in units swap to their hunker pose; a missing standing sprite falls
   // back to the hunker art so partial art sets never break
-  const hk = opt('unit_' + u.type + '_hunker');
-  const whole = (u.order.type === 'hunker' && hk) || opt('unit_' + u.type) || hk;
+  const hk = opt('unit_' + ty + '_hunker');
+  const whole = (u.order.type === 'hunker' && hk) || opt('unit_' + ty) || hk;
   if (whole) {
     cx.rotate(Math.PI / 2);              // generated art faces up
     const s = u.r * 2.7;
@@ -6685,6 +6711,20 @@ function drawUnitDecor(u) {
       cx.strokeStyle = C.accent;
       cx.lineWidth = 2;
       cx.beginPath(); cx.arc(1, 0, 4.5, -0.65, 0.65); cx.stroke();
+      break;
+    case 'commando':    // Boone: marine visor + gold master-sergeant chevrons
+      cx.strokeStyle = C.accent;
+      cx.lineWidth = 2;
+      cx.beginPath(); cx.arc(1, 0, 4.5, -0.65, 0.65); cx.stroke();
+      cx.rotate(-u.faceA);              // chevrons stay upright, rank-badge style
+      cx.strokeStyle = HAZARD_YELLOW;
+      cx.lineWidth = 1.6;
+      for (let i = 0; i < 3; i++) {
+        cx.beginPath();
+        cx.moveTo(-4, -10 - i * 3); cx.lineTo(0, -13 - i * 3); cx.lineTo(4, -10 - i * 3);
+        cx.stroke();
+      }
+      cx.rotate(u.faceA);
       break;
     case 'sniper':      // scope glint — steady, not blinking (playtest 2026-07-20:
       // the blink read as unexplained muzzle flash)

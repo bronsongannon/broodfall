@@ -5265,41 +5265,50 @@ function paintVents(g, M) {
       g.ellipse(vx + Math.cos(a) * d, vy + Math.sin(a) * d, vr * 0.16, vr * 0.10, a, 0, Math.PI * 2);
       g.fill();
     }
-    // molten fissures: tapered cracks — dark rim, hot orange body, white-hot
-    // core — radiating from a lava pool. Heat, not spider legs (v1 lesson).
-    const crack = (a, len) => {
-      let px = vx + Math.cos(a) * vr * 0.14, py = vy + Math.sin(a) * vr * 0.14;
-      const pts = [[px, py]];
-      for (let s = 1; s <= 4; s++) {
-        const ja = a + Math.sin(seed * 3 + a * 7 + s * 2.1) * 0.5;
-        px += Math.cos(ja) * len / 4; py += Math.sin(ja) * len / 4;
-        pts.push([px, py]);
+    // molten pools scattered across the field — irregular burning PATCHES,
+    // not radial spokes (two rounds of "it looks like a spider" earned this).
+    // Short wide seams connect a few pools; the flames animate in drawVents.
+    for (const sp of ventSpots(vx, vy, vr)) {
+      const px = vx + sp.dx, py = vy + sp.dy;
+      // wobbled molten blob
+      const pool = g.createRadialGradient(px, py, 0, px, py, sp.r);
+      pool.addColorStop(0, '#ffdc82');
+      pool.addColorStop(0.4, '#f59030');
+      pool.addColorStop(0.8, '#96380f');
+      pool.addColorStop(1, 'rgba(50,18,6,0)');
+      g.fillStyle = pool;
+      g.beginPath();
+      for (let k = 0; k <= 12; k++) {
+        const a = (k / 12) * Math.PI * 2;
+        const rr = sp.r * (0.85 + 0.3 * Math.sin(a * 3 + sp.phase * 7));
+        const qx = px + Math.cos(a) * rr, qy = py + Math.sin(a) * rr;
+        k ? g.lineTo(qx, qy) : g.moveTo(qx, qy);
       }
-      return pts;
-    };
-    g.lineCap = 'round'; g.lineJoin = 'round';
-    for (let i = 0; i < 5; i++) {
-      const a = seed + (i / 5) * Math.PI * 2 + Math.sin(seed + i * 3) * 0.5;
-      const len = vr * (0.5 + ((seed * (i + 3)) % 1) * 0.45);
-      const pts = crack(a, len);
-      // three passes, narrowing: char rim -> hot body -> molten core
-      for (const [col, wid, frac] of [['#3a1608', 9, 1], ['#d4571a', 5.5, 0.96], ['#ffb340', 2.2, 0.82]]) {
-        g.strokeStyle = col;
-        for (let s = 0; s < Math.ceil((pts.length - 1) * frac); s++) {
-          g.lineWidth = wid * (1 - s / pts.length * 0.75);   // tapers outward
-          g.beginPath(); g.moveTo(pts[s][0], pts[s][1]); g.lineTo(pts[s + 1][0], pts[s + 1][1]); g.stroke();
-        }
+      g.closePath(); g.fill();
+    }
+    // short chunky seams joining the nearest pools to the biggest one
+    const spots = ventSpots(vx, vy, vr);
+    g.lineCap = 'round';
+    for (let i = 1; i < spots.length; i += 2) {
+      const a = spots[0], b = spots[i];
+      const mx = vx + (a.dx + b.dx) / 2 + Math.sin(seed + i) * 8, my = vy + (a.dy + b.dy) / 2 + Math.cos(seed + i) * 8;
+      for (const [col, wid] of [['#43180a', 10], ['#e06a1e', 5], ['#ffc050', 2]]) {
+        g.strokeStyle = col; g.lineWidth = wid;
+        g.beginPath(); g.moveTo(vx + a.dx, vy + a.dy); g.quadraticCurveTo(mx, my, vx + b.dx, vy + b.dy); g.stroke();
       }
     }
-    // the lava pool at the heart: white-hot center falling off to char
-    const pool = g.createRadialGradient(vx, vy, 0, vx, vy, vr * 0.22);
-    pool.addColorStop(0, '#ffd978');
-    pool.addColorStop(0.45, '#f08828');
-    pool.addColorStop(0.85, '#8a3410');
-    pool.addColorStop(1, 'rgba(58,22,8,0)');
-    g.fillStyle = pool;
-    g.beginPath(); g.arc(vx, vy, vr * 0.22, 0, Math.PI * 2); g.fill();
   }
+}
+// deterministic molten-pool layout per vent — shared by the baked paint and
+// the per-frame flames so fire rises exactly where the lava is
+function ventSpots(vx, vy, vr) {
+  const h = (i) => { const v = Math.sin(vx * 12.9898 + vy * 78.233 + i * 37.719) * 43758.5453; return v - Math.floor(v); };
+  const spots = [{ dx: 0, dy: 0, r: vr * 0.26, phase: h(99) }];
+  for (let i = 1; i <= 5; i++) {
+    const a = h(i) * Math.PI * 2, d = vr * (0.3 + h(i + 10) * 0.55);
+    spots.push({ dx: Math.cos(a) * d, dy: Math.sin(a) * d, r: vr * (0.10 + h(i + 20) * 0.10), phase: h(i + 30) });
+  }
+  return spots;
 }
 function paintRock(g, rk, flo) {
   if (rk.water) return;   // water colliders are invisible — the band is painted in paintGround
@@ -7181,17 +7190,44 @@ function drawVents(vx, vy, vw, vh) {
     if (v.x + v.r < vx || v.x - v.r > vx + vw || v.y + v.r < vy || v.y - v.r > vy + vh) continue;
     const pulse = 0.5 + 0.5 * Math.sin(tick * 0.045 + v.x * 0.01);
     const grad = cx.createRadialGradient(v.x, v.y, 0, v.x, v.y, v.r * (0.9 + pulse * 0.25));
-    grad.addColorStop(0, `rgba(240,140,50,${0.16 + pulse * 0.12})`);
+    grad.addColorStop(0, `rgba(240,140,50,${0.14 + pulse * 0.10})`);
     grad.addColorStop(1, 'rgba(240,120,40,0)');
     cx.fillStyle = grad;
     cx.beginPath(); cx.arc(v.x, v.y, v.r * 1.15, 0, Math.PI * 2); cx.fill();
-    // three embers per vent, looping upward on staggered clocks
-    for (let i = 0; i < 3; i++) {
-      const ph = ((tick * (0.011 + i * 0.004) + i * 0.37 + v.y * 0.01) % 1);
-      const ex = v.x + Math.sin(v.x * 0.1 + i * 2.4 + ph * 5) * v.r * 0.4;
-      const ey = v.y - ph * v.r * 0.9;
-      cx.fillStyle = `rgba(250,${150 + i * 25},60,${(1 - ph) * 0.7})`;
-      cx.beginPath(); cx.arc(ex, ey, 1.6 + (1 - ph) * 1.4, 0, Math.PI * 2); cx.fill();
+    // FLAMES: tongues of fire licking up from each molten pool — flickering
+    // height and sway, outer orange over an inner yellow core, intermittent
+    // so the field breathes instead of strobing
+    for (const sp of ventSpots(v.x, v.y, v.r)) {
+      const px = v.x + sp.dx, py = v.y + sp.dy;
+      const alive = Math.sin(tick * 0.021 + sp.phase * 19) > -0.35;
+      if (!alive) continue;
+      const flick = 0.7 + 0.3 * Math.sin(tick * 0.16 + sp.phase * 23);
+      const sway = Math.sin(tick * 0.09 + sp.phase * 31) * sp.r * 0.35;
+      const hgt = sp.r * (1.7 + flick * 1.1);
+      const wid = sp.r * (0.75 + flick * 0.2);
+      const tongue = (w, h, col) => {
+        cx.fillStyle = col;
+        cx.beginPath();
+        cx.moveTo(px - w / 2, py);
+        cx.quadraticCurveTo(px - w * 0.45, py - h * 0.45, px + sway, py - h);
+        cx.quadraticCurveTo(px + w * 0.45, py - h * 0.45, px + w / 2, py);
+        cx.closePath(); cx.fill();
+      };
+      tongue(wid, hgt, `rgba(226,90,26,${0.42 + flick * 0.2})`);
+      tongue(wid * 0.55, hgt * 0.62, `rgba(255,190,80,${0.5 + flick * 0.25})`);
+      if (flick > 0.85) tongue(wid * 0.26, hgt * 0.34, 'rgba(255,240,180,0.75)');
+    }
+    // embers: a drifting column of sparks in mixed heats — some yellow-white,
+    // some deep orange, one smoky red — rising and scattering on the wind
+    for (let i = 0; i < 8; i++) {
+      const ph = ((tick * (0.008 + (i % 4) * 0.0035) + i * 0.29 + v.y * 0.01) % 1);
+      const drift = Math.sin(v.x * 0.1 + i * 2.4 + ph * 6) * v.r * (0.3 + (i % 3) * 0.15);
+      const ex = v.x + drift + ph * v.r * 0.2;      // wind pushes them off-plumb
+      const ey = v.y - ph * v.r * (0.8 + (i % 3) * 0.25);
+      const heat = i % 3;
+      const col = heat === 0 ? `255,220,120` : heat === 1 ? `250,150,60` : `210,80,50`;
+      cx.fillStyle = `rgba(${col},${(1 - ph) * 0.8})`;
+      cx.beginPath(); cx.arc(ex, ey, 1.2 + (1 - ph) * 1.6, 0, Math.PI * 2); cx.fill();
     }
   }
 }

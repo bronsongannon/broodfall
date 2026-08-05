@@ -5179,80 +5179,95 @@ function paintRidges(g, M) {
     const v = Math.sin(s * 127.1 + i * 311.7) * 43758.545;
     return v - Math.floor(v);
   };
+  // v3 (2026-08-04, after "giant terd"): a ridge is a CLUSTER of overlapping
+  // angular slabs — each its own rock with a dark extruded cliff face (light
+  // from the NW, so faces fall SE) and a two-tone faceted lit top, staggered
+  // off the centerline. One continuous band ALWAYS reads as a worm; multiple
+  // interlocking masses read as a rock formation. Three passes across the
+  // whole cluster (shadows, faces, tops) so overlaps merge into one landform.
   for (const [x1, y1, x2, y2, r] of ((M && M.ridges) || [])) {
     const L = Math.max(1, dist(x1, y1, x2, y2));
     const ax = (x2 - x1) / L, ay = (y2 - y1) / L;
     const nx = -ay, ny = ax;
     const seed = (x1 * 0.7 + y1 * 1.3) % 100;
-    const steps = Math.max(10, Math.round(L / 16));
-    // jagged width per step: coarse drift + per-step rock-tooth jitter,
-    // pinched to broken points at the ends
-    const wAt = (i, sign) => {
-      const t = i / steps;
-      const drift = 0.85 + 0.35 * hn(seed + sign * 7, Math.floor(i / 4));
-      const tooth = 0.75 + 0.5 * hn(seed + sign * 13, i);
-      const endPinch = Math.min(1, Math.min(i, steps - i) / 2.2);
-      return r * drift * tooth * Math.max(0.15, endPinch);
-    };
-    const pt = (i, sign, wMul, ox, oy) => {
-      const t = i / steps;
-      return [x1 + (x2 - x1) * t + nx * sign * wAt(i, sign) * wMul + (ox || 0),
-              y1 + (y2 - y1) * t + ny * sign * wAt(i, sign) * wMul + (oy || 0)];
-    };
-    const band = (wMul, ox, oy) => {
+    // generate the slab list
+    const slabs = [];
+    const spacing = r * 0.85;
+    const n = Math.max(2, Math.round(L / spacing));
+    for (let i = 0; i <= n; i++) {
+      const t = i / n;
+      const off = (hn(seed, i) - 0.5) * r * 0.55;
+      const cxx = x1 + (x2 - x1) * t + nx * off;
+      const cyy = y1 + (y2 - y1) * t + ny * off;
+      const sr = r * (0.72 + hn(seed + 2, i) * 0.55) * (i === 0 || i === n ? 0.8 : 1);
+      const rot = hn(seed + 4, i) * Math.PI * 2;
+      const verts = [];
+      const vn = 7;
+      for (let k = 0; k < vn; k++) {
+        const va = rot + (k / vn) * Math.PI * 2 + (hn(seed + 6, i * 13 + k) - 0.5) * 0.35;
+        const vr = sr * (0.72 + hn(seed + 8, i * 17 + k) * 0.45);
+        verts.push([cxx + Math.cos(va) * vr, cyy + Math.sin(va) * vr]);
+      }
+      slabs.push({ cx: cxx, cy: cyy, sr, verts, i });
+    }
+    const poly = (verts, ox, oy) => {
       g.beginPath();
-      let p = pt(0, 1, wMul, ox, oy); g.moveTo(p[0], p[1]);
-      for (let i = 1; i <= steps; i++) { p = pt(i, 1, wMul, ox, oy); g.lineTo(p[0], p[1]); }
-      for (let i = steps; i >= 0; i--) { p = pt(i, -1, wMul, ox, oy); g.lineTo(p[0], p[1]); }
+      g.moveTo(verts[0][0] + ox, verts[0][1] + oy);
+      for (const [px, py] of verts) g.lineTo(px + ox, py + oy);
       g.closePath();
     };
-    // settling shadow downhill
-    g.fillStyle = 'rgba(0,0,0,0.28)';
-    band(1.05, 8, 12); g.fill();
-    // dark rock mass — the cliff faces ARE this silhouette's edges
-    g.fillStyle = '#252b25';
-    band(1.0, 0, 0); g.fill();
-    // faceted rock top: irregular angular slabs along the crest, two lit
-    // tones alternating, each slab its own quad — no continuous stripe
-    for (let i = 0; i < steps; i += 2) {
-      const skew = (hn(seed + 3, i) - 0.5) * 8;
-      const a0 = pt(i, 1, 0.55, -3 + skew, -5);
-      const a1 = pt(Math.min(i + 2, steps), 1, 0.5, 3 + skew, -6);
-      const b1 = pt(Math.min(i + 2, steps), -1, 0.45, skew, -4);
-      const b0 = pt(i, -1, 0.5, -2 + skew, -3);
-      g.fillStyle = hn(seed + 5, i) > 0.5 ? '#3d443b' : '#474f44';
+    // pass 1: settling ground shadow, all slabs
+    g.fillStyle = 'rgba(0,0,0,0.30)';
+    for (const s of slabs) { poly(s.verts, 10, 14); g.fill(); }
+    // pass 2: the cliff FACES — each top extruded to the south-east; drawing
+    // the dark shape offset then the lit top over it makes the height read
+    g.fillStyle = '#1c211b';
+    for (const s of slabs) { poly(s.verts, s.sr * 0.30, s.sr * 0.42); g.fill(); }
+    g.fillStyle = '#272d26';
+    for (const s of slabs) { poly(s.verts, s.sr * 0.16, s.sr * 0.24); g.fill(); }
+    // pass 3: lit tops, split into two facets along a random chord
+    for (const s of slabs) {
+      const half = Math.ceil(s.verts.length / 2);
+      const rotk = Math.floor(hn(seed + 10, s.i) * s.verts.length);
+      const vs = s.verts.map((_, k) => s.verts[(k + rotk) % s.verts.length]);
+      g.fillStyle = '#3e463a';
+      poly(vs, 0, 0); g.fill();
+      g.fillStyle = 'rgba(80,90,72,0.55)';   // second facet tone over half the top
       g.beginPath();
-      g.moveTo(a0[0], a0[1]); g.lineTo(a1[0], a1[1]); g.lineTo(b1[0], b1[1]); g.lineTo(b0[0], b0[1]);
+      g.moveTo(vs[0][0], vs[0][1]);
+      for (let k = 0; k <= half; k++) g.lineTo(vs[k][0], vs[k][1]);
       g.closePath(); g.fill();
-      // occasional brighter chip catching the light
-      if (hn(seed + 9, i) > 0.72) {
-        const c = pt(i + 1, 1, 0.28, skew, -7);
-        g.fillStyle = '#565e51';
+      // NW rim light on the edges facing the light
+      g.strokeStyle = 'rgba(130,142,118,0.5)';
+      g.lineWidth = 2;
+      for (let k = 0; k < vs.length; k++) {
+        const a = vs[k], b = vs[(k + 1) % vs.length];
+        const ex = b[0] - a[0], ey = b[1] - a[1];
+        const enx = ey, eny = -ex;   // outward-ish normal
+        if (enx * -0.6 + eny * -0.8 > 0) {
+          g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(b[0], b[1]); g.stroke();
+        }
+      }
+      // a crack or two across the top
+      if (hn(seed + 14, s.i) > 0.4) {
+        g.strokeStyle = 'rgba(0,0,0,0.30)';
+        g.lineWidth = 1.6;
+        const a0 = hn(seed + 16, s.i) * Math.PI * 2;
         g.beginPath();
-        g.moveTo(c[0], c[1]); g.lineTo(c[0] + 9 + skew, c[1] - 4); g.lineTo(c[0] + 3, c[1] + 6);
-        g.closePath(); g.fill();
+        g.moveTo(s.cx + Math.cos(a0) * s.sr * 0.55, s.cy + Math.sin(a0) * s.sr * 0.55);
+        g.lineTo(s.cx + Math.cos(a0 + 2.6) * s.sr * 0.35, s.cy + Math.sin(a0 + 2.6) * s.sr * 0.35);
+        g.stroke();
       }
     }
-    // cracks: clustered, angled, varied — not ruler ticks
-    g.lineCap = 'round';
-    for (let i = 1; i < steps; i++) {
-      if (hn(seed + 21, i) < 0.45) continue;
-      const sign = hn(seed + 23, i) > 0.4 ? 1 : -1;   // more on the shadow side
-      const base = pt(i, sign, 0.55, 0, 0);
-      const out = pt(i, sign, 0.98, (hn(seed + 27, i) - 0.5) * 14, (hn(seed + 29, i) - 0.5) * 10);
-      g.strokeStyle = `rgba(0,0,0,${0.2 + hn(seed + 31, i) * 0.18})`;
-      g.lineWidth = 1.5 + hn(seed + 33, i) * 1.8;
-      g.beginPath(); g.moveTo(base[0], base[1]); g.lineTo(out[0], out[1]); g.stroke();
-    }
-    // talus: broken boulders scattered along the shadow foot
-    for (let i = 2; i < steps - 2; i += 3) {
-      if (hn(seed + 41, i) < 0.5) continue;
-      const f = pt(i, 1, 1.12, (hn(seed + 43, i) - 0.5) * 16, 6 + hn(seed + 47, i) * 8);
-      const br = 3 + hn(seed + 51, i) * 5;
+    // talus at the shadow feet of a few slabs
+    for (const s of slabs) {
+      if (hn(seed + 20, s.i) < 0.45) continue;
+      const fx2 = s.cx + s.sr * 0.7 + hn(seed + 22, s.i) * 10, fy2 = s.cy + s.sr * 0.85 + hn(seed + 24, s.i) * 8;
+      const br = 3 + hn(seed + 26, s.i) * 5;
       g.fillStyle = '#2e352d';
-      g.beginPath(); g.arc(f[0], f[1], br, 0, Math.PI * 2); g.fill();
+      g.beginPath(); g.arc(fx2, fy2, br, 0, Math.PI * 2); g.fill();
       g.fillStyle = '#3a423a';
-      g.beginPath(); g.arc(f[0] - br * 0.3, f[1] - br * 0.35, br * 0.55, 0, Math.PI * 2); g.fill();
+      g.beginPath(); g.arc(fx2 - br * 0.3, fy2 - br * 0.35, br * 0.55, 0, Math.PI * 2); g.fill();
     }
   }
 }

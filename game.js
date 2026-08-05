@@ -5256,25 +5256,49 @@ function paintVents(g, M) {
     grad.addColorStop(1, 'rgba(20,14,10,0)');
     g.fillStyle = grad;
     g.beginPath(); g.arc(vx, vy, vr * 1.25, 0, Math.PI * 2); g.fill();
-    // fissures: jagged radial cracks that stay lit under the runtime glow
+    // charred blotches give the scorch zone texture (flat dark read as clean)
     const seed = (vx * 0.017 + vy * 0.013) % 6.28;
-    g.lineCap = 'round';
-    for (let i = 0; i < 7; i++) {
-      const a = seed + (i / 7) * Math.PI * 2 + Math.sin(seed + i) * 0.4;
-      const len = vr * (0.45 + ((seed * (i + 3)) % 1) * 0.5);
-      let px = vx + Math.cos(a) * vr * 0.12, py = vy + Math.sin(a) * vr * 0.12;
-      g.strokeStyle = i % 2 ? '#c25a20' : '#e07828';
-      g.lineWidth = 2.5 + (i % 3);
-      g.beginPath(); g.moveTo(px, py);
-      for (let s = 1; s <= 3; s++) {
-        const ja = a + Math.sin(seed * 3 + i * 2 + s) * 0.55;
-        px += Math.cos(ja) * len / 3; py += Math.sin(ja) * len / 3;
-        g.lineTo(px, py);
-      }
-      g.stroke();
+    for (let i = 0; i < 9; i++) {
+      const a = seed * 3 + i * 2.39996, d = vr * (0.25 + ((seed * (i + 2)) % 1) * 0.75);
+      g.fillStyle = i % 2 ? 'rgba(0,0,0,0.35)' : 'rgba(35,22,14,0.5)';
+      g.beginPath();
+      g.ellipse(vx + Math.cos(a) * d, vy + Math.sin(a) * d, vr * 0.16, vr * 0.10, a, 0, Math.PI * 2);
+      g.fill();
     }
-    g.fillStyle = '#f0a040';
-    g.beginPath(); g.arc(vx, vy, vr * 0.10, 0, Math.PI * 2); g.fill();
+    // molten fissures: tapered cracks — dark rim, hot orange body, white-hot
+    // core — radiating from a lava pool. Heat, not spider legs (v1 lesson).
+    const crack = (a, len) => {
+      let px = vx + Math.cos(a) * vr * 0.14, py = vy + Math.sin(a) * vr * 0.14;
+      const pts = [[px, py]];
+      for (let s = 1; s <= 4; s++) {
+        const ja = a + Math.sin(seed * 3 + a * 7 + s * 2.1) * 0.5;
+        px += Math.cos(ja) * len / 4; py += Math.sin(ja) * len / 4;
+        pts.push([px, py]);
+      }
+      return pts;
+    };
+    g.lineCap = 'round'; g.lineJoin = 'round';
+    for (let i = 0; i < 5; i++) {
+      const a = seed + (i / 5) * Math.PI * 2 + Math.sin(seed + i * 3) * 0.5;
+      const len = vr * (0.5 + ((seed * (i + 3)) % 1) * 0.45);
+      const pts = crack(a, len);
+      // three passes, narrowing: char rim -> hot body -> molten core
+      for (const [col, wid, frac] of [['#3a1608', 9, 1], ['#d4571a', 5.5, 0.96], ['#ffb340', 2.2, 0.82]]) {
+        g.strokeStyle = col;
+        for (let s = 0; s < Math.ceil((pts.length - 1) * frac); s++) {
+          g.lineWidth = wid * (1 - s / pts.length * 0.75);   // tapers outward
+          g.beginPath(); g.moveTo(pts[s][0], pts[s][1]); g.lineTo(pts[s + 1][0], pts[s + 1][1]); g.stroke();
+        }
+      }
+    }
+    // the lava pool at the heart: white-hot center falling off to char
+    const pool = g.createRadialGradient(vx, vy, 0, vx, vy, vr * 0.22);
+    pool.addColorStop(0, '#ffd978');
+    pool.addColorStop(0.45, '#f08828');
+    pool.addColorStop(0.85, '#8a3410');
+    pool.addColorStop(1, 'rgba(58,22,8,0)');
+    g.fillStyle = pool;
+    g.beginPath(); g.arc(vx, vy, vr * 0.22, 0, Math.PI * 2); g.fill();
   }
 }
 function paintRock(g, rk, flo) {

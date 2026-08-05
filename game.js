@@ -31,8 +31,13 @@ const btnQuit = document.getElementById('btn-quit');
 const elPauseBanner = document.getElementById('pause-banner');
 
 // ---------------- World ----------------
-const TILE = 32, MAP_W = 96, MAP_H = 72;
-const W = MAP_W * TILE, H = MAP_H * TILE;      // 3072 x 2304 world px
+// 144x108 (2026-08-04, Bronson: "+50%") — lands almost exactly on Brood War's
+// standard 128x128-tile scale and serves the 20-30 min match goal. Previous
+// sizes: 64x48 (launch), 96x72 (2026-07-10). MAPS layouts are W/H-relative and
+// rescale free; MISSION coords are absolute px and were migrated x1.5 in the
+// same commit — never resize one without the other.
+const TILE = 32, MAP_W = 144, MAP_H = 108;
+const W = MAP_W * TILE, H = MAP_H * TILE;      // 4608 x 3456 world px
 const view = { w: window.innerWidth, h: window.innerHeight };
 // ---------------- Render quality ----------------
 // Frame cost here is FILL RATE, not unit count: every frame blits the ground
@@ -678,7 +683,7 @@ const MISSIONS = [
       { id: 'scout1',  text: 'Scout the northern crystal field',       type: 'reach', x: W * 0.30, y: H * 0.22, r: 250, hidden: true },
       { id: 'scout2',  text: 'Scout the eastern crystal field',        type: 'reach', x: W * 0.72, y: H * 0.62, r: 250, hidden: true },
       { id: 'repel',   text: 'Repel the spitter pack',                 type: 'flag', hidden: true },
-      { id: 'capture', text: 'Capture the marked spitter with the Capture Rig (right-click it) and haul it to the HQ', type: 'captive', count: 1, hidden: true, mark: [1050, 1650] },
+      { id: 'capture', text: 'Capture the marked spitter with the Capture Rig (right-click it) and haul it to the HQ', type: 'captive', count: 1, hidden: true, mark: [1575, 2475] },
       { id: 'hold',    text: 'Hold the outpost against the colony reprisal', type: 'groupDead', group: 'reprisal', hidden: true },
       { id: 'mine',    text: 'Mine 1250 crystals',                     type: 'mined', amount: 1250 },
     ],
@@ -706,7 +711,7 @@ const MISSIONS = [
       { when: { groupDead: 'probe' }, delay: 10, objective: 'capture',
         spawn: [
           { group: 'rig',   unit: 'rig',     team: 1, n: 1, at: [380, H - 340] },
-          { group: 'scout', unit: 'spitter', team: 3, n: 1, at: [1050, 1650], order: 'guard', specimen: true },
+          { group: 'scout', unit: 'spitter', team: 3, n: 1, at: [1575, 2475], order: 'guard', specimen: true },
         ],
         say: [['ops', 'Lin\'s Capture Rig just dropped at the base — the caged harvester wearing the green ring. It is the ONLY unit that can take the specimen alive. A lone spitter is prowling the flats, marked on your map and wearing the SAME green ring: select the rig and right-click it. Your troops fire at half rate near the specimen — keep them clear and let the rig work. Lin needs this one breathing.']] },
       // The colony answers the abduction. This is Landfall's real fight: before
@@ -744,7 +749,7 @@ const MISSIONS = [
               ['sci', 'They emptied their own nests to come here. Left the broods, left the crystal, and walked into rifles for one caged animal. Log that. That is not territorial behaviour — that is a response.']] },
       // safety nets: the tutorial can't dead-end — a lost rig (or specimen) respawns
       { when: { groupDead: 'scout', notDone: ['capture'], noCaptive: true }, delay: 10, repeat: true,
-        spawn: { group: 'scout', unit: 'spitter', team: 3, n: 1, at: [1050, 1650], order: 'guard', specimen: true },
+        spawn: { group: 'scout', unit: 'spitter', team: 3, n: 1, at: [1575, 2475], order: 'guard', specimen: true },
         say: [['sci', 'We lost track of that one. Another is prowling the same ground — send the rig, Commander.']] },
       { when: { groupDead: 'rig', notDone: ['capture'] }, delay: 8, repeat: true,
         spawn: { group: 'rig', unit: 'rig', team: 1, n: 1, at: [380, H - 340] },
@@ -762,7 +767,7 @@ const MISSIONS = [
     map: 'trade', diff: 'easy', noEnemy: true,   // rehomed 2026-07-24 (roster: M2 gets its own map)
     allow: { bld: ['supply', 'barracks', 'turret', 'refinery', 'power'],
              unit: ['harvester', 'engineer', 'marine', 'sniper', 'rocket'] },
-    patches: [[2870, 590, 6, 2200]],   // Survey Post Beta's rich field
+    patches: [[4305, 885, 6, 2200]],   // Survey Post Beta's rich field
     brief: [
       // NOTE: only Vega's (ops) lines may be reworded freely — they're unvoiced
       // until her voice lands. Krauss's brief line has an installed clip.
@@ -774,40 +779,40 @@ const MISSIONS = [
       ['ops', 'Six haulers, and Beta needs at least FOUR of them on the pad — select the whole convoy, not half of it. Take them north-east along the marked route, swing EAST around the nest mounds, and keep rifles between the raiders and the cargo.'],
     ],
     objectives: [
-      { id: 'out',  text: 'Deliver 4 harvesters to Survey Post Beta', type: 'groupReach', group: 'convoy', unit: 'harvester', x: 2760, y: 520, r: 240, count: 4, mark: [2760, 520] },
-      { id: 'load', text: 'Hold Survey Post Beta while the haulers load', type: 'survive', secs: 60, hidden: true, mark: [2760, 520] },
-      { id: 'back', text: 'Bring 4 delivered harvesters home', type: 'groupReach', group: 'convoy', unit: 'harvester', after: 'out', x: 300, y: 2000, r: 260, count: 4, hidden: true, mark: [300, 2000] },
+      { id: 'out',  text: 'Deliver 4 harvesters to Survey Post Beta', type: 'groupReach', group: 'convoy', unit: 'harvester', x: 4140, y: 780, r: 240, count: 4, mark: [4140, 780] },
+      { id: 'load', text: 'Hold Survey Post Beta while the haulers load', type: 'survive', secs: 60, hidden: true, mark: [4140, 780] },
+      { id: 'back', text: 'Bring 4 delivered harvesters home', type: 'groupReach', group: 'convoy', unit: 'harvester', after: 'out', x: 450, y: 3000, r: 260, count: 4, hidden: true, mark: [450, 3000] },
     ],
     winWhen: ['out', 'load', 'back'],
     triggers: [
       { when: { time: 0.5 }, crystals: 250,
         spawn: [
-          { group: 'convoy', unit: 'harvester', team: 1, n: 6, at: [380, 1960] },
-          { unit: 'marine', team: 1, n: 2, at: [470, 1880] },
-          { unit: 'rocket', team: 1, n: 2, at: [530, 1930] },
-          { bld: 'refinery', team: 1, at: [2700, 470] },
-          { bld: 'turret',   team: 1, at: [2570, 560] },
-          { bld: 'supply',   team: 1, at: [2820, 360] },
+          { group: 'convoy', unit: 'harvester', team: 1, n: 6, at: [570, 2940] },
+          { unit: 'marine', team: 1, n: 2, at: [705, 2820] },
+          { unit: 'rocket', team: 1, n: 2, at: [795, 2895] },
+          { bld: 'refinery', team: 1, at: [4050, 705] },
+          { bld: 'turret',   team: 1, at: [3855, 840] },
+          { bld: 'supply',   team: 1, at: [4230, 540] },
         ] },
       // the toll collectors arrive once the convoy is committed to the road
-      { when: { near: [2200, 1250, 500] }, alarm: '⚠ Raiders closing on the convoy!',
+      { when: { near: [3300, 1875, 750] }, alarm: '⚠ Raiders closing on the convoy!',
         spawn: [
-          { unit: 'raider', team: 2, n: 2, at: [2350, 100], to: [2050, 1350] },
-          { unit: 'raider', team: 2, n: 1, at: [2990, 1500], to: [2400, 1100] },
+          { unit: 'raider', team: 2, n: 2, at: [3525, 150], to: [3075, 2025] },
+          { unit: 'raider', team: 2, n: 1, at: [4485, 2250], to: [3600, 1650] },
         ],
         say: [['red', 'Attention, expedition convoy: you are traversing a Rubicon resource corridor. Per intersystem claim law, your cargo is subject to a toll. My associates will collect.']] },
       { when: { done: ['out'] }, objective: 'load',
         spawn: [
-          { unit: 'marine', team: 1, n: 2, at: [2650, 600] },
-          { unit: 'rocket', team: 1, n: 1, at: [2700, 640] },
+          { unit: 'marine', team: 1, n: 2, at: [3975, 900] },
+          { unit: 'rocket', team: 1, n: 1, at: [4050, 960] },
         ],
         say: [['ops', 'Beta\'s silos are filling — sixty seconds to load the haulers. The post garrison is yours, Commander. Dig in; nobody rolls until the cargo is aboard.'],
               ['red', 'Still rolling? I respect persistence. My accountants do not.']] },
       // the loading siege: Krauss hits the post while the convoy is pinned
       { when: { done: ['out'] }, delay: 10, alarm: '⚠ Raiders hitting Survey Post Beta!',
         spawn: [
-          { unit: 'raider', team: 2, n: 3, at: [2990, 200], to: [2760, 520] },
-          { unit: 'tank',   team: 2, n: 1, at: [2200, 60],  to: [2700, 470] },
+          { unit: 'raider', team: 2, n: 3, at: [4485, 300], to: [4140, 780] },
+          { unit: 'tank',   team: 2, n: 1, at: [3300, 90],  to: [4050, 705] },
         ],
         say: [['red', 'You parked a fortune in my corridor. Collections — move in.']] },
       { when: { done: ['out'] }, delay: 60, objective: 'back',
@@ -815,12 +820,12 @@ const MISSIONS = [
       // they set the southern ambush AHEAD of the convoy, on the home stretch
       { when: { done: ['out'] }, delay: 70, alarm: '⚠ Ambush forming on the southern leg!',
         spawn: [
-          { unit: 'raider', team: 2, n: 4, at: [1500, 2240], to: [900, 1900] },
-          { unit: 'raider', team: 2, n: 3, at: [60, 1400], to: [500, 1850] },
+          { unit: 'raider', team: 2, n: 4, at: [2250, 3360], to: [1350, 2850] },
+          { unit: 'raider', team: 2, n: 3, at: [90, 2100], to: [750, 2775] },
         ] },
       // background pressure: toll collectors every so often until it's over
       { when: { time: 100, notDone: ['back'] }, repeat: true, every: 45,
-        spawn: { unit: 'raider', team: 2, n: 1, at: [2200, 60], to: [350, 1950] } },
+        spawn: { unit: 'raider', team: 2, n: 1, at: [3300, 90], to: [525, 2925] } },
       // lose the convoy, lose the contract
       // NOT before the convoy exists: the player starts with 3 harvesters and
       // the haulers spawn at t=0.5s, so an ungated quota check loses at tick 0
@@ -850,14 +855,14 @@ const MISSIONS = [
     objectives: [
       { id: 'fac',   text: 'Build a Factory (V)', type: 'built', bld: 'factory', count: 1 },
       { id: 'arty',  text: 'Field two Artillery (Factory — D)', type: 'unitCount', unit: 'artillery', count: 2, hidden: true },
-      { id: 'nest',  text: 'Destroy the southern nest — from beyond its leash', type: 'destroy', bld: 'nest', x: 1666, y: 1262, r: 160, hidden: true, mark: [1666, 1262] },
+      { id: 'nest',  text: 'Destroy the southern nest — from beyond its leash', type: 'destroy', bld: 'nest', x: 2499, y: 1893, r: 160, hidden: true, mark: [2499, 1893] },
       { id: 'hatch', text: 'Salvage the clutch and hatch a pack of 3 Spitters (HQ — R)', type: 'unitCount', unit: 'spitter', count: 3, hidden: true },
       // the pack has to DO something before the mission is a win (Bronson,
       // 2026-07-29: "we hatch the dinos but we need them to do something
       // first"). Lin's field test: walk them onto the NORTHERN mound — the one
       // Rubicon has been feeding riflemen into for three shifts — and take it.
-      { id: 'pack',  text: 'Walk the pack onto the northern mound', type: 'groupReach', unit: 'spitter', x: 1406, y: 1042, r: 300, count: 3, hidden: true, mark: [1406, 1042] },
-      { id: 'north', text: 'Take the northern nest with the pack', type: 'destroy', bld: 'nest', x: 1406, y: 1042, r: 160, hidden: true, mark: [1406, 1042] },
+      { id: 'pack',  text: 'Walk the pack onto the northern mound', type: 'groupReach', unit: 'spitter', x: 2109, y: 1563, r: 300, count: 3, hidden: true, mark: [2109, 1563] },
+      { id: 'north', text: 'Take the northern nest with the pack', type: 'destroy', bld: 'nest', x: 2109, y: 1563, r: 160, hidden: true, mark: [2109, 1563] },
       { id: 'mine8', text: 'Mine 800 crystals', type: 'mined', amount: 800 },
     ],
     winWhen: ['fac', 'arty', 'nest', 'hatch', 'pack', 'north', 'mine8'],
@@ -871,7 +876,7 @@ const MISSIONS = [
       { when: { time: 75, notDone: ['nest'] },
         say: [['red', 'First shift, forward! Every acre of mound is an acre of bonus!']] },
       { when: { time: 78, notDone: ['north'] }, repeat: true, every: 55,
-        spawn: { unit: 'marine', team: 2, n: 4, at: [420, 320], to: [1406, 1042] } },
+        spawn: { unit: 'marine', team: 2, n: 4, at: [630, 480], to: [2109, 1563] } },
       { when: { time: 170, notDone: ['nest'] },
         say: [['red', '...Casualty reports are a rounding error. Second shift, forward. Payroll — stop counting.']] },
       { when: { time: 290, notDone: ['nest'] },
@@ -915,10 +920,10 @@ const MISSIONS = [
       ['ops', 'First, the tenants. There is a nest sitting on the center field — you know the drill by now. Artillery, from beyond the leash.'],
     ],
     objectives: [
-      { id: 'nest',   text: 'Clear the nest off the center field', type: 'destroy', bld: 'nest', x: 1416, y: 1062, r: 170, mark: [1416, 1062] },
-      { id: 'ref',    text: 'Build a Refinery on the center field', type: 'built', bld: 'refinery', count: 1, x: 1536, y: 1152, r: 430, hidden: true, mark: [1536, 1152] },
-      { id: 'plant',  text: 'Build a Power Plant at the expansion (O)', type: 'built', bld: 'power', count: 1, x: 1536, y: 1152, r: 430, hidden: true },
-      { id: 'turret', text: 'Anchor two Turrets at the expansion (T)', type: 'built', bld: 'turret', count: 2, x: 1536, y: 1152, r: 430, hidden: true },
+      { id: 'nest',   text: 'Clear the nest off the center field', type: 'destroy', bld: 'nest', x: 2124, y: 1593, r: 170, mark: [2124, 1593] },
+      { id: 'ref',    text: 'Build a Refinery on the center field', type: 'built', bld: 'refinery', count: 1, x: 2304, y: 1728, r: 430, hidden: true, mark: [2304, 1728] },
+      { id: 'plant',  text: 'Build a Power Plant at the expansion (O)', type: 'built', bld: 'power', count: 1, x: 2304, y: 1728, r: 430, hidden: true },
+      { id: 'turret', text: 'Anchor two Turrets at the expansion (T)', type: 'built', bld: 'turret', count: 2, x: 2304, y: 1728, r: 430, hidden: true },
       { id: 'hold',   text: 'Hold the expansion', type: 'survive', secs: 360, hidden: true },
     ],
     winWhen: ['nest', 'ref', 'plant', 'turret', 'hold'],
@@ -933,35 +938,35 @@ const MISSIONS = [
               ['ops', 'Contacts on the east approach. Dig in, Commander — hold this ground and the middle of the map is ours.']] },
       // the siege: raiders go for the PLANTS, and the pressure escalates
       { when: { done: ['plant', 'turret'], notDone: ['hold'] }, delay: 6, repeat: true, every: 42,
-        spawn: { unit: 'raider', team: 2, n: 2, at: [3000, 1152], aim: 'power', order: 'attackhq' } },
+        spawn: { unit: 'raider', team: 2, n: 2, at: [4500, 1728], aim: 'power', order: 'attackhq' } },
       { when: { done: ['plant', 'turret'], notDone: ['hold'] }, delay: 70, repeat: true, every: 55,
-        spawn: { unit: 'marine', team: 2, n: 3, at: [2990, 940], aim: 'turret', order: 'attackhq' } },
+        spawn: { unit: 'marine', team: 2, n: 3, at: [4485, 1410], aim: 'turret', order: 'attackhq' } },
       // surge waves (2026-08-01, Bronson: "some waves with twice the people
       // so it is a scary challenge") — the repeats are the drumbeat, these
       // three one-shots are the punches. Each is ~double a standing wave and
       // arrives with an alarm so the fear is seen coming.
       { when: { done: ['plant', 'turret'], notDone: ['hold'] }, delay: 90, alarm: '⚠ Massed raider wave — double strength!',
         spawn: [
-          { unit: 'raider', team: 2, n: 4, at: [3000, 1152], aim: 'power',  order: 'attackhq' },
-          { unit: 'marine', team: 2, n: 3, at: [2990, 1000], aim: 'turret', order: 'attackhq' },
+          { unit: 'raider', team: 2, n: 4, at: [4500, 1728], aim: 'power',  order: 'attackhq' },
+          { unit: 'marine', team: 2, n: 3, at: [4485, 1500], aim: 'turret', order: 'attackhq' },
         ] },
       { when: { done: ['plant', 'turret'] }, delay: 120,
         say: [['red', 'Cut the power and the wall is just masonry. Second element — find their plants.']] },
       { when: { done: ['plant', 'turret'], notDone: ['hold'] }, delay: 130, repeat: true, every: 60,
-        spawn: { unit: 'tank', team: 2, n: 1, at: [3000, 1360], aim: 'power', order: 'attackhq' } },
+        spawn: { unit: 'tank', team: 2, n: 1, at: [4500, 2040], aim: 'power', order: 'attackhq' } },
       { when: { done: ['plant', 'turret'] }, delay: 210, alarm: '⚠ Heavy armor push — double strength!',
         spawn: [
-          { unit: 'tank',   team: 2, n: 4, at: [3000, 1152], aim: 'power', order: 'attackhq' },
-          { unit: 'rocket', team: 2, n: 5, at: [2990, 1300], aim: 'turret', order: 'attackhq' },
+          { unit: 'tank',   team: 2, n: 4, at: [4500, 1728], aim: 'power', order: 'attackhq' },
+          { unit: 'rocket', team: 2, n: 5, at: [4485, 1950], aim: 'turret', order: 'attackhq' },
         ],
         say: [['ops', 'That is everything he has been holding back. Repair through it, Commander — Engineers on the turrets, and keep the grid up.']] },
       { when: { done: ['plant', 'turret'], notDone: ['hold'] }, delay: 290, repeat: true, every: 45,
-        spawn: { unit: 'raider', team: 2, n: 3, at: [2990, 980], aim: 'power', order: 'attackhq' } },
+        spawn: { unit: 'raider', team: 2, n: 3, at: [4485, 1470], aim: 'power', order: 'attackhq' } },
       { when: { done: ['plant', 'turret'], notDone: ['hold'] }, delay: 305, alarm: '⚠ Krauss commits everything!',
         spawn: [
-          { unit: 'raider', team: 2, n: 6, at: [3000, 1100], aim: 'power',  order: 'attackhq' },
-          { unit: 'marine', team: 2, n: 4, at: [2990, 1250], aim: 'turret', order: 'attackhq' },
-          { unit: 'tank',   team: 2, n: 2, at: [3000, 1360], aim: 'power',  order: 'attackhq' },
+          { unit: 'raider', team: 2, n: 6, at: [4500, 1650], aim: 'power',  order: 'attackhq' },
+          { unit: 'marine', team: 2, n: 4, at: [4485, 1875], aim: 'turret', order: 'attackhq' },
+          { unit: 'tank',   team: 2, n: 2, at: [4500, 2040], aim: 'power',  order: 'attackhq' },
         ],
         say: [['red', 'All elements, final push. Flatten it or stop billing me.']] },
       { when: { done: ['hold'] },
@@ -981,7 +986,7 @@ const MISSIONS = [
     title: 'Ghost Survey', act: 'Act I — The Crystal War',
     // commando raid: no HQ, no construction, no production. Nothing to offer.
     allow: { bld: [], unit: [] },
-    map: 'fen', diff: 'normal', noEnemy: true, noBase: true, start: [600, 1900],
+    map: 'fen', diff: 'normal', noEnemy: true, noBase: true, start: [900, 2850],
     // NO nests on this one. The squad has no economy and no replacements, and
     // the causeways are the only crossings — so any mound near a crossing sits
     // on the one route the player can take. Measured: a nest at the west
@@ -991,9 +996,9 @@ const MISSIONS = [
     // to guard) and the roaming critters keep the swamp alive; the threat here
     // is Rubicon, which is the point of the mission.
     fields: [
-      { p: [922, 1152],  n: 7,  a: 2300 },
-      { p: [2150, 1152], n: 7,  a: 2300 },
-      { p: [1536, 1152], n: 10, a: 3000 },
+      { p: [1383, 1728],  n: 7,  a: 2300 },
+      { p: [3225, 1728], n: 7,  a: 2300 },
+      { p: [2304, 1728], n: 10, a: 3000 },
     ],
     brief: [
       ['ops', 'No base this time, Commander. One transport, one squad, and a swamp Rubicon thinks is empty.'],
@@ -1007,10 +1012,10 @@ const MISSIONS = [
       ['ops', 'Squad is on the ground. Relays are marked — work north, and use the medic. Every body you lose is a body you do not get back.'],
     ],
     objectives: [
-      { id: 'relays',  text: 'Destroy Krauss\'s four survey relays', type: 'groupDead', group: 'relays', mark: [700, 980] },
-      { id: 'power',   text: 'Cut the field lab\'s power — both generators', type: 'groupDead', group: 'labpower', hidden: true, mark: [2620, 200] },
-      { id: 'lab',     text: 'Reach the darkened lab and pull the drilling logs', type: 'reach', x: 2450, y: 300, r: 150, hidden: true, mark: [2450, 300] },
-      { id: 'exfil',   text: 'Reach the emergency LZ on the east coast (3+ alive)', type: 'groupReach', group: 'squad', x: 2880, y: 2040, r: 220, count: 3, hidden: true, mark: [2880, 2040] },
+      { id: 'relays',  text: 'Destroy Krauss\'s four survey relays', type: 'groupDead', group: 'relays', mark: [1050, 1470] },
+      { id: 'power',   text: 'Cut the field lab\'s power — both generators', type: 'groupDead', group: 'labpower', hidden: true, mark: [3930, 300] },
+      { id: 'lab',     text: 'Reach the darkened lab and pull the drilling logs', type: 'reach', x: 3675, y: 450, r: 150, hidden: true, mark: [3675, 450] },
+      { id: 'exfil',   text: 'Reach the emergency LZ on the east coast (3+ alive)', type: 'groupReach', group: 'squad', x: 4320, y: 3060, r: 220, count: 3, hidden: true, mark: [4320, 3060] },
     ],
     winWhen: ['relays', 'power', 'lab', 'exfil'],
     triggers: [
@@ -1018,58 +1023,58 @@ const MISSIONS = [
         spawn: [
           // Boone walks point — his own group carries the hero rule: the
           // mission dies with him (the exfil quota stays on 'squad')
-          { group: 'boone', unit: 'commando', team: 1, n: 1, at: [600, 1850] },
-          { group: 'squad', unit: 'marine',   team: 1, n: 5, at: [600, 1900] },
-          { group: 'squad', unit: 'sniper',   team: 1, n: 2, at: [660, 1960] },
-          { group: 'squad', unit: 'medic',    team: 1, n: 2, at: [540, 1960] },
-          { group: 'squad', unit: 'engineer', team: 1, n: 1, at: [600, 2010] },
-          { group: 'squad', unit: 'apc',      team: 1, n: 1, at: [700, 1860] },
+          { group: 'boone', unit: 'commando', team: 1, n: 1, at: [900, 2775] },
+          { group: 'squad', unit: 'marine',   team: 1, n: 5, at: [900, 2850] },
+          { group: 'squad', unit: 'sniper',   team: 1, n: 2, at: [990, 2940] },
+          { group: 'squad', unit: 'medic',    team: 1, n: 2, at: [810, 2940] },
+          { group: 'squad', unit: 'engineer', team: 1, n: 1, at: [900, 3015] },
+          { group: 'squad', unit: 'apc',      team: 1, n: 1, at: [1050, 2790] },
           // Krauss's quiet little network — four posts, corner to corner
-          { group: 'relays', bld: 'supply', team: 2, at: [700, 980] },
-          { group: 'relays', bld: 'supply', team: 2, at: [2400, 1330] },
-          { group: 'relays', bld: 'supply', team: 2, at: [1350, 420] },
-          { group: 'relays', bld: 'supply', team: 2, at: [500, 380] },
-          { bld: 'barracks', team: 2, at: [2450, 300] },
-          { bld: 'turret',   team: 2, at: [2400, 430] },
+          { group: 'relays', bld: 'supply', team: 2, at: [1050, 1470] },
+          { group: 'relays', bld: 'supply', team: 2, at: [3600, 1995] },
+          { group: 'relays', bld: 'supply', team: 2, at: [2025, 630] },
+          { group: 'relays', bld: 'supply', team: 2, at: [750, 570] },
+          { bld: 'barracks', team: 2, at: [3675, 450] },
+          { bld: 'turret',   team: 2, at: [3600, 645] },
           // the lab runs off its own grid; dark, its door opens
-          { group: 'labpower', bld: 'power', team: 2, at: [2620, 200] },
-          { group: 'labpower', bld: 'power', team: 2, at: [2270, 170] },
+          { group: 'labpower', bld: 'power', team: 2, at: [3930, 300] },
+          { group: 'labpower', bld: 'power', team: 2, at: [3405, 255] },
           // difficulty pass (2026-08-01, tuned across two playtests: <4 min
           // speedrun → too hard → this): every relay garrisoned — a marine
           // pair screens, a sniper or rocket gives the post reach. Guards,
           // not nests: visible, plannable.
-          { unit: 'marine', team: 2, n: 2, at: [760, 1040],  order: 'guard' },
-          { unit: 'sniper', team: 2, n: 1, at: [700, 900],   order: 'guard' },
-          { unit: 'marine', team: 2, n: 2, at: [2340, 1280], order: 'guard' },
-          { unit: 'rocket', team: 2, n: 1, at: [2460, 1390], order: 'guard' },
-          { unit: 'marine', team: 2, n: 2, at: [1400, 480],  order: 'guard' },
-          { unit: 'sniper', team: 2, n: 1, at: [1290, 370],  order: 'guard' },
-          { unit: 'marine', team: 2, n: 2, at: [560, 450],   order: 'guard' },
-          { unit: 'marine', team: 2, n: 2, at: [2450, 240],  order: 'guard' },
-          { unit: 'sniper', team: 2, n: 1, at: [2530, 370],  order: 'guard' },
-          { unit: 'marine', team: 2, n: 2, at: [2820, 960],  order: 'guard' },
+          { unit: 'marine', team: 2, n: 2, at: [1140, 1560],  order: 'guard' },
+          { unit: 'sniper', team: 2, n: 1, at: [1050, 1350],   order: 'guard' },
+          { unit: 'marine', team: 2, n: 2, at: [3510, 1920], order: 'guard' },
+          { unit: 'rocket', team: 2, n: 1, at: [3690, 2085], order: 'guard' },
+          { unit: 'marine', team: 2, n: 2, at: [2100, 720],  order: 'guard' },
+          { unit: 'sniper', team: 2, n: 1, at: [1935, 555],  order: 'guard' },
+          { unit: 'marine', team: 2, n: 2, at: [840, 675],   order: 'guard' },
+          { unit: 'marine', team: 2, n: 2, at: [3675, 360],  order: 'guard' },
+          { unit: 'sniper', team: 2, n: 1, at: [3795, 555],  order: 'guard' },
+          { unit: 'marine', team: 2, n: 2, at: [4230, 1440],  order: 'guard' },
           // the swamp isn't empty either: a wild pack claims the center
           // crystal field (OFF the causeway line — routable around, per the
           // no-nests-on-the-route rule) and a pair haunts the south-east bank
-          { unit: 'spitter', team: 3, n: 3, at: [1536, 1152], order: 'guard' },
-          { unit: 'spitter', team: 3, n: 2, at: [2700, 1720], order: 'guard' },
+          { unit: 'spitter', team: 3, n: 3, at: [2304, 1728], order: 'guard' },
+          { unit: 'spitter', team: 3, n: 2, at: [4050, 2580], order: 'guard' },
         ] },
       { when: { time: 14 },
         say: [['sci', 'The relays are listening posts, Commander — if one of them sees you before it dies, the lab knows you are coming.']] },
       // patrols sweep the causeways from the start: the fen is watched, not empty
       { when: { time: 70, notDone: ['exfil'] }, repeat: true, every: 95,
-        spawn: { unit: 'marine', team: 2, n: 2, at: [2900, 250], order: 'attackhq', to: [1600, 1100] } },
+        spawn: { unit: 'marine', team: 2, n: 2, at: [4350, 375], order: 'attackhq', to: [2400, 1650] } },
       { when: { groupDead: 'relays' }, objective: 'power',
         say: [['ops', 'All four relays are dark. Krauss just went blind across the whole fen.'],
               ['red', 'Relay net is down. ...All of it? In a swamp? Seal the lab and get me eyes on the north bank.'],
               ['sci', 'Sealed means powered, Commander. Two generators behind the lab — take those and the door is just a door.']] },
       // he starts sweeping for you once the relays drop
       { when: { groupDead: 'relays', notDone: ['exfil'] }, delay: 30, repeat: true, every: 85,
-        spawn: { unit: 'raider', team: 2, n: 2, at: [2900, 200], order: 'attackhq', to: [1500, 900] } },
+        spawn: { unit: 'raider', team: 2, n: 2, at: [4350, 300], order: 'attackhq', to: [2250, 1350] } },
       { when: { groupDead: 'labpower' }, objective: 'lab',
         say: [['sci', 'Lab is dark. Walk in and pull the drilling logs — everything he has on what is under this swamp.']] },
       { when: { groupDead: 'labpower', notDone: ['exfil'] }, delay: 25, repeat: true, every: 80,
-        spawn: { unit: 'marine', team: 2, n: 2, at: [2900, 400], order: 'attackhq', to: [2450, 300] } },
+        spawn: { unit: 'marine', team: 2, n: 2, at: [4350, 600], order: 'attackhq', to: [3675, 450] } },
       // the way you came in is closed — the long walk down the coast
       { when: { done: ['lab'] }, objective: 'exfil', alarm: '⚠ Landing zone overrun — divert to the east coast!',
         say: [['sci', 'I have the logs. His deepest bore is four kilometers down and still reading crystal. That is not a deposit — a deposit has a bottom.'],
@@ -1077,20 +1082,20 @@ const MISSIONS = [
               ['ops', 'Original LZ is gone. New extraction on the east coast, marked — move, Commander, and do not stop to win anything.'],
               ['cdo', 'Light\'s on. Everybody home.']] },
       { when: { done: ['lab'] }, delay: 4,
-        spawn: { unit: 'marine', team: 2, n: 4, at: [600, 1900], order: 'guard' } },
+        spawn: { unit: 'marine', team: 2, n: 4, at: [900, 2850], order: 'guard' } },
       // Krauss's platoon actually LANDS on the LZ (his line above promises it —
       // pre-difficulty-pass nothing spawned there and the walk ended in a hug)
       { when: { done: ['lab'] }, delay: 10,
         spawn: [
-          { unit: 'marine', team: 2, n: 3, at: [2880, 2040], order: 'guard' },
-          { unit: 'sniper', team: 2, n: 1, at: [2820, 1980], order: 'guard' } ] },
+          { unit: 'marine', team: 2, n: 3, at: [4320, 3060], order: 'guard' },
+          { unit: 'sniper', team: 2, n: 1, at: [4230, 2970], order: 'guard' } ] },
       // the pursuit: one cadence, no valve (the optional fuel-dump objective
       // was tried 2026-08-01 and cut same day — Bronson: "kill the secondary
       // mission"). Softened round 3 same day: back near the original 58/75.
       { when: { done: ['lab'], notDone: ['exfil'] }, delay: 14, repeat: true, every: 60,
-        spawn: { unit: 'marine', team: 2, n: 3, at: [2500, 250], order: 'attackhq', to: [2700, 1500] } },
+        spawn: { unit: 'marine', team: 2, n: 3, at: [3750, 375], order: 'attackhq', to: [4050, 2250] } },
       { when: { done: ['lab'], notDone: ['exfil'] }, delay: 55, repeat: true, every: 85,
-        spawn: { unit: 'raider', team: 2, n: 2, at: [2990, 1200], order: 'attackhq', to: [2880, 2040] } },
+        spawn: { unit: 'raider', team: 2, n: 2, at: [4485, 1800], order: 'attackhq', to: [4320, 3060] } },
       // the long walk gets the reveal, so the debrief doesn't have to carry it
       { when: { done: ['lab'] }, delay: 30,
         say: [['sci', 'Commander, while you walk — I have been reading. He is not drilling toward a deposit. He is drilling toward a single crystal. One structure, kilometers across.'],
@@ -1126,41 +1131,41 @@ const MISSIONS = [
       ['ops', 'Orbital dropped a strike element with you. Clock is live and it is not generous — build what you need and move.'],
     ],
     objectives: [
-      { id: 'silo', text: 'Destroy Krauss\'s missile silo', type: 'destroy', bld: 'silo', x: 2700, y: 1152, r: 240,
-        limit: 720, onExpire: 'lose', mark: [2700, 1152] },
+      { id: 'silo', text: 'Destroy Krauss\'s missile silo', type: 'destroy', bld: 'silo', x: 4050, y: 1728, r: 240,
+        limit: 720, onExpire: 'lose', mark: [4050, 1728] },
     ],
     winWhen: ['silo'],
     triggers: [
       { when: { time: 0.5 }, crystals: 500,
         spawn: [
-          { unit: 'tank',   team: 1, n: 2, at: [430, 1290] },
-          { unit: 'rocket', team: 1, n: 2, at: [500, 1360] },
-          { unit: 'marine', team: 1, n: 3, at: [380, 1380] },
+          { unit: 'tank',   team: 1, n: 2, at: [645, 1935] },
+          { unit: 'rocket', team: 1, n: 2, at: [750, 2040] },
+          { unit: 'marine', team: 1, n: 3, at: [570, 2070] },
           // Krauss's silo complex and the line built to buy it time
-          { bld: 'silo',   team: 2, at: [2700, 1152] },
-          { bld: 'power',  team: 2, at: [2860, 1040] },
-          { bld: 'power',  team: 2, at: [2860, 1270] },
-          { bld: 'turret', team: 2, at: [2430, 980] },
-          { bld: 'turret', team: 2, at: [2430, 1330] },
-          { bld: 'turret', team: 2, at: [2560, 1152] },
-          { bld: 'supply', team: 2, at: [2880, 1152] },
-          { unit: 'marine', team: 2, n: 4, at: [2480, 1152], order: 'guard' },
-          { unit: 'tank',   team: 2, n: 2, at: [2600, 1000], order: 'guard' },
+          { bld: 'silo',   team: 2, at: [4050, 1728] },
+          { bld: 'power',  team: 2, at: [4290, 1560] },
+          { bld: 'power',  team: 2, at: [4290, 1905] },
+          { bld: 'turret', team: 2, at: [3645, 1470] },
+          { bld: 'turret', team: 2, at: [3645, 1995] },
+          { bld: 'turret', team: 2, at: [3840, 1728] },
+          { bld: 'supply', team: 2, at: [4320, 1728] },
+          { unit: 'marine', team: 2, n: 4, at: [3720, 1728], order: 'guard' },
+          { unit: 'tank',   team: 2, n: 2, at: [3900, 1500], order: 'guard' },
         ] },
       { when: { time: 20 },
         say: [['sci', 'The silo is drawing power from two plants behind the line. Take those and the launch stalls — it will not stop the clock, but it will slow it.']] },
       // scripted counterattacks: he is buying minutes, not winning
       { when: { time: 75, notDone: ['silo'] }, repeat: true, every: 60,
-        spawn: { unit: 'raider', team: 2, n: 2, at: [2900, 900], order: 'attackhq' } },
+        spawn: { unit: 'raider', team: 2, n: 2, at: [4350, 1350], order: 'attackhq' } },
       { when: { time: 150, notDone: ['silo'] }, repeat: true, every: 75,
-        spawn: { unit: 'tank', team: 2, n: 1, at: [2900, 1400], order: 'attackhq' } },
+        spawn: { unit: 'tank', team: 2, n: 1, at: [4350, 2100], order: 'attackhq' } },
       // the fuse for Act 2 — he nukes a nest field to clear ground, on camera
-      { when: { time: 235, notDone: ['silo'] }, focus: [1536, 1152],
+      { when: { time: 235, notDone: ['silo'] }, focus: [2304, 1728],
         say: [['red', 'Clearance shot on the center field. Log it as geological obstruction removal.']] },
       // a salvo, one warhead per colony — a single shell at the midpoint left
       // one mound standing on 87hp and made Lin's next line a lie
       { when: { time: 240, notDone: ['silo'] },
-        nuke: [{ at: [1426, 1042] }, { at: [1646, 1262] }],
+        nuke: [{ at: [2139, 1563] }, { at: [2469, 1893] }],
         say: [['sci', 'He is firing on the CENTER FIELD? There are two colonies on that ground — Commander, if you have anything near the middle of this map, move it NOW.']] },
       { when: { time: 278, notDone: ['silo'] },
         say: [['sci', 'Seismographs just went off the scale, and it is not the blast. The hum did not stop when the colonies died. It got LOUDER. Something answered that.'],
@@ -1199,34 +1204,34 @@ const MISSIONS = [
     ],
     objectives: [
       { id: 'dam',   text: 'Build a Hydro Dam across the river (J)', type: 'built', bld: 'hydro', count: 1 },
-      { id: 'fortN', text: 'Break the northern river fort', type: 'flag', hidden: true, mark: [1780, 1000] },
-      { id: 'fortS', text: 'Break the southern river fort', type: 'flag', hidden: true, mark: [1790, 1860] },
-      { id: 'hq',    text: 'Destroy Rubicon headquarters', type: 'destroy', bld: 'hq', x: 2842, y: 1112, r: 420, hidden: true, mark: [2842, 1112] },
-      { id: 'brood', text: 'Something is surfacing across the valley — stand your ground', type: 'flag', hidden: true, mark: [2760, 1180] },
+      { id: 'fortN', text: 'Break the northern river fort', type: 'flag', hidden: true, mark: [2670, 1500] },
+      { id: 'fortS', text: 'Break the southern river fort', type: 'flag', hidden: true, mark: [2685, 2790] },
+      { id: 'hq',    text: 'Destroy Rubicon headquarters', type: 'destroy', bld: 'hq', x: 4263, y: 1668, r: 420, hidden: true, mark: [4263, 1668] },
+      { id: 'brood', text: 'Something is surfacing across the valley — stand your ground', type: 'flag', hidden: true, mark: [4140, 1770] },
     ],
     winWhen: ['dam', 'fortN', 'fortS', 'hq', 'brood'],
     triggers: [
       // a task force lands with you — this is the offensive, not another survey
       { when: { time: 0.5 }, crystals: 150,
         spawn: [
-          { unit: 'marine', team: 1, n: 3, at: [420, 1330] },
-          { unit: 'rocket', team: 1, n: 2, at: [480, 1260] },
+          { unit: 'marine', team: 1, n: 3, at: [630, 1995] },
+          { unit: 'rocket', team: 1, n: 2, at: [720, 1890] },
         ] },
       // the two crossing forts, pre-built on the east bank
       { when: { time: 1 },
         spawn: [
-          { group: 'fortN', bld: 'turret', team: 2, at: [1760, 940] },
-          { group: 'fortN', bld: 'turret', team: 2, at: [1790, 1060] },
-          { group: 'fortN', bld: 'supply', team: 2, at: [1880, 1000] },
+          { group: 'fortN', bld: 'turret', team: 2, at: [2640, 1410] },
+          { group: 'fortN', bld: 'turret', team: 2, at: [2685, 1590] },
+          { group: 'fortN', bld: 'supply', team: 2, at: [2820, 1500] },
           // clear of the southern overlook's cliff rim — a fort hugging the rim
           // makes a wall+building pinch that swallows attackers (map gotcha)
-          { group: 'fortS', bld: 'turret', team: 2, at: [1770, 1830] },
-          { group: 'fortS', bld: 'turret', team: 2, at: [1800, 1950] },
-          { group: 'fortS', bld: 'supply', team: 2, at: [1700, 1745] },
-          { unit: 'marine', team: 2, n: 2, at: [1850, 1000], order: 'guard' },
-          { unit: 'rocket', team: 2, n: 1, at: [1830, 940],  order: 'guard' },
-          { unit: 'marine', team: 2, n: 2, at: [1860, 1870], order: 'guard' },
-          { unit: 'rocket', team: 2, n: 1, at: [1840, 1810], order: 'guard' },
+          { group: 'fortS', bld: 'turret', team: 2, at: [2655, 2745] },
+          { group: 'fortS', bld: 'turret', team: 2, at: [2700, 2925] },
+          { group: 'fortS', bld: 'supply', team: 2, at: [2550, 2618] },
+          { unit: 'marine', team: 2, n: 2, at: [2775, 1500], order: 'guard' },
+          { unit: 'rocket', team: 2, n: 1, at: [2745, 1410],  order: 'guard' },
+          { unit: 'marine', team: 2, n: 2, at: [2790, 2805], order: 'guard' },
+          { unit: 'rocket', team: 2, n: 1, at: [2760, 2715], order: 'guard' },
         ] },
       { when: { done: ['dam'] }, objective: ['fortN', 'fortS'],
         say: [['ops', 'Dam is holding and the grid has never looked better. Note the walkway, Commander — rifles cross there, tracks do not. Vehicles still take a causeway.'],
@@ -1255,19 +1260,19 @@ const MISSIONS = [
       // one dead-center in the valley beside the river Lin flagged as hollow
       // in the briefing. 7 raptors from each, pinned via `birth`.
       { when: { done: ['hq'] }, delay: 10, objective: 'brood', alarm: '⚠ Seismic rupture — multiple breaches!',
-        focus: [2760, 1180],   // the act's cliffhanger — put it on screen, always
+        focus: [4140, 1770],   // the act's cliffhanger — put it on screen, always
         // invuln: Act 1 does NOT get to answer this. The dens erupt, the packs
         // they birth come with them, and the act ends whatever the player does.
         spawn: [
           // plot armor: the brood shares a 4-death budget — 4 raptors can be
           // shot down, the other 10 ride lethal hits to a sliver and keep
           // killing (Bronson 2026-08-01: "those raptors don't die easy")
-          { group: 'den', bld: 'den', at: [2760, 1180], invuln: true, birth: 7, plot: 'brood7', plotCap: 4 },
-          { group: 'den', bld: 'den', at: [1330, 1152], invuln: true, birth: 7, plot: 'brood7', plotCap: 4 },
+          { group: 'den', bld: 'den', at: [4140, 1770], invuln: true, birth: 7, plot: 'brood7', plotCap: 4 },
+          { group: 'den', bld: 'den', at: [1995, 1728], invuln: true, birth: 7, plot: 'brood7', plotCap: 4 },
         ],
         say: [['sci', 'THE GROUND — Commander, get your people off that ridge, the whole plate just—']] },
       // swing the camera to the second breach so both registers land
-      { when: { done: ['hq'] }, delay: 14, focus: [1330, 1152],
+      { when: { done: ['hq'] }, delay: 14, focus: [1995, 1728],
         say: [['sci', 'Another one. Mid-valley, right on the river line — that is TWO, Commander.']] },
       { when: { done: ['hq'] }, delay: 19,
         say: [['ops', 'What ARE those? They came up through his foundations and the middle of our valley in the same breath—'],
@@ -1302,7 +1307,7 @@ const MISSIONS = [
     ],
     objectives: [
       { id: 'race', text: 'Out-haul Rubicon — bank 6000 crystals', type: 'mined', amount: 6000 },
-      { id: 'fwd',  text: 'Destroy Rubicon\'s forward refinery', type: 'destroy', bld: 'refinery', x: 2150, y: 430, r: 210, mark: [2150, 430] },
+      { id: 'fwd',  text: 'Destroy Rubicon\'s forward refinery', type: 'destroy', bld: 'refinery', x: 3225, y: 645, r: 210, mark: [3225, 645] },
       { id: 'hold', text: 'Survive what comes out of the crater', type: 'survive', secs: 90, hidden: true },
     ],
     winWhen: ['race', 'fwd', 'hold'],
@@ -1310,12 +1315,12 @@ const MISSIONS = [
       // his forward refinery: the counter you can actually shoot
       { when: { time: 0.5 }, crystals: 300,
         spawn: [
-          { bld: 'refinery', team: 2, at: [2150, 430] },
-          { bld: 'turret',   team: 2, at: [2320, 380] },
-          { bld: 'supply',   team: 2, at: [2020, 310] },
-          { unit: 'harvester', team: 2, n: 3, at: [2150, 530] },
-          { unit: 'marine',  team: 2, n: 3, at: [2240, 480], order: 'guard' },
-          { unit: 'tank',    team: 2, n: 1, at: [2060, 400], order: 'guard' },
+          { bld: 'refinery', team: 2, at: [3225, 645] },
+          { bld: 'turret',   team: 2, at: [3480, 570] },
+          { bld: 'supply',   team: 2, at: [3030, 465] },
+          { unit: 'harvester', team: 2, n: 3, at: [3225, 795] },
+          { unit: 'marine',  team: 2, n: 3, at: [3360, 720], order: 'guard' },
+          { unit: 'tank',    team: 2, n: 1, at: [3090, 600], order: 'guard' },
         ] },
       // THE RACE. His strip-mining operation hauls ~640/min while the forward
       // camp feeds it and ~210/min once you raze it — so the objective is the
@@ -1336,10 +1341,10 @@ const MISSIONS = [
       { when: { haul: 7000 }, lose: true },
       // he clears the "overburden" — the same clearance shot as M6, casually,
       // as a mining operation rather than an act of war
-      { when: { time: 200 }, focus: [1536, 1152],
+      { when: { time: 200 }, focus: [2304, 1728],
         say: [['red', 'Clearance shot on the pit floor. Both mounds. Bill it to overburden removal.']] },
       { when: { time: 206 },
-        nuke: [{ at: [1386, 1052] }, { at: [1686, 1252] }],
+        nuke: [{ at: [2079, 1578] }, { at: [2529, 1878] }],
         say: [['sci', 'He is doing it AGAIN — Commander, anything you have on the pit floor, move it now!']] },
       { when: { time: 244 },
         say: [['sci', 'Both colonies are gone and the hum did not stop. It is louder than the Silo Fields and it is coming from UNDER the pit. That is not an echo. That is something moving.']] },
@@ -1351,11 +1356,11 @@ const MISSIONS = [
       // own birth burst mauls Rubicon's pit crews at the same time
       { when: { done: ['race', 'fwd'] }, delay: 8, objective: 'hold',
         alarm: '⚠ The pit floor is breaking open!',
-        focus: [1536, 1152],
+        focus: [2304, 1728],
         spawn: [
-          { bld: 'den', team: 3, at: [1536, 1152] },
-          { unit: 'raptor', team: 3, n: 6, at: [1450, 1230], order: 'attackhq' },
-          { unit: 'raptor', team: 3, n: 3, at: [1640, 1070], aim: 'refinery' },
+          { bld: 'den', team: 3, at: [2304, 1728] },
+          { unit: 'raptor', team: 3, n: 6, at: [2175, 1845], order: 'attackhq' },
+          { unit: 'raptor', team: 3, n: 3, at: [2460, 1605], aim: 'refinery' },
         ],
         say: [['sci', 'The crater floor just came apart. That is a den, Commander — a nest builds, a den HUNTS. And it is not hunting us specifically.'],
               ['ops', 'Packs are already through the wire — they are going for the harvest line! Everything on the wall, and get those harvesters HOME.']] },
@@ -1363,8 +1368,8 @@ const MISSIONS = [
       // settle into a firing line
       { when: { done: ['race', 'fwd'] }, delay: 30, alarm: '⚠ More raptors out of the crater!',
         spawn: [
-          { unit: 'raptor', team: 3, n: 4, at: [1536, 1260], order: 'attackhq' },
-          { unit: 'raptor', team: 3, n: 2, at: [1430, 1100], aim: 'refinery' },
+          { unit: 'raptor', team: 3, n: 4, at: [2304, 1890], order: 'attackhq' },
+          { unit: 'raptor', team: 3, n: 2, at: [2145, 1650], aim: 'refinery' },
         ] },
       { when: { done: ['hold'] },
         say: [['red', 'Expedition, this is Krauss on open channel. My forward camp is gone. Not overrun — GONE. Whatever came out of your pit walked through a turret line without slowing down.']] },
@@ -1388,7 +1393,7 @@ const MISSIONS = [
     // emptiness IS the mission's texture).
     title: 'The Silence', act: 'Act II — The Awakening',
     allow: { bld: [], unit: [] },
-    map: 'boneyard', diff: 'normal', noEnemy: true, noBase: true, start: [1536, 2100],
+    map: 'boneyard', diff: 'normal', noEnemy: true, noBase: true, start: [2304, 3150],
     fields: [
       { p: [W * 0.16, H * 0.5], n: 8, a: 2600 },
       { p: [W * 0.84, H * 0.5], n: 8, a: 2600 },
@@ -1405,64 +1410,64 @@ const MISSIONS = [
       ['ops', 'K-7 is due north through the wall gates. Comms silence the whole way — assume nothing about why.'],
     ],
     objectives: [
-      { id: 'camp',    text: 'Push north into the silent outpost', type: 'reach', x: 1536, y: 620, r: 300 },
-      { id: 'bunker',  text: 'Reach the command bunker', type: 'reach', x: 1536, y: 200, r: 180, hidden: true, mark: [1536, 200] },
-      { id: 'extract', text: 'Get all three survivors to the extraction point', type: 'groupReach', group: 'survivors', x: 1536, y: 2150, r: 220, count: 3, hidden: true, mark: [1536, 2150] },
+      { id: 'camp',    text: 'Push north into the silent outpost', type: 'reach', x: 2304, y: 930, r: 300 },
+      { id: 'bunker',  text: 'Reach the command bunker', type: 'reach', x: 2304, y: 300, r: 180, hidden: true, mark: [2304, 300] },
+      { id: 'extract', text: 'Get all three survivors to the extraction point', type: 'groupReach', group: 'survivors', x: 2304, y: 3225, r: 220, count: 3, hidden: true, mark: [2304, 3225] },
     ],
     winWhen: ['camp', 'bunker', 'extract'],
     triggers: [
       { when: { time: 0.5 },
         spawn: [
-          { group: 'boone', unit: 'commando', team: 1, n: 1, at: [1536, 2100] },
-          { group: 'squad', unit: 'marine', team: 1, n: 5, at: [1536, 2150] },
-          { group: 'squad', unit: 'rocket', team: 1, n: 2, at: [1470, 2190] },
-          { group: 'squad', unit: 'sniper', team: 1, n: 1, at: [1600, 2190] },
-          { group: 'squad', unit: 'medic',  team: 1, n: 1, at: [1536, 2230] },
+          { group: 'boone', unit: 'commando', team: 1, n: 1, at: [2304, 3150] },
+          { group: 'squad', unit: 'marine', team: 1, n: 5, at: [2304, 3225] },
+          { group: 'squad', unit: 'rocket', team: 1, n: 2, at: [2205, 3285] },
+          { group: 'squad', unit: 'sniper', team: 1, n: 1, at: [2400, 3285] },
+          { group: 'squad', unit: 'medic',  team: 1, n: 1, at: [2304, 3345] },
           // K-7, standing and broken — the guns went first, so there are none
-          { bld: 'hq',       team: 2, at: [1536, 200],  hpFrac: 0.18 },
-          { bld: 'barracks', team: 2, at: [1336, 140],  hpFrac: 0.30 },
-          { bld: 'factory',  team: 2, at: [1136, 240],  hpFrac: 0.22 },
+          { bld: 'hq',       team: 2, at: [2304, 300],  hpFrac: 0.18 },
+          { bld: 'barracks', team: 2, at: [2004, 210],  hpFrac: 0.30 },
+          { bld: 'factory',  team: 2, at: [1704, 360],  hpFrac: 0.22 },
           // no supply depots in the ruins — their repair aura would slowly
           // heal the camp back to life, and a dead camp must STAY dead
-          { bld: 'airpad',   team: 2, at: [1716, 100],  hpFrac: 0.35 },
-          { bld: 'barracks', team: 2, at: [1396, 340],  hpFrac: 0.30 },
-          { bld: 'power',    team: 2, at: [1856, 180],  hpFrac: 0.20 },
-          { bld: 'power',    team: 2, at: [1246, 120],  hpFrac: 0.25 },
-          { bld: 'refinery', team: 2, at: [1756, 300],  hpFrac: 0.28 },
+          { bld: 'airpad',   team: 2, at: [2574, 150],  hpFrac: 0.35 },
+          { bld: 'barracks', team: 2, at: [2094, 510],  hpFrac: 0.30 },
+          { bld: 'power',    team: 2, at: [2784, 270],  hpFrac: 0.20 },
+          { bld: 'power',    team: 2, at: [1869, 180],  hpFrac: 0.25 },
+          { bld: 'refinery', team: 2, at: [2634, 450],  hpFrac: 0.28 },
           // eggs laid in the open, between the buildings
-          { egg: [1450, 300] }, { egg: [1600, 260] }, { egg: [1500, 420] },
-          { egg: [1380, 480] }, { egg: [1650, 380] }, { egg: [1560, 520] },
-          { egg: [1300, 220] }, { egg: [1700, 180] },
+          { egg: [2175, 450] }, { egg: [2400, 390] }, { egg: [2250, 630] },
+          { egg: [2070, 720] }, { egg: [2475, 570] }, { egg: [2340, 780] },
+          { egg: [1950, 330] }, { egg: [2550, 270] },
         ] },
-      { when: { near: [1536, 1500, 280] },
+      { when: { near: [2304, 2250, 420] },
         say: [['sci', 'No birds. No grazers. The bone flats are never this quiet — everything that could leave already left.']] },
       { when: { done: ['camp'] }, objective: 'bunker',
         say: [['sci', 'There are eggs in the streets, Commander. Laid in the OPEN, between the buildings. Whatever nested here was not afraid of anything.'],
               ['red', 'K-7 had forty-one people on shift, expedition. Keep moving.'],
               ['cdo', 'Eggs in the street means the street is theirs. Keep walking.']] },
       // first contact — the sky lanes between the walls belong to something new
-      { when: { near: [1536, 430, 260] },
+      { when: { near: [2304, 645, 390] },
         alarm: '⚠ Airborne contacts!',
         spawn: [
-          { unit: 'screecher', team: 3, n: 1, at: [1300, 60], to: [1536, 430] },
-          { unit: 'screecher', team: 3, n: 1, at: [1750, 60], to: [1536, 430] },
+          { unit: 'screecher', team: 3, n: 1, at: [1950, 90], to: [2304, 645] },
+          { unit: 'screecher', team: 3, n: 1, at: [2625, 90], to: [2304, 645] },
         ],
         say: [['sci', 'CONTACT — airborne, repeat, AIRBORNE. That is not a spitter. That is not anything we have on file!'],
               ['cdo', 'Rockets up. Watch the lanes.']] },
       { when: { done: ['bunker'] }, objective: 'extract',
         spawn: [
-          { group: 'survivors', unit: 'engineer', team: 1, n: 3, at: [1536, 260] },
+          { group: 'survivors', unit: 'engineer', team: 1, n: 3, at: [2304, 390] },
         ],
         say: [['ops', 'Three heartbeats in the command bunker — his engineers welded the door and waited. Good instinct.'],
               ['red', '…Three. Out of forty-one. Get them home, Commander, and Rubicon will remember it. That is not a small sentence from me.'],
               ['sci', 'The weld held because the things outside stopped trying after the first night. They were not hungry, Commander. They were clearing ground.']] },
       { when: { done: ['bunker'] }, delay: 6, alarm: '⚠ Wings inbound from the north!',
-        spawn: { unit: 'screecher', team: 3, n: 3, at: [1536, 40], to: [1536, 350] },
+        spawn: { unit: 'screecher', team: 3, n: 3, at: [2304, 60], to: [2304, 525] },
         say: [['ops', 'They know you have them. Run the gauntlet, Commander — south, and do not stop.']] },
       { when: { done: ['bunker'], notDone: ['extract'] }, delay: 25, repeat: true, every: 55,
-        spawn: { unit: 'screecher', team: 3, n: 2, at: [1400, 60], to: [1536, 1900] } },
+        spawn: { unit: 'screecher', team: 3, n: 2, at: [2100, 90], to: [2304, 2850] } },
       { when: { done: ['bunker'], notDone: ['extract'] }, delay: 60, repeat: true, every: 75,
-        spawn: { unit: 'screecher', team: 3, n: 2, at: [2500, 300], to: [1650, 1600] } },
+        spawn: { unit: 'screecher', team: 3, n: 2, at: [3750, 450], to: [2475, 2400] } },
       // the squad is small and the survivors are the mission — and Lighthouse
       // does not get left in the silence
       { when: { groupBelow: ['squad', 2] }, lose: true },
@@ -2316,7 +2321,7 @@ function findPath(x0, y0, x1, y1, foot) {
   // cliff rims forever (found on The Silo Fields' corner diagonals, 2026-07-25)
   const closed = new Uint8Array(MAP_W * MAP_H);
   let found = false, guard = 0;
-  while (heap.length && guard++ < 40000) {
+  while (heap.length && guard++ < 90000) {   // scaled with the 144x108 world (2.25x the cells of 96x72)
     const cur = pop();
     if (closed[cur]) continue;
     closed[cur] = 1;

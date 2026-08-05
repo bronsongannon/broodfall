@@ -608,6 +608,59 @@ const MAPS = {
     spires: [[W * 0.44, H * 0.33, 26], [W * 0.56, H * 0.67, 26], [W * 0.25, H * 0.55, 22]],
     pits: [[W * 0.20, H * 0.15, 32], [W * 0.80, H * 0.85, 32]],
   },
+  exodus: {
+    label: 'Exodus Road',
+    desc: 'One road through the drowned dark. Water walls, ridge bluffs, fields of fire — the only way out is along it.',
+    blurb: 'One artery through night swamp',
+    // roster map #12 (M12 "Exodus" — one long escort artery). The FIRST
+    // deliberately non-open map (2026-08-04, Bronson: "push the player
+    // specific directions"): a Z-shaped causeway is the ONLY ground route —
+    // water channels wall both sides, ridge bluffs double the worst stretches,
+    // and a flare line burns across the middle leg (thread the gaps or pay).
+    // Two elbows = two chokes; two pocket fields reward stepping off the road.
+    ground: { base: '#0b1210', mottle: 'rgba(90,140,120,0.02)', pebble: 'rgba(110,150,135,0.05)', grid: 'rgba(90,160,140,0.02)', hi: 'rgba(170,210,195,0.08)' },
+    pHQ: [W * 0.10, H * 0.84], pRax: [W * 0.16, H * 0.79], pPatch: [W * 0.15, H * 0.75],
+    eHQ: [W * 0.90, H * 0.12], eRax: [W * 0.84, H * 0.16], eFac: [W * 0.81, H * 0.10],
+    eSup: [[W * 0.94, H * 0.17], [W * 0.86, H * 0.07]], eTur: [[W * 0.85, H * 0.21], [W * 0.79, H * 0.14]],
+    eAir: [W * 0.93, H * 0.06],
+    ePatch: [W * 0.84, H * 0.20],
+    // the artery: SW -> east -> north -> northeast. Channels flank each leg;
+    // the gaps between channel segments are the pocket mouths, nothing else.
+    rivers: [
+      [W * 0.05, H * 0.93, W * 0.52, H * 0.89, 62],   // south bank, leg 1
+      [W * 0.12, H * 0.715, W * 0.235, H * 0.705, 58], // north bank leg 1, west half
+      [W * 0.315, H * 0.695, W * 0.44, H * 0.675, 58], // north bank leg 1, east half (gap = pocket A mouth)
+      [W * 0.385, H * 0.655, W * 0.415, H * 0.475, 60], // west wall, leg 2
+      [W * 0.60, H * 0.76, W * 0.615, H * 0.62, 60],  // east wall leg 2, south half
+      [W * 0.625, H * 0.52, W * 0.575, H * 0.44, 56], // east wall leg 2, north half (gap = pocket B mouth)
+      [W * 0.48, H * 0.30, W * 0.68, H * 0.175, 60],  // north wall, leg 3
+      [W * 0.63, H * 0.50, W * 0.83, H * 0.34, 62],   // south wall, leg 3
+      // corridor seals (found by the enforcement test — a raider walked the
+      // open west-middle and skipped elbow 1 entirely):
+      [W * 0.02, H * 0.52, W * 0.405, H * 0.48, 58],  // pocket A's north wall / west-middle seal (overlaps leg-2 west wall)
+      [W * 0.52, H * 0.135, W * 0.73, H * 0.095, 56], // north-lane seal above leg 3
+    ],
+    // ridge bluffs double the elbows — the new continuous-wall look up close
+    ridges: [
+      [W * 0.565, H * 0.875, W * 0.615, H * 0.77, 50], // elbow 1 outer corner (overlaps east wall)
+      [W * 0.30, H * 0.475, W * 0.42, H * 0.375, 48],  // elbow 2 outer corner
+      [W * 0.845, H * 0.325, W * 0.945, H * 0.255, 48], // eHQ southern approach (overlaps leg-3 wall)
+      [W * 0.055, H * 0.665, W * 0.145, H * 0.63, 44], // pHQ northern shoulder
+    ],
+    // the flare line: burning marsh gas across leg 2 — three fields with
+    // ~40px seams between them. Thread single-file, or eat VENT_DMG.
+    vents: [[W * 0.435, H * 0.555, 95], [W * 0.487, H * 0.545, 95], [W * 0.539, H * 0.555, 95]],
+    patches: [
+      { p: [W * 0.27, H * 0.585], n: 8, a: 2800, nests: [[W * 0.27 - 130, H * 0.585 - 110]] },  // pocket A
+      { p: [W * 0.665, H * 0.585], n: 8, a: 2800, nests: [[W * 0.665 + 130, H * 0.585 + 100]] }, // pocket B
+      { p: [W * 0.50, H * 0.415], n: 10, a: 3200, nests: [[W * 0.545, H * 0.395]] },             // elbow 2 mega
+    ],
+    roads: [[[W * 0.08, H * 0.84], [W * 0.46, H * 0.78], [W * 0.52, H * 0.42], [W * 0.88, H * 0.16]]],
+    flora: { blotch: 'rgba(60,110,90,0.45)', blotch2: 'rgba(4,10,8,0.6)', tuft: 'rgba(90,150,120,0.4)', bush: '#12281e', bushHi: '#1f3c2c', canopy: '#142e20', canopyHi: '#23422f', clumps: 110 },
+    groves: [[W * 0.22, H * 0.90, 90, 5], [W * 0.70, H * 0.66, 90, 5], [W * 0.60, H * 0.10, 85, 4]],
+    trees: [[W * 0.34, H * 0.86], [W * 0.44, H * 0.60], [W * 0.57, H * 0.34], [W * 0.20, H * 0.66], [W * 0.75, H * 0.42]],
+    pits: [[W * 0.31, H * 0.77, 30], [W * 0.66, H * 0.31, 30]],
+  },
 };
 
 // ---------------- Difficulty ----------------
@@ -1556,6 +1609,8 @@ let rocks = [];   // impassable terrain circles {x, y, r} — flyers ignore them
 // a death budget — once plotDeaths hits the cap, lethal hits ride survivors
 // down to a sliver instead of killing them. M7's finale brood loses exactly 4.
 let plotDeaths = {}, plotCaps = {};
+let vents = [];          // burning ground {x, y, r} — passable, damages ground units inside
+const VENT_DMG = 0.09;   // hp/tick (~5.4/s): crossing a flare field costs real blood, camping in one kills
 let nukes = [];          // inbound warheads {x, y, team, tier, t, max}
 let nukeTargeting = null;   // the silo currently picking a target
 const NUKE = {
@@ -2415,9 +2470,16 @@ function setup(mapKey) {
     const n = Math.max(1, Math.round(dist(x1, y1, x2, y2) / (r * 1.1)));
     for (let i = 0; i <= n; i++) {
       const t = i / n;
-      rocks.push({ x: x1 + (x2 - x1) * t, y: y1 + (y2 - y1) * t, r: r * (0.85 + Math.random() * 0.3) });
+      // ridge-tagged: collision as always, but paintRock skips them — the
+      // whole segment paints as ONE continuous elevated wall in paintRidges
+      // (2026-08-04, Bronson: "actual elevation, not little disks")
+      rocks.push({ x: x1 + (x2 - x1) * t, y: y1 + (y2 - y1) * t, r: r * (0.85 + Math.random() * 0.3), ridge: true });
     }
   }
+  // fire vents (2026-08-04): burning ground — passable, but ground units
+  // inside take VENT_DMG per tick. The level-design "soft wall": the shortcut
+  // you may take and pay for, vs cliffs/water you simply can't cross.
+  for (const [vx, vy, vr] of (M.vents || [])) vents.push({ x: vx, y: vy, r: vr });
   for (const [bx, by, br] of (M.boulders || [])) rocks.push({ x: bx, y: by, r: br });
   // water channels (2026-07-25, Blackwater Fen onward): chained circle
   // colliders on the ridge machinery — ground units can't cross, flyers
@@ -3701,6 +3763,17 @@ function drownSweep() {
       const fix = p.perp - Math.sign(p.perp) * PLANK_HUG;
       u.x += p.sa * fix; u.y -= p.ca * fix;
     }
+    // burning ground: flat DoT while inside a flare field (flyers soar over).
+    // No attacker, no retaliation target — the terrain itself is the enemy.
+    for (const v of vents) {
+      if (dist2(u.x, u.y, v.x, v.y) < v.r * v.r) {
+        u.hp -= VENT_DMG * armorMult(u);
+        if ((tick + u.id) % 24 === 0) {
+          fxs.push({ kind: 'spark', x: u.x + (Math.random() - 0.5) * 12, y: u.y - 6 - Math.random() * 8, t: 0, max: 14 });
+        }
+        break;
+      }
+    }
   }
 }
 
@@ -3970,6 +4043,7 @@ function aiSpotFree(type, wx, wy) {
   const cGap = d.w / 2 + (type === 'refinery' ? 65 : 26);
   for (const c of crystals) if (c.amount > 0 && dist2(wx, wy, c.x, c.y) < cGap ** 2) return false;
   for (const rk of rocks) if (Math.abs(wx - rk.x) < d.w / 2 + rk.r && Math.abs(wy - rk.y) < d.h / 2 + rk.r) return false;
+  for (const v of vents) if (dist2(wx, wy, v.x, v.y) < (v.r + d.w / 2) ** 2) return false;
   if (type === 'refinery' && !crystals.some(c => c.amount > 0 && dist2(wx, wy, c.x, c.y) < REFINERY_NEAR_CRYSTAL ** 2)) return false;
   return true;
 }
@@ -4571,6 +4645,8 @@ function canPlaceBuilding(type, wx, wy) {
     if (Math.abs(wx - b.x) < (b.w + d.w) / 2 + 10 && Math.abs(wy - b.y) < (b.h + d.h) / 2 + 10) return false;
   }
   for (const c of crystals) if (c.amount > 0 && dist2(wx, wy, c.x, c.y) < (d.w / 2 + 26) ** 2) return false;
+  // nothing gets built on burning ground
+  for (const v of vents) if (dist2(wx, wy, v.x, v.y) < (v.r + d.w / 2) ** 2) return false;
   // water buildings (hydro) invert the terrain rule: they stand ON a channel.
   // Water never blocks them; everything else still does; dry buildings still
   // reject water like any rock.
@@ -5083,8 +5159,127 @@ function paintTree(g, rk, flo) {
     g.beginPath(); g.arc(rk.x - rk.r * 0.22 + Math.cos(a) * rk.r * 0.28, rk.y - rk.r * 0.26 + Math.sin(a) * rk.r * 0.28, rk.r * 0.32, 0, Math.PI * 2); g.fill();
   }
 }
+// Ridges as ACTUAL ELEVATION (2026-08-04, Bronson: "not little disks"): each
+// authored segment paints as one continuous mesa wall — drop shadow downhill,
+// dark strata cliff faces, a sunlit cap running the crest, rim highlight on
+// the light side. Light convention matches the plateaus: from the north-west.
+function paintRidges(g, M) {
+  // deterministic hash noise — jagged, not sinusoidal (v1 read as a slug)
+  const hn = (s, i) => {
+    const v = Math.sin(s * 127.1 + i * 311.7) * 43758.545;
+    return v - Math.floor(v);
+  };
+  for (const [x1, y1, x2, y2, r] of ((M && M.ridges) || [])) {
+    const L = Math.max(1, dist(x1, y1, x2, y2));
+    const ax = (x2 - x1) / L, ay = (y2 - y1) / L;
+    const nx = -ay, ny = ax;
+    const seed = (x1 * 0.7 + y1 * 1.3) % 100;
+    const steps = Math.max(10, Math.round(L / 16));
+    // jagged width per step: coarse drift + per-step rock-tooth jitter,
+    // pinched to broken points at the ends
+    const wAt = (i, sign) => {
+      const t = i / steps;
+      const drift = 0.85 + 0.35 * hn(seed + sign * 7, Math.floor(i / 4));
+      const tooth = 0.75 + 0.5 * hn(seed + sign * 13, i);
+      const endPinch = Math.min(1, Math.min(i, steps - i) / 2.2);
+      return r * drift * tooth * Math.max(0.15, endPinch);
+    };
+    const pt = (i, sign, wMul, ox, oy) => {
+      const t = i / steps;
+      return [x1 + (x2 - x1) * t + nx * sign * wAt(i, sign) * wMul + (ox || 0),
+              y1 + (y2 - y1) * t + ny * sign * wAt(i, sign) * wMul + (oy || 0)];
+    };
+    const band = (wMul, ox, oy) => {
+      g.beginPath();
+      let p = pt(0, 1, wMul, ox, oy); g.moveTo(p[0], p[1]);
+      for (let i = 1; i <= steps; i++) { p = pt(i, 1, wMul, ox, oy); g.lineTo(p[0], p[1]); }
+      for (let i = steps; i >= 0; i--) { p = pt(i, -1, wMul, ox, oy); g.lineTo(p[0], p[1]); }
+      g.closePath();
+    };
+    // settling shadow downhill
+    g.fillStyle = 'rgba(0,0,0,0.28)';
+    band(1.05, 8, 12); g.fill();
+    // dark rock mass — the cliff faces ARE this silhouette's edges
+    g.fillStyle = '#252b25';
+    band(1.0, 0, 0); g.fill();
+    // faceted rock top: irregular angular slabs along the crest, two lit
+    // tones alternating, each slab its own quad — no continuous stripe
+    for (let i = 0; i < steps; i += 2) {
+      const skew = (hn(seed + 3, i) - 0.5) * 8;
+      const a0 = pt(i, 1, 0.55, -3 + skew, -5);
+      const a1 = pt(Math.min(i + 2, steps), 1, 0.5, 3 + skew, -6);
+      const b1 = pt(Math.min(i + 2, steps), -1, 0.45, skew, -4);
+      const b0 = pt(i, -1, 0.5, -2 + skew, -3);
+      g.fillStyle = hn(seed + 5, i) > 0.5 ? '#3d443b' : '#474f44';
+      g.beginPath();
+      g.moveTo(a0[0], a0[1]); g.lineTo(a1[0], a1[1]); g.lineTo(b1[0], b1[1]); g.lineTo(b0[0], b0[1]);
+      g.closePath(); g.fill();
+      // occasional brighter chip catching the light
+      if (hn(seed + 9, i) > 0.72) {
+        const c = pt(i + 1, 1, 0.28, skew, -7);
+        g.fillStyle = '#565e51';
+        g.beginPath();
+        g.moveTo(c[0], c[1]); g.lineTo(c[0] + 9 + skew, c[1] - 4); g.lineTo(c[0] + 3, c[1] + 6);
+        g.closePath(); g.fill();
+      }
+    }
+    // cracks: clustered, angled, varied — not ruler ticks
+    g.lineCap = 'round';
+    for (let i = 1; i < steps; i++) {
+      if (hn(seed + 21, i) < 0.45) continue;
+      const sign = hn(seed + 23, i) > 0.4 ? 1 : -1;   // more on the shadow side
+      const base = pt(i, sign, 0.55, 0, 0);
+      const out = pt(i, sign, 0.98, (hn(seed + 27, i) - 0.5) * 14, (hn(seed + 29, i) - 0.5) * 10);
+      g.strokeStyle = `rgba(0,0,0,${0.2 + hn(seed + 31, i) * 0.18})`;
+      g.lineWidth = 1.5 + hn(seed + 33, i) * 1.8;
+      g.beginPath(); g.moveTo(base[0], base[1]); g.lineTo(out[0], out[1]); g.stroke();
+    }
+    // talus: broken boulders scattered along the shadow foot
+    for (let i = 2; i < steps - 2; i += 3) {
+      if (hn(seed + 41, i) < 0.5) continue;
+      const f = pt(i, 1, 1.12, (hn(seed + 43, i) - 0.5) * 16, 6 + hn(seed + 47, i) * 8);
+      const br = 3 + hn(seed + 51, i) * 5;
+      g.fillStyle = '#2e352d';
+      g.beginPath(); g.arc(f[0], f[1], br, 0, Math.PI * 2); g.fill();
+      g.fillStyle = '#3a423a';
+      g.beginPath(); g.arc(f[0] - br * 0.3, f[1] - br * 0.35, br * 0.55, 0, Math.PI * 2); g.fill();
+    }
+  }
+}
+// Burning ground (MAPS.vents): scorched earth + glowing fissures baked into
+// the pre-render; the living flicker is drawn per-frame in drawVents.
+function paintVents(g, M) {
+  for (const [vx, vy, vr] of ((M && M.vents) || [])) {
+    const grad = g.createRadialGradient(vx, vy, vr * 0.1, vx, vy, vr * 1.25);
+    grad.addColorStop(0, 'rgba(12,8,6,0.85)');
+    grad.addColorStop(0.7, 'rgba(18,12,8,0.55)');
+    grad.addColorStop(1, 'rgba(20,14,10,0)');
+    g.fillStyle = grad;
+    g.beginPath(); g.arc(vx, vy, vr * 1.25, 0, Math.PI * 2); g.fill();
+    // fissures: jagged radial cracks that stay lit under the runtime glow
+    const seed = (vx * 0.017 + vy * 0.013) % 6.28;
+    g.lineCap = 'round';
+    for (let i = 0; i < 7; i++) {
+      const a = seed + (i / 7) * Math.PI * 2 + Math.sin(seed + i) * 0.4;
+      const len = vr * (0.45 + ((seed * (i + 3)) % 1) * 0.5);
+      let px = vx + Math.cos(a) * vr * 0.12, py = vy + Math.sin(a) * vr * 0.12;
+      g.strokeStyle = i % 2 ? '#c25a20' : '#e07828';
+      g.lineWidth = 2.5 + (i % 3);
+      g.beginPath(); g.moveTo(px, py);
+      for (let s = 1; s <= 3; s++) {
+        const ja = a + Math.sin(seed * 3 + i * 2 + s) * 0.55;
+        px += Math.cos(ja) * len / 3; py += Math.sin(ja) * len / 3;
+        g.lineTo(px, py);
+      }
+      g.stroke();
+    }
+    g.fillStyle = '#f0a040';
+    g.beginPath(); g.arc(vx, vy, vr * 0.10, 0, Math.PI * 2); g.fill();
+  }
+}
 function paintRock(g, rk, flo) {
   if (rk.water) return;   // water colliders are invisible — the band is painted in paintGround
+  if (rk.ridge) return;   // ridge chains paint as one continuous wall in paintRidges
   if (rk.tree) return paintTree(g, rk, flo || {});
   if (rk.cliff) {
     // scarp band: round-capped tangential strokes so the chained slabs read
@@ -5472,6 +5667,8 @@ function paintGround(M) {
       hillBlob(px, py, pr * 0.8, 0.09); g.stroke();
     }
   }
+  paintRidges(g, M);
+  paintVents(g, M);
   for (const rk of rocks) paintRock(g, rk, flo);
 }
 paintGround();   // pre-menu backdrop; setup() repaints with the map's terrain
@@ -6953,6 +7150,27 @@ function drawFx(f) {
 // static band alone read as "a road" (playtest 2026-07-25). Two dash streams
 // per segment slide along the flow at different speeds; a slow counter-drift
 // glint sells the current. Cheap: a few strokes per visible segment.
+// The living half of a flare field: pulsing glow + drifting embers over the
+// baked scorch/fissures. Deterministic from tick — no allocations per frame.
+function drawVents(vx, vy, vw, vh) {
+  for (const v of vents) {
+    if (v.x + v.r < vx || v.x - v.r > vx + vw || v.y + v.r < vy || v.y - v.r > vy + vh) continue;
+    const pulse = 0.5 + 0.5 * Math.sin(tick * 0.045 + v.x * 0.01);
+    const grad = cx.createRadialGradient(v.x, v.y, 0, v.x, v.y, v.r * (0.9 + pulse * 0.25));
+    grad.addColorStop(0, `rgba(240,140,50,${0.16 + pulse * 0.12})`);
+    grad.addColorStop(1, 'rgba(240,120,40,0)');
+    cx.fillStyle = grad;
+    cx.beginPath(); cx.arc(v.x, v.y, v.r * 1.15, 0, Math.PI * 2); cx.fill();
+    // three embers per vent, looping upward on staggered clocks
+    for (let i = 0; i < 3; i++) {
+      const ph = ((tick * (0.011 + i * 0.004) + i * 0.37 + v.y * 0.01) % 1);
+      const ex = v.x + Math.sin(v.x * 0.1 + i * 2.4 + ph * 5) * v.r * 0.4;
+      const ey = v.y - ph * v.r * 0.9;
+      cx.fillStyle = `rgba(250,${150 + i * 25},60,${(1 - ph) * 0.7})`;
+      cx.beginPath(); cx.arc(ex, ey, 1.6 + (1 - ph) * 1.4, 0, Math.PI * 2); cx.fill();
+    }
+  }
+}
 function drawRivers(vx, vy, vw, vh) {
   const rivers = (groundM && groundM.rivers) || [];
   if (!rivers.length) return;
@@ -7090,6 +7308,7 @@ function render() {
   const inView = (x, y, m) => x > vx - m && x < vx + vw + m && y > vy - m && y < vy + vh + m;
   cx.drawImage(groundCv, vx, vy, vw, vh, vx, vy, vw, vh);
   drawRivers(vx, vy, vw, vh);
+  drawVents(vx, vy, vw, vh);
   for (const c of crystals) if (inView(c.x, c.y, 40) && isShownAt(c.x, c.y)) drawCrystal(c);
   for (const e of eggs) if (inView(e.x, e.y, 30) && isShownAt(e.x, e.y)) drawEgg(e);
   for (const b of buildings) if (inView(b.x, b.y, 130) && (b.team === 1 || isShownAt(b.x, b.y))) drawBuilding(b);
@@ -7253,6 +7472,10 @@ function renderMinimap() {
     mcx.fillStyle = rk.water ? '#123339' : rk.tree ? (rk.dead ? '#4a4f58' : '#31502e')
       : rk.spire ? '#3f6a63' : rk.bone ? '#8a8674' : rk.pit ? '#101410' : '#3d443d';
     mcx.beginPath(); mcx.arc(rk.x * sx, rk.y * sy, Math.max(1.5, rk.r * sx), 0, Math.PI * 2); mcx.fill();
+  }
+  for (const v of vents) {   // burning ground reads ember-orange
+    mcx.fillStyle = tick % 50 < 30 ? '#b04a18' : '#d06a20';
+    mcx.beginPath(); mcx.arc(v.x * sx, v.y * sy, Math.max(1.5, v.r * sx * 0.8), 0, Math.PI * 2); mcx.fill();
   }
   for (const b of buildings) {
     if (b.team !== 1 && !isShownAt(b.x, b.y)) continue;
@@ -8331,7 +8554,7 @@ document.getElementById('btn-deploy').addEventListener('click', () => {
 function resetWorld() {
   units = []; buildings = []; crystals = []; bullets = []; fxs = []; eggs = []; alerts = []; rocks = [];
   nukes = []; nukeTargeting = null;
-  plotDeaths = {}; plotCaps = {};
+  plotDeaths = {}; plotCaps = {}; vents = [];
   blocked.fill(0);
   lastAlert = -1e9;
   stats = { built: 0, lost: 0, kills: 0, mined: 0 };

@@ -218,6 +218,7 @@ const MAPS = {
   basin: {
     label: 'Crystal Basin',
     desc: 'The classic. Twin rich fields mid-map, each watched by a nest.',
+    blurb: 'Classic corners, rich guarded middle',
     pHQ: [210, H - 210], pRax: [400, H - 140], pPatch: [260, H - 440],
     eHQ: [W - 210, 210], eRax: [W - 400, 140], eFac: [W - 560, 200],
     eSup: [[W - 300, 100], [W - 150, 340]], eTur: [[W - 350, 330], [W - 480, 220]],
@@ -251,6 +252,7 @@ const MAPS = {
   gauntlet: {
     label: 'The Gauntlet',
     desc: 'Bases face off across a nest-choked center column. Win the middle, win the game.',
+    blurb: 'One brutal mid-map corridor',
     ground: { base: '#211710', mottle: 'rgba(255,180,110,0.02)', pebble: 'rgba(225,175,120,0.07)', grid: 'rgba(230,185,140,0.026)' },   // rust badlands
     pHQ: [230, H / 2 + 40], pRax: [420, H / 2 + 150], pPatch: [270, H / 2 - 240],
     eHQ: [W - 230, H / 2 - 40], eRax: [W - 420, H / 2 - 150], eFac: [W - 580, H / 2 + 10],
@@ -284,6 +286,7 @@ const MAPS = {
   boneyard: {
     label: 'The Boneyard',
     desc: 'North vs south across three broken lanes — and a monstrously rich middle.',
+    blurb: 'Three gates through the bones',
     ground: { base: '#1b1b1e', mottle: 'rgba(210,215,235,0.016)', pebble: 'rgba(215,215,230,0.075)', grid: 'rgba(185,195,225,0.026)' },   // cold ash flats
     pHQ: [W / 2, H - 200], pRax: [W / 2 + 200, H - 140], pPatch: [W / 2 - 260, H - 380],
     eHQ: [W / 2, 200], eRax: [W / 2 - 200, 140], eFac: [W / 2 - 400, 240],
@@ -317,6 +320,7 @@ const MAPS = {
   valley: {
     label: 'Fossil Valley',
     desc: 'Quiet corner expansions — and a mega-field dead center under double nest guard.',
+    blurb: 'Twin overlooks, double-nest center',
     ground: { base: '#121a0e', mottle: 'rgba(160,220,120,0.018)', pebble: 'rgba(155,205,135,0.06)', grid: 'rgba(150,220,150,0.028)' },   // deep moss
     // twin overlooks flanking the center approaches — artillery perches with
     // one ramp each (N ramp faces west, S ramp faces east); second disc rolls
@@ -359,6 +363,7 @@ const MAPS = {
   trade: {
     label: 'Trade Road',
     desc: 'Dry steppe crossed by the old haul road — long sightlines, ambush country.',
+    blurb: 'Long sightlines, ambush-bend road',
     // built FOR M2's coordinate skeleton: convoy runs SW→NE, the road bends at
     // the ambush trigger [2200,1250], danger (field B's nests) sits on the
     // straight diagonal — "swing EAST" stays true here. Bases mirror basin's
@@ -393,6 +398,7 @@ const MAPS = {
   fen: {
     label: 'Blackwater Fen',
     desc: 'Two black channels carve the swamp into thirds. Hold the causeways or swim with whatever lives below.',
+    blurb: 'Swamp channels, narrow causeway crossings',
     // roster map #5 (M5 Ghost Survey's home). Twin water bands make three
     // belts; four causeways are the only ground routes. Mid-belt holds all
     // the neutral crystal — every fight funnels onto a bridge.
@@ -424,6 +430,7 @@ const MAPS = {
   silo: {
     label: 'The Silo Fields',
     desc: 'Wind-scoured snow plains. No walls worth hiding behind — position, vision, and nerve.',
+    blurb: 'Open snow, nowhere to hide',
     // roster map #6 (M6 Countdown's home). Deliberately OPEN: two short
     // center ridge stubs and scattered drift cover only — armies meet in
     // the white with nowhere to hide.
@@ -456,6 +463,7 @@ const MAPS = {
   mine: {
     label: 'Strip Mine',
     desc: 'A motherlode at the bottom of a torn-open quarry. The benches above it decide who mines and who bleeds.',
+    blurb: 'Terraced benches over the motherlode',
     // roster map #8 (M8 Strip Mine / M16 Lin's Gambit). Two terraced benches
     // flank the center pit; their ramps + haul roads are the ways down to
     // the richest field in the game.
@@ -488,6 +496,7 @@ const MAPS = {
   hwm: {
     label: 'High Water Mark',
     desc: 'One great river, two crossings, and a fortress on the far bank. Where the war gets decided.',
+    blurb: 'One river decides the war',
     // roster map #7 (M7, the Act 1 finale). The river runs the map's full
     // height; both causeways are assault funnels — or build a Hydro Dam and
     // walk your infantry over where they least expect it.
@@ -524,6 +533,7 @@ const MAPS = {
   forks: {
     label: 'Twin Forks',
     desc: 'A valley split in two by the fork. Every attack picks a prong — every defense guesses.',
+    blurb: 'Forked ridges, every attack guesses',
     // roster map #11 (M11 Strange Bedfellows). The SE flat + its own patch is
     // the second base pocket — the mission parks the allied red HQ there.
     ground: { base: '#161a17', mottle: 'rgba(190,215,190,0.02)', pebble: 'rgba(190,210,195,0.06)', grid: 'rgba(180,215,195,0.026)', hi: 'rgba(225,240,225,0.11)' },
@@ -558,6 +568,7 @@ const MAPS = {
   overgrown: {
     label: 'Overgrown Basin',
     desc: 'Crystal Basin, two years later. The planet took it back.',
+    blurb: 'The basin, swallowed by jungle',
     // roster map #14 (M14 Return to Ruin / M15). Basin's EXACT bones — same
     // fields, ridges, hills — swallowed under jungle. Story reuse on purpose.
     ground: { base: '#0f1a0c', mottle: 'rgba(150,220,130,0.022)', pebble: 'rgba(140,200,130,0.06)', grid: 'rgba(140,220,150,0.024)', hi: 'rgba(200,240,190,0.10)' },
@@ -8108,6 +8119,27 @@ let chosenDiff = localStorage.getItem('cc.diff') || 'normal';
 if (!MAPS[chosenMap]) chosenMap = 'basin';
 if (!DIFFS[chosenDiff]) chosenDiff = 'normal';
 
+// Skirmish map picker (2026-08-04, Bronson: "a grid with the name on top, a
+// 5-word description, and a thumbnail"). Cards over buttons: name, blurb, and
+// a real capture of the map's painted ground (assets/thumbs/<key>.jpg —
+// regenerate by drawing groundCv into a 256×192 canvas after setup; thumbs
+// are STATIC assets, so a map's terrain rework needs a fresh capture).
+// Missing thumb = the img removes itself and the card is text-only.
+function renderMapGrid(el, chosen, pick, lockedFn) {
+  el.innerHTML = '';
+  for (const key in MAPS) {
+    const m = MAPS[key];
+    const locked = lockedFn ? lockedFn(key) : false;
+    const b = document.createElement('button');
+    b.className = 'mapcard' + (key === chosen ? ' sel' : '') + (locked ? ' locked' : '');
+    b.innerHTML =
+      `<b>${locked ? '💎 ' : ''}${m.label}</b>` +
+      `<span class="blurb">${m.blurb || m.desc}</span>` +
+      `<img src="assets/thumbs/${key}.jpg" alt="" onerror="this.remove()">`;
+    b.onclick = () => { audioInit(); if (locked) { storeNudge(); return; } pick(key); };
+    el.appendChild(b);
+  }
+}
 function menuButtons(el, table, chosen, pick, lockedFn) {
   el.innerHTML = '';
   for (const key in table) {
@@ -8134,7 +8166,7 @@ function renderMenu() {
   if (chosenMode === 'skirmish') {
     // a remembered pick from an unlocked build must not smuggle a locked map past the gate
     if (mapPaywalled(chosenMap)) chosenMap = FREE_MAPS[0];
-    menuButtons(document.getElementById('menu-maps'), MAPS, chosenMap, k => { chosenMap = k; renderMenu(); }, mapPaywalled);
+    renderMapGrid(document.getElementById('menu-maps'), chosenMap, k => { chosenMap = k; renderMenu(); }, mapPaywalled);
     menuButtons(document.getElementById('menu-diffs'), DIFFS, chosenDiff, k => { chosenDiff = k; renderMenu(); });
   } else {
     renderMissionList();

@@ -207,6 +207,27 @@
   .opt.sel { border-color: #6fe3d0; background: #17251f; box-shadow: 0 0 0 1px #6fe3d0 inset; }
   .opt b { display: block; font-size: 14px; margin-bottom: 3px; }
   .opt span { font-size: 11.5px; line-height: 1.35; color: #9aa89e; display: block; }
+  /* skirmish map picker — thumbnail card grid */
+  #menu-maps {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+    max-height: 430px; overflow-y: auto; padding-right: 4px;
+    scrollbar-width: thin; scrollbar-color: rgba(120,200,190,0.35) transparent;
+  }
+  .mapcard {
+    cursor: pointer; text-align: left; font-family: inherit; padding: 0;
+    background: #141b16; color: #d8e0d8;
+    border: 1px solid rgba(120, 200, 190, 0.22); border-radius: 10px;
+    overflow: hidden; display: flex; flex-direction: column;
+  }
+  .mapcard:hover { background: #182219; }
+  .mapcard.sel { border-color: #6fe3d0; box-shadow: 0 0 0 1px #6fe3d0 inset; }
+  .mapcard b { display: block; font-size: 13px; padding: 8px 10px 1px; }
+  .mapcard .blurb { display: block; font-size: 10.5px; line-height: 1.3; color: #9aa89e; padding: 0 10px 7px; }
+  .mapcard img {
+    display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover;
+    border-top: 1px solid rgba(120, 200, 190, 0.15); margin-top: auto;
+  }
+  .mapcard.locked { opacity: 0.6; }
   #btn-start {
     width: 100%; margin-top: 22px;
     background: #17352a; border: 1px solid #6fe3d0; color: #d8f0e8;

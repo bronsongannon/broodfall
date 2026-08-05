@@ -1610,7 +1610,7 @@ let rocks = [];   // impassable terrain circles {x, y, r} — flyers ignore them
 // down to a sliver instead of killing them. M7's finale brood loses exactly 4.
 let plotDeaths = {}, plotCaps = {};
 let vents = [];          // burning ground {x, y, r} — passable, damages ground units inside
-const VENT_DMG = 0.09;   // hp/tick (~5.4/s): crossing a flare field costs real blood, camping in one kills
+const VENT_DMG = 0.1125; // hp/tick (~6.75/s — raised 25% 2026-08-04, Bronson: "soldiers die 25% faster in the flames")
 let nukes = [];          // inbound warheads {x, y, team, tier, t, max}
 let nukeTargeting = null;   // the silo currently picking a target
 const NUKE = {
@@ -3126,6 +3126,13 @@ function kill(e) {
     // went under: rings on the surface, no body, no fireball
     fxs.push({ kind: 'ping', x: e.x, y: e.y, t: 0, max: 30, color: 'rgba(190,235,240,0.85)' });
     fxs.push({ kind: 'ping', x: e.x, y: e.y, t: 0, max: 46, color: 'rgba(140,205,215,0.6)' });
+  } else if (e.burned && e.kind === 'unit' && isFlesh(e)) {
+    // burned to death: the fall plays under a flame, then the body cools to a
+    // CHARRED SKELETON that lingers before fading (2026-08-04, Bronson's ask).
+    // Vehicles caught burning still fireball below — fuel does what fuel does.
+    fxs.push({ kind: 'corpse', x: e.x, y: e.y, a: e.faceA, frames: corpse, charred: true,
+               t: 0, max: corpse.length * 9 + 300,
+               size: IS_DINO[e.type] ? dinoBox(e.type, e.r) * 2 : e.r * 2.7 });
   } else if (corpse.length) {
     fxs.push({ kind: 'corpse', x: e.x, y: e.y, a: e.faceA, frames: corpse,
                t: 0, max: corpse.length * 9 + 170,
@@ -3765,9 +3772,12 @@ function drownSweep() {
     }
     // burning ground: flat DoT while inside a flare field (flyers soar over).
     // No attacker, no retaliation target — the terrain itself is the enemy.
+    // A lethal burn routes through kill() with `burned` set, or the body
+    // would vanish without a death sequence (only kill() spawns corpse fx).
     for (const v of vents) {
       if (dist2(u.x, u.y, v.x, v.y) < v.r * v.r) {
         u.hp -= VENT_DMG * armorMult(u);
+        if (u.hp <= 0) { u.burned = true; kill(u); break; }
         if ((tick + u.id) % 24 === 0) {
           fxs.push({ kind: 'spark', x: u.x + (Math.random() - 0.5) * 12, y: u.y - 6 - Math.random() * 8, t: 0, max: 14 });
         }
@@ -7145,14 +7155,61 @@ function drawFx(f) {
     cx.beginPath(); cx.arc(f.x, f.y, 16 * (1 - k) + 3, 0, Math.PI * 2); cx.stroke();
     cx.globalAlpha = 1;
   } else if (f.kind === 'corpse') {
-    // sliced death animation: play the fall, then the body lingers and fades
-    const img = f.frames[Math.min(f.frames.length - 1, Math.floor(f.t / 9))];
-    if (!img.complete || !img.naturalWidth) return;
+    // sliced death animation: play the fall, then the body lingers and fades.
+    // charred corpses (death by fire) burn through the fall, then cool to a
+    // charred skeleton for the linger instead of the last frame.
+    const fi = Math.floor(f.t / 9);
+    const fallDone = !f.frames.length || fi >= f.frames.length;
     cx.save();
-    cx.globalAlpha = Math.max(0, Math.min(1, (f.max - f.t) / 60));
     cx.translate(f.x, f.y);
-    cx.rotate(f.a + Math.PI / 2);   // art faces up
-    cx.drawImage(img, -f.size / 2, -f.size / 2, f.size, f.size);
+    if (f.charred && fallDone) {
+      const s = f.size * 0.5;
+      const cool = f.t - f.frames.length * 9;
+      cx.globalAlpha = Math.max(0, Math.min(1, (f.max - f.t) / 80));
+      cx.rotate(f.a);
+      // scorched silhouette under the bones
+      cx.fillStyle = 'rgba(10,7,5,0.55)';
+      cx.beginPath(); cx.ellipse(0, 0, s * 1.05, s * 0.62, 0, 0, Math.PI * 2); cx.fill();
+      // ash-gray bones: spine, ribs, limbs askew, skull toward facing
+      cx.strokeStyle = '#6a6258'; cx.lineCap = 'round';
+      cx.lineWidth = Math.max(1.5, s * 0.11);
+      cx.beginPath(); cx.moveTo(-s * 0.55, 0); cx.lineTo(s * 0.42, 0); cx.stroke();
+      for (let i = 0; i < 3; i++) {
+        const rx = -s * 0.30 + i * s * 0.25;
+        cx.beginPath(); cx.moveTo(rx, -s * 0.32); cx.quadraticCurveTo(rx + s * 0.07, 0, rx, s * 0.32); cx.stroke();
+      }
+      cx.beginPath(); cx.moveTo(-s * 0.35, s * 0.08); cx.lineTo(-s * 0.72, s * 0.48); cx.stroke();
+      cx.beginPath(); cx.moveTo(-s * 0.22, -s * 0.12); cx.lineTo(-s * 0.55, -s * 0.55); cx.stroke();
+      cx.fillStyle = '#7a7166';
+      cx.beginPath(); cx.arc(s * 0.60, 0, s * 0.23, 0, Math.PI * 2); cx.fill();
+      cx.fillStyle = '#171310';
+      cx.beginPath(); cx.arc(s * 0.66, -s * 0.08, s * 0.055, 0, Math.PI * 2); cx.fill();
+      cx.beginPath(); cx.arc(s * 0.66, s * 0.08, s * 0.055, 0, Math.PI * 2); cx.fill();
+      // dying embers crawl the bones for the first moments, then go out
+      if (cool < 120) {
+        const fl = 0.6 + 0.4 * Math.sin(f.t * 0.4);
+        cx.globalAlpha = Math.max(0, (120 - cool) / 120);
+        cx.fillStyle = `rgba(250,160,60,${0.55 * fl})`;
+        cx.beginPath(); cx.arc(-s * 0.2, -s * 0.12, 1 + s * 0.12 * fl, 0, Math.PI * 2); cx.fill();
+        cx.fillStyle = `rgba(225,105,40,${0.45 * (1.1 - fl)})`;
+        cx.beginPath(); cx.arc(s * 0.28, s * 0.16, 1 + s * 0.10 * (1.2 - fl), 0, Math.PI * 2); cx.fill();
+      }
+    } else if (f.frames.length) {
+      const img = f.frames[Math.min(f.frames.length - 1, fi)];
+      if (img.complete && img.naturalWidth) {
+        cx.globalAlpha = f.charred ? 1 : Math.max(0, Math.min(1, (f.max - f.t) / 60));
+        cx.rotate(f.a + Math.PI / 2);   // art faces up
+        cx.drawImage(img, -f.size / 2, -f.size / 2, f.size, f.size);
+        if (f.charred) {
+          // still burning as it falls
+          const fl = 0.6 + 0.4 * Math.sin(f.t * 0.5);
+          cx.fillStyle = `rgba(240,150,50,${0.30 + 0.25 * fl})`;
+          cx.beginPath(); cx.arc(0, 0, f.size * 0.17 * (0.8 + fl * 0.4), 0, Math.PI * 2); cx.fill();
+          cx.fillStyle = `rgba(255,215,115,${0.28 + 0.3 * fl})`;
+          cx.beginPath(); cx.arc(0, -f.size * 0.05, f.size * 0.09 * (0.8 + fl * 0.5), 0, Math.PI * 2); cx.fill();
+        }
+      }
+    }
     cx.restore();
   } else if (f.kind === 'sprite') {
     if (f.t < f.delay) return;

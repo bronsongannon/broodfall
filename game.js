@@ -1446,7 +1446,7 @@ const MISSIONS = [
     // emptiness IS the mission's texture).
     title: 'The Silence', act: 'Act II — The Awakening',
     allow: { bld: [], unit: [] },
-    map: 'boneyard', diff: 'normal', noEnemy: true, noBase: true, start: [3950, 3260],
+    map: 'boneyard', diff: 'normal', noEnemy: true, noBase: true, start: [3900, 3380],
     fields: [
       { p: [W * 0.16, H * 0.5], n: 8, a: 2600 },
       { p: [W * 0.84, H * 0.5], n: 8, a: 2600 },
@@ -1459,20 +1459,31 @@ const MISSIONS = [
     // side gates are ridge-plugged for the mission, so the trail and the gate
     // are the ONLY way in — and the only way back out with the survivors.
     terrain: {
-      // HALF-WIDTH TRAIL (2026-08-04 round 2, Bronson: "it needs to be a
-      // challenge... they should fail the mission the first time"): the
-      // corridor squeezes to ~200px — a column, not a formation — with
-      // obstacle pinches at the edges and reinforced tenants at every turn.
+      // THE MOUNTAIN (2026-08-04 round 4, Bronson: "at least 8 switchbacks...
+      // read as a hill climb in its entirety — reach the top, rescue these
+      // idiots, then try and make it down"): eight stacked terrace lanes
+      // (~100px, single file) zigzag up the south face between seven walls
+      // with alternating turn-gaps; vertical walls seal both flanks; the
+      // summit gate is the only exit. `rises` paints the elevation light —
+      // brightest at the peak — so the whole approach reads as climbing.
       ridges: [
-        [4560, 3120, 1600, 3135, 52],   // the bluff: map edge to the hairpin, one wall
-        [1350, 3000, 2300, 2430, 55],   // leg-2 west wall — its south end shapes the hairpin
-        [2200, 3060, 2650, 2500, 55],   // leg-2 east wall, rooted on the bluff — a narrowing funnel
+        [1650, 3298, 3360, 3310, 24],   // W7 — gap WEST  (leg 1 -> 2)
+        [1310, 3154, 3000, 3166, 24],   // W6 — gap EAST  (leg 2 -> 3)
+        [1650, 3010, 3360, 3022, 24],   // W5 — gap WEST
+        [1310, 2866, 3000, 2878, 24],   // W4 — gap EAST
+        [1650, 2722, 3360, 2734, 24],   // W3 — gap WEST
+        [1310, 2578, 3000, 2590, 24],   // W2 — gap EAST
+        [1650, 2434, 3360, 2446, 24],   // W1 — gap WEST  (leg 8 exits to the summit gate)
+        [1240, 2255, 1400, 3400, 42],   // west flank wall (top overlaps the west plug)
+        [3430, 2180, 3400, 3290, 42],   // east flank wall — top buried in the gate plug (a 70px seam leaked round 4)
         [80, 2150, 1250, 2260, 55],     // west gate plug — full span to the edge
         [3400, 2100, 4530, 2330, 55],   // east gate plug — full span to the edge
       ],
-      bones: [[2250, 3330, 42, 0.4], [2000, 2780, 40, -0.7], [2450, 2620, 42, 1.1]],
-      boulders: [[3300, 3300, 24], [2900, 3360, 22], [1500, 3300, 26], [2150, 2650, 22], [1850, 2900, 20]],
-      pits: [[2700, 3340, 30]],
+      rises: [[2304, 480, 950, 1], [2304, 1500, 1250, 0.7], [2304, 2700, 1500, 0.45], [2650, 3350, 900, 0.3]],
+      clear: [[2765, 2696, 70]],   // boneyard's own tree sat in lane 6
+      // decor only ON the wall lines — at ~90px lanes any freestanding rock
+      // is a plug, not a slalom (a pit here sealed leg 1 outright)
+      bones: [[2400, 3304, 40, 0.1], [2000, 2872, 38, -0.2], [2800, 2590, 38, 0.15]],
     },
     brief: [
       ['red', 'Expedition command, Rubicon Actual. Outpost K-7 stopped reporting eleven hours ago. Mid-sentence, mid-word. I have nobody spare to send, and I am… asking.'],
@@ -1496,23 +1507,26 @@ const MISSIONS = [
       { id: 'bunker',  text: 'Search the command bunker', type: 'reach', x: 2304, y: 300, r: 170, hidden: true, mark: [2304, 300] },
       { id: 'east',    text: 'Search the refinery works', type: 'reach', x: 2634, y: 450, r: 170, hidden: true, mark: [2634, 450] },
       // any three living engineers count — they ARE the only engineers here
-      { id: 'extract', text: 'Get all three survivors back down the trail to the LZ', type: 'groupReach', unit: 'engineer', x: 3950, y: 3300, r: 220, count: 3, hidden: true, mark: [3950, 3300] },
+      { id: 'extract', text: 'Get all three survivors back down the trail to the LZ', type: 'groupReach', unit: 'engineer', x: 3900, y: 3390, r: 200, count: 3, hidden: true, mark: [3900, 3390] },
     ],
     winWhen: ['camp', 'west', 'bunker', 'east', 'extract'],
     triggers: [
       { when: { time: 0.5 },
         spawn: [
-          { group: 'boone', unit: 'commando', team: 1, n: 1, at: [3950, 3240] },
-          { group: 'squad', unit: 'marine', team: 1, n: 6, at: [3950, 3300] },
-          { group: 'squad', unit: 'rocket', team: 1, n: 3, at: [3860, 3350] },
-          { group: 'squad', unit: 'sniper', team: 1, n: 1, at: [4040, 3350] },
-          { group: 'squad', unit: 'medic',  team: 1, n: 2, at: [3950, 3390] },
+          { group: 'boone', unit: 'commando', team: 1, n: 1, at: [3860, 3360] },
+          { group: 'squad', unit: 'marine', team: 1, n: 6, at: [3940, 3400] },
+          { group: 'squad', unit: 'rocket', team: 1, n: 3, at: [3850, 3430] },
+          { group: 'squad', unit: 'sniper', team: 1, n: 1, at: [4030, 3430] },
+          { group: 'squad', unit: 'medic',  team: 1, n: 2, at: [3940, 3440] },
           // the trail has tenants at every turn: mid-leg picket, hairpin
           // post, a raptor pack on the climb, a picket at the camp mouth
-          { unit: 'spitter', team: 3, n: 2, at: [2600, 3330], order: 'guard' },
-          { unit: 'spitter', team: 3, n: 3, at: [1480, 3230], order: 'guard' },
-          { unit: 'raptor',  team: 3, n: 3, at: [2170, 2760], order: 'guard' },
-          { unit: 'spitter', team: 3, n: 3, at: [2400, 2330], order: 'guard' },
+          { unit: 'spitter', team: 3, n: 2, at: [2600, 3390], order: 'guard' },
+          { unit: 'spitter', team: 3, n: 2, at: [1560, 3230], order: 'guard' },
+          { unit: 'spitter', team: 3, n: 2, at: [3230, 3090], order: 'guard' },
+          { unit: 'raptor',  team: 3, n: 3, at: [2300, 2940], order: 'guard' },
+          { unit: 'spitter', team: 3, n: 2, at: [1570, 2660], order: 'guard' },
+          { unit: 'raptor',  team: 3, n: 2, at: [2500, 2510], order: 'guard' },
+          { unit: 'spitter', team: 3, n: 3, at: [2300, 2290], order: 'guard' },
           // the things that cleared K-7 are still IN it: raptor packs hold
           // the streets, spitters squat the flanks — guards, visible, real
           { unit: 'raptor',  team: 3, n: 4, at: [2154, 525],  order: 'guard' },
@@ -1535,7 +1549,7 @@ const MISSIONS = [
           { egg: [2070, 720] }, { egg: [2475, 570] }, { egg: [2340, 780] },
           { egg: [1950, 330] }, { egg: [2550, 270] },
         ] },
-      { when: { near: [3200, 3330, 330] },
+      { when: { near: [2900, 3390, 300] },
         say: [['sci', 'No birds. No grazers. The bone flats are never this quiet — everything that could leave already left.'],
               ['cdo', 'Single file on the trail. Eyes up.']] },
       { when: { done: ['camp'] }, objective: ['west', 'bunker', 'east'],
@@ -1586,15 +1600,15 @@ const MISSIONS = [
               ['ops', 'The whole northern sky just lifted off the roosts. They know you have them — south, and do not stop for anything.']] },
       // the long walk home, contested the whole way, from both flanks
       { when: { done: ['west', 'bunker', 'east'], notDone: ['extract'] }, delay: 25, repeat: true, every: 45,
-        spawn: { unit: 'screecher', team: 3, n: 2, at: [2100, 90], to: [2400, 2560] } },
+        spawn: { unit: 'screecher', team: 3, n: 2, at: [2100, 90], to: [1600, 2650] } },
       { when: { done: ['west', 'bunker', 'east'], notDone: ['extract'] }, delay: 45, repeat: true, every: 60,
-        spawn: { unit: 'screecher', team: 3, n: 2, at: [3750, 450], to: [3200, 3250] } },
+        spawn: { unit: 'screecher', team: 3, n: 2, at: [3750, 450], to: [3100, 3000] } },
       { when: { done: ['west', 'bunker', 'east'], notDone: ['extract'] }, delay: 70, repeat: true, every: 85,
-        spawn: { unit: 'raptor', team: 3, n: 2, at: [1554, 1770], to: [1700, 3200] } },
+        spawn: { unit: 'raptor', team: 3, n: 2, at: [1554, 1770], to: [2300, 3390] } },
       // the LZ itself is contested — clear it and hold for the transport
-      { when: { near: [3300, 3200, 320], done: ['west', 'bunker', 'east'] },
+      { when: { near: [3500, 3350, 300], done: ['west', 'bunker', 'east'] },
         alarm: '⚠ Wings over the extraction point!',
-        spawn: { unit: 'screecher', team: 3, n: 5, at: [4300, 2800], to: [3950, 3300] },
+        spawn: { unit: 'screecher', team: 3, n: 5, at: [4300, 2800], to: [3900, 3390] },
         say: [['ops', 'Wings on the LZ — clear the air and hold for the transport!']] },
       // the squad is small and the survivors are the mission — and Lighthouse
       // does not get left in the silence
@@ -2573,8 +2587,12 @@ function setup(mapKey) {
       const t = i / n;
       // ridge-tagged: collision as always, but paintRock skips them — the
       // whole segment paints as ONE continuous elevated wall in paintRidges
-      // (2026-08-04, Bronson: "actual elevation, not little disks")
-      rocks.push({ x: x1 + (x2 - x1) * t, y: y1 + (y2 - y1) * t, r: r * (0.85 + Math.random() * 0.3), ridge: true });
+      // (2026-08-04, Bronson: "actual elevation, not little disks").
+      // DETERMINISTIC jitter (was Math.random): random radii rerolled every
+      // wall each game, so ~200px mission corridors opened or closed per run
+      // — undebuggable, and a fixed map should be fixed.
+      const jit = Math.sin(x1 * 12.9898 + y1 * 78.233 + i * 37.719) * 43758.5453;
+      rocks.push({ x: x1 + (x2 - x1) * t, y: y1 + (y2 - y1) * t, r: r * (0.85 + (jit - Math.floor(jit)) * 0.3), ridge: true });
     }
   }
   // fire vents (2026-08-04): burning ground — passable, but ground units
@@ -2605,7 +2623,18 @@ function setup(mapKey) {
     }
   }
   for (const [tx, ty] of (M.trees || [])) {
-    rocks.push({ x: tx, y: ty, r: 15 + Math.random() * 4, tree: true, dead: deadWood });
+    const tj = Math.sin(tx * 12.9898 + ty * 78.233) * 43758.5453;
+    rocks.push({ x: tx, y: ty, r: 15 + (tj - Math.floor(tj)) * 4, tree: true, dead: deadWood });
+  }
+  // mission terrain may also CLEAR map furniture: `terrain.clear: [[x,y,r]]`
+  // deletes non-water, non-cliff rocks inside each circle (M9's lane ran
+  // through one of boneyard's own trees — a corridor mission has to be able
+  // to prune the furniture it builds through)
+  for (const [cx2, cy2, cr2] of (mt.clear || [])) {
+    for (let i = rocks.length - 1; i >= 0; i--) {
+      const rk = rocks[i];
+      if (!rk.water && !rk.cliff && dist2(rk.x, rk.y, cx2, cy2) < cr2 * cr2) rocks.splice(i, 1);
+    }
   }
   // obstacle variety beyond rock walls (playtest 2026-07-24): crystalline
   // spires, buried ribcages, sinkholes — all rocks mechanically, distinct art
@@ -5749,6 +5778,22 @@ function paintGround(M) {
         g.fillStyle = bushHiC;
         g.beginPath(); g.arc(x - r * 0.25, y - r * 0.3, r * 0.55, 0, Math.PI * 2); g.fill();
       }
+    }
+  }
+  // elevation light (`rises`, map- or mission-terrain): soft radial lift
+  // tones, brightest at a summit — gradient-only per the ramp lesson (any
+  // hard edge here reads as a glitch). Paint-only: no collision, no elev
+  // grid — it exists to make a whole approach READ as climbing (M9's
+  // mountain, 2026-08-04).
+  {
+    const mtr = (missionNow() && missionNow().terrain) || {};
+    for (const [rx, ry, rr, rs] of (((M && M.rises) || []).concat(mtr.rises || []))) {
+      const grad = g.createRadialGradient(rx, ry, 0, rx, ry, rr);
+      grad.addColorStop(0, `rgba(220,238,222,${0.20 * rs})`);
+      grad.addColorStop(0.65, `rgba(206,230,212,${0.10 * rs})`);
+      grad.addColorStop(1, 'rgba(205,228,210,0)');
+      g.fillStyle = grad;
+      g.beginPath(); g.arc(rx, ry, rr, 0, Math.PI * 2); g.fill();
     }
   }
   // worn haul roads (MAPS.roads polylines): packed-earth band, a dusty crown,

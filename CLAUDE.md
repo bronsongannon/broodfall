@@ -19,6 +19,14 @@
 > after Mac App Store v1 — Electron wrapper, storage bridge, entitlement layer
 > (see BROODFALL-BRIEF.md Steam notes).
 
+> **AUGUST DATE KILLED (Bronson, 2026-08-11): build the game first, store second.**
+> No Mac App Store submission date. The paid tier IS Acts 2–3, so shipping before
+> the campaign is finished would sell content that doesn't exist. Act 1 free =
+> the demo on both storefronts; $14.99 unlocks the rest; all 20 missions complete
+> at launch. Real horizon: campaign complete → Next Fest demo Oct 2026 → Steam
+> Feb 10 2027. The MAS submission is a pipeline rehearsal, run when the game is
+> done. Priority is the 11 remaining missions and their engine prerequisites.
+
 A tiny browser RTS in the spirit of Command & Conquer / StarCraft 2, built for and with Bronson (a big fan of those games). Pure canvas + vanilla JS, zero dependencies, runs from `file://` by double-clicking `index.html`.
 
 - **Repo:** https://github.com/bronsongannon/broodfall (public, renamed — old crystal-command URLs redirect)

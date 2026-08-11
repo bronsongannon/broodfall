@@ -1,30 +1,46 @@
-# Ship checklist — Mac App Store by August 14, 2026
+# Broodfall — build checklist
 
-> **Deadline moved +2 weeks (Bronson, 2026-07-31; was July 31).** The final week
-> went to the fps saga (resolved: battery throttle is the platform, posture
-> below) and Act 1 completion — the store-facing work (app record, listing,
-> notarization) hasn't started. Two clean weeks beats a scrambled two days.
-
-Working checklist (updated 2026-07-16). Goal: submit Broodfall v1 (skirmish + Mission 1)
-to Apple by end of month. Apple Developer membership already covered by the
-existing account (one membership, unlimited apps) — no enrollment wait.
+> **THE AUGUST 14 SUBMISSION DATE IS DEAD (Bronson, 2026-08-11).** Build the
+> game first, tackle the store after. The reasoning: the paid tier is Acts 2–3,
+> so a store release before the campaign is finished would sell content that
+> doesn't exist yet — the fastest route to refunds and one-star reviews, even
+> when the updates are free. And Steam wishlists are earned BEFORE launch, which
+> makes the **Next Fest demo (Oct 2026)** the highest-leverage date on the
+> calendar, not an Apple submission.
+>
+> **Model:** Act 1 free = the demo, on both storefronts. $14.99 unlocks Acts 2–3
+> and every map. All 20 missions complete at launch.
+>
+> **Horizon:** campaign complete → Next Fest demo Oct 2026 → Steam launch
+> Feb 10, 2027. The Mac App Store submission happens when the game is done; it
+> is a rehearsal of the pipeline, not a launch. Nothing below is deleted — the
+> Apple track is intact and UNSCHEDULED.
 
 Interactive version: `.claude/ship-widget.html` renders as a widget at the start
 of every Claude session (SessionStart hook in `.claude/settings.json`). Keep this
 file and the widget's task lists in sync.
 
-## Apple submission track (critical path, in order)
+## PRIORITY: finish the campaign (11 missions remain, 9 of 20 built)
+
+Engine work still gating missions: allied AI faction (M11, M18), Ironback debut
+(M10), corrupted spawner buildings (M14), den-seeding timer (M15), Broodmother
+combat version (M20). Maps still to build: Krauss's Bastion, Evac Coast, The
+Crater. Standing rule: **M10+ missions are a mandatory 20–25 minutes.**
+
+## Apple submission track — UNSCHEDULED, after the campaign is finished
+
+Still the correct order when it's time. No dates until the game is done.
 
 - [x] Developer Program membership — covered by existing account
-- [ ] NEXT UP: Create the Broodfall app record in App Store Connect — unblocked by the 2026-07-23 rename; bundle ID `com.bronsongannon.broodfall`, free-with-IAP — **and in the same visit create the IAP itself: non-consumable `com.bronsongannon.broodfall.full`, $14.99** (price REVISED 2026-07-28 with the business model — sale $9.99 on a ~45-day cadence, calendar in BROODFALL-BRIEF.md; the code ships expecting exactly that product id). OPEN DECISION riding on the same revision: free tier is now "all of Act 1 + 4 skirmish maps" on paper, but `FREE_MISSIONS` is still 3 and `FREE_MAPS` still ['basin'] in game.js — decide whether the constants move before this Mac submission or at the Steam launch when Acts 2–3 exist to sell — by Aug 4
+- [ ] NEXT UP: Create the Broodfall app record in App Store Connect — unblocked by the 2026-07-23 rename; bundle ID `com.bronsongannon.broodfall`, free-with-IAP — **and in the same visit create the IAP itself: non-consumable `com.bronsongannon.broodfall.full`, $14.99** (price REVISED 2026-07-28 with the business model — sale $9.99 on a ~45-day cadence, calendar in BROODFALL-BRIEF.md; the code ships expecting exactly that product id). OPEN DECISION riding on the same revision: free tier is now "all of Act 1 + 4 skirmish maps" on paper, but `FREE_MISSIONS` is still 3 and `FREE_MAPS` still ['basin'] in game.js — decide whether the constants move before this Mac submission or at the Steam launch when Acts 2–3 exist to sell (unscheduled)
 - [x] IAP gate — DONE 2026-07-22 (coded + verified, was the last CRITICAL from the audit). `BFStore` entitlement layer in game.js (per-platform backends per BROODFALL-BRIEF item 3: StoreKit via `bfstore` message bridge in the wrapper, all-unlocked on the web build; fails CLOSED in-wrapper until StoreKit answers), gates campaign missions 4+ (list + `startMission` backstop) and all skirmish maps but Crystal Basin (picker + `startGame` backstop + remembered-pick fallback), unlock strip with localized price + restore-purchases UI (guideline 3.1.1), dev mode / `CC.devMode` / `CC.unlockAll` dead in release wrapper builds (DEBUG builds re-enable). Swift side: `mac/Broodfall/StoreBridge.swift` (StoreKit 2, `Transaction.currentEntitlements` + `updates` listener, purchase/restore/error pushes). Local testing: `mac/Products.storekit` wired into the Run scheme — hit Run in Xcode and the buy button completes a test purchase. Verified: wrapper builds; browser harness with a fake bridge passed every gate, the unlock transition, busy/error/debug paths, and a clean 600-tick soak; web build regression-free (no paywall UI).
 - [x] Build the Mac wrapper — WKWebView shell in Xcode loading the game locally (2026-07-22: `mac/`, sandboxed + signed, full game verified inside — see mac/README.md)
 - [x] App icon + 1024px store icon (2026-07-22: pipeline + archive-ready icon from the game's crystal sprite, `mac/icon/`; commissioned upgrade optional — one-file drop-in, budget can go to store key art instead)
-- [ ] Store listing — screenshots DONE 2026-07-26 (six 2560×1600 drafts in assets/store/screenshots/); description/subtitle/keywords still to draft — by Aug 8. TWO RULES: (1) performance copy = "smooth, adaptive, tuned for battery play", never a frame number; (2) NO competitor trademarks anywhere in listing/keywords — no StarCraft, Brood War, Command & Conquer, Blizzard (Apple 2.3.7 rejects for competitor marks in metadata; "brood war" is a registered Blizzard mark per the standing BROODFALL-BRIEF rule). Genre in our own words: classic-style real-time strategy.
+- [ ] Store listing — screenshots DONE 2026-07-26 (six 2560×1600 drafts in assets/store/screenshots/); description/subtitle/keywords still to draft (unscheduled). TWO RULES: (1) performance copy = "smooth, adaptive, tuned for battery play", never a frame number; (2) NO competitor trademarks anywhere in listing/keywords — no StarCraft, Brood War, Command & Conquer, Blizzard (Apple 2.3.7 rejects for competitor marks in metadata; "brood war" is a registered Blizzard mark per the standing BROODFALL-BRIEF rule). Genre in our own words: classic-style real-time strategy.
 - [x] Privacy policy page — DONE 2026-07-26: privacy.html at the Pages root → https://bronsongannon.github.io/broodfall/privacy.html (the URL App Store Connect asks for)
-- [ ] Sandbox entitlements, code signing, notarize, test on a clean Mac — by Aug 11
+- [ ] Sandbox entitlements, code signing, notarize, test on a clean Mac (unscheduled)
       (native menu bar + fullscreen + quit in the wrapper to dodge guideline 4.2)
-- [ ] Archive, upload, submit for review — by Aug 12 (2-day buffer). **FIRST STEP of the archive: flip `DEV_PRERELEASE` to `false` in game.js** (added 2026-07-24 so Bronson's local wrapper builds keep dev tools; true in a shipped build = paywall bypass)
+- [ ] Archive, upload, submit for review (unscheduled). **FIRST STEP of the archive: flip `DEV_PRERELEASE` to `false` in game.js** (added 2026-07-24 so Bronson's local wrapper builds keep dev tools; true in a shipped build = paywall bypass)
 
 ## Game build roadmap
 

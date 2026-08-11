@@ -1515,11 +1515,11 @@ const MISSIONS = [
         spawn: { unit: 'screecher', team: 3, n: 2, at: [2304, 700], to: [2304, 3000] },
         say: [['sci', 'CONTACT — airborne, repeat, AIRBORNE. That is not a spitter. That is not anything we have on file!']] },
       // the three roost lanes — each dies with its roost
-      { when: { done: ['aa'], notDone: ['dawn', 'roostA'] }, delay: 75, repeat: true, every: 55,
+      { when: { done: ['aa'], notDone: ['dawn', 'roostA'] }, delay: 75, repeat: true, every: 28,
         spawn: { unit: 'screecher', team: 3, n: 2, at: [1450, 1620], to: [2150, 3120] } },
-      { when: { done: ['aa'], notDone: ['dawn', 'roostB'] }, delay: 95, repeat: true, every: 60,
+      { when: { done: ['aa'], notDone: ['dawn', 'roostB'] }, delay: 95, repeat: true, every: 30,
         spawn: { unit: 'screecher', team: 3, n: 2, at: [3160, 1620], to: [2450, 3120] } },
-      { when: { done: ['aa'], notDone: ['dawn', 'roostC'] }, delay: 115, repeat: true, every: 70,
+      { when: { done: ['aa'], notDone: ['dawn', 'roostC'] }, delay: 115, repeat: true, every: 35,
         spawn: { unit: 'screecher', team: 3, n: 3, at: [2304, 700], to: [2304, 3040] } },
       // recorder story beats
       { when: { done: ['r1'] },
@@ -1538,12 +1538,22 @@ const MISSIONS = [
         say: [['sci', 'East recorder — the last minute of K-7. Eight seconds of screeching… then a ROAR, and the screeching stops. Not the screaming, Commander. The SCREECHING. Something called them off mid-kill.'],
               ['ops', 'Then something out there gives orders. Hold the line — dawn is coming.']] },
       // the night learns: after the K-7 log, wings hunt the grid
-      { when: { done: ['r2'], notDone: ['dawn'] }, delay: 30, repeat: true, every: 80,
+      { when: { done: ['r2'], notDone: ['dawn'] }, delay: 30, repeat: true, every: 40,
         spawn: { unit: 'screecher', team: 3, n: 3, at: [2304, 650], aim: 'power' } },
       // ground pressure keeps the turrets honest
       { when: { done: ['r1'], notDone: ['dawn'] }, delay: 60, repeat: true, every: 130,
         spawn: { unit: 'raptor', team: 3, n: 2, at: [2304, 950], order: 'attackhq' } },
       // deep-night ramps, regardless of roosts
+      { when: { done: ['aa'], notDone: ['dawn'] }, delay: 220, alarm: '⚠ Wings stacking over the mounds!',
+        spawn: [
+          { unit: 'screecher', team: 3, n: 2, at: [1450, 1650], to: [2250, 3150] },
+          { unit: 'screecher', team: 3, n: 2, at: [3160, 1650], to: [2400, 3150] },
+        ] },
+      { when: { done: ['aa'], notDone: ['dawn'] }, delay: 460, alarm: '⚠ Another mass launch!',
+        spawn: [
+          { unit: 'screecher', team: 3, n: 3, at: [2304, 650], to: [2304, 3050] },
+          { unit: 'screecher', team: 3, n: 2, at: [1450, 1650], to: [2200, 3150] },
+        ] },
       { when: { done: ['aa'], notDone: ['dawn'] }, delay: 340, alarm: '⚠ The night deepens — double wave!',
         spawn: [
           { unit: 'screecher', team: 3, n: 3, at: [1450, 1650], to: [2200, 3150] },

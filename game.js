@@ -1446,7 +1446,7 @@ const MISSIONS = [
     // emptiness IS the mission's texture).
     title: 'The Silence', act: 'Act II — The Awakening',
     allow: { bld: [], unit: [] },
-    map: 'boneyard', diff: 'normal', noEnemy: true, noBase: true, start: [3950, 3120],
+    map: 'boneyard', diff: 'normal', noEnemy: true, noBase: true, start: [3950, 3260],
     fields: [
       { p: [W * 0.16, H * 0.5], n: 8, a: 2600 },
       { p: [W * 0.84, H * 0.5], n: 8, a: 2600 },
@@ -1459,17 +1459,20 @@ const MISSIONS = [
     // side gates are ridge-plugged for the mission, so the trail and the gate
     // are the ONLY way in — and the only way back out with the survivors.
     terrain: {
+      // HALF-WIDTH TRAIL (2026-08-04 round 2, Bronson: "it needs to be a
+      // challenge... they should fail the mission the first time"): the
+      // corridor squeezes to ~200px — a column, not a formation — with
+      // obstacle pinches at the edges and reinforced tenants at every turn.
       ridges: [
-        [4560, 3000, 1750, 2950, 55],   // leg-1 north bluff — runs to the map edge
-        [4400, 3400, 3600, 3390, 45],   // stub wall behind the LZ
-        [1750, 3260, 2650, 2500, 55],   // leg-2 south-east wall (hairpin outer)
-        [1150, 2950, 1950, 2280, 55],   // leg-2 north-west wall (hairpin inner)
+        [4560, 3120, 1600, 3135, 52],   // the bluff: map edge to the hairpin, one wall
+        [1350, 3000, 2300, 2430, 55],   // leg-2 west wall — its south end shapes the hairpin
+        [2200, 3060, 2650, 2500, 55],   // leg-2 east wall, rooted on the bluff — a narrowing funnel
         [80, 2150, 1250, 2260, 55],     // west gate plug — full span to the edge
         [3400, 2100, 4530, 2330, 55],   // east gate plug — full span to the edge
       ],
-      bones: [[2200, 3150, 60, 0.4], [1900, 2850, 55, -0.7], [2450, 2620, 45, 1.1]],
-      boulders: [[3300, 3120, 30], [2900, 3040, 26], [1550, 3120, 32], [2100, 2560, 28], [1750, 2700, 24]],
-      pits: [[2700, 2980, 34]],
+      bones: [[2250, 3330, 42, 0.4], [2000, 2780, 40, -0.7], [2450, 2620, 42, 1.1]],
+      boulders: [[3300, 3300, 24], [2900, 3360, 22], [1500, 3300, 26], [2150, 2650, 22], [1850, 2900, 20]],
+      pits: [[2700, 3340, 30]],
     },
     brief: [
       ['red', 'Expedition command, Rubicon Actual. Outpost K-7 stopped reporting eleven hours ago. Mid-sentence, mid-word. I have nobody spare to send, and I am… asking.'],
@@ -1493,26 +1496,27 @@ const MISSIONS = [
       { id: 'bunker',  text: 'Search the command bunker', type: 'reach', x: 2304, y: 300, r: 170, hidden: true, mark: [2304, 300] },
       { id: 'east',    text: 'Search the refinery works', type: 'reach', x: 2634, y: 450, r: 170, hidden: true, mark: [2634, 450] },
       // any three living engineers count — they ARE the only engineers here
-      { id: 'extract', text: 'Get all three survivors back down the trail to the LZ', type: 'groupReach', unit: 'engineer', x: 3950, y: 3180, r: 220, count: 3, hidden: true, mark: [3950, 3180] },
+      { id: 'extract', text: 'Get all three survivors back down the trail to the LZ', type: 'groupReach', unit: 'engineer', x: 3950, y: 3300, r: 220, count: 3, hidden: true, mark: [3950, 3300] },
     ],
     winWhen: ['camp', 'west', 'bunker', 'east', 'extract'],
     triggers: [
       { when: { time: 0.5 },
         spawn: [
-          { group: 'boone', unit: 'commando', team: 1, n: 1, at: [3950, 3060] },
-          { group: 'squad', unit: 'marine', team: 1, n: 6, at: [3950, 3140] },
-          { group: 'squad', unit: 'rocket', team: 1, n: 3, at: [3860, 3200] },
-          { group: 'squad', unit: 'sniper', team: 1, n: 1, at: [4040, 3200] },
-          { group: 'squad', unit: 'medic',  team: 1, n: 2, at: [3950, 3260] },
-          // the trail has tenants: a spitter post at the hairpin, a raptor
-          // pack mid-climb, a picket at the trail mouth into the camp gate
-          { unit: 'spitter', team: 3, n: 2, at: [1500, 3080], order: 'guard' },
-          { unit: 'raptor',  team: 3, n: 2, at: [2080, 2660], order: 'guard' },
-          { unit: 'spitter', team: 3, n: 2, at: [2350, 2300], order: 'guard' },
+          { group: 'boone', unit: 'commando', team: 1, n: 1, at: [3950, 3240] },
+          { group: 'squad', unit: 'marine', team: 1, n: 6, at: [3950, 3300] },
+          { group: 'squad', unit: 'rocket', team: 1, n: 3, at: [3860, 3350] },
+          { group: 'squad', unit: 'sniper', team: 1, n: 1, at: [4040, 3350] },
+          { group: 'squad', unit: 'medic',  team: 1, n: 2, at: [3950, 3390] },
+          // the trail has tenants at every turn: mid-leg picket, hairpin
+          // post, a raptor pack on the climb, a picket at the camp mouth
+          { unit: 'spitter', team: 3, n: 2, at: [2600, 3330], order: 'guard' },
+          { unit: 'spitter', team: 3, n: 3, at: [1480, 3230], order: 'guard' },
+          { unit: 'raptor',  team: 3, n: 3, at: [2170, 2760], order: 'guard' },
+          { unit: 'spitter', team: 3, n: 3, at: [2400, 2330], order: 'guard' },
           // the things that cleared K-7 are still IN it: raptor packs hold
           // the streets, spitters squat the flanks — guards, visible, real
-          { unit: 'raptor',  team: 3, n: 3, at: [2154, 525],  order: 'guard' },
-          { unit: 'raptor',  team: 3, n: 2, at: [2504, 675],  order: 'guard' },
+          { unit: 'raptor',  team: 3, n: 4, at: [2154, 525],  order: 'guard' },
+          { unit: 'raptor',  team: 3, n: 3, at: [2504, 675],  order: 'guard' },
           { unit: 'spitter', team: 3, n: 2, at: [1854, 720],  order: 'guard' },
           { unit: 'spitter', team: 3, n: 2, at: [2754, 600],  order: 'guard' },
           // K-7, standing and broken — the guns went first, so there are none
@@ -1531,7 +1535,7 @@ const MISSIONS = [
           { egg: [2070, 720] }, { egg: [2475, 570] }, { egg: [2340, 780] },
           { egg: [1950, 330] }, { egg: [2550, 270] },
         ] },
-      { when: { near: [3300, 2960, 380] },
+      { when: { near: [3200, 3330, 330] },
         say: [['sci', 'No birds. No grazers. The bone flats are never this quiet — everything that could leave already left.'],
               ['cdo', 'Single file on the trail. Eyes up.']] },
       { when: { done: ['camp'] }, objective: ['west', 'bunker', 'east'],
@@ -1574,23 +1578,23 @@ const MISSIONS = [
       { when: { done: ['west', 'bunker', 'east'] }, objective: 'extract',
         alarm: '⚠ The flock is rising — get south NOW!',
         spawn: [
-          { unit: 'screecher', team: 3, n: 3, at: [2000, 45], to: [2304, 700] },
-          { unit: 'screecher', team: 3, n: 3, at: [2650, 45], to: [2304, 900] },
+          { unit: 'screecher', team: 3, n: 4, at: [2000, 45], to: [2304, 700] },
+          { unit: 'screecher', team: 3, n: 4, at: [2650, 45], to: [2304, 900] },
           { unit: 'raptor',    team: 3, n: 3, at: [2304, 1470], order: 'guard' },
         ],
         say: [['red', '…Three. Out of forty-one. Get them home, Commander, and Rubicon will remember it. That is not a small sentence from me.'],
               ['ops', 'The whole northern sky just lifted off the roosts. They know you have them — south, and do not stop for anything.']] },
       // the long walk home, contested the whole way, from both flanks
-      { when: { done: ['west', 'bunker', 'east'], notDone: ['extract'] }, delay: 25, repeat: true, every: 50,
+      { when: { done: ['west', 'bunker', 'east'], notDone: ['extract'] }, delay: 25, repeat: true, every: 45,
         spawn: { unit: 'screecher', team: 3, n: 2, at: [2100, 90], to: [2400, 2560] } },
-      { when: { done: ['west', 'bunker', 'east'], notDone: ['extract'] }, delay: 45, repeat: true, every: 70,
-        spawn: { unit: 'screecher', team: 3, n: 2, at: [3750, 450], to: [3200, 3000] } },
-      { when: { done: ['west', 'bunker', 'east'], notDone: ['extract'] }, delay: 70, repeat: true, every: 95,
-        spawn: { unit: 'raptor', team: 3, n: 2, at: [1554, 1770], to: [1700, 3050] } },
+      { when: { done: ['west', 'bunker', 'east'], notDone: ['extract'] }, delay: 45, repeat: true, every: 60,
+        spawn: { unit: 'screecher', team: 3, n: 2, at: [3750, 450], to: [3200, 3250] } },
+      { when: { done: ['west', 'bunker', 'east'], notDone: ['extract'] }, delay: 70, repeat: true, every: 85,
+        spawn: { unit: 'raptor', team: 3, n: 2, at: [1554, 1770], to: [1700, 3200] } },
       // the LZ itself is contested — clear it and hold for the transport
-      { when: { near: [3400, 2980, 320], done: ['west', 'bunker', 'east'] },
+      { when: { near: [3300, 3200, 320], done: ['west', 'bunker', 'east'] },
         alarm: '⚠ Wings over the extraction point!',
-        spawn: { unit: 'screecher', team: 3, n: 4, at: [4300, 2800], to: [3950, 3180] },
+        spawn: { unit: 'screecher', team: 3, n: 5, at: [4300, 2800], to: [3950, 3300] },
         say: [['ops', 'Wings on the LZ — clear the air and hold for the transport!']] },
       // the squad is small and the survivors are the mission — and Lighthouse
       // does not get left in the silence

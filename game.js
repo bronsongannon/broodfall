@@ -1436,195 +1436,137 @@ const MISSIONS = [
     loseText: 'Rubicon worked the motherlode dry and the grid is theirs on paper. The colonies are still standing, which is the only mercy in the report.',
   },
   {
-    // M9 — the dread mission. A Rubicon outpost went silent mid-sentence;
-    // Krauss asks for help and hates every word of it. Commando (noBase, no
-    // economy) through heavy fog into a wrecked camp — pre-damaged ruins via
-    // `hpFrac`, eggs laid in the open streets via `egg` spawns — to the first
-    // SCREECHER contact. Extract his three surviving engineers or lose.
-    // Boneyard's nests are stripped by the mission `fields` override (the M5
-    // rule: no-economy squads never fight mounds on a forced route — and the
-    // emptiness IS the mission's texture).
+    // M9 — "Roost" rebuild (2026-08-05, from scratch after the switchback
+    // mountain was hated and shot: fantasy first). LAND IN FORCE at dusk on
+    // the plain below dead K-7, dig in a listening post, and hold it through
+    // a 12-minute night of screecher wings off three cliff roosts — while
+    // sorties recover three flight recorders that tell K-7's story and
+    // (optionally) crack the roosts to thin the waves. Dawn ends it: the
+    // flock is called off mid-attack, not beaten. No escort fragility, no
+    // corridors — the base is the mission and the night is the antagonist.
     title: 'The Silence', act: 'Act II — The Awakening',
-    allow: { bld: [], unit: [] },
-    map: 'boneyard', diff: 'normal', noEnemy: true, noBase: true, start: [3900, 3380],
+    allow: { bld: ['supply', 'barracks', 'turret', 'refinery', 'power', 'factory', 'flak'],
+             unit: ['harvester', 'engineer', 'marine', 'sniper', 'rocket', 'medic', 'raider', 'tank', 'artillery', 'apc'] },
+    map: 'boneyard', diff: 'normal', noEnemy: true, bare: true,
+    // the bone flats are EMPTY tonight — no nests at the fields; the only
+    // wildlife is what roosts on the mounds and what the night sends
     fields: [
       { p: [W * 0.16, H * 0.5], n: 8, a: 2600 },
       { p: [W * 0.84, H * 0.5], n: 8, a: 2600 },
       { p: [W / 2, H / 2], n: 12, a: 3400 },
     ],
-    // THE CLIFFSIDE TRAIL (2026-08-04, Bronson: "a windy, long cliff with a
-    // few extra dinos and some rocks/dead things to navigate around"): the
-    // squad lands in the SE corner and climbs a walled switchback — west
-    // along the bluff foot, then a hairpin northeast to the center gate. The
-    // side gates are ridge-plugged for the mission, so the trail and the gate
-    // are the ONLY way in — and the only way back out with the survivors.
-    terrain: {
-      // THE MOUNTAIN (2026-08-04 round 4, Bronson: "at least 8 switchbacks...
-      // read as a hill climb in its entirety — reach the top, rescue these
-      // idiots, then try and make it down"): eight stacked terrace lanes
-      // (~100px, single file) zigzag up the south face between seven walls
-      // with alternating turn-gaps; vertical walls seal both flanks; the
-      // summit gate is the only exit. `rises` paints the elevation light —
-      // brightest at the peak — so the whole approach reads as climbing.
-      ridges: [
-        [1650, 3298, 3360, 3310, 24],   // W7 — gap WEST  (leg 1 -> 2)
-        [1310, 3154, 3000, 3166, 24],   // W6 — gap EAST  (leg 2 -> 3)
-        [1650, 3010, 3360, 3022, 24],   // W5 — gap WEST
-        [1310, 2866, 3000, 2878, 24],   // W4 — gap EAST
-        [1650, 2722, 3360, 2734, 24],   // W3 — gap WEST
-        [1310, 2578, 3000, 2590, 24],   // W2 — gap EAST
-        [1650, 2434, 3360, 2446, 24],   // W1 — gap WEST  (leg 8 exits to the summit gate)
-        [1240, 2255, 1400, 3400, 42],   // west flank wall (top overlaps the west plug)
-        [3430, 2180, 3400, 3290, 42],   // east flank wall — top buried in the gate plug (a 70px seam leaked round 4)
-        [80, 2150, 1250, 2260, 55],     // west gate plug — full span to the edge
-        [3400, 2100, 4530, 2330, 55],   // east gate plug — full span to the edge
-      ],
-      rises: [[2304, 480, 950, 1], [2304, 1500, 1250, 0.7], [2304, 2700, 1500, 0.45], [2650, 3350, 900, 0.3]],
-      clear: [[2765, 2696, 70]],   // boneyard's own tree sat in lane 6
-      // decor only ON the wall lines — at ~90px lanes any freestanding rock
-      // is a plug, not a slalom (a pit here sealed leg 1 outright)
-      bones: [[2400, 3304, 40, 0.1], [2000, 2872, 38, -0.2], [2800, 2590, 38, 0.15]],
-    },
     brief: [
-      ['red', 'Expedition command, Rubicon Actual. Outpost K-7 stopped reporting eleven hours ago. Mid-sentence, mid-word. I have nobody spare to send, and I am… asking.'],
-      ['ops', 'A Rubicon outpost going dark is his problem — except K-7 sits square on our northern survey line, and whatever silenced forty-one people is now between us and the fen.'],
-      ['sci', 'Eleven hours and not one automated ping. Power is up. The antennas are standing. Nobody is transmitting. I want instruments on everything, Commander — walk slowly.'],
-      ['ops', 'Small element, no footprint: Boone\'s squad and a medic. Get in, find his people, get out. Do not start a war with whatever is holding that ground.'],
-      ['cdo', 'We will look.'],
+      ['red', 'Expedition command, Rubicon Actual. Outpost K-7 stopped reporting eleven hours ago. Mid-sentence, mid-word. Forty-one people. I am asking you to look — and I am telling you: do not be there after dark.'],
+      ['ops', 'We are done tip-toeing into silences. We land IN FORCE below K-7, dig in a listening post, and find out what empties an outpost — from behind turrets.'],
+      ['sci', 'K-7 kept flight recorders at the survey sites. Three, still pinging. Whatever happened out there, those boxes heard it. I want all three.'],
+      ['cdo', 'We dig in before dark.'],
     ],
     intro: [
-      ['ops', 'K-7 is due north through the wall gates. Comms silence the whole way — assume nothing about why.'],
+      ['ops', 'Ground is yours, Commander. Barracks, power, turrets, and a Flak tower before dusk — intel says whatever took K-7 came out of the SKY.'],
     ],
-    // PACING REWORK (2026-08-04, Bronson finished v1 in 3 minutes: "absolutely
-    // unacceptable"): the three survivors now hole up in three SEPARATE
-    // shelters across the camp's full width — the sweep is the mission.
-    // Raptor packs prowl the streets (the things that cleared K-7 never left),
-    // screechers pressure the whole run, and collecting the third survivor
-    // raises the flock. Target: 12-15 minutes.
     objectives: [
-      { id: 'camp',    text: 'Push north into the silent outpost', type: 'reach', x: 2304, y: 930, r: 300 },
-      { id: 'west',    text: 'Search the vehicle bay for survivors', type: 'reach', x: 1704, y: 360, r: 170, hidden: true, mark: [1704, 360] },
-      { id: 'bunker',  text: 'Search the command bunker', type: 'reach', x: 2304, y: 300, r: 170, hidden: true, mark: [2304, 300] },
-      { id: 'east',    text: 'Search the refinery works', type: 'reach', x: 2634, y: 450, r: 170, hidden: true, mark: [2634, 450] },
-      // any three living engineers count — they ARE the only engineers here
-      { id: 'extract', text: 'Get all three survivors back down the trail to the LZ', type: 'groupReach', unit: 'engineer', x: 3900, y: 3390, r: 200, count: 3, hidden: true, mark: [3900, 3390] },
+      { id: 'rax',  text: 'Establish the post: build a Barracks (B)', type: 'built', bld: 'barracks', count: 1 },
+      { id: 'grid', text: 'Power the post: build a Power Plant (O)', type: 'built', bld: 'power', count: 1 },
+      { id: 'guns', text: 'Arm the perimeter: two Turrets (T)', type: 'built', bld: 'turret', count: 2 },
+      { id: 'aa',   text: 'Cover the sky: build a Flak Tower (Y)', type: 'built', bld: 'flak', count: 1 },
+      { id: 'dawn', text: 'Hold the post until dawn', type: 'survive', secs: 720, hidden: true },
+      { id: 'r1',   text: 'Recover the west survey recorder', type: 'reach', x: 900, y: 2300, r: 160, hidden: true, mark: [900, 2300] },
+      { id: 'r2',   text: 'Recover the recorder in K-7 itself', type: 'reach', x: 2304, y: 450, r: 160, hidden: true, mark: [2304, 450] },
+      { id: 'r3',   text: 'Recover the east survey recorder', type: 'reach', x: 3700, y: 2400, r: 160, hidden: true, mark: [3700, 2400] },
+      // the pressure valves: every dead roost thins the night. NOT in
+      // winWhen — the waves make their value obvious without a tutorial
+      { id: 'roostA', text: 'Optional: burn out the west roost', type: 'groupDead', group: 'roostA', hidden: true, mark: [1520, 1730] },
+      { id: 'roostB', text: 'Optional: burn out the east roost', type: 'groupDead', group: 'roostB', hidden: true, mark: [3090, 1730] },
+      { id: 'roostC', text: 'Optional: burn out the roost over K-7', type: 'groupDead', group: 'roostC', hidden: true, mark: [2304, 780] },
     ],
-    winWhen: ['camp', 'west', 'bunker', 'east', 'extract'],
+    winWhen: ['rax', 'grid', 'guns', 'aa', 'r1', 'r2', 'r3', 'dawn'],
     triggers: [
-      { when: { time: 0.5 },
+      { when: { time: 0.5 }, crystals: 500,
         spawn: [
-          { group: 'boone', unit: 'commando', team: 1, n: 1, at: [3860, 3360] },
-          { group: 'squad', unit: 'marine', team: 1, n: 6, at: [3940, 3400] },
-          { group: 'squad', unit: 'rocket', team: 1, n: 3, at: [3850, 3430] },
-          { group: 'squad', unit: 'sniper', team: 1, n: 1, at: [4030, 3430] },
-          { group: 'squad', unit: 'medic',  team: 1, n: 2, at: [3940, 3440] },
-          // the trail has tenants at every turn: mid-leg picket, hairpin
-          // post, a raptor pack on the climb, a picket at the camp mouth
-          { unit: 'spitter', team: 3, n: 2, at: [2600, 3390], order: 'guard' },
-          { unit: 'spitter', team: 3, n: 2, at: [1560, 3230], order: 'guard' },
-          { unit: 'spitter', team: 3, n: 2, at: [3230, 3090], order: 'guard' },
-          { unit: 'raptor',  team: 3, n: 3, at: [2300, 2940], order: 'guard' },
-          { unit: 'spitter', team: 3, n: 2, at: [1570, 2660], order: 'guard' },
-          { unit: 'raptor',  team: 3, n: 2, at: [2500, 2510], order: 'guard' },
-          { unit: 'spitter', team: 3, n: 3, at: [2300, 2290], order: 'guard' },
-          // the things that cleared K-7 are still IN it: raptor packs hold
-          // the streets, spitters squat the flanks — guards, visible, real
-          { unit: 'raptor',  team: 3, n: 4, at: [2154, 525],  order: 'guard' },
-          { unit: 'raptor',  team: 3, n: 3, at: [2504, 675],  order: 'guard' },
-          { unit: 'spitter', team: 3, n: 2, at: [1854, 720],  order: 'guard' },
-          { unit: 'spitter', team: 3, n: 2, at: [2754, 600],  order: 'guard' },
-          // K-7, standing and broken — the guns went first, so there are none
+          { group: 'boone', unit: 'commando', team: 1, n: 1, at: [2304, 3060] },
+          { unit: 'marine', team: 1, n: 4, at: [2250, 3110] },
+          { unit: 'rocket', team: 1, n: 1, at: [2380, 3110] },
+          // K-7 itself, standing and broken on the northern rise
           { bld: 'hq',       team: 2, at: [2304, 300],  hpFrac: 0.18 },
           { bld: 'barracks', team: 2, at: [2004, 210],  hpFrac: 0.30 },
           { bld: 'factory',  team: 2, at: [1704, 360],  hpFrac: 0.22 },
-          // no supply depots in the ruins — their repair aura would slowly
-          // heal the camp back to life, and a dead camp must STAY dead
           { bld: 'airpad',   team: 2, at: [2574, 150],  hpFrac: 0.35 },
           { bld: 'barracks', team: 2, at: [2094, 510],  hpFrac: 0.30 },
           { bld: 'power',    team: 2, at: [2784, 270],  hpFrac: 0.20 },
           { bld: 'power',    team: 2, at: [1869, 180],  hpFrac: 0.25 },
           { bld: 'refinery', team: 2, at: [2634, 450],  hpFrac: 0.28 },
-          // eggs laid in the open, between the buildings
           { egg: [2175, 450] }, { egg: [2400, 390] }, { egg: [2250, 630] },
           { egg: [2070, 720] }, { egg: [2475, 570] }, { egg: [2340, 780] },
-          { egg: [1950, 330] }, { egg: [2550, 270] },
+          // the roosts: one on each burial mound, one on K-7's northern rise
+          { group: 'roostA', bld: 'nest', at: [1520, 1730] },
+          { group: 'roostB', bld: 'nest', at: [3090, 1730] },
+          { group: 'roostC', bld: 'nest', at: [2304, 780] },
         ] },
-      { when: { near: [2900, 3390, 300] },
-        say: [['sci', 'No birds. No grazers. The bone flats are never this quiet — everything that could leave already left.'],
-              ['cdo', 'Single file on the trail. Eyes up.']] },
-      { when: { done: ['camp'] }, objective: ['west', 'bunker', 'east'],
-        say: [['sci', 'There are eggs in the streets, Commander. Laid in the OPEN, between the buildings. Whatever nested here was not afraid of anything.'],
-              ['red', 'K-7 had forty-one people on shift, expedition. Keep moving.'],
-              ['ops', 'Thermal shows three sealed shelters still holding heat — the vehicle bay, the command bunker, the refinery works. Sweep all three.'],
-              ['cdo', 'Eggs in the street means the street is theirs. Keep walking.']] },
-      // first contact — the sky lanes between the walls belong to something new
-      { when: { near: [2304, 645, 390] },
-        alarm: '⚠ Airborne contacts!',
+      { when: { time: 40 },
+        say: [['sci', 'No birds. No grazers. Nothing on thermal but your own engines. The bone flats have never read this empty.']] },
+      // the post stands: night begins, everything reveals at once
+      { when: { done: ['rax', 'grid', 'guns', 'aa'] },
+        objective: ['dawn', 'r1', 'r2', 'r3', 'roostA', 'roostB', 'roostC'],
+        alarm: '⚠ Dusk. Contacts rising off the mounds.',
+        say: [['sci', 'Thermal just lit up — three roosts: both burial mounds and the rise over K-7 itself. And I hold three recorder pings in the field. Those boxes heard what happened here, Commander.'],
+              ['ops', 'Dawn is twelve minutes out. Hold the post, bring me those recorders — and if the roosts are feeding this, burn them out.'],
+              ['cdo', 'Lights low. Guns up.']] },
+      { when: { done: ['rax', 'grid', 'guns', 'aa'] }, delay: 18,
+        spawn: { unit: 'screecher', team: 3, n: 2, at: [2304, 700], to: [2304, 3000] },
+        say: [['sci', 'CONTACT — airborne, repeat, AIRBORNE. That is not a spitter. That is not anything we have on file!']] },
+      // the three roost lanes — each dies with its roost
+      { when: { done: ['aa'], notDone: ['dawn', 'roostA'] }, delay: 75, repeat: true, every: 55,
+        spawn: { unit: 'screecher', team: 3, n: 2, at: [1450, 1620], to: [2150, 3120] } },
+      { when: { done: ['aa'], notDone: ['dawn', 'roostB'] }, delay: 95, repeat: true, every: 60,
+        spawn: { unit: 'screecher', team: 3, n: 2, at: [3160, 1620], to: [2450, 3120] } },
+      { when: { done: ['aa'], notDone: ['dawn', 'roostC'] }, delay: 115, repeat: true, every: 70,
+        spawn: { unit: 'screecher', team: 3, n: 3, at: [2304, 700], to: [2304, 3040] } },
+      // recorder story beats
+      { when: { done: ['r1'] },
+        say: [['sci', 'West recorder. Final entry: "The wings come at dusk, in waves, always from the mounds. We count them out and we count them back. They are counting us too."'],
+              ['red', 'That is Ohlsson. Survey lead. Keep going, expedition.']] },
+      { when: { done: ['r2'] },
+        say: [['sci', 'K-7 station log, night three: "They stopped hitting the walls tonight. They went for the power. All of it. In the same minute." Commander — look to your grid.'],
+              ['cdo', 'They learn.']] },
+      { when: { done: ['r3'] },
+        alarm: '⚠ Massed wings rising from every roost!',
         spawn: [
-          { unit: 'screecher', team: 3, n: 2, at: [1950, 90], to: [2304, 645] },
-          { unit: 'screecher', team: 3, n: 1, at: [2625, 90], to: [2304, 645] },
+          { unit: 'screecher', team: 3, n: 4, at: [1450, 1650], to: [2200, 3100] },
+          { unit: 'screecher', team: 3, n: 4, at: [3160, 1650], to: [2400, 3100] },
+          { unit: 'raptor',    team: 3, n: 3, at: [2304, 900], order: 'attackhq' },
         ],
-        say: [['sci', 'CONTACT — airborne, repeat, AIRBORNE. That is not a spitter. That is not anything we have on file!'],
-              ['cdo', 'Rockets up. Watch the lanes.']] },
-      // the sky pressures the WHOLE mission, not just the walk home
-      { when: { time: 110, notDone: ['extract'] }, repeat: true, every: 80,
-        spawn: { unit: 'screecher', team: 3, n: 2, at: [2900, 90], to: [2304, 1650] } },
-      // each shelter opens to one survivor — and the sky answers each time
-      { when: { done: ['west'] },
+        say: [['sci', 'East recorder — the last minute of K-7. Eight seconds of screeching… then a ROAR, and the screeching stops. Not the screaming, Commander. The SCREECHING. Something called them off mid-kill.'],
+              ['ops', 'Then something out there gives orders. Hold the line — dawn is coming.']] },
+      // the night learns: after the K-7 log, wings hunt the grid
+      { when: { done: ['r2'], notDone: ['dawn'] }, delay: 30, repeat: true, every: 80,
+        spawn: { unit: 'screecher', team: 3, n: 3, at: [2304, 650], aim: 'power' } },
+      // ground pressure keeps the turrets honest
+      { when: { done: ['r1'], notDone: ['dawn'] }, delay: 60, repeat: true, every: 130,
+        spawn: { unit: 'raptor', team: 3, n: 2, at: [2304, 950], order: 'attackhq' } },
+      // deep-night ramps, regardless of roosts
+      { when: { done: ['aa'], notDone: ['dawn'] }, delay: 340, alarm: '⚠ The night deepens — double wave!',
         spawn: [
-          { group: 's1', unit: 'engineer', team: 1, n: 1, at: [1704, 420], hpMul: 2 },
-          { unit: 'screecher', team: 3, n: 2, at: [1350, 60], to: [1704, 390] },
-        ],
-        say: [['ops', 'One heartbeat in the vehicle bay — dehydrated, alive, and not talking yet. Two shelters left.']] },
-      { when: { done: ['bunker'] },
+          { unit: 'screecher', team: 3, n: 3, at: [1450, 1650], to: [2200, 3150] },
+          { unit: 'screecher', team: 3, n: 3, at: [3160, 1650], to: [2450, 3150] },
+        ] },
+      { when: { done: ['aa'], notDone: ['dawn'] }, delay: 580, alarm: '⚠ Pre-dawn surge!',
         spawn: [
-          { group: 's2', unit: 'engineer', team: 1, n: 1, at: [2304, 360], hpMul: 2 },
-          { unit: 'screecher', team: 3, n: 2, at: [2304, 45], to: [2304, 340] },
-        ],
-        say: [['sci', 'The bunker door was welded from the INSIDE — and the things out here stopped trying after the first night. They were not hungry, Commander. They were clearing ground.']] },
-      { when: { done: ['east'] },
-        spawn: [
-          { group: 's3', unit: 'engineer', team: 1, n: 1, at: [2634, 510], hpMul: 2 },
-          { unit: 'screecher', team: 3, n: 2, at: [2950, 60], to: [2634, 480] },
-        ],
-        say: [['red', 'Refinery crew chief. Good man. That is three of my people breathing because of yours, expedition.']] },
-      // the third rescue raises the FLOCK — and something closes the gate
-      { when: { done: ['west', 'bunker', 'east'] }, objective: 'extract',
-        alarm: '⚠ The flock is rising — get south NOW!',
-        spawn: [
-          { unit: 'screecher', team: 3, n: 4, at: [2000, 45], to: [2304, 700] },
-          { unit: 'screecher', team: 3, n: 4, at: [2650, 45], to: [2304, 900] },
-          { unit: 'raptor',    team: 3, n: 3, at: [2304, 1470], order: 'guard' },
-        ],
-        say: [['red', '…Three. Out of forty-one. Get them home, Commander, and Rubicon will remember it. That is not a small sentence from me.'],
-              ['ops', 'The whole northern sky just lifted off the roosts. They know you have them — south, and do not stop for anything.']] },
-      // the long walk home, contested the whole way, from both flanks
-      { when: { done: ['west', 'bunker', 'east'], notDone: ['extract'] }, delay: 25, repeat: true, every: 45,
-        spawn: { unit: 'screecher', team: 3, n: 2, at: [2100, 90], to: [1600, 2650] } },
-      { when: { done: ['west', 'bunker', 'east'], notDone: ['extract'] }, delay: 45, repeat: true, every: 60,
-        spawn: { unit: 'screecher', team: 3, n: 2, at: [3750, 450], to: [3100, 3000] } },
-      { when: { done: ['west', 'bunker', 'east'], notDone: ['extract'] }, delay: 70, repeat: true, every: 85,
-        spawn: { unit: 'raptor', team: 3, n: 2, at: [1554, 1770], to: [2300, 3390] } },
-      // the LZ itself is contested — clear it and hold for the transport
-      { when: { near: [3500, 3350, 300], done: ['west', 'bunker', 'east'] },
-        alarm: '⚠ Wings over the extraction point!',
-        spawn: { unit: 'screecher', team: 3, n: 5, at: [4300, 2800], to: [3900, 3390] },
-        say: [['ops', 'Wings on the LZ — clear the air and hold for the transport!']] },
-      // the squad is small and the survivors are the mission — and Lighthouse
-      // does not get left in the silence
-      { when: { groupBelow: ['squad', 3] }, lose: true },
-      { when: { groupBelow: ['s1', 1] }, lose: true },
-      { when: { groupBelow: ['s2', 1] }, lose: true },
-      { when: { groupBelow: ['s3', 1] }, lose: true },
+          { unit: 'screecher', team: 3, n: 4, at: [1450, 1650], to: [2250, 3100] },
+          { unit: 'screecher', team: 3, n: 4, at: [3160, 1650], to: [2350, 3100] },
+          { unit: 'raptor',    team: 3, n: 2, at: [2304, 950], order: 'attackhq' },
+        ] },
+      // dawn: the flock is CALLED off, mid-attack — the voice that ended K-7
+      { when: { done: ['dawn'] }, recall: 'screecher',
+        say: [['sci', 'Light on the horizon — and listen. The same roar, far north. They are breaking off. All of them. Mid-attack.'],
+              ['cdo', 'Not beaten. Called.']] },
       { when: { groupBelow: ['boone', 1] }, lose: true },
     ],
     outro: [
-      ['ops', 'Transport is away with three survivors and the flight recorder from K-7.'],
-      ['sci', 'Forty-one people, and the recorder caught eight seconds of screeching and then nothing at all. Treat that number as a message. It is one.'],
-      ['cdo', 'It let us leave.'],
+      ['ops', 'Dawn, and the post is standing. Three recorders recovered, and the sky is empty again — because something ordered it empty.'],
+      ['sci', 'Forty-one people heard that roar once, at the very end. We have now heard it twice and lived. Everything north of here goes straight to Command — flagged: there is a commander on the other side.'],
     ],
-    winText: 'Three engineers came home, and Krauss said thank you like the words cost him blood. K-7 stays silent — and the sky over the bone flats has learned a new sound.',
-    loseText: 'Nobody came back from K-7 twice. The bone flats keep the outpost, the eggs, and the answer, and the sky over the northern line is no longer empty.',
+    winText: 'The listening post held the night that took K-7 in three. The recorders are home, the roosts are ash or empty — and somewhere north, the thing that calls the flock knows exactly where the lights are.',
+    loseText: 'The post went dark before dawn, mid-transmission — the same way K-7 did. Forty-one, plus everyone you landed. The silence keeps its winning streak.',
   },
 ];
 

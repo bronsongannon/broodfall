@@ -1680,10 +1680,14 @@ const MISSIONS = [
     ],
     intro: [
       ['ops', 'Both gates are marked. The forward crystal field below the south gate funds the siege, and the overlook beside it out-ranges his batteries if you put artillery on top. Take the ground, then take the wall.'],
+      ['sci', 'One more thing from the intercepts: he has repair crews living on that wall. Whatever you crack, they mend it behind you. Half-measures will not open this city, Commander — bring an army.'],
     ],
     objectives: [
       { id: 'guns', text: 'Destroy the gate batteries', type: 'groupDead', group: 'guns', mark: [3733, 1290] },
-      { id: 'hq',   text: "Destroy Krauss's fortress headquarters", type: 'destroy', bld: 'hq', x: 3871, y: 449, r: 480, mark: [3871, 449] },
+      // hidden until the batteries fall — the siege is two phases (playtest
+      // round 2, Bronson: cracked the whole city with 7-10 units; it should
+      // take nearly triple. Win the lanes, THEN win the city.)
+      { id: 'hq',   text: "Destroy Krauss's fortress headquarters", type: 'destroy', bld: 'hq', x: 3871, y: 449, r: 480, hidden: true, mark: [3871, 449] },
       { id: 'evac', text: 'Evacuate 8 units through the eastern pass', type: 'groupReach', any: 1, count: 8, x: 4285, y: 1659, r: 220, hidden: true, mark: [4285, 1659] },
       // gating flag only — set the moment the city starts to fall
       { id: 'fall', text: 'The city is falling', type: 'flag', hidden: true },
@@ -1695,20 +1699,39 @@ const MISSIONS = [
       // out before the player earns it
       { when: { time: 0.5 }, crystals: 300,
         spawn: [
+          // the gate batteries: three per gate (was two — round 2 hardening)
           { group: 'guns', bld: 'turret', team: 2, at: [3260, 470] },
           { group: 'guns', bld: 'turret', team: 2, at: [3260, 700] },
+          { group: 'guns', bld: 'turret', team: 2, at: [3260, 585] },
           { group: 'guns', bld: 'turret', team: 2, at: [3710, 1120] },
           { group: 'guns', bld: 'turret', team: 2, at: [3810, 1090] },
+          { group: 'guns', bld: 'turret', team: 2, at: [3650, 1105] },
+          // the inner ring: falls with the HQ push, not the gate fight
+          { bld: 'turret', team: 2, at: [3700, 700] },
+          { bld: 'turret', team: 2, at: [4050, 800] },
           { bld: 'flak',  team: 2, at: [3350, 900] },
           { bld: 'flak',  team: 2, at: [4050, 1150] },
+          { bld: 'flak',  team: 2, at: [3820, 380] },
           { bld: 'silo',  team: 2, at: [4150, 560] },
           { bld: 'power', team: 2, at: [4250, 300] },
           { bld: 'power', team: 2, at: [3600, 250] },
-          { unit: 'marine', team: 2, n: 3, at: [3220, 590],  order: 'guard' },
-          { unit: 'rocket', team: 2, n: 2, at: [3300, 520],  order: 'guard' },
-          { unit: 'marine', team: 2, n: 3, at: [3760, 1180], order: 'guard' },
-          { unit: 'rocket', team: 2, n: 2, at: [3700, 1250], order: 'guard' },
-          { unit: 'sniper', team: 2, n: 1, at: [3840, 1140], order: 'guard' },
+          // the garrison, at war strength (round 2: a 10-unit push must die
+          // in the lanes; the city should demand nearly thirty)
+          { unit: 'marine', team: 2, n: 6, at: [3220, 590],  order: 'guard' },
+          { unit: 'rocket', team: 2, n: 3, at: [3300, 520],  order: 'guard' },
+          { unit: 'sniper', team: 2, n: 1, at: [3320, 640],  order: 'guard' },
+          { unit: 'marine', team: 2, n: 6, at: [3760, 1180], order: 'guard' },
+          { unit: 'rocket', team: 2, n: 3, at: [3700, 1250], order: 'guard' },
+          { unit: 'sniper', team: 2, n: 2, at: [3840, 1140], order: 'guard' },
+          { unit: 'tank',   team: 2, n: 2, at: [3600, 800],  order: 'guard' },
+          { unit: 'artillery', team: 2, n: 1, at: [3750, 850], order: 'guard' },
+          // the repair crews Lin warned about — idle engineers mend whatever
+          // the wall loses between pushes; snipe them or fight the mending.
+          // One crew per gate, one on the inner ring: idle acquisition only
+          // sees damage within 240px, so the crews LIVE at their batteries.
+          { unit: 'engineer', team: 2, n: 1, at: [3330, 600] },
+          { unit: 'engineer', team: 2, n: 1, at: [3740, 1010] },
+          { unit: 'engineer', team: 2, n: 1, at: [3880, 720] },
           // your task force lands with you — this is the offensive
           { unit: 'marine', team: 1, n: 4, at: [700, 2800] },
           { unit: 'tank',   team: 1, n: 2, at: [820, 2900] },
@@ -1718,7 +1741,7 @@ const MISSIONS = [
         say: [['red', 'Status for corporate: the expedition is camped outside my wall burning money. The wall is not impressed. Neither am I.']] },
       { when: { time: 540, notDone: ['hq'] },
         say: [['sci', 'Commander, the hum under the city is not steady any more. It rises when your shells land and it does not come all the way back down. Something is pacing.']] },
-      { when: { done: ['guns'], notDone: ['hq'] },
+      { when: { done: ['guns'], notDone: ['hq'] }, objective: 'hq',
         say: [['ops', 'Gate batteries down — both lanes are open. His headquarters is the last thing holding Rubicon together. Finish it.'],
               ['red', 'Batteries gone. Fine. I have held worse with less — form on the headquarters, all of you. This company is not done.']] },
       { when: { time: 840, notDone: ['hq'] },

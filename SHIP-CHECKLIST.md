@@ -20,12 +20,15 @@ Interactive version: `.claude/ship-widget.html` renders as a widget at the start
 of every Claude session (SessionStart hook in `.claude/settings.json`). Keep this
 file and the widget's task lists in sync.
 
-## PRIORITY: finish the campaign (11 missions remain, 9 of 20 built)
+## PRIORITY: finish the campaign (10 missions remain, 10 of 20 built)
 
-Engine work still gating missions: allied AI faction (M11, M18), Ironback debut
-(M10), corrupted spawner buildings (M14), den-seeding timer (M15), Broodmother
-combat version (M20). Maps still to build: Krauss's Bastion, Evac Coast, The
-Crater. Standing rule: **M10+ missions are a mandatory 20–25 minutes.**
+M10 "Broodfall" BUILT 2026-08-11 (Krauss's Bastion map + the title-drop mission:
+kill order cancelled mid-mission via the new `bldBelow` hp-threshold condition +
+`cancel` trigger action; evacuation replaces it). Engine work still gating
+missions: allied AI faction (M11, M18), corrupted spawner buildings (M14),
+den-seeding timer (M15), Broodmother combat version (M20). Maps still to build:
+Evac Coast, The Crater. Standing rule: **M10+ missions are a mandatory 20–25
+minutes** — M10's pacing awaits Bronson's stopwatch.
 
 ## Apple submission track — UNSCHEDULED, after the campaign is finished
 

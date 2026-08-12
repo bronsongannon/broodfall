@@ -3,7 +3,7 @@
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:0 0 1.5rem">
   <div style="background:var(--surface-1);border-radius:var(--radius);padding:1rem">
     <p style="font-size:13px;color:var(--text-secondary);margin:0 0 4px">Campaign</p>
-    <p style="font-size:24px;font-weight:500;margin:0">9 <span style="font-size:15px;color:var(--text-secondary)">/ 20 missions</span></p>
+    <p style="font-size:24px;font-weight:500;margin:0">10 <span style="font-size:15px;color:var(--text-secondary)">/ 20 missions</span></p>
   </div>
   <div style="background:var(--surface-1);border-radius:var(--radius);padding:1rem">
     <p style="font-size:13px;color:var(--text-secondary);margin:0 0 4px">Next Fest demo</p>
@@ -59,7 +59,7 @@
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
     <i class="ti ti-map-2" style="font-size:20px" aria-hidden="true"></i>
     <p style="font-weight:500;font-size:15px;margin:0">Campaign arc — all three acts</p>
-    <span style="margin-left:auto;background:var(--bg-warning);color:var(--text-warning);font-size:12px;padding:3px 10px;border-radius:var(--radius)">9 of 20 — Act 2 has begun</span>
+    <span style="margin-left:auto;background:var(--bg-warning);color:var(--text-warning);font-size:12px;padding:3px 10px;border-radius:var(--radius)">10 of 20 — halfway there</span>
   </div>
   <p style="font-size:13px;color:var(--text-secondary);margin:0 0 10px">Full mission-by-mission design in CAMPAIGN.md. Act 1 is the free demo on both storefronts; $14.99 unlocks Acts 2–3 and every map, with all 20 complete at launch. Click a mission chip to start building it. Biggest engine prerequisite: the allied AI faction (M11, M18).</p>
   <p style="font-size:13px;font-weight:500;margin:6px 0 2px">Act 1 — The Crystal War (ships in v1)</p>
@@ -117,8 +117,8 @@ const TRACKS = {
       'Recap the final performance posture and the graceful-degradation stack (BAT profile, CAP-up conviction, two-speed recovery) and what each dev-readout marker means, so I can spot a real regression from a platform throttle at a glance.'],
     ['g7','Pacing pass toward 20–30 minute matches','',
       'Let\'s start the Broodfall pacing pass toward 20-30 minute matches: what levers exist (HP, patch sizes, wave cadence, map size) and a tuning plan.'],
-    ['g8','Map roster: 15 maps / 20 missions locked (CAMPAIGN.md) — 11 built; 4 to go: Krauss\'s Bastion, Exodus Road, Evac Coast, The Crater','',
-      'Let\'s build the next map from the Broodfall 15-map roster in CAMPAIGN.md — Krauss\'s Bastion (M10: the fortified red city-base with walls and kill lanes that falls to the swarm mid-mission).'],
+    ['g8','Map roster: 15 maps / 20 missions locked (CAMPAIGN.md) — 13 built; 2 to go: Evac Coast, The Crater','',
+      'Let\'s build the next map from the Broodfall 15-map roster in CAMPAIGN.md — Evac Coast (M13: coastline LZ with water on one full edge, the Act 2 finale\'s last stand).'],
   ],
   art: [
     ['a1','Source the 14 sound-effect slots (Kenney / Freesound CC0)','',
@@ -146,6 +146,13 @@ const TRACKS = {
   ],
 };
 const SHIPPED = [
+  'M10 "BROODFALL" — THE TITLE DROP (Aug 11): the campaign is half built. Full war footing against Krauss\'s Bastion (13th roster map: a walled citadel, two gates with kill-lane funnels, and one narrow pass out the east side) — and at half health his HQ stops being the objective: the ground north of the city opens, an unkillable swarm eats the Bastion in real time, the kill order is CANCELLED on the HUD (a first — the new cancel action, on the new building-health trigger), and the mission becomes an evacuation: 8+ of anything through the eastern pass. Krauss cracks on the radio at +8 seconds and sends his last transmission at +50; Lin names the phenomenon — and the game. The fall is theater, the pass fight is real. Verified end to end: gates, the flip, the city dying over minutes, evac win, lose path, skirmish AI on the new map, zero errors. Pacing awaits the stopwatch',
+  'M9 REBORN AS "ROOST" (Aug 5): the switchback mountain died in playtest — the lesson written at the top of CLAUDE.md is fantasy first, geometry second: a corridor maze is fiddly micro no matter how well it is sealed. The new shape lands you in force at dusk below dead K-7, you raise a listening post, then hold a 12-minute night against screecher waves off three roost-nests — killing a roost kills its lane — while sorties recover three flight recorders, each a story beat. Dawn empties the sky mid-attack: "Not beaten. Called." Same night the night doubled: lanes at 28/30/35s plus two extra mass launches. Pacing waits on the stopwatch',
+  'THE MOUNTAIN PAID FOR THREE ENGINE LESSONS (Aug 5): the scrapped 8-switchback climb left permanent engine wins — map decor jitter is now deterministic (Math.random was rerolling the walls every game, opening and closing 200px corridors per run), lane-width pathability math is written down (rock inflation + corner-cut rules mean r24 walls at 144px pitch), and missions gained terrain overlays with a clear list that prunes map furniture out of their lanes. The debug kit that cracked it — flood-fill from the LZ + ASCII grid dumps — beat five straight rounds of geometry guessing',
+  'EXODUS ROAD OPENS THE CORRIDOR ERA (Aug 4): 12th roster map (M12\'s home) — a Z-shaped night-swamp causeway walled by water and ridge bluffs, with fire vents as the first soft wall: passable burning ground that flyers ignore. Ridges now paint as continuous mesa walls instead of little disks, and corridor maps get an enforcement test — a corner-to-corner raider whose trail must ride both elbows. Near-touching wall endpoints always leak; overlap them',
+  'THE WORLD GROWS HALF AGAIN (Aug 4): 144x108 tiles — almost exactly classic 128x128 RTS scale, serving the 20-30 minute match goal. Every absolute mission coordinate migrated x1.5 by scripted regex (~203 groups), gameplay radii deliberately untouched, and the whole campaign re-verified the same night: 11/11 map crossings, every mission chain, zero errors',
+  'MSGT. BOONE, CALLSIGN LIGHTHOUSE (Aug 4): fourth cast member and hero commando — mission-granted, leads both commando missions (M5 and M9), dies and the mission fails. The character rule: he barely speaks — one flat calm sentence, only when it matters. Portrait, sprite, walk cycle, and death sequence all landed; ElevenLabs voice pick still open',
+  'PLAYTEST WEEK (Aug 1): support units ignore attack commands — engineers no longer charge the firing line on A-move (a token 2-damage melee poke had slipped them past every unarmed guard); M5 relaxed to its shipping difficulty (16 troops, softer cadences) after 22 proved too hard and 11 was a speedrun; objectives with kill counts show live progress and their beacons track survivors instead of pulsing over the first kill\'s rubble; and won-is-won — once the outro plays, no defeat path can fire (a straggler gunned down mid-victory-speech was failing the mission)',
   'PERFORMANCE SETTLED (Jul 31): big battles hold about 30-39fps in the Mac app and — more to the point — they stop getting worse as the fight grows. Before this, the frame rate fell exactly when the action peaked. Two real causes, found after three wrong ones. The app was running JavaScript with no JIT, because the Hardened Runtime entitlement was never asked for; that alone made the simulation ten times more expensive than the identical code in Chrome. And the effects system allocated a brand-new array sixty times a second plus two objects per spark, producing garbage collected between frames where no timer could see it. Result: 2.4x the units at a higher frame rate. Ruled out by measurement along the way — battery throttling (the Mac mini is a desktop on mains power), fill rate (the small window is actually the slower one), and effect drawing (switching it off changes nothing). What remains is frame pacing inside WebKit, which is where the Chromium wrapper already planned for Steam gets to prove itself',
   'THE FPS SAGA, CLOSED (Jul 30, one long night of live readouts from the M5 Air): the mystery 25fps was three stacked causes — a frame-gate bug eating every other vsync frame (fixed), a governor limit-cycle causing the flicker (fixed with ceiling memory + same-frame repaint), and the real wall: macOS paces WKWebView and Safari at ~22-26Hz on battery, dynamically, and nothing App-Store-safe pierces it — native 60Hz frame driver tried, instrumented (104 fills/s executing, zero effect), removed; Game Mode engages and does not lift it. Shipped instead: battery detection in the wrapper (PowerBridge), a BAT power profile, futile-cut + floor-starve conviction that restores full sharpness when quality cuts cannot help (CAP\u2191), two-speed recovery, and an sfx rate limiter. Final posture: 60fps plugged, sharp stable full-effects ~25fps unplugged — verified in a 58-unit brawl',
   'VEGA SPEAKS (Jul 30): Cassidy locked as her voice — M1\'s twelve original lines cut, hash-matched and installed, the legacy DaVinci opener replaced. The Broodmother is COMPLETE (Jul 28 night): approved tyrannosaur static, walk cycle, death sequence, boss-scale draw box, pulsing spine glow, brood-laying (a den on legs), and invuln support for her M13 scripted walk. voice-script.tsv regenerated: 142 lines across all 8 missions',
@@ -221,9 +228,7 @@ document.getElementById('shipped').innerHTML = SHIPPED.map(s =>
   '<div style="display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-top:0.5px solid var(--border)">' +
   '<i class="ti ti-check" style="font-size:16px;margin-top:2px;color:var(--text-success)" aria-hidden="true"></i>' +
   '<span style="flex:1;font-size:14px;line-height:1.5;color:var(--text-secondary)">' + s + '</span></div>').join('');
-document.getElementById('total-n').textContent = total;
 function refresh() {
-  document.getElementById('done-n').textContent = Object.keys(state).filter(k => state[k]).length;
   document.querySelectorAll('input[data-k]').forEach(cb => {
     const span = cb.nextElementSibling;
     span.style.color = cb.checked ? 'var(--text-muted)' : '';
@@ -252,8 +257,8 @@ const ACTS = {
   ],
   act2: [
     ['M8','Strip Mine','An economy race you can lose without a fight — then the pit floor opens and a den hunts BOTH sides','built'],
-    ['M9','The Silence','Commando dread into dead Outpost K-7; first Screechers, three survivors extracted','built'],
-    ['M10','Broodfall','Your final assault on Krauss becomes his base falling to the swarm — the kill objective is cancelled mid-mission: get out alive'],
+    ['M9','Roost','Land in force at dusk below dead K-7, raise the listening post, hold a 12-minute night — each roost killed silences its wave lane','built'],
+    ['M10','Broodfall','Your final assault on Krauss becomes his base falling to the swarm — the kill objective is cancelled mid-mission: get out alive','built'],
     ['M11','Strange Bedfellows','Joint defense beside red AI allies; lose if EITHER HQ falls'],
     ['M12','Exodus','Escort his civilian convoy past Ironback roadblocks'],
     ['M13','The Broodmother Wakes','Hold the evac LZ, then watch her walk through the ruins. You leave.'],

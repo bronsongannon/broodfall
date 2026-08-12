@@ -661,6 +661,67 @@ const MAPS = {
     trees: [[W * 0.34, H * 0.86], [W * 0.44, H * 0.60], [W * 0.57, H * 0.34], [W * 0.20, H * 0.66], [W * 0.75, H * 0.42]],
     pits: [[W * 0.31, H * 0.77, 30], [W * 0.66, H * 0.31, 30]],
   },
+  bastion: {
+    label: "Krauss's Bastion",
+    desc: 'Rubicon built a city and walled it. Two gates, both of them kill lanes — and the ground beneath has been listening.',
+    blurb: 'Two gates into the red fortress',
+    // roster map #10 (M10 "Broodfall"). The NE quadrant is a walled city:
+    // ridge walls seal it except for two gates, and each gate wears a kill
+    // lane — flanking walls that funnel attackers down a covered chute.
+    // The eastern pass (SE of the city, opening on the east edge) is M10's
+    // evacuation route; skirmish reads it as a flanking lane.
+    ground: { base: '#191013', mottle: 'rgba(220,130,110,0.02)', pebble: 'rgba(210,150,130,0.06)', grid: 'rgba(220,150,130,0.024)', hi: 'rgba(235,180,160,0.08)' },
+    pHQ: [W * 0.10, H * 0.84], pRax: [W * 0.17, H * 0.79], pPatch: [W * 0.13, H * 0.73],
+    eHQ: [W * 0.84, H * 0.13], eRax: [W * 0.77, H * 0.19], eFac: [W * 0.73, H * 0.10],
+    eSup: [[W * 0.90, H * 0.21], [W * 0.79, H * 0.055]], eTur: [[W * 0.71, H * 0.17], [W * 0.815, H * 0.33]],
+    eAir: [W * 0.92, H * 0.05],
+    ePatch: [W * 0.88, H * 0.28],
+    // the city wall: west face (gate W in the middle), south face (gate S in
+    // the middle, east half running off the map edge so nothing leaks around).
+    // Every joint OVERLAPS its neighbour — near-touching endpoints leak (the
+    // lesson relearned on M9's mountain, three times).
+    ridges: [
+      [W * 0.66, H * 0.015, W * 0.66, H * 0.105, 48],   // west wall, north of gate W
+      [W * 0.66, H * 0.235, W * 0.66, H * 0.345, 48],   // west wall, south of gate W
+      [W * 0.655, H * 0.335, W * 0.765, H * 0.365, 48], // south wall, west of gate S
+      [W * 0.855, H * 0.385, W * 1.02, H * 0.425, 48],  // south wall, east of gate S (buried off-map)
+      // kill lane W: a covered chute leading to the west gate
+      [W * 0.555, H * 0.095, W * 0.675, H * 0.095, 42],
+      [W * 0.555, H * 0.245, W * 0.675, H * 0.245, 42],
+      // kill lane S: a diagonal chute leading up to the south gate
+      [W * 0.775, H * 0.37, W * 0.72, H * 0.48, 42],
+      [W * 0.845, H * 0.395, W * 0.79, H * 0.505, 42],
+      // the eastern pass: this ridge walls its south side; the city's south
+      // wall is the north side. Mouth opens SW of it, exit on the east edge.
+      [W * 0.82, H * 0.575, W * 0.955, H * 0.60, 46],
+      // midfield shapers — bend the approach without sealing anything
+      [W * 0.34, H * 0.28, W * 0.44, H * 0.36, 44],
+      [W * 0.28, H * 0.60, W * 0.40, H * 0.545, 44],
+    ],
+    boulders: [[W * 0.52, H * 0.88, 52], [W * 0.09, H * 0.30, 48]],
+    // burning ground on the diagonal shortcut toward gate W — pay or go around
+    vents: [[W * 0.50, H * 0.30, 85], [W * 0.545, H * 0.335, 85]],
+    patches: [
+      { p: [W * 0.40, H * 0.47], n: 9, a: 3000, nests: [[W * 0.37, H * 0.435]] },
+      { p: [W * 0.52, H * 0.76], n: 8, a: 2800, nests: [[W * 0.548, H * 0.792]] },
+      // the forward field below gate S: the siege economy, contested ground
+      { p: [W * 0.68, H * 0.60], n: 10, a: 3200, nests: [[W * 0.648, H * 0.63]] },
+    ],
+    plateaus: [
+      // the siege overlook: artillery on top out-ranges the gate S batteries
+      { c: [[W * 0.60, H * 0.53, 140], [W * 0.62, H * 0.505, 100]], ramps: [[W * 0.566, H * 0.545, 90]] },
+      { c: [[W * 0.24, H * 0.40, 135], [W * 0.215, H * 0.435, 95]], ramps: [[W * 0.27, H * 0.44, 88]] },
+    ],
+    roads: [
+      [[W * 0.10, H * 0.84], [W * 0.38, H * 0.62], [W * 0.66, H * 0.56], [W * 0.81, H * 0.40], [W * 0.84, H * 0.22]],
+      [[W * 0.48, H * 0.17], [W * 0.66, H * 0.17], [W * 0.78, H * 0.15]],
+    ],
+    flora: { blotch: 'rgba(170,110,85,0.45)', blotch2: 'rgba(35,18,14,0.6)', tuft: 'rgba(180,140,100,0.4)', bush: '#3a2418', bushHi: '#54341f', canopy: '#463024', canopyHi: '#5c4030', clumps: 38 },
+    groves: [[W * 0.14, H * 0.60, 95, 5], [W * 0.35, H * 0.88, 90, 5]],
+    trees: [[W * 0.10, H * 0.55], [W * 0.30, H * 0.20], [W * 0.55, H * 0.70], [W * 0.44, H * 0.86], [W * 0.74, H * 0.72]],
+    bones: [[W * 0.20, H * 0.57, 50, 0.5]],
+    pits: [[W * 0.47, H * 0.66, 32], [W * 0.50, H * 0.11, 30]],
+  },
 };
 
 // ---------------- Difficulty ----------------
@@ -1577,6 +1638,137 @@ const MISSIONS = [
     ],
     winText: 'The listening post held the night that took K-7 in three. The recorders are home, the roosts are ash or empty — and somewhere north, the thing that calls the flock knows exactly where the lights are.',
     loseText: 'The post went dark before dawn, mid-transmission — the same way K-7 did. Forty-one, plus everyone you landed. The silence keeps its winning streak.',
+  },
+  {
+    // M10 — the title drop. Full war footing against Krauss's walled city:
+    // crack the gate batteries, batter the fortress HQ — and the moment it
+    // staggers below half health, the planet takes the war away from both
+    // of you. The kill objective is CANCELLED mid-mission (the new `cancel`
+    // machinery), the red AI stands down (`aiOff`), an unkillable swarm
+    // (raptor floods + the first IRONBACKS + screecher wings) eats the city
+    // in real time, and the win becomes "evacuate 8 units through the
+    // eastern pass". The swarm is leashed by a repeating re-rally onto the
+    // fortress — the terror is theater, the escape is winnable.
+    title: 'Broodfall', act: 'Act II — The Awakening',
+    map: 'bastion', diff: 'hard',
+    brief: [
+      ['ops', 'This is the mission the whole war has been marching toward, Commander. Krauss pulled every surviving Rubicon asset behind one wall — a fortress city in the northeast with two gates, and both gates are covered kill lanes. Command wants it taken.'],
+      ['red', 'Expedition command, Rubicon Actual. I have walls, I have batteries, I have a silo with your grid reference already loaded. Come collect your surrender terms in person — the south gate has the better view.'],
+      ['sci', 'Before you go — the hum. I have tracked it since the first nest, and I finally have a bearing. It is not under us, Commander. It is under HIM. The loudest reading on the planet is directly beneath that city.'],
+      ['ops', 'Then we end this quickly. Break the gate batteries, put his headquarters down, and let us be gone before the planet takes an interest.'],
+    ],
+    intro: [
+      ['ops', 'Both gates are marked. The forward crystal field below the south gate funds the siege, and the overlook beside it out-ranges his batteries if you put artillery on top. Take the ground, then take the wall.'],
+    ],
+    objectives: [
+      { id: 'guns', text: 'Destroy the gate batteries', type: 'groupDead', group: 'guns', mark: [3733, 1290] },
+      { id: 'hq',   text: "Destroy Krauss's fortress headquarters", type: 'destroy', bld: 'hq', x: 3871, y: 449, r: 480, mark: [3871, 449] },
+      { id: 'evac', text: 'Evacuate 8 units through the eastern pass', type: 'groupReach', any: 1, count: 8, x: 4285, y: 1659, r: 220, hidden: true, mark: [4285, 1659] },
+      // gating flag only — set the moment the city starts to fall
+      { id: 'fall', text: 'The city is falling', type: 'flag', hidden: true },
+    ],
+    winWhen: ['guns', 'hq', 'evac'],
+    triggers: [
+      // the fortress, fully manned: gate batteries (the 'guns' objective),
+      // flak inside the wall, his silo, and enough power that nothing browns
+      // out before the player earns it
+      { when: { time: 0.5 }, crystals: 300,
+        spawn: [
+          { group: 'guns', bld: 'turret', team: 2, at: [3260, 470] },
+          { group: 'guns', bld: 'turret', team: 2, at: [3260, 700] },
+          { group: 'guns', bld: 'turret', team: 2, at: [3710, 1120] },
+          { group: 'guns', bld: 'turret', team: 2, at: [3810, 1090] },
+          { bld: 'flak',  team: 2, at: [3350, 900] },
+          { bld: 'flak',  team: 2, at: [4050, 1150] },
+          { bld: 'silo',  team: 2, at: [4150, 560] },
+          { bld: 'power', team: 2, at: [4250, 300] },
+          { bld: 'power', team: 2, at: [3600, 250] },
+          { unit: 'marine', team: 2, n: 3, at: [3220, 590],  order: 'guard' },
+          { unit: 'rocket', team: 2, n: 2, at: [3300, 520],  order: 'guard' },
+          { unit: 'marine', team: 2, n: 3, at: [3760, 1180], order: 'guard' },
+          { unit: 'rocket', team: 2, n: 2, at: [3700, 1250], order: 'guard' },
+          { unit: 'sniper', team: 2, n: 1, at: [3840, 1140], order: 'guard' },
+          // your task force lands with you — this is the offensive
+          { unit: 'marine', team: 1, n: 4, at: [700, 2800] },
+          { unit: 'tank',   team: 1, n: 2, at: [820, 2900] },
+        ] },
+      // the war, on open comms, while the siege grinds
+      { when: { time: 240, notDone: ['hq'] },
+        say: [['red', 'Status for corporate: the expedition is camped outside my wall burning money. The wall is not impressed. Neither am I.']] },
+      { when: { time: 540, notDone: ['hq'] },
+        say: [['sci', 'Commander, the hum under the city is not steady any more. It rises when your shells land and it does not come all the way back down. Something is pacing.']] },
+      { when: { done: ['guns'], notDone: ['hq'] },
+        say: [['ops', 'Gate batteries down — both lanes are open. His headquarters is the last thing holding Rubicon together. Finish it.'],
+              ['red', 'Batteries gone. Fine. I have held worse with less — form on the headquarters, all of you. This company is not done.']] },
+      { when: { time: 840, notDone: ['hq'] },
+        say: [['red', 'Second line — I said HOLD. The next man who falls back explains it to me personally.']] },
+      // ============ THE FLIP ============
+      // his HQ staggers below half — and the planet calls the war.
+      { when: { bldBelow: ['hq', 2, 0.5] },
+        aiOff: true, noBase: true, cancel: ['hq', 'guns'], objective: ['evac', 'fall'], complete: 'fall',
+        alarm: '⚠ MASSIVE seismic event under the city — every reading is climbing!',
+        focus: [3500, 200],
+        spawn: [
+          // the swarm: unkillable, scripted, leashed to the fortress by the
+          // repeating re-rally below. The first Ironbacks walk in with it.
+          { group: 'swarm', unit: 'raptor',   team: 3, n: 8, at: [3320, 90],  to: [3871, 449], invuln: true },
+          { group: 'swarm', unit: 'ironback', team: 3, n: 2, at: [3450, 60],  to: [3871, 449], invuln: true },
+          { group: 'swarm', unit: 'raptor',   team: 3, n: 6, at: [4540, 850], to: [4055, 968], invuln: true },
+          // the wings over the city are killable — flak still means something
+          { unit: 'screecher', team: 3, n: 5, at: [4540, 300], to: [3548, 657] },
+        ],
+        say: [['sci', 'The hum just STOPPED. Commander — a stopped alarm is not good news, a stopped alarm means it is DONE waiting—'],
+              ['ops', 'North wall — movement. The whole horizon is moving. Those are not reinforcements, those are not ours, those are not HIS—'],
+              ['red', 'All batteries, north face, FIRE. Fire everything. ...Why is it not stopping. WHY IS IT NOT STOPPING.']] },
+      { when: { done: ['fall'] }, delay: 10,
+        say: [['ops', 'New orders, Commander, and they are not open to debate: the attack is CANCELLED and so is the base — write it off, it is already theirs. Get your people to the eastern pass and do not stop to fight things that will not die. Eight of yours walk out of here, minimum. Go.']] },
+      // the collapse, staged — a second surge so the fall never settles
+      { when: { done: ['fall'] }, delay: 25, alarm: '⚠ Second wave breaching the walls!',
+        spawn: [
+          { group: 'swarm', unit: 'raptor', team: 3, n: 6, at: [3320, 90], to: [3364, 346], invuln: true },
+          { unit: 'screecher', team: 3, n: 4, at: [4540, 300], to: [3871, 449] },
+        ],
+        say: [['sci', 'They are ignoring us, Commander. All of it — every wing, every pack, straight into the city. We were never the target tonight. He was.']] },
+      { when: { done: ['fall'] }, delay: 40,
+        say: [['sci', 'The armored ones — the walls are not stopping them. They are walking THROUGH the wall line. Cataloguing as Ironback, and I am cataloguing it at a run.']] },
+      // the silo dies on camera-adjacent: two more ironbacks path over it
+      { when: { done: ['fall'] }, delay: 55,
+        spawn: [
+          { group: 'swarm', unit: 'ironback', team: 3, n: 2, at: [4540, 1000], to: [4147, 553], invuln: true },
+        ],
+        say: [['red', 'The silo — belay the launch, the silo is GONE, the whole pad is gone. Fall back to the headquarters. Fall back to the— where is the second line. WHERE IS MY SECOND LINE.']] },
+      // the title drop
+      { when: { done: ['fall'] }, delay: 80,
+        say: [['sci', 'The old survey crews had a word for this — for when a planet decides a colony is done. When the sky and the ground turn on the same hour, that is not an attack, Commander. That is a broodfall.']] },
+      { when: { done: ['fall'] }, delay: 110,
+        say: [['red', 'Rubicon Actual, on foot, heading west with what is left of my column. My city is theirs. Expedition — Krauss. You heard it happen. Put it in the record: the planet broke my walls. Not you.']] },
+      // the leash: the swarm wheels back onto the fortress every 18 seconds —
+      // it holds the city, it does not hunt the map. Terror as theater.
+      { when: { done: ['fall'], notDone: ['evac'] }, delay: 15, repeat: true, every: 18,
+        rally: { of: 'swarm', to: [3871, 449] } },
+      // ...except for three. Twenty seconds into the collapse a breakaway
+      // pack takes the player's scent and chases ALL the way — re-aimed at
+      // the nearest unit every 20s (Bronson 2026-08-11: the swarm shouldn't
+      // be fully leashed; a few chase through on a delay and catch up).
+      // Unkillable like the swarm: you outrun these, you don't solve them.
+      { when: { done: ['fall'] }, delay: 20, alarm: '⚠ A pack has broken off the swarm — they have YOUR scent!',
+        spawn: { group: 'hunters', unit: 'raptor', team: 3, n: 3, at: [3733, 1350], to: [461, 2903], invuln: true },
+        say: [['sci', 'Three just peeled off the city, Commander — low, fast, and on OUR trail. Twenty seconds behind you and closing. Keep the column moving and do NOT stop to fight them.']] },
+      { when: { done: ['fall'], notDone: ['evac'] }, delay: 40, repeat: true, every: 20,
+        rally: { of: 'hunters', at: 'units' } },
+      // route pressure on the walk out — killable, unlike the swarm
+      { when: { done: ['fall'], notDone: ['evac'] }, delay: 40, repeat: true, every: 50,
+        spawn: { unit: 'raptor', team: 3, n: 3, at: [3100, 2300], to: [4000, 1700] } },
+      // and a reason not to sit at home rebuilding: wings start on the economy
+      { when: { done: ['fall'], notDone: ['evac'] }, delay: 100, repeat: true, every: 75,
+        spawn: { unit: 'screecher', team: 3, n: 3, at: [2300, 100], aim: 'refinery' } },
+    ],
+    outro: [
+      ['red', 'Krauss, west of the wall, alive with thirty. You watched it happen, expedition — so put it in the record straight: the planet broke Rubicon. You only softened us up for it.'],
+      ['sci', 'Broodfall. It is in the record, Commander — and so is this: the hum has already started again, and now it is pointed at US.'],
+    ],
+    winText: 'Nobody won the battle of Krauss\'s Bastion. You breached his wall, the planet finished the job, and the war you spent nine missions fighting ended as a footnote to something older and angrier. Eight of yours made it through the pass. The swarm holds the city — and the hum is pointed north.',
+    loseText: 'Your column never made the pass. The swarm took the city, the night took the road, and somewhere west of the wall Krauss is telling thirty survivors that the expedition died the same hour his company did.',
   },
 ];
 
@@ -4193,6 +4385,7 @@ function aiBuild(type, nearX, nearY) {
 function aiUpdate() {
   if (tick % 30 !== 0 || gameOver) return;
   if (mission && mission.noEnemy) return;   // scripted missions may field no red team
+  if (mission && ms && ms.aiOff) return;    // stood down mid-mission (M10's collapse)
   const t = teams[2];
   // small passive trickle that grows over time, so the AI never fully stalls
   t.crystals += (1.2 + Math.min(3, tick / 21600)) * diff.trickle;
@@ -4295,7 +4488,7 @@ function aiUpdate() {
 }
 function waveUpdate() {
   if (gameOver) return;
-  if (mission && (mission.noEnemy || mission.noWaves)) return;
+  if (mission && (mission.noEnemy || mission.noWaves || (ms && ms.aiOff))) return;
   if (tick < waveAt) return;
   waveNum++;
   waveAt = tick + Math.max(55, 82 - waveNum * 3) * 60 * diff.waveEvery;
@@ -4341,7 +4534,7 @@ function checkEnd() {
     // campaign: victory comes from objectives (missionUpdate); HQ loss is always defeat
     // — except on commando missions, where there IS no HQ and the squad is the
     // mission: you lose when the last of them falls.
-    if (mission.noBase) {
+    if (mission.noBase || (ms && ms.noBase)) {
       if (tick > 120 && !units.some(u => u.team === 1 && u.hp > 0)) missionEnd(false);
       return;
     }
@@ -7650,7 +7843,7 @@ function render() {
   // mission objective beacons: pulsing markers, visible through fog
   if (mission && ms) {
     for (const o of ms.objectives) {
-      if (!o.active || o.done || !o.mark) continue;
+      if (!o.active || o.done || o.cancelled || !o.mark) continue;
       for (const [mx, my] of objMarks(o)) {
         if (!inView(mx, my, 120)) continue;
         const k = Math.abs(Math.sin(tick * 0.06));
@@ -7793,7 +7986,7 @@ function renderMinimap() {
   }
   if (mission && ms) {                            // objective beacons blink teal over the fog
     for (const o of ms.objectives) {
-      if (!o.active || o.done || !o.mark || tick % 40 >= 28) continue;
+      if (!o.active || o.done || o.cancelled || !o.mark || tick % 40 >= 28) continue;
       mcx.strokeStyle = '#6fe3d0';
       mcx.lineWidth = 1.5;
       for (const m of objMarks(o)) {
@@ -8223,7 +8416,7 @@ function refreshObjectives() {
   if (!mission || !ms) { elObjectives.classList.add('hidden'); lastObjSig = ''; return; }
   const objs = ms.objectives.filter(o => o.active);
   // clocks AND counts are in the signature so both actually repaint
-  const sig = objs.map(o => o.id + (o.done ? '1' : '0') + (objClock(o) ?? '') + (objProgress(o) ?? '')).join(',');
+  const sig = objs.map(o => o.id + (o.done ? '1' : o.cancelled ? 'x' : '0') + (objClock(o) ?? '') + (objProgress(o) ?? '')).join(',');
   if (sig === lastObjSig) return;
   lastObjSig = sig;
   elObjTitle.textContent = `Mission ${ms.idx + 1} — ${mission.title}`;
@@ -8233,6 +8426,8 @@ function refreshObjectives() {
       : `<span class="obj-clock${c <= 60 ? ' urgent' : ''}">${mmss(c)}</span>`;
     const prog = objProgress(o);
     const count = prog ? `<span class="obj-count">${prog}</span>` : '';
+    // cancelled: struck through, no clock/count — the order was withdrawn
+    if (o.cancelled) return `<div class="obj cancelled">✕ ${o.text}</div>`;
     return `<div class="obj${o.done ? ' done' : ''}">${o.done ? '✔' : '◈'} ${o.text}${count}${clock}</div>`;
   }).join('');
   elObjectives.classList.remove('hidden');
@@ -8245,7 +8440,10 @@ function refreshObjectives() {
 // mean something: without it, harvesters that never left home sat inside the
 // home circle and latched the trip back before the convoy had moved.
 function reachPool(o) {
-  let g = o.unit ? units.filter(u => u.team === 1 && u.hp > 0 && u.type === o.unit)
+  // `any` widens the pool to EVERY living player unit, mixed types — M10's
+  // evacuation counts whoever makes it out, not a tagged squad or one type
+  let g = o.any ? units.filter(u => u.team === 1 && u.hp > 0)
+        : o.unit ? units.filter(u => u.team === 1 && u.hp > 0 && u.type === o.unit)
                  : (groupAlive(o.group) || []);
   if (o.after) {
     const prev = ms.objectives.find(x => x.id === o.after);
@@ -8330,6 +8528,14 @@ function condMet(w) {
   // any player unit near a point (route progress, ambush triggers)
   if (w.near && !units.some(u => u.team === 1 && u.hp > 0
       && dist2(u.x, u.y, w.near[0], w.near[1]) < w.near[2] * w.near[2])) return false;
+  // a named building's health under a fraction: [type, team, frac]. A building
+  // already destroyed counts as "below" — M10's collapse must still fire on a
+  // player who deletes the HQ outright (a bunker-buster crosses 50% and 0% in
+  // the same blast, between two condition checks).
+  if (w.bldBelow) {
+    const b = buildings.find(x => x.team === w.bldBelow[1] && x.type === w.bldBelow[0] && x.hp > 0);
+    if (b && b.hp > b.maxHp * w.bldBelow[2]) return false;
+  }
   return true;
 }
 function activateObjective(id) {
@@ -8401,6 +8607,25 @@ function groupAlive(name) {
 function fireTrigger(t) {
   if (t.say) for (const [who, line] of t.say) say(who, line);
   if (t.objective) for (const id of [].concat(t.objective)) activateObjective(id);
+  // the story withdraws an order mid-mission (M10: "destroy the HQ" becomes
+  // "get out alive"). The objective stays on the HUD struck through, its
+  // beacons go dark, and winWhen treats it as settled — cancelled, not failed.
+  if (t.cancel) for (const id of [].concat(t.cancel)) {
+    const o = ms.objectives.find(o => o.id === id);
+    if (o && !o.done && !o.cancelled) {
+      o.cancelled = true;
+      if (o.active) toast('✕ Objective cancelled: ' + o.text);
+    }
+  }
+  // the enemy AI stands down: no more production, building, or assault waves.
+  // The scripted collapse owns the red base from here — a rebuilt turret mid-
+  // downfall would make the theater a liar.
+  if (t.aiOff) ms.aiOff = true;
+  // the base is written off mid-mission: from here the loss rule is the
+  // commando one — you lose your PEOPLE, not your buildings. Found in the M10
+  // harness: the breakaway hunters chewed through the abandoned HQ and the
+  // standard rule printed MISSION FAILED in the middle of a working evacuation.
+  if (t.noBase) ms.noBase = true;
   if (t.complete) ms.flags[t.complete] = true;
   if (t.spawn) for (const sp of [].concat(t.spawn)) doSpawn(sp);
   // The world's own wildlife mobilises: every living unit of a team drops what
@@ -8411,8 +8636,28 @@ function fireTrigger(t) {
   // all down"; the group is fixed at fire time, so the refill can't gate the win.
   if (t.rally) {
     const hq = buildings.find(b => b.team === 1 && b.hp > 0 && b.type === 'hq');
-    const tx = t.rally.to ? t.rally.to[0] : hq && hq.x;
-    const ty = t.rally.to ? t.rally.to[1] : hq && hq.y;
+    // `at: 'units'` resolves the rally point at FIRE time: the living player
+    // unit nearest the rally group's own centroid. A repeating rally with this
+    // is a pursuit that course-corrects on a delay — M10's hunters chase the
+    // column on twenty-second-old scent, and they catch up.
+    let dst = t.rally.to;
+    if (t.rally.at === 'units') {
+      const pack = (t.rally.of ? (groupAlive(t.rally.of) || []) : []).filter(u => units.includes(u));
+      if (pack.length) {
+        let cx = 0, cy = 0;
+        for (const u of pack) { cx += u.x; cy += u.y; }
+        cx /= pack.length; cy /= pack.length;
+        let best = null, bd = Infinity;
+        for (const u of units) {
+          if (u.team !== 1 || u.hp <= 0) continue;
+          const d = dist2(u.x, u.y, cx, cy);
+          if (d < bd) { bd = d; best = u; }
+        }
+        if (best) dst = [best.x, best.y];
+      }
+    }
+    const tx = dst ? dst[0] : hq && hq.x;
+    const ty = dst ? dst[1] : hq && hq.y;
     const ids = t.rally.group ? (ms.groups[t.rally.group] = ms.groups[t.rally.group] || []) : null;
     // `of` re-orders the survivors of an existing group instead of sweeping the
     // whole team — that's what keeps a repeat re-rally from hoovering up the
@@ -8469,7 +8714,7 @@ function missionUpdate() {
   // latches, so the M6 tick-0 false-complete fix is preserved.
   for (const o of ms.objectives) if (o.type === 'destroy' && !o.done && !o.seen) objMet(o);
   for (const o of ms.objectives) {
-    if (!o.active || o.done) continue;
+    if (!o.active || o.done || o.cancelled) continue;
     // a deadline that runs out: the mission decides what that costs
     if (o.limit != null && objClock(o) === 0) {
       o.expired = true;
@@ -8496,7 +8741,8 @@ function missionUpdate() {
   }
   if (!ms.outroDone && mission.winWhen.every(id => {
     const o = ms.objectives.find(o => o.id === id);
-    return o && o.done;
+    // a cancelled objective is settled, not failed — the win no longer waits on it
+    return o && (o.done || o.cancelled);
   })) {
     ms.outroDone = true;
     // Small headroom only — the per-line loop below already accounts for voice

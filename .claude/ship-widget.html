@@ -3,7 +3,7 @@
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:0 0 1.5rem">
   <div style="background:var(--surface-1);border-radius:var(--radius);padding:1rem">
     <p style="font-size:13px;color:var(--text-secondary);margin:0 0 4px">Campaign</p>
-    <p style="font-size:24px;font-weight:500;margin:0">9 <span style="font-size:15px;color:var(--text-secondary)">/ 20 missions</span></p>
+    <p style="font-size:24px;font-weight:500;margin:0">10 <span style="font-size:15px;color:var(--text-secondary)">/ 20 missions</span></p>
   </div>
   <div style="background:var(--surface-1);border-radius:var(--radius);padding:1rem">
     <p style="font-size:13px;color:var(--text-secondary);margin:0 0 4px">Next Fest demo</p>
@@ -59,7 +59,7 @@
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
     <i class="ti ti-map-2" style="font-size:20px" aria-hidden="true"></i>
     <p style="font-weight:500;font-size:15px;margin:0">Campaign arc — all three acts</p>
-    <span style="margin-left:auto;background:var(--bg-warning);color:var(--text-warning);font-size:12px;padding:3px 10px;border-radius:var(--radius)">9 of 20 — Act 2 has begun</span>
+    <span style="margin-left:auto;background:var(--bg-warning);color:var(--text-warning);font-size:12px;padding:3px 10px;border-radius:var(--radius)">10 of 20 — halfway there</span>
   </div>
   <p style="font-size:13px;color:var(--text-secondary);margin:0 0 10px">Full mission-by-mission design in CAMPAIGN.md. Act 1 is the free demo on both storefronts; $14.99 unlocks Acts 2–3 and every map, with all 20 complete at launch. Click a mission chip to start building it. Biggest engine prerequisite: the allied AI faction (M11, M18).</p>
   <p style="font-size:13px;font-weight:500;margin:6px 0 2px">Act 1 — The Crystal War (ships in v1)</p>
@@ -115,10 +115,14 @@ const TRACKS = {
       'Let\'s design and build Broodfall missions 2 and 3: the harvester convoy escort and the first nest crack, using the existing mission framework.'],
     ['g10','Performance SETTLED (Jul 30): plugged = 60fps full sharpness; battery = sharp stable ~25fps (macOS paces web content on battery — platform, not us). BAT profile + CAP\u2191 grace path verified live','',
       'Recap the final performance posture and the graceful-degradation stack (BAT profile, CAP-up conviction, two-speed recovery) and what each dev-readout marker means, so I can spot a real regression from a platform throttle at a glance.'],
-    ['g7','Pacing pass toward 20–30 minute matches','',
+    ['g7','Pacing pass toward 20–30 minute matches — game-wide: skirmish AND the mission ramp (M9 ≥10 min and should beat a first-timer; every mission M10+ is a mandatory 20–25)','',
       'Let\'s start the Broodfall pacing pass toward 20-30 minute matches: what levers exist (HP, patch sizes, wave cadence, map size) and a tuning plan.'],
-    ['g8','Map roster: 15 maps / 20 missions locked (CAMPAIGN.md) — 11 built; 4 to go: Krauss\'s Bastion, Exodus Road, Evac Coast, The Crater','',
-      'Let\'s build the next map from the Broodfall 15-map roster in CAMPAIGN.md — Krauss\'s Bastion (M10: the fortified red city-base with walls and kill lanes that falls to the swarm mid-mission).'],
+    ['g8','Map roster: 15 maps / 20 missions locked (CAMPAIGN.md) — 13 built; 2 to go: Evac Coast, The Crater','',
+      'Let\'s build the next map from the Broodfall 15-map roster in CAMPAIGN.md — Evac Coast (M13: coastline LZ with water on one full edge, the last-stand evacuation ground).'],
+    ['g11','Playtest M9 "The Silence" (the Roost rebuild) with a stopwatch — does the 12-minute night hold, and does killing a roost read as silencing its lane? Knobs: the three lane cadences (28/30/35s deep-night) + the 340s/580s ramp waves','',
+      'I\'m playtesting the rebuilt M9 — the dusk landing, the listening-post build, the 12-minute night against three roosts, the recorder sorties, and the dawn recall. Give me a short watch-list so my feedback is useful: total runtime, whether the night pressure ramps or flatlines, whether cracking a roost visibly thins the sky, and whether the recorder beats land. The wave knobs are the three roost lane cadences and the two deep-night mass launches.'],
+    ['g12','Playtest M10 "Broodfall" with a stopwatch — the 20-25-min mandate starts here. Diff is HARD (Krauss can nuke mid-siege, deliberate). Watch: does the flip land as horror, does the evac read as a run, does the siege alone carry 15+ min','',
+      'I\'m playtesting M10 Broodfall — the siege of the walled city, the flip at HQ half-health (kill objective cancelled, swarm eats the city, evacuate 8 through the eastern pass). Give me a watch-list: total runtime vs the 20-25 min mandate, whether the kill lanes force real siege play or get cheesed by air, whether the flip lands as horror or relief, whether the three breakaway hunters chasing on 20-second-old scent read as terrifying or as unfair, and whether Krauss nuking mid-siege reads as his character or as cheap. The knobs are the gate battery count, his diff tier, the swarm re-rally cadence (18s), the hunter count (3) and re-aim cadence (20s), and the route-pack cadence (50s).'],
   ],
   art: [
     ['a1','Source the 14 sound-effect slots (Kenney / Freesound CC0)','',
@@ -139,13 +143,21 @@ const TRACKS = {
       'I dropped infantry death sheets in Source 2 (marine/sniper/medic/engineer, teal plus red recolors) — slice and install all of them, then show me a battle with bodies.'],
     ['a9','Cast portraits: Vega, Lin, Krauss — DaVinci film-still set, live in the PiP','',
       'The three cast portraits are live (assets/portraits/). Review them in-game across missions 1-3 dialogue and tell me if any need a regenerate before the set is locked.'],
-    ['a10','Voice lines (script now 142 across all 8 missions): Vega 12/69 (Cassidy locked — M1\'s original 12 done, 3 reprisal lines + M2-M8 remain), Krauss 9/31 (Rob, cuttable anytime), Lin ON HOLD for revoice — 9 Ember clips live, 2 orphaned by rewording and removed','',
-      'Vega is locked (Cassidy) with M1\'s original 12 lines installed. Regenerate assets/voice/voice-script.tsv FIRST (row numbering shifts when lines are added), then help me cut her next batch in per-speaker TSV row order — I\'ll drop the mp3s on you to hash-match and install. Krauss\'s 22 remaining Rob lines can batch anytime. Lin waits for her new voice.'],
+    ['a10','Voice lines: Vega 12 installed (Cassidy locked), Krauss 9 (Rob, cuttable anytime), Lin ON HOLD for revoice, and BOONE needs an ElevenLabs voice pick (brief in PORTRAITS.md). REGENERATE voice-script.tsv FIRST — M9\'s rebuild rewrote its lines and Boone is a 4th speaker, so per-speaker row numbers have shifted','',
+      'Regenerate assets/voice/voice-script.tsv FIRST (the M9 rebuild rewrote its lines and Boone joined as a 4th speaker, so per-speaker row numbering shifted), then help me plan the next voice batch: Vega\'s remaining Cassidy lines, Krauss\'s Rob lines (cuttable anytime), and picking Boone\'s ElevenLabs voice from the brief in PORTRAITS.md. Lin waits for her new voice.'],
     ['a11','Walk cycles COMPLETE: all 13 walkers animated (DaVinci videos + derived colorways)','',
       'All walk cycles are live. Playtest a big mixed battle and tell me if any unit\'s gait cadence or frame count feels off — WALK_STRIDE_PX is the knob.'],
   ],
 };
 const SHIPPED = [
+  'M10 "BROODFALL" BUILT (Aug 11) — the title drop, and the campaign\'s halfway mark. Nine missions of war end as a footnote: you siege Krauss\'s walled city down the kill lanes, and the moment his fortress HQ staggers below half health the planet calls it — the kill objective is CANCELLED on the HUD (new engine machinery: an objective can be withdrawn mid-mission, struck through, settled), the red AI stands down, and an unkillable swarm with the first IRONBACKS eats the city in two real-time minutes while Krauss\'s voice cracks on open comms. The win flips to "evacuate 8 units through the eastern pass" — any 8, mixed types, another new engine piece. The swarm is leashed to the fortress by a repeating re-rally so the terror stays theater — except THREE: twenty seconds into the collapse a breakaway pack takes your scent and chases the column all the way across the map, re-aimed at the nearest unit every 20 seconds (your call, same day: not fully leashed — a few chase through on a delay and catch up). Verified running down a fleeing column at 3000px. That test also caught a real hole: the hunters ate the abandoned player HQ mid-evacuation and the standard loss rule printed MISSION FAILED — so the loss rule now flips with the objective (new noBase trigger action): after the collapse you lose your PEOPLE, not your buildings. Shipped with Krauss\'s Bastion (13 of 15 maps): a walled NE city whose wall enforcement is PROVEN by flood-fill — plug the two gates and the city is mathematically unreachable, while the evac pass stays open. Full win chain, both cancel variants, lose path, 15k-tick hands-off soak on hard, zero errors. Pacing awaits the stopwatch — the 20-25-minute mandate starts with this mission',
+  'M9 REBORN AS THE ROOST (Aug 5): the switchback mountain died to one sentence — "i hate this mission. its terrible" — and the lesson is now doctrine: fantasy first, geometry second. A corridor maze is fiddly micro no matter how well it is sealed. The new shape is his pick: land IN FORCE at dusk below dead K-7, build a listening post (the flak requirement forces the factory tech walk), then hold a 12-minute night against screecher waves off three roost-nests — kill a roost and its wave lane goes silent, the optional objective as valve. Sorties recover three flight recorders, each a story beat, the last one K-7\'s final minute: a ROAR that calls the flock off mid-kill — which is exactly how the mission ends at dawn. Boone: "Not beaten. Called." Verified end to end; pacing awaits the stopwatch',
+  'THE NIGHT DOUBLES (Aug 5, same evening): roost lanes tightened to 28/30/35s deep-night cadences plus two extra mass launches at 340s and 580s — the night now RAMPS instead of holding one pressure',
+  'MAPS GREW 50% (Aug 4): 144x108 tiles, 4608x3456 px — almost exactly Brood War\'s standard scale, in service of the 20-30 minute match goal. Third size in the project\'s history. Every absolute coordinate in every mission scaled by hand-checked regex (~203 groups), then the whole campaign re-verified: 11/11 base-to-base crossings, every mission chain, two 7-9k-tick soaks, zero errors. Pacing on the bigger ground still needs a live skirmish',
+  'RIDGES ARE WALLS NOW + FIRE VENTS + EXODUS ROAD (Aug 4): ridge lines paint as continuous jagged mesa walls (the smooth first draft read as a slug and lived ten minutes), fire vents are passable ground that burns — the soft wall, shortcuts paid in blood — and Exodus Road is the first corridor map: a Z-shaped causeway artery with two elbow chokes, sealed and proven by an enforcement test that rides a raider corner to corner. 12 of 15 roster maps built',
+  'BOONE JOINS THE CAST (Aug 4): MSGT. Boone, the hero commando — quiet leader, one short sentence at most, and only when it matters. Vega carries the thesis: "He does not say much. He does not need to." Leads both commando missions with a C&C rule attached: the hero dies, the mission fails. Portrait slot live; his ElevenLabs voice is still unpicked',
+  'SUPPORT KNOWS ITS PLACE (Aug 1): medics and engineers ignore attack commands entirely and hold a 190px standoff behind the escorts on attack-move — the engineer\'s token 22px melee poke had slipped it past every unarmed-unit guard. Same day, M5\'s fuel-dump secondary was cut the day it shipped ("kill the secondary mission") and the difficulty ladder settled at 16 Rubicon troops after 11 proved a speedrun and 22 proved a wall',
+  'WON IS WON (Aug 1): once the last objective completes, no defeat path may fire — found live when M5\'s LZ garrison gunned down a straggler mid-victory-speech and printed MISSION FAILED over the outro. Kill-count objectives now show 3/4 progress in the HUD and their beacons track the SURVIVORS, not the first kill\'s rubble — the playtest hang was one beacon pulsing forever over a dead relay while the fourth sat in fog',
   'PERFORMANCE SETTLED (Jul 31): big battles hold about 30-39fps in the Mac app and — more to the point — they stop getting worse as the fight grows. Before this, the frame rate fell exactly when the action peaked. Two real causes, found after three wrong ones. The app was running JavaScript with no JIT, because the Hardened Runtime entitlement was never asked for; that alone made the simulation ten times more expensive than the identical code in Chrome. And the effects system allocated a brand-new array sixty times a second plus two objects per spark, producing garbage collected between frames where no timer could see it. Result: 2.4x the units at a higher frame rate. Ruled out by measurement along the way — battery throttling (the Mac mini is a desktop on mains power), fill rate (the small window is actually the slower one), and effect drawing (switching it off changes nothing). What remains is frame pacing inside WebKit, which is where the Chromium wrapper already planned for Steam gets to prove itself',
   'THE FPS SAGA, CLOSED (Jul 30, one long night of live readouts from the M5 Air): the mystery 25fps was three stacked causes — a frame-gate bug eating every other vsync frame (fixed), a governor limit-cycle causing the flicker (fixed with ceiling memory + same-frame repaint), and the real wall: macOS paces WKWebView and Safari at ~22-26Hz on battery, dynamically, and nothing App-Store-safe pierces it — native 60Hz frame driver tried, instrumented (104 fills/s executing, zero effect), removed; Game Mode engages and does not lift it. Shipped instead: battery detection in the wrapper (PowerBridge), a BAT power profile, futile-cut + floor-starve conviction that restores full sharpness when quality cuts cannot help (CAP\u2191), two-speed recovery, and an sfx rate limiter. Final posture: 60fps plugged, sharp stable full-effects ~25fps unplugged — verified in a 58-unit brawl',
   'VEGA SPEAKS (Jul 30): Cassidy locked as her voice — M1\'s twelve original lines cut, hash-matched and installed, the legacy DaVinci opener replaced. The Broodmother is COMPLETE (Jul 28 night): approved tyrannosaur static, walk cycle, death sequence, boss-scale draw box, pulsing spine glow, brood-laying (a den on legs), and invuln support for her M13 scripted walk. voice-script.tsv regenerated: 142 lines across all 8 missions',
@@ -212,18 +224,14 @@ function row(id, label, due, prompt) {
     'style="width:26px;height:26px;padding:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;border-radius:6px;flex-shrink:0">' + L + '</button>' +
   '</div>';
 }
-let total = 0;
 for (const [track, items] of Object.entries(TRACKS)) {
-  total += items.length;
   document.getElementById('track-' + track).innerHTML = items.map(i => row(...i)).join('');
 }
 document.getElementById('shipped').innerHTML = SHIPPED.map(s =>
   '<div style="display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-top:0.5px solid var(--border)">' +
   '<i class="ti ti-check" style="font-size:16px;margin-top:2px;color:var(--text-success)" aria-hidden="true"></i>' +
   '<span style="flex:1;font-size:14px;line-height:1.5;color:var(--text-secondary)">' + s + '</span></div>').join('');
-document.getElementById('total-n').textContent = total;
 function refresh() {
-  document.getElementById('done-n').textContent = Object.keys(state).filter(k => state[k]).length;
   document.querySelectorAll('input[data-k]').forEach(cb => {
     const span = cb.nextElementSibling;
     span.style.color = cb.checked ? 'var(--text-muted)' : '';
@@ -252,8 +260,8 @@ const ACTS = {
   ],
   act2: [
     ['M8','Strip Mine','An economy race you can lose without a fight — then the pit floor opens and a den hunts BOTH sides','built'],
-    ['M9','The Silence','Commando dread into dead Outpost K-7; first Screechers, three survivors extracted','built'],
-    ['M10','Broodfall','Your final assault on Krauss becomes his base falling to the swarm — the kill objective is cancelled mid-mission: get out alive'],
+    ['M9','The Silence','Rebuilt as the Roost: land in force at dusk below dead K-7, dig in a listening post, hold a 12-minute night against three screecher roosts while sorties recover the flight recorders — dawn calls the flock off, it does not beat it','built'],
+    ['M10','Broodfall','The title drop: your final assault on Krauss becomes his city falling to the swarm — kill objective CANCELLED mid-mission, first Ironbacks, evacuate 8 through the eastern pass. Pacing awaits the stopwatch','built'],
     ['M11','Strange Bedfellows','Joint defense beside red AI allies; lose if EITHER HQ falls'],
     ['M12','Exodus','Escort his civilian convoy past Ironback roadblocks'],
     ['M13','The Broodmother Wakes','Hold the evac LZ, then watch her walk through the ruins. You leave.'],

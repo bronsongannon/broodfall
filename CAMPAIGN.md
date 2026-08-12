@@ -265,7 +265,7 @@ flora + ground palettes. ✅ = built.
 | 7 | ✅ High Water Mark | the great N-S river, two crossing funnels, dam-ready | M7 (Act 1 finale) |
 | 8 | ✅ Strip Mine | terraced quarry benches over the motherlode, haul roads | M8, M16 (the abandoned mine hides the lab cores) |
 | 9 | ✅ The Boneyard | ash flats, ribcages + snags, burial mounds | M9 (dread mission — bases relocated) (+skirmish) |
-| 10 | Krauss's Bastion | fortified red city-base, walls + kill lanes | M10 |
+| 10 | ✅ Krauss's Bastion | fortified red city-base, walls + kill lanes | M10 |
 | 11 | ✅ Twin Forks | forked valley; SE flat + field = the allied HQ pocket | M11 |
 | 12 | Exodus Road | night swamp causeway — one long escort artery | M12 |
 | 13 | Evac Coast | coastline LZ, water on one full edge | M13 |

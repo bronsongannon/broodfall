@@ -20,12 +20,12 @@ Interactive version: `.claude/ship-widget.html` renders as a widget at the start
 of every Claude session (SessionStart hook in `.claude/settings.json`). Keep this
 file and the widget's task lists in sync.
 
-## PRIORITY: finish the campaign (11 missions remain, 9 of 20 built)
+## PRIORITY: finish the campaign (10 missions remain, 10 of 20 built)
 
-Engine work still gating missions: allied AI faction (M11, M18), Ironback debut
-(M10), corrupted spawner buildings (M14), den-seeding timer (M15), Broodmother
-combat version (M20). Maps still to build: Krauss's Bastion, Evac Coast, The
-Crater. Standing rule: **M10+ missions are a mandatory 20–25 minutes.**
+Engine work still gating missions: allied AI faction (M11, M18), corrupted
+spawner buildings (M14), den-seeding timer (M15), Broodmother combat version
+(M20). Maps still to build: Evac Coast, The Crater. Standing rule: **M10+
+missions are a mandatory 20–25 minutes.**
 
 ## Apple submission track — UNSCHEDULED, after the campaign is finished
 
@@ -71,7 +71,12 @@ Still the correct order when it's time. No dates until the game is done.
 - [x] M2 PACING SETTLED 2026-07-29: 9:44 with the return leg skipping itself → **10:14** with it enforced, and Bronson's call is **keep it as is**. Do NOT lengthen M2 toward the old ~15-min figure — that target came from the 2026-07-14 Q&A and is superseded here by a real playthrough. The length ramp still applies to LATER missions
 - [x] M3 no longer ends the moment you hatch (2026-07-29, Bronson: "we hatch the dinos but we need them to do something first"). Hatch count 1 → 3, then Lin's field test: walk the pack onto the NORTHERN mound Rubicon has been feeding riflemen into for three shifts, and take it. Rubicon's theater squads now keep spawning until that nest falls, so you arrive mid-slaughter. New beat: the wild brood ENGAGES the tamed pack — same species, tearing at each other — which is Lin's Act 2 thesis landing early
 - [x] Per-mission arsenal allowlist 2026-07-29 — `allow: {bld, unit}` per mission; M1 offers depot/barracks/turret/refinery only, M5 offers nothing at all (commando), M8 opens the full arsenal. Skirmish and the AI untouched
-- [ ] Pacing pass toward 20–30 minute matches
+- [x] Maps grew 50% (2026-08-04): 144×108 tiles / 4608×3456 px — Brood War scale, serving the 20–30-min match goal. All ~203 absolute mission coordinates scaled ×1.5; full campaign + skirmish re-verified same night. Pacing on the bigger ground still needs a live skirmish
+- [x] M9 "The Silence" REBUILT as the Roost (2026-08-05) after the switchback mountain died in playtest ("i hate this mission. its terrible" — lesson: fantasy first, geometry second). Land in force at dusk, build the listening post, hold a 12-minute night against three roost lanes (killing a roost silences its lane), recover three flight recorders, dawn recalls the flock mid-attack. Night doubled same evening: 28/30/35s deep-night cadences + mass launches at 340s/580s. Verified end to end; zero errors
+- [ ] Playtest M9 with a stopwatch — does the night hold 12+ minutes of real pressure, and does cracking a roost visibly thin the sky? Knobs: the three lane cadences + the two mass launches
+- [x] M10 "Broodfall" BUILT (2026-08-11) — the title drop. Siege the walled city; at HQ half-health the kill objective is CANCELLED, an unkillable swarm (first Ironbacks) eats the city in real time, and the win flips to "evacuate 8 units through the eastern pass". New engine, all generic: `bldBelow` trigger condition, `cancel` trigger action (struck-through HUD + winWhen-settled), `aiOff` (red stands down mid-mission), groupReach `any` (evac counts mixed types), and the swarm-leash pattern (invuln pack + repeating re-rally onto the fortress = terror as theater, escape winnable) — EXCEPT three hunters that break off at +20s and chase the column on 20-second-old scent via the new `rally at: 'units'` (Bronson's call, same day: not fully leashed, a few chase all the way and catch up). The hunter test exposed a hole, now fixed generically: trigger action `noBase` flips the loss rule mid-mission, so the written-off base dying during the evacuation no longer prints MISSION FAILED — your people are the loss condition after the flip. New map: Krauss's Bastion (13 of 15) — walled NE city, two kill-lane gates, eastern evac pass; wall enforcement proven by flood-fill (gates plugged = city sealed). Full win chain, both cancel variants, lose path, 15k-tick hard soak, regressions, thumbnail — all verified, zero errors
+- [ ] Playtest M10 with a stopwatch — the 20–25-min mandate starts HERE. Mission runs diff 'hard' (Krauss CAN nuke mid-siege, deliberate); watch whether the flip lands as horror or relief, whether the evac reads as a run or a stroll, and whether the fortress assault alone carries 15+ min
+- [ ] Pacing pass toward 20–30 minute matches — game-wide: skirmish AND the mission ramp (M9 ≥10 min; every mission M10+ mandatory 20–25 per the 2026-08-04 standing rule)
 
 ## Art and audio
 
@@ -109,6 +114,6 @@ Still the correct order when it's time. No dates until the game is done.
 - [x] Units killed mid-tick can no longer act or count toward mission objectives
 - [x] Nuke safety: no dead-silo launches, no mode-stacking accidental launches, no overlay race on quit
 - [x] Menu hotkeys gated off, mission rig costs no supply, enemy plant can't spawn on crystals, AI refineries obey the tech tree
-- [ ] Map roster: 15 maps / 20 missions locked 2026-07-24 (table in CAMPAIGN.md). 11 built (High Water Mark, Twin Forks, Overgrown Basin landed 2026-07-26); 4 to build — Krauss's Bastion, Exodus Road, Evac Coast, The Crater
+- [ ] Map roster: 15 maps / 20 missions locked 2026-07-24 (table in CAMPAIGN.md). 13 built (Krauss's Bastion landed 2026-08-11 with M10); 2 to build — Evac Coast (M13), The Crater (M18–M20)
 - [x] Mission 7 "High Water Mark" built 2026-07-26 — the Act 1 finale and the first campaign mission with a live red base (AI + waves). Dam → both river forts → Krauss's HQ → the den that erupts mid-victory-speech. Win chain, lose path and an 18k-tick hands-off soak verified
 - [x] Missions 4–6 ("Dig In", "Ghost Survey", "Countdown") — BUILT 2026-07-27. **ACT 1 IS COMPLETE, 7/20 missions.** Shipped with them: the framework batch (`survive` + `limit`/`onExpire` deadline objectives with a live HUD countdown, `groupDead`, location-aware `built`, `noBase` commando missions, trigger action `nuke` for scripted launches, spawn `aim` at a building type). Paid tier is now 4 missions instead of 1

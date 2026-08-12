@@ -187,6 +187,7 @@ const BLD = {
   // faction (dinos are weather, not a team). Act 2's proactive-dino lever;
   // no skirmish map places one yet, missions spawn them via bld triggers.
   den:      { label: 'Raptor Den',   hp: 2200, w: 144, h: 144, supply: 0, sight: 240 },
+  roost:    { label: 'Screecher Roost', hp: 950, w: 84, h: 84, supply: 0, sight: 220 },
 };
 const DEPOT_HEAL_RADIUS = 240;   // the depot's repair field
 const DEPOT_HEAL_RATE = 0.06;    // hp/tick per depot — a fraction of an engineer's 0.55
@@ -1559,9 +1560,11 @@ const MISSIONS = [
           { egg: [2175, 450] }, { egg: [2400, 390] }, { egg: [2250, 630] },
           { egg: [2070, 720] }, { egg: [2475, 570] }, { egg: [2340, 780] },
           // the roosts: one on each burial mound, one on K-7's northern rise
-          { group: 'roostA', bld: 'nest', at: [1520, 1730] },
-          { group: 'roostB', bld: 'nest', at: [3090, 1730] },
-          { group: 'roostC', bld: 'nest', at: [2304, 780] },
+          // (proper roost eyries with wing-guards — NOT spitter nests;
+          // Bronson mid-playtest 2026-08-12: they must read differently)
+          { group: 'roostA', bld: 'roost', at: [1520, 1730] },
+          { group: 'roostB', bld: 'roost', at: [3090, 1730] },
+          { group: 'roostC', bld: 'roost', at: [2304, 780] },
         ] },
       { when: { time: 40 },
         say: [['sci', 'No birds. No grazers. Nothing on thermal but your own engines. The bone flats have never read this empty.']] },
@@ -1575,12 +1578,19 @@ const MISSIONS = [
       { when: { done: ['rax', 'grid', 'guns', 'aa'] }, delay: 18,
         spawn: { unit: 'screecher', team: 3, n: 2, at: [2304, 700], to: [2304, 3000] },
         say: [['sci', 'CONTACT — airborne, repeat, AIRBORNE. That is not a spitter. That is not anything we have on file!']] },
-      // the three roost lanes — each dies with its roost
-      { when: { done: ['aa'], notDone: ['dawn', 'roostA'] }, delay: 75, repeat: true, every: 28,
+      // the three roost lanes — each dies with its roost. ENGINE GOTCHA that
+      // made v1 a snooze: a repeat trigger's true period is every + delay
+      // (each cycle re-arms, then waits `delay` again), so 75/28 meant a wave
+      // every 103 SECONDS, not 28. Retuned (Bronson mid-playtest 2026-08-12:
+      // "i need to have a swarm hit every 20-30 seconds"): staggered lane
+      // periods of 65/75/90s = a hit lands every 20-30s while all three
+      // roosts stand, and killing roosts opens real gaps — the valve earns
+      // its quiet instead of the night starting with it.
+      { when: { done: ['aa'], notDone: ['dawn', 'roostA'] }, delay: 20, repeat: true, every: 45,
         spawn: { unit: 'screecher', team: 3, n: 2, at: [1450, 1620], to: [2150, 3120] } },
-      { when: { done: ['aa'], notDone: ['dawn', 'roostB'] }, delay: 95, repeat: true, every: 30,
+      { when: { done: ['aa'], notDone: ['dawn', 'roostB'] }, delay: 40, repeat: true, every: 35,
         spawn: { unit: 'screecher', team: 3, n: 2, at: [3160, 1620], to: [2450, 3120] } },
-      { when: { done: ['aa'], notDone: ['dawn', 'roostC'] }, delay: 115, repeat: true, every: 35,
+      { when: { done: ['aa'], notDone: ['dawn', 'roostC'] }, delay: 60, repeat: true, every: 30,
         spawn: { unit: 'screecher', team: 3, n: 3, at: [2304, 700], to: [2304, 3040] } },
       // recorder story beats
       { when: { done: ['r1'] },
@@ -1601,8 +1611,8 @@ const MISSIONS = [
       // the night learns: after the K-7 log, wings hunt the grid
       { when: { done: ['r2'], notDone: ['dawn'] }, delay: 30, repeat: true, every: 40,
         spawn: { unit: 'screecher', team: 3, n: 3, at: [2304, 650], aim: 'power' } },
-      // ground pressure keeps the turrets honest
-      { when: { done: ['r1'], notDone: ['dawn'] }, delay: 60, repeat: true, every: 130,
+      // ground pressure keeps the turrets honest (true period: every + delay)
+      { when: { done: ['r1'], notDone: ['dawn'] }, delay: 60, repeat: true, every: 60,
         spawn: { unit: 'raptor', team: 3, n: 2, at: [2304, 950], order: 'attackhq' } },
       // deep-night ramps, regardless of roosts
       { when: { done: ['aa'], notDone: ['dawn'] }, delay: 220, alarm: '⚠ Wings stacking over the mounds!',
@@ -1626,6 +1636,17 @@ const MISSIONS = [
           { unit: 'screecher', team: 3, n: 4, at: [3160, 1650], to: [2350, 3100] },
           { unit: 'raptor',    team: 3, n: 2, at: [2304, 950], order: 'attackhq' },
         ] },
+      // all three recorders home, roosts still burning: name the remaining
+      // work so nobody sits staring at the dawn clock wondering what to do
+      { when: { done: ['r1', 'r2', 'r3'], notDone: ['dawn', 'roostA'] }, delay: 4,
+        say: [['ops', 'All three recorders home. If you want a quieter night, Commander, the roosts are still lit on thermal — burn them out, or dig in and let the clock run.']] },
+      // FULL CLEAR = EARLY DAWN: three roosts cold + three recorders home and
+      // the night has nothing left to send. The clock stops being the boss
+      // (Bronson mid-playtest 2026-08-12: "just sitting here waiting").
+      { when: { done: ['r1', 'r2', 'r3', 'roostA', 'roostB', 'roostC'], notDone: ['dawn'] }, delay: 6,
+        finish: ['dawn'],
+        say: [['sci', 'Thermal is CLEAN, Commander. Three roosts cold, three recorders home — the night has nothing left to send you.'],
+              ['ops', 'Then we call it. Stand the post down — dawn comes early today.']] },
       // dawn: the flock is CALLED off, mid-attack — the voice that ended K-7
       { when: { done: ['dawn'] }, recall: 'screecher',
         say: [['sci', 'Light on the horizon — and listen. The same roar, far north. They are breaking off. All of them. Mid-attack.'],
@@ -1920,7 +1941,7 @@ let bodiesReady = false;
 // until then the procedural drawing stays. See assets/sprites/ART-WANTED.md.
 const OPT = {};
 (function loadOptional() {
-  const names = ['dino_spitter', 'dino_nest', 'dino_den', 'gunship', 'artillery', 'egg', 'medic', 'rocket_trooper', 'apc', 'harrier'];
+  const names = ['dino_spitter', 'dino_nest', 'dino_den', 'dino_roost', 'gunship', 'artillery', 'egg', 'medic', 'rocket_trooper', 'apc', 'harrier'];
   for (const k in UNIT) names.push('unit_' + k);   // unit_marine.png, unit_tank.png, …
   for (const k in BLD) if (k !== 'nest' && k !== 'den') names.push('bld_' + k);   // bld_hq.png, … (dino structures use dino_* slots)
   names.push('unit_marine_hunker', 'unit_sniper_hunker', 'unit_artillery_hunker');   // dug-in poses
@@ -2401,6 +2422,22 @@ function spawnRaptor(den) {
   u.home = den.id;
   u.order = { type: 'guard', hx: den.x, hy: den.y };
   return u;
+}
+// ---------------- Screecher roosts ----------------
+// A cliff eyrie, not a mound: spawns two perched wing-guards and otherwise
+// sits static — mission wave lanes are its teeth (M9 gates each lane on the
+// roost standing, so killing it silences the sky it feeds).
+function makeRoost(x, y) {
+  const b = makeBuilding('roost', 3, x, y);
+  for (let i = 0; i < 2; i++) {
+    const a = Math.random() * Math.PI * 2;
+    const u = makeUnit('screecher', 3,
+      clamp(x + Math.cos(a) * (b.w / 2 + 24), 20, W - 20),
+      clamp(y + Math.sin(a) * (b.h / 2 + 24), 20, H - 20));
+    u.home = b.id;
+    u.order = { type: 'guard', hx: x, hy: y };
+  }
+  return b;
 }
 function makeDen(x, y, birth) {
   const b = makeBuilding('den', 3, x, y);
@@ -6426,6 +6463,75 @@ function drawNest(b) {
   cx.restore();
 }
 
+// Screecher roost: a guano-streaked rock spur with a bone-twig crown and a
+// perched silhouette that stretches its wings — it reads as SKY threat, and
+// nothing like the spitter nest's dirt mound (Bronson, M9 playtest 2026-08-12).
+function drawRoost(b) {
+  const img = opt('dino_roost');
+  if (img) {
+    cx.drawImage(img, b.x - b.w * 0.65, b.y - b.h * 0.85, b.w * 1.3, b.h * 1.3);
+    return;
+  }
+  cx.save();
+  cx.translate(b.x, b.y);
+  const w = b.w, h = b.h;
+  // ground shadow + talus scatter at the foot
+  cx.fillStyle = 'rgba(0,0,0,0.32)';
+  cx.beginPath(); cx.ellipse(4, h * 0.32, w * 0.52, h * 0.18, 0, 0, Math.PI * 2); cx.fill();
+  cx.fillStyle = '#23262c';
+  for (const [tx, ty, tr] of [[-w * 0.42, h * 0.3, 6], [w * 0.38, h * 0.34, 5], [w * 0.1, h * 0.4, 4]]) {
+    cx.beginPath(); cx.arc(tx, ty, tr, 0, Math.PI * 2); cx.fill();
+  }
+  // the spur: stacked angular facets, tallest at the crown
+  cx.fillStyle = '#262a31';
+  cx.beginPath();
+  cx.moveTo(-w * 0.46, h * 0.32); cx.lineTo(-w * 0.30, -h * 0.10); cx.lineTo(-w * 0.10, h * 0.02);
+  cx.lineTo(w * 0.18, -h * 0.16); cx.lineTo(w * 0.44, h * 0.32); cx.closePath(); cx.fill();
+  cx.fillStyle = '#343a43';
+  cx.beginPath();
+  cx.moveTo(-w * 0.26, h * 0.30); cx.lineTo(-w * 0.14, -h * 0.30); cx.lineTo(w * 0.04, -h * 0.44);
+  cx.lineTo(w * 0.22, -h * 0.20); cx.lineTo(w * 0.28, h * 0.30); cx.closePath(); cx.fill();
+  cx.fillStyle = '#41474f';
+  cx.beginPath();
+  cx.moveTo(-w * 0.12, -h * 0.10); cx.lineTo(-w * 0.02, -h * 0.46); cx.lineTo(w * 0.10, -h * 0.34);
+  cx.lineTo(w * 0.12, -h * 0.06); cx.closePath(); cx.fill();
+  // guano streaks running down the upper faces — the tell at a glance
+  cx.strokeStyle = 'rgba(226,224,208,0.55)'; cx.lineWidth = 2.5; cx.lineCap = 'round';
+  for (const [sx, sy, ex, ey] of [[-w * 0.06, -h * 0.40, -w * 0.11, -h * 0.04],
+                                  [w * 0.05, -h * 0.36, w * 0.09, h * 0.02],
+                                  [-w * 0.16, -h * 0.24, -w * 0.20, h * 0.10]]) {
+    cx.beginPath(); cx.moveTo(sx, sy); cx.lineTo(ex, ey); cx.stroke();
+  }
+  // bone-twig crown ringing the top
+  cx.strokeStyle = '#8a8272'; cx.lineWidth = 2;
+  for (let i = 0; i < 7; i++) {
+    const a = i / 7 * Math.PI * 2 + 0.4;
+    const cxp = Math.cos(a) * w * 0.13, cyp = -h * 0.44 + Math.sin(a) * 5;
+    cx.beginPath(); cx.moveTo(cxp, cyp);
+    cx.lineTo(cxp + Math.cos(a + 0.9) * 9, cyp - 4 - Math.sin(a) * 3); cx.stroke();
+  }
+  // the perched screecher: folded silhouette, wings stretched every few seconds
+  const ph = (tick + b.id * 37) % 260;
+  const spread = ph < 34 ? Math.sin(ph / 34 * Math.PI) : 0;
+  cx.fillStyle = '#1c1e22';
+  cx.beginPath(); cx.ellipse(0, -h * 0.52, 5.5, 7.5, 0, 0, Math.PI * 2); cx.fill();   // body
+  cx.beginPath(); cx.ellipse(2, -h * 0.60, 3, 4, 0.4, 0, Math.PI * 2); cx.fill();     // head + crest
+  cx.strokeStyle = '#1c1e22'; cx.lineWidth = 3; cx.lineCap = 'round';
+  for (const s of [-1, 1]) {                                                          // wings
+    cx.beginPath();
+    cx.moveTo(s * 3, -h * 0.54);
+    cx.quadraticCurveTo(s * (8 + 14 * spread), -h * 0.54 - 10 * spread, s * (10 + 20 * spread), -h * 0.52 - 4 * spread);
+    cx.stroke();
+  }
+  // eyeshine blink
+  if ((tick + b.id * 53) % 190 < 150) {
+    cx.fillStyle = '#f0b040';
+    cx.beginPath(); cx.arc(3, -h * 0.61, 1.2, 0, Math.PI * 2); cx.fill();
+    cx.beginPath(); cx.arc(5.5, -h * 0.60, 1.2, 0, Math.PI * 2); cx.fill();
+  }
+  cx.restore();
+}
+
 // the dam is a WALL across the river: abutments on both banks, spillway
 // gates, turbine housings, churning outflow. Oriented by b.a (set at
 // placement from the local flow) — never the axis-aligned box that read
@@ -6508,6 +6614,11 @@ function drawBuilding(b) {
   if (b.type === 'den') {
     drawDen(b);
     if (b.hp < b.maxHp) drawHpBar(b.x, y - 10, b.w * 0.8, b.hp, b.maxHp);
+    return;
+  }
+  if (b.type === 'roost') {
+    drawRoost(b);
+    if (b.hp < b.maxHp) drawHpBar(b.x, y - 14, b.w * 0.8, b.hp, b.maxHp);
     return;
   }
   if (b.type === 'hydro') {
@@ -8562,6 +8673,7 @@ function doSpawn(sp) {
     // nests their brood — a bare makeBuilding would spawn them inert
     const b = sp.bld === 'den' ? makeDen(sp.at[0], sp.at[1], sp.birth)
       : sp.bld === 'nest' ? makeNest(sp.at[0], sp.at[1])
+      : sp.bld === 'roost' ? makeRoost(sp.at[0], sp.at[1])
       : makeBuilding(sp.bld, sp.team || 1, sp.at[0], sp.at[1]);
     if (sp.invuln) b.invuln = true;   // scripted, unkillable (M7's den erupts; you don't get to answer it)
     // ruins: spawn pre-damaged (M9's silent camp — standing wrecks that smoke
@@ -8615,6 +8727,17 @@ function fireTrigger(t) {
     if (o && !o.done && !o.cancelled) {
       o.cancelled = true;
       if (o.active) toast('✕ Objective cancelled: ' + o.text);
+    }
+  }
+  // the story completes an objective outright — the ✔ twin of `cancel`
+  // (M9's early dawn: a swept-clean sky ends the night; sitting out a clock
+  // you have already beaten is not a mission). Fires the normal done path,
+  // so anything gated on the objective reacts as if the player finished it.
+  if (t.finish) for (const id of [].concat(t.finish)) {
+    const o = ms.objectives.find(o => o.id === id);
+    if (o && !o.done && !o.cancelled) {
+      o.done = true;
+      if (o.active) { toast('✔ ' + o.text); snd.ready(); }
     }
   }
   // the enemy AI stands down: no more production, building, or assault waves.

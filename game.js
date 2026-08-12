@@ -1728,7 +1728,10 @@ const MISSIONS = [
       { when: { bldBelow: ['hq', 2, 0.5] },
         aiOff: true, noBase: true, cancel: ['hq', 'guns'], objective: ['evac', 'fall'], complete: 'fall',
         alarm: '⚠ MASSIVE seismic event under the city — every reading is climbing!',
-        focus: [3500, 200],
+        // four LOCKED seconds on the wall breach: the player watches the
+        // planet take the city before they get the controls back (Bronson,
+        // M10 playtest 2026-08-12)
+        focus: [3700, 380, 4],
         spawn: [
           // the swarm: unkillable, scripted, leashed to the fortress by the
           // repeating re-rally below. The first Ironbacks walk in with it.
@@ -1771,10 +1774,12 @@ const MISSIONS = [
       // pack takes the player's scent and chases ALL the way — re-aimed at
       // the nearest unit every 20s (Bronson 2026-08-11: the swarm shouldn't
       // be fully leashed; a few chase through on a delay and catch up).
-      // Unkillable like the swarm: you outrun these, you don't solve them.
+      // Story-tough, NOT invuln (playtest round 1: they reached the base and
+      // "wouldnt die" — a pursuit you can gun down at a cost beats one you
+      // can only outrun; the unkillable terror stays leashed in the city).
       { when: { done: ['fall'] }, delay: 20, alarm: '⚠ A pack has broken off the swarm — they have YOUR scent!',
-        spawn: { group: 'hunters', unit: 'raptor', team: 3, n: 3, at: [3733, 1350], to: [461, 2903], invuln: true },
-        say: [['sci', 'Three just peeled off the city, Commander — low, fast, and on OUR trail. Twenty seconds behind you and closing. Keep the column moving and do NOT stop to fight them.']] },
+        spawn: { group: 'hunters', unit: 'raptor', team: 3, n: 3, at: [3733, 1350], to: [461, 2903], hpMul: 6 },
+        say: [['sci', 'Three just peeled off the city, Commander — low, fast, and on OUR trail. Twenty seconds behind you and closing. They will not lose the scent — outrun them, or turn everything you have on them at once.']] },
       { when: { done: ['fall'], notDone: ['evac'] }, delay: 40, repeat: true, every: 20,
         rally: { of: 'hunters', at: 'units' } },
       // route pressure on the walk out — killable, unlike the swarm
@@ -8808,7 +8813,15 @@ function fireTrigger(t) {
       if (u.team === 3 && u.type === t.recall && u.hp > 0) u.order = { type: 'denRetreat' };
     }
   }
-  if (t.focus) focusCam(t.focus[0], t.focus[1]);   // scripted event camera
+  // scripted event camera. Optional third element = seconds to HOLD AND LOCK
+  // the view there (nothing interrupts, not even edge-scroll) — M10's collapse
+  // opens with four locked seconds on the wall breach. Two-element form keeps
+  // the old gentle pan (0.8s locked, interruptible after).
+  if (t.focus) {
+    const secs = t.focus[2] != null ? t.focus[2] * 60 : null;
+    if (secs != null) focusCam(t.focus[0], t.focus[1], secs, secs);
+    else focusCam(t.focus[0], t.focus[1]);
+  }
   // a launch the story orders — no silo required, unlike the player's
   if (t.nuke) {
     for (const n of [].concat(t.nuke)) {

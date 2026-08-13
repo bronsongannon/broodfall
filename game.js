@@ -1862,6 +1862,118 @@ const MISSIONS = [
     winText: 'Nobody won the battle of Krauss\'s Bastion. You breached his wall, the planet finished the job, and the war you spent nine missions fighting ended as a footnote to something older and angrier. Eight of yours made it through the pass. The swarm holds the city — and the hum is pointed north.',
     loseText: 'Your column never made the pass. The swarm took the city, the night took the road, and somewhere west of the wall Krauss is telling thirty survivors that the expedition died the same hour his company did.',
   },
+  {
+    // M11 — "Strange Bedfellows." The ALLIED AI debut (mission `allies`
+    // machinery): Krauss's survivors hold a ruined fort in the SE pocket
+    // of Twin Forks (the roster planned this — `mapOverride` relocates his
+    // base there), you hold the SW, and the valley between you belongs to
+    // the planet. Joint defense against escalating dino waves off both
+    // prongs + two mid-mission dens (the M9 valve pattern: optional kills
+    // that quiet the pressure). His half is his: `noBuild` fences the
+    // truce line. Lose = EITHER HQ falls — you protect the man you spent
+    // the whole war fighting.
+    title: 'Strange Bedfellows', act: 'Act II — The Awakening',
+    map: 'forks', diff: 'normal', noWaves: true, allies: [[1, 2]],
+    mapOverride: {
+      eHQ: [3594, 3041], eRax: [3318, 3196], eFac: [3917, 3110],
+      eSup: [[3779, 3283], [4055, 2880]], eTur: [[3041, 2861], [3502, 2673]],
+      eAir: [4239, 3110], ePatch: [3640, 2765],
+    },
+    noBuild: { rect: [2400, 2300, 4608, 3456],
+      msg: 'That ground is Rubicon\'s — the truce splits the valley at the stem' },
+    brief: [
+      ['ops', 'Orders nobody in this expedition ever expected to read: Rubicon\'s survivors reached a ruined fort in the Twin Forks, and Command has signed a truce. We hold the west pocket, Krauss holds the east, and everything that took his city is now coming up the valley between us.'],
+      ['red', 'Krauss. I have one wall, thirty people, and a company that no longer exists. I am told we are allies now. I have signed it. Do not make me regret the ink, expedition — and stay out of my half of the valley.'],
+      ['sci', 'For the record: the swarm that took the Bastion did not disband. It is HUNTING, in this direction, and it does not distinguish between our flags. Every corpse it leaves me is data — keep them coming, Commander.'],
+    ],
+    intro: [
+      ['ops', 'The rules are simple and non-negotiable: his fort stands, our base stands, or this truce dies with whichever one falls. Build west of the stem — his ground is his. Hold until the flats go quiet.'],
+    ],
+    objectives: [
+      { id: 'hold', text: 'Hold the valley until the flats go quiet', type: 'survive', secs: 1080 },
+      { id: 'shield', text: 'Krauss\'s fort must not fall', type: 'flag' },
+      { id: 'denW', text: 'Optional: destroy the west den', type: 'groupDead', group: 'denW', hidden: true, mark: [1290, 1037] },
+      { id: 'denE', text: 'Optional: destroy the east den', type: 'groupDead', group: 'denE', hidden: true, mark: [3300, 900] },
+    ],
+    winWhen: ['hold'],
+    triggers: [
+      // the ruined fort: extra teeth on his wall, pre-damaged — survivors, not a garrison
+      { when: { time: 0.5 },
+        spawn: [
+          { bld: 'turret', team: 2, at: [3250, 2900], hpFrac: 0.6 },
+          { bld: 'turret', team: 2, at: [3700, 2560], hpFrac: 0.6 },
+          { unit: 'marine', team: 2, n: 4, at: [3450, 2850], order: 'guard' },
+          { unit: 'rocket', team: 2, n: 2, at: [3550, 2950], order: 'guard' },
+          { unit: 'engineer', team: 2, n: 1, at: [3600, 3100] },
+        ] },
+      { when: { time: 55 },
+        say: [['sci', 'Seismic is climbing on both prongs, Commander. The valley was empty when we landed. It is not empty now.']] },
+      // wave 1: both flags get hit in the same minute — the truce is real now
+      { when: { time: 140 }, alarm: '⚠ Contacts up both prongs of the fork!',
+        spawn: [
+          { unit: 'raptor', team: 3, n: 4, at: [1300, 700], order: 'attackhq' },
+          { unit: 'spitter', team: 3, n: 4, at: [4520, 1300], to: [3594, 3041] },
+        ] },
+      { when: { time: 210 },
+        say: [['red', 'Four came at my wall. My thirty are now twenty-eight. How is YOUR morning, expedition?'],
+              ['ops', 'Standing, Krauss. Try to keep up.']] },
+      { when: { time: 280 },
+        spawn: [
+          { unit: 'raptor', team: 3, n: 5, at: [4520, 1300], to: [3594, 3041] },
+          { unit: 'screecher', team: 3, n: 3, at: [2304, 400], to: [1382, 3246] },
+        ] },
+      // the west den: the valve opens
+      { when: { time: 420 }, focus: [1290, 1037, 3], objective: 'denW',
+        alarm: '⚠ The ground is opening on the west prong!',
+        spawn: { group: 'denW', bld: 'den', team: 3, at: [1290, 1037] },
+        say: [['sci', 'Den, west prong — and dens do not visit, Commander, they SETTLE. Kill it or its packs walk your fence line all day.']] },
+      { when: { time: 560 },
+        spawn: [
+          { unit: 'raptor', team: 3, n: 6, at: [1300, 700], order: 'attackhq' },
+          { unit: 'ironback', team: 3, n: 1, at: [2304, 400], to: [3594, 3041] },
+          { unit: 'screecher', team: 3, n: 4, at: [4520, 1300], to: [3594, 3041] },
+        ] },
+      // the east den: his problem — which makes it your problem
+      { when: { time: 650 }, focus: [3300, 900, 3], objective: 'denE',
+        alarm: '⚠ A second den — east prong!',
+        spawn: { group: 'denE', bld: 'den', team: 3, at: [3300, 900] },
+        say: [['red', 'One of those is digging in above MY fort. Expedition, I have no artillery left. I am asking. Officially. On the record I will later deny.']] },
+      { when: { time: 760 },
+        spawn: [
+          { unit: 'raptor', team: 3, n: 5, at: [1300, 700], order: 'attackhq' },
+          { unit: 'raptor', team: 3, n: 4, at: [3300, 700], to: [3594, 3041] },
+          { unit: 'screecher', team: 3, n: 3, at: [2304, 400], to: [1382, 3246] },
+        ] },
+      { when: { time: 870 },
+        say: [['sci', 'Field note, off the record: forty-one corpses catalogued and every one died FACING the guns. Nothing this planet sends is afraid of us. It simply has not finished arriving.'],
+              ['red', 'Your scientist has a gift for morale, expedition.']] },
+      { when: { time: 940 }, alarm: '⚠ Armored contacts — both prongs at once!',
+        spawn: [
+          { unit: 'ironback', team: 3, n: 2, at: [3300, 700], to: [3594, 3041] },
+          { unit: 'raptor', team: 3, n: 5, at: [1300, 700], order: 'attackhq' },
+          { unit: 'screecher', team: 3, n: 4, at: [2304, 400], to: [1382, 3246] },
+        ] },
+      // the last wave breaks against both walls as the clock runs out
+      { when: { time: 1010 }, alarm: '⚠ Massed assault — everything at once!',
+        spawn: [
+          { unit: 'raptor', team: 3, n: 6, at: [1300, 700], order: 'attackhq' },
+          { unit: 'raptor', team: 3, n: 5, at: [3300, 700], to: [3594, 3041] },
+          { unit: 'screecher', team: 3, n: 3, at: [4520, 1300], to: [3594, 3041] },
+          { unit: 'screecher', team: 3, n: 3, at: [2304, 400], to: [1382, 3246] },
+        ],
+        say: [['ops', 'One more push, all of you — the flats are emptying. Whatever is left is HERE.']] },
+      { when: { done: ['hold'] }, complete: 'shield' },
+      // the truce's teeth: HIS headquarters falls, the mission falls
+      { when: { bldBelow: ['hq', 2, 0], notDone: ['hold'] }, lose: true },
+    ],
+    outro: [
+      ['red', 'Still standing. Both flags. Expedition — Krauss. That is the entire transmission, and it is the warmest one I have ever sent.'],
+      ['ops', 'Copy your warmth, Rubicon. Get some sleep.'],
+      ['sci', 'Before anyone sleeps: his miners tell me there are four hundred civilians in a camp two valleys east, and the road between here and there just went dark. Commander... we should talk about the road.'],
+    ],
+    winText: 'The valley held — both halves of it. Twenty missions of war taught two companies how to fight each other, and one long day taught them how to stop. Lin\'s corpse ledger says the waves are getting bigger. Krauss\'s miners say the road east is full of people who cannot fight at all.',
+    loseText: 'A truce is a wall with two sides, and one of them fell. The fork belongs to the planet now — and the survivors of two companies retreat down the same road, together at last, in the worst possible way.',
+  },
 ];
 
 // Research, StarCraft-style: bought at the producing building, occupies its queue.
@@ -1964,6 +2076,18 @@ const dist2 = (x1, y1, x2, y2) => { const dx = x2 - x1, dy = y2 - y1; return dx 
 const dist = (x1, y1, x2, y2) => Math.sqrt(dist2(x1, y1, x2, y2));
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const isCombat = (u) => u.type !== 'harvester' && u.type !== 'engineer' && u.type !== 'medic' && u.type !== 'rig' && u.type !== 'critter';
+// Mission-level ALLIANCE (M11 "Strange Bedfellows" — the Act 2 engine item):
+// mission spec `allies: [[1, 2]]` makes those teams mutual non-hostiles.
+// One predicate, threaded through the hostility FUNNELS (nearestEnemyUnit/
+// Building, damage retaliation + credit, right-click routing, splash loops,
+// fog stamping) — never through the 170+ raw team comparisons. Nukes still
+// hit everyone (friendly fire is the nuke's brand). missionNow() because
+// `mission` is a let declared far below (the M9 TDZ lesson).
+const isAllied = (a, b) => {
+  if (a === b) return true;
+  const m = missionNow();
+  return !!(m && m.allies && m.allies.some(p => (p[0] === a && p[1] === b) || (p[0] === b && p[1] === a)));
+};
 // Professional non-combatants: heal/repair crews ignore attack commands and
 // hold at standoff on A-moves. Keyed by TYPE, not dmg — the engineer carries a
 // token dmg 2 melee poke that slipped it past every `dmg <= 0` guard (playtest
@@ -2315,8 +2439,10 @@ function updateFog() {
     return;
   }
   visible.fill(0);
-  for (const u of units) if (u.team === 1) stampVision(u.x, u.y, UNIT[u.type].sight, u.fly);
-  for (const b of buildings) if (b.team === 1) stampVision(b.x, b.y, BLD[b.type].sight);
+  // allied eyes are shared eyes (M11) — isAllied(1, 1) is true, so the plain
+  // player case rides the same check
+  for (const u of units) if (isAllied(u.team, 1)) stampVision(u.x, u.y, UNIT[u.type].sight, u.fly);
+  for (const b of buildings) if (isAllied(b.team, 1)) stampVision(b.x, b.y, BLD[b.type].sight);
   const d = fogImg.data;
   for (let i = 0; i < visible.length; i++) {
     d[i * 4 + 3] = visible[i] ? 0 : (fogMemory && explored[i]) ? 150 : 255;   // rgb stays black
@@ -2918,8 +3044,12 @@ function setup(mapKey) {
   groundM = M;
   paintGround(M);
   // commando missions field no base at all — just the squad the triggers drop
-  const pHQ = (mission && mission.noBase) ? null : placeBase(1, M);
-  if (!(mission && mission.noEnemy)) placeBase(2, M);
+  // A mission can RELOCATE either base on a shared map (the roster rule:
+  // every map reuse moves the bases). `mapOverride` merges over the map's
+  // own entry for placeBase only — skirmish never sees it.
+  const MB = (mission && mission.mapOverride) ? { ...M, ...mission.mapOverride } : M;
+  const pHQ = (mission && mission.noBase) ? null : placeBase(1, MB);
+  if (!(mission && mission.noEnemy)) placeBase(2, MB);
 
   // neutral fields + their nest guards — clear the nest or mine poor.
   // A mission can replace the map's fields wholesale (M1 spreads them out).
@@ -3048,7 +3178,7 @@ function nearestEnemyUnit(x, y, team, range, aa, airOnly, fromAir) {
   let best = null, bd = 1e18;
   const ve = fromAir ? 9 : elevAt(x, y);
   for (const u of units) {
-    if (u.team === team) continue;
+    if (isAllied(u.team, team)) continue;
     if (u.type === 'critter') continue;                   // wildlife: never auto-targeted, by anyone
     if (u.invuln) continue;                               // unkillable set-piece — don't park the army on it
     if (airOnly && !UNIT[u.type].fly) continue;           // flak ignores the ground war
@@ -3064,7 +3194,7 @@ function nearestEnemyBuilding(x, y, team, range, fromAir) {
   let best = null, bd = 1e18;
   const ve = fromAir ? 9 : elevAt(x, y);
   for (const b of buildings) {
-    if (b.team === team) continue;
+    if (isAllied(b.team, team)) continue;
     if (b.invuln) continue;                               // unkillable set-piece — don't park the army on it
     if (team === 1 && !isVisibleAt(b.x, b.y)) continue;
     if (elevAt(b.x, b.y) > ve) continue;                  // cliff-top structures are safe from below
@@ -3451,12 +3581,14 @@ function damage(e, d, src) {
   }
   e.hp -= d;
   // warn the player when the home front takes hits (buildings & workers)
-  if (e.team === 1 && !gameOver && src && src.team !== 1) {
+  if (e.team === 1 && !gameOver && src && !isAllied(src.team, 1)) {
     if (e.kind === 'building') raiseAlert(e.x, e.y, '⚠ Your base is under attack!');
     else if (e.type === 'harvester' || e.type === 'engineer') raiseAlert(e.x, e.y, '⚠ Your workers are under attack!');
   }
-  // fight back if idle
-  if (e.kind === 'unit' && isCombat(e) && e.order.type === 'idle' && src && src.hp > 0) {
+  // fight back if idle — but never against an ally (nuke splash must not
+  // turn the truce into a civil war)
+  if (e.kind === 'unit' && isCombat(e) && e.order.type === 'idle' && src && src.hp > 0
+      && !isAllied(e.team, src.team)) {
     e.order = { type: 'attack', target: src, resume: null };
   }
   // kicking the nest: the brood answers IMMEDIATELY (playtest: nests felt
@@ -3479,10 +3611,11 @@ function damage(e, d, src) {
     if (src.team === 1) toast('🦖 The wildlife stirs… the dinosaurs grow agitated');
   }
   if (e.hp <= 0) {
-    if (src && src.team === 1 && e.team !== 1) stats.kills++;
+    if (src && src.team === 1 && !isAllied(e.team, 1)) stats.kills++;
     if (e.team === 1 && e.kind === 'unit') stats.lost++;
-    // veterancy credit: the killer remembers, and might rank up
-    if (src && src.kind === 'unit' && src.hp > 0 && src.team !== e.team) {
+    // veterancy credit: the killer remembers, and might rank up (no ranks
+    // farmed off allied casualties)
+    if (src && src.kind === 'unit' && src.hp > 0 && !isAllied(src.team, e.team)) {
       const before = rankOf(src);
       src.kills++;
       const after = rankOf(src);
@@ -3958,12 +4091,12 @@ function updateUnit(u) {
       u.armed = false;
       const D = UNIT.harrier;
       for (const e of units.slice()) {
-        if (e.team === u.team || e.hp <= 0) continue;
+        if (isAllied(e.team, u.team) || e.hp <= 0) continue;
         if (e.specimen && u.team === 1) continue;   // protected specimens shrug off player splash
         if (dist(t.x, t.y, e.x, e.y) <= D.bombSplash + e.r) damage(e, D.bomb * weaponMult(u), u);
       }
       for (const b of buildings.slice()) {
-        if (b.team === u.team || b.hp <= 0) continue;
+        if (isAllied(b.team, u.team) || b.hp <= 0) continue;
         if (dist(t.x, t.y, b.x, b.y) <= D.bombSplash + b.r) damage(b, D.bomb * D.bombBldBonus * weaponMult(u), u);
       }
       fxs.push({ kind: 'boom', x: t.x, y: t.y, t: 0, max: 20, size: D.bombSplash });
@@ -4382,13 +4515,13 @@ function updateBullets() {
       p.dead = true;
       if (p.kind === 'arc') {
         // splash at the impact point: full damage to everything hostile in the
-        // radius; buildings eat the siege bonus on top
+        // radius; buildings eat the siege bonus on top. Allies are not hostile.
         for (const u of units) {
-          if (u.team === p.team || u.hp <= 0) continue;
+          if (isAllied(u.team, p.team) || u.hp <= 0) continue;
           if (dist(p.tx, p.ty, u.x, u.y) <= p.splash + u.r) damage(u, p.dmg, p.src);
         }
         for (const b of buildings) {
-          if (b.team === p.team || b.hp <= 0) continue;
+          if (isAllied(b.team, p.team) || b.hp <= 0) continue;
           if (dist(p.tx, p.ty, b.x, b.y) <= p.splash + b.r) damage(b, p.dmg * p.bldBonus, p.src);
         }
         fxs.push({ kind: 'boom', x: p.tx, y: p.ty, t: 0, max: 18, size: p.splash * 0.8 });
@@ -4844,11 +4977,13 @@ cv.addEventListener('contextmenu', (e) => {
     commandMove(selection, wx, wy, false);
     fxs.push({ kind: 'ping', x: wx, y: wy, t: 0, max: 22, color: '#8fc94a' });
   }
-  else if (t && t.kind === 'building' && t.team === 1 && selection.some(s => s.kind === 'unit' && s.type === 'engineer')) {
+  // engineers may mend ALLIED structures too (M11: "you share a wall")
+  else if (t && t.kind === 'building' && isAllied(t.team, 1) && selection.some(s => s.kind === 'unit' && s.type === 'engineer')) {
     commandRepair(selection, t);
     fxs.push({ kind: 'ping', x: t.x, y: t.y, t: 0, max: 22, color: '#8ce6a0' });
   }
-  else if (t && t.team && t.team !== 1) { commandAttack(selection, t); fxs.push({ kind: 'ping', x: t.x, y: t.y, t: 0, max: 22, color: '#e0564a' }); }
+  // hostiles only — right-clicking an ALLY falls through to a plain move
+  else if (t && t.team && !isAllied(t.team, 1)) { commandAttack(selection, t); fxs.push({ kind: 'ping', x: t.x, y: t.y, t: 0, max: 22, color: '#e0564a' }); }
   else { commandMove(selection, wx, wy, false); fxs.push({ kind: 'ping', x: wx, y: wy, t: 0, max: 22, color: '#8fd8cf' }); }
 });
 document.addEventListener('contextmenu', (e) => e.preventDefault());
@@ -5060,6 +5195,12 @@ function canPlaceBuilding(type, wx, wy) {
   // letting you spend 400 on a site nobody can raise
   if (d.needsEngineer && !units.some(u => u.hp > 0 && u.team === 1 && u.type === 'engineer')) return false;
   if (wx < 40 || wy < 40 || wx > W - 40 || wy > H - 40) return false;
+  // a mission may fence ground off from PLAYER construction (M11: the truce
+  // splits the valley — his half is his). AI placement never routes here.
+  if (mission && mission.noBuild) {
+    const [x1, y1, x2, y2] = mission.noBuild.rect;
+    if (wx > x1 && wy > y1 && wx < x2 && wy < y2) return false;
+  }
   // no building on ground you haven't scouted — the whole footprint must be
   // explored (playtest 2026-07-25: placing into black shroud felt wrong and
   // the red ghost leaked terrain info about unseen rocks)
@@ -5100,6 +5241,10 @@ function tryPlaceBuilding(type, wx, wy) {
     else if (d.needsEngineer && !units.some(u => u.hp > 0 && u.team === 1 && u.type === 'engineer'))
       toast(`${d.label} is built by hand — train an Engineer first (HQ)`);
     else if (BLD[type].water) toast('The dam needs moving water — place it on a river channel');
+    else if (mission && mission.noBuild
+             && wx > mission.noBuild.rect[0] && wy > mission.noBuild.rect[1]
+             && wx < mission.noBuild.rect[2] && wy < mission.noBuild.rect[3])
+      toast(mission.noBuild.msg || 'You can\'t build on that ground');
     else if (type === 'refinery') toast('Build the refinery next to a crystal patch, on open ground');
     else toast('Build closer to your base, on open ground');
     snd.error();

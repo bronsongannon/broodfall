@@ -20,12 +20,16 @@ Interactive version: `.claude/ship-widget.html` renders as a widget at the start
 of every Claude session (SessionStart hook in `.claude/settings.json`). Keep this
 file and the widget's task lists in sync.
 
-## PRIORITY: finish the campaign (10 missions remain, 10 of 20 built)
+## PRIORITY: finish the campaign (9 missions remain, 11 of 20 built)
 
-Engine work still gating missions: allied AI faction (M11, M18), corrupted
-spawner buildings (M14), den-seeding timer (M15), Broodmother combat version
-(M20). Maps still to build: Evac Coast, The Crater. Standing rule: **M10+
-missions are a mandatory 20–25 minutes.**
+M11 "Strange Bedfellows" BUILT 2026-08-13 — and with it the ALLIED AI faction
+(mission `allies` machinery: one isAllied predicate through the hostility
+funnels, shared vision, ally repair, `mapOverride` base relocation, `noBuild`
+truce fencing). M18's joint assault inherits all of it. Engine work still
+gating missions: corrupted spawner buildings (M14), den-seeding timer (M15),
+Broodmother combat version (M20). Maps still to build: Evac Coast, The Crater.
+Standing rule: **M10+ missions are a mandatory 20–25 minutes** — M11's 18-min
+hold clock + build-up sits in range; Bronson's stopwatch confirms.
 
 ## Apple submission track — UNSCHEDULED, after the campaign is finished
 

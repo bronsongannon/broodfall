@@ -1671,7 +1671,15 @@ const MISSIONS = [
     // eastern pass". The swarm is leashed by a repeating re-rally onto the
     // fortress — the terror is theater, the escape is winnable.
     title: 'Broodfall', act: 'Act II — The Awakening',
-    map: 'bastion', diff: 'hard',
+    // noWaves (round 3, Bronson: "swarmed with twice the amount of units I
+    // have" before a ground force existed): a fortress does not SALLY — the
+    // standard assault waves contradicted the briefing ("pulled every
+    // surviving asset behind one wall") and wiped the build-up phase on hard
+    // cadence. His army stays home and defends, which makes the city itself
+    // harder; the early pressure is the AUTHORED gate sorties below, which
+    // have knobs. diff stays 'hard' for the rich economy + the mid-siege
+    // nuke (his silo is on the wall and the briefing promises it).
+    map: 'bastion', diff: 'hard', noWaves: true,
     brief: [
       ['ops', 'This is the mission the whole war has been marching toward, Commander. Krauss pulled every surviving Rubicon asset behind one wall — a fortress city in the northeast with two gates, and both gates are covered kill lanes. Command wants it taken.'],
       ['red', 'Expedition command, Rubicon Actual. I have walls, I have batteries, I have a silo with your grid reference already loaded. Come collect your surrender terms in person — the south gate has the better view.'],
@@ -1736,6 +1744,21 @@ const MISSIONS = [
           { unit: 'marine', team: 1, n: 4, at: [700, 2800] },
           { unit: 'tank',   team: 1, n: 2, at: [820, 2900] },
         ] },
+      // gate sorties — the authored replacement for the assault waves this
+      // mission turned off (noWaves). Small, periodic, and killable by a
+      // modest home guard: pressure that keeps the build-up honest without
+      // outnumbering it. NOTE the repeat-period gotcha: period = every +
+      // delay, so these carry no delay.
+      { when: { time: 150, notDone: ['guns', 'fall'] }, repeat: true, every: 110,
+        spawn: { unit: 'raider', team: 2, n: 2, at: [3733, 1300], order: 'attackhq' } },
+      { when: { time: 430, notDone: ['guns', 'fall'] }, alarm: '⚠ Armored sortie out of the south gate!',
+        spawn: { unit: 'tank', team: 2, n: 1, at: [3733, 1300], order: 'attackhq' },
+        say: [['red', 'A gate is not a door, expedition — it OPENS. First company, go remind them whose valley this is.']] },
+      // after the batteries fall he counterattacks the siege line itself,
+      // not the base — phase two is a fight for the forward ground. True
+      // cadence = every + delay = ~150s (first push 60s after the gates).
+      { when: { done: ['guns'], notDone: ['hq', 'fall'] }, delay: 60, repeat: true, every: 90,
+        spawn: { unit: 'marine', team: 2, n: 2, at: [3733, 1200], to: [3300, 2100] } },
       // the war, on open comms, while the siege grinds
       { when: { time: 240, notDone: ['hq'] },
         say: [['red', 'Status for corporate: the expedition is camped outside my wall burning money. The wall is not impressed. Neither am I.']] },

@@ -4,7 +4,7 @@
     {
       "name": "broodfall",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "8777", "--directory", "/Users/bronsongannon/Claude/crystal-command"],
+      "runtimeArgs": ["-m", "http.server", "8777", "--directory", "/private/tmp/claude-501/-Users-bronsongannon-Desktop-mini-rts/6b5c00ca-0ffc-4ad4-b401-b44fdd36cb97/scratchpad/broodfall"],
       "port": 8777
     }
   ]

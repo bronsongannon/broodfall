@@ -1636,6 +1636,26 @@ const MISSIONS = [
           { unit: 'screecher', team: 3, n: 4, at: [3160, 1650], to: [2350, 3100] },
           { unit: 'raptor',    team: 3, n: 2, at: [2304, 950], order: 'attackhq' },
         ] },
+      // THE LAST MINUTE OF THE NIGHT (2026-08-13, Bronson replay: "too easy.
+      // i need to have a hord of like 20 or more screechers to hit at the
+      // very end"): sixty seconds before dawn the WHOLE flock rises at once —
+      // every launch point, dead roosts included (this is the flock itself,
+      // not the lanes) — and then the dawn recall empties a sky with 22
+      // wings still in it, mid-attack. Keyed on the same condition as the
+      // dawn clock so the timing is exact; repeat + huge `every` = fires
+      // once but RE-VERIFIES at fire time (a non-repeat trigger arms and
+      // then fires blind, and a full-clear early dawn must not dump the
+      // horde into the victory lap).
+      { when: { done: ['rax', 'grid', 'guns', 'aa'], notDone: ['dawn'] }, delay: 660, repeat: true, every: 9999,
+        alarm: '⚠ THE WHOLE SKY IS RISING — massed wings from every direction!',
+        spawn: [
+          { unit: 'screecher', team: 3, n: 8, at: [1450, 1650], to: [2250, 3100] },
+          { unit: 'screecher', team: 3, n: 8, at: [3160, 1650], to: [2350, 3100] },
+          { unit: 'screecher', team: 3, n: 6, at: [2304, 650],  to: [2304, 3080] },
+          { unit: 'raptor',    team: 3, n: 4, at: [2304, 950], order: 'attackhq' },
+        ],
+        say: [['sci', 'Thermal is WHITE, Commander — that is not a wave, that is the flock. All of it, every roost, every wing on this flat, and it is one minute to sunrise—'],
+              ['cdo', 'Every gun. Now.']] },
       // all three recorders home, roosts still burning: name the remaining
       // work so nobody sits staring at the dawn clock wondering what to do
       { when: { done: ['r1', 'r2', 'r3'], notDone: ['dawn', 'roostA'] }, delay: 4,

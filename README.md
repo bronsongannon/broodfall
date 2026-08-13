@@ -139,8 +139,11 @@ map/difficulty select.
   rapid-fire chaingun, superb harasser. Tanks and artillery **cannot shoot
   upward** — but marines, snipers, raiders, spitters, and turrets all can (Airpad)
 - **Harrier** (320) — strike jet. One devastating bomb per sortie, then it must
-  fly home to the Airpad for a 7-second rearm. Click a target and watch the
-  run. Each side fields at most **5 Harriers** at a time (Airpad)
+  fly home to the Airpad for a 7-second rearm. Right-click a target for a
+  single surgical run — or **attack-move (A) for continuous sorties**: the jet
+  strikes enemy units first, then structures, and keeps flying home, rearming,
+  and returning to the A-move point on its own until you call it off. Each
+  side fields at most **5 Harriers** at a time (Airpad)
 
 ## Buildings & the tech tree
 

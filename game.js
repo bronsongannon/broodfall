@@ -3119,7 +3119,10 @@ function commandAttack(sel, target) {
     // (dmg 0) sprinting into the line of fire ahead of the army (playtest
     // 2026-07-25). They keep their current order — a medic's idle auto-heal
     // follows the wounded into the fight at its own pace.
-    if ((e.dmg <= 0 && !e.bomb) || isSupport(e)) continue;
+    // NOTE the bomb check reads the UNIT table: `bomb` never gets copied onto
+    // the instance (only `armed` does), so `!e.bomb` silently skipped harriers
+    // — right-click strikes were dead from 2026-08-01 until M10 round 4 found it
+    if ((e.dmg <= 0 && !UNIT[e.type].bomb) || isSupport(e)) continue;
     e.order = e.type === 'harrier'
       ? { type: 'strike', target }
       : { type: 'attack', target, resume: null };
@@ -3801,9 +3804,18 @@ function updateUnit(u) {
     }
     case 'attackmove': {
       if (u.type === 'harrier') {
-        if (!u.armed) { u.order = { type: 'rearm' }; break; }
-        const ht = acquireTarget(u.x, u.y, u.team, UNIT.harrier.sight, u);
-        if (ht) { u.order = { type: 'strike', target: ht }; break; }
+        // A-move is the SORTIE order (playtest M10 round 4, Bronson: "why
+        // cant harriers drop bombs on buildings?"): strike units first, fall
+        // back to the nearest visible enemy STRUCTURE — acquireTarget is
+        // units-only, so without the fallback an A-moved harrier circled a
+        // fortress of batteries without ever bombing one. `resume` carries
+        // the A-move point through the strike AND the rearm, so the jet
+        // flies home, reloads, and returns for another run on its own.
+        // A manual right-click strike stays a single run (no resume).
+        if (!u.armed) { u.order = { type: 'rearm', resume: { x: o.x, y: o.y } }; break; }
+        const ht = acquireTarget(u.x, u.y, u.team, UNIT.harrier.sight, u)
+                || nearestEnemyBuilding(u.x, u.y, u.team, UNIT.harrier.sight, true);
+        if (ht) { u.order = { type: 'strike', target: ht, resume: { x: o.x, y: o.y } }; break; }
         if (moveToward(u, o.x, o.y)) u.order = { type: 'idle' };
         break;
       }
@@ -3912,10 +3924,15 @@ function updateUnit(u) {
       break;
     }
     case 'strike': {
-      // bomb run: fly at the target, one devastating hit, then home to rearm
+      // bomb run: fly at the target, one devastating hit, then home to rearm.
+      // `resume` (set by A-move sorties) chains back to the attackmove after —
+      // dead target or spent bomb, the jet re-enters the sortie loop.
       const t = o.target;
-      if (!u.armed) { u.order = { type: 'rearm' }; break; }
-      if (!t || t.hp <= 0) { u.order = { type: 'idle' }; break; }
+      if (!u.armed) { u.order = { type: 'rearm', resume: o.resume }; break; }
+      if (!t || t.hp <= 0) {
+        u.order = o.resume ? { type: 'attackmove', x: o.resume.x, y: o.resume.y } : { type: 'idle' };
+        break;
+      }
       if (!moveToward(u, t.x, t.y) && dist(u.x, u.y, t.x, t.y) > 30) break;
       // bombs away
       u.armed = false;
@@ -3933,7 +3950,7 @@ function updateUnit(u) {
       fxExplosion(t.x, t.y, 26, true);
       addShake(t.x, t.y, 8);
       snd.boom();
-      u.order = { type: 'rearm' };
+      u.order = { type: 'rearm', resume: o.resume };
       break;
     }
     case 'rearm': {
@@ -3943,7 +3960,8 @@ function updateUnit(u) {
       if (d > 30) { moveToward(u, pad.x, pad.y); o.t = 0; }
       else if ((o.t = (o.t || 0) + 1) >= HARRIER_REARM) {   // 7s on the pad
         u.armed = true;
-        u.order = { type: 'idle' };
+        // sortie loop: a rearm that came from an A-move strike flies back out
+        u.order = o.resume ? { type: 'attackmove', x: o.resume.x, y: o.resume.y } : { type: 'idle' };
         if (u.team === 1) { toast('Harrier rearmed'); snd.ready(); }
       }
       break;

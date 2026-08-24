@@ -88,7 +88,7 @@ Still the correct order when it's time. No dates until the game is done.
 ## Art and audio
 
 - [x] Cast portraits: Vega, Lin, Krauss — DONE 2026-07-21 via DaVinci (photorealistic film-still set, bust-cropped for the PiP; full-res originals in assets/portraits/source/)
-- [ ] Voice engine pick + generate Act 1 lines — script is exported at assets/voice/voice-script.tsv, workflow in assets/voice/README.md
+- [ ] Voice: ON HOLD until the campaign is done (Bronson, 2026-08-13 — one full batch at the end, no incremental updates). Then: regenerate voice-script.tsv with final wording and cut every speaker in one pass (Vega = Cassidy, Krauss = Rob, Lin revoice, Boone pick — briefs in PORTRAITS.md). Workflow in assets/voice/README.md
 
 - [x] Source the 14 sound-effect slots — all filled, Kenney CC0 + one Freesound klaxon (2026-07-13)
 - [x] Generate unit_rig.png and bld_power.png — superseded by full colorway art set (2026-07-12)

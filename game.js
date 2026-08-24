@@ -7040,6 +7040,7 @@ function drawUnitSprite(u) {
     cx.rotate(Math.PI / 2);              // generated art faces up
     const s = u.r * 2.7;
     cx.drawImage(pre, -s / 2, -s / 2, s, s);
+    if (u.type === 'rig' && u.captive) drawRigGlow(s);
     return;
   }
   // dug-in units swap to their hunker pose; a missing standing sprite falls
@@ -7050,6 +7051,9 @@ function drawUnitSprite(u) {
     cx.rotate(Math.PI / 2);              // generated art faces up
     const s = u.r * 2.7;
     cx.drawImage(teamSprite(whole, u.team), -s / 2, -s / 2, s, s);
+    // real rig art includes the cage, but the game still owes the "specimen
+    // aboard" signal — the glow draws OVER the art's bed (rear = +y here)
+    if (u.type === 'rig' && u.captive) drawRigGlow(s);
     return;
   }
   if (u.type === 'medic') {
@@ -7129,6 +7133,15 @@ function drawUnitSprite(u) {
   }
 }
 
+// loaded-cage glow for REAL rig art (unit_rig.png includes its own cage, so
+// only the signal is drawn, not the bars). Same frame as the sprite draw:
+// art faces up, frame already rotated, so the cage/bed is at +y.
+function drawRigGlow(s) {
+  cx.fillStyle = 'rgba(143,201,74,0.38)';
+  rr(cx, -s * 0.30, s * 0.02, s * 0.60, s * 0.44, s * 0.08); cx.fill();
+  cx.fillStyle = 'rgba(199,240,138,0.85)';
+  cx.beginPath(); cx.ellipse(0, s * 0.24, s * 0.14, s * 0.10, 0, 0, Math.PI * 2); cx.fill();
+}
 // the rig's cage, drawn in the unit's rotated frame (+y = rear of the truck
 // after the vehicle-sprite rotate). Glows green with a specimen inside.
 function drawRigCage(u) {

@@ -1,5 +1,20 @@
 # Dialogue portraits + voice briefs
 
+> **TOOL VERDICT (2026-08-13): ChatGPT generates all NEW portraits.** In the
+> head-to-head it matched the house film-still style from the shared style
+> block alone (DaVinci drifted documentary), then held character identity
+> through a laugh and a full-body pose change — the two tests where synthetic
+> identity normally dies. Workflow unchanged: generate one, approve, then
+> attach the approved frame as the anchor for every further shot ("same
+> person, same lighting…"; lock patch/wardrobe positions in the prompt — they
+> drift before faces do). The EXISTING four (Vega, Lin, Krauss, Boone) are
+> locked DaVinci faces — never regenerate them; new angles of them are the one
+> case where results are unproven, so test with an anchor before committing.
+> DaVinci keeps the documentary-photo register for marketing stills.
+> First ChatGPT-consistent character banked for the commando DLC: the woman
+> operator with the lighthouse patch (Boone's unit) — two portraits + a
+> full-body, unnamed, in assets/portraits/source/ when Bronson files them.
+
 The dialogue bar now shows a 56px character PiP (`#dlg-face`). Drop art into
 these slots and it's picked up automatically next reload (same OPT pattern as
 sprites); until then each character shows a colored-initials chip.

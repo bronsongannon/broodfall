@@ -4,6 +4,29 @@ Every sprite in this folder is **hot-swappable**: replace a PNG (same filename)
 and the game uses it on next reload. No code changes, ever. If a file is
 missing or fails to load, the game falls back to its built-in drawing.
 
+## WHICH TOOL TO USE (doctrine locked 2026-08-13, after the head-to-head)
+
+ChatGPT beat the incumbents on spec-adherence, identity-hold (verified through
+expression + full-body pose changes), and true top-down orthographic sprites
+(the axis Gemini kept failing). The standing routing — when a NEW asset is
+needed, this table names the tool:
+
+| Asset needed | Tool | Notes |
+|---|---|---|
+| New character portrait | **ChatGPT** | PORTRAITS.md style block; generate once, approve, then anchor |
+| More shots of an existing generated character | **ChatGPT** | attach the approved frame: "same person, …" — lock wardrobe/patch positions in the prompt |
+| New STATIC sprite (unit / building / dino) | **ChatGPT** | PROMPTS.md style block + neutral palette; attach a neighboring existing sprite as style anchor; then process_sprite.py |
+| Walk cycles | **DaVinci video** | the only video tool in the stack — locked top-down camera, walking in place facing up, plain bg, 2–4s, no shadow → slice_walk.py |
+| Death / idle SHEETS | **ChatGPT first** (untested for sheets — fall back to Gemini if frames don't slice clean) | anchor on the static; existing slicers apply |
+| Recolor of EXISTING Gemini art | **Gemini image-to-image** | recolor, never regenerate (standing rule — keeps sprites identical) |
+| Marketing / store key art | **DaVinci** (documentary register) or **ChatGPT** (cinematic film-still register) | big canvases are where quality differences actually show |
+
+**Do NOT re-make the existing approved set.** Statics are load-bearing for
+their walk/death frames (mass-normalized against them) — replacing one means
+replacing its whole animation family. Upgrades are single-file and
+annoyance-driven only: a sprite bugs Bronson in a playtest, that one file gets
+a ChatGPT replacement (style-anchored on its neighbors), done.
+
 ## Global rules (apply to every image)
 
 - **Top-down orthographic** view (straight down, like the existing Kenney art)

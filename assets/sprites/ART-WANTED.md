@@ -55,7 +55,8 @@ will tint weirdly. (Exceptions below say "natural colors".)
 | `rocket_trooper.png` | infantryman with shoulder rocket launcher | neutral tones, tinted. Faces **RIGHT** |
 | `apc.png` | 8-wheeled armored personnel carrier, roof hatch | neutral tones, tinted. Faces up |
 | `harrier.png` | delta-wing VTOL strike jet | neutral tones, tinted. Faces up |
-| `bld_power.png` | compact power plant — reactor dome / cooling stacks | neutral tones, tinted. Game draws a glowing bolt emblem on top |
+| ~~`bld_power.png`~~ | DONE — lives as the `bld_power_teal/_red` colorway pair | |
+| `dino_roost.png` | Screecher roost: guano-streaked rock spur, bone-twig crown, one perched screecher with amber eyeshine | **natural colors**, not tinted (dino structure). ChatGPT per the tool doctrine — the last empty sprite slot |
 | ~~`unit_rig.png`~~ | **DONE 2026-08-24 — the first ChatGPT sprite** (true top-down on the first try) | installed + verified in-game; the loaded-cage glow now draws OVER real art (drawRigGlow) |
 
 ## Existing art you can replace anytime (same filenames)

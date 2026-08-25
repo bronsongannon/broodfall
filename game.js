@@ -186,7 +186,7 @@ const BLD = {
   // den HUNTS — periodic raptor packs sent at the nearest structure of ANY
   // faction (dinos are weather, not a team). Act 2's proactive-dino lever;
   // no skirmish map places one yet, missions spawn them via bld triggers.
-  den:      { label: 'Raptor Den',   hp: 2200, w: 144, h: 144, supply: 0, sight: 240 },
+  den:      { label: 'Raptor Den',   hp: 2200, w: 115, h: 115, supply: 0, sight: 240 },   // 144 -> 115 (Bronson 2026-08-24: too big)
   roost:    { label: 'Screecher Roost', hp: 950, w: 84, h: 84, supply: 0, sight: 220 },
 };
 const DEPOT_HEAL_RADIUS = 240;   // the depot's repair field
@@ -1892,8 +1892,8 @@ const MISSIONS = [
     objectives: [
       { id: 'hold', text: 'Hold the valley until the flats go quiet', type: 'survive', secs: 1080 },
       { id: 'shield', text: 'Krauss\'s fort must not fall', type: 'flag' },
-      { id: 'denW', text: 'Optional: destroy the west den', type: 'groupDead', group: 'denW', hidden: true, mark: [1290, 1037] },
-      { id: 'denE', text: 'Optional: destroy the east den', type: 'groupDead', group: 'denE', hidden: true, mark: [3300, 900] },
+      { id: 'denW', text: 'Optional: destroy the west den', type: 'groupDead', group: 'denW', hidden: true, mark: [1390, 904] },
+      { id: 'denE', text: 'Optional: destroy the east den', type: 'groupDead', group: 'denE', hidden: true, mark: [3273, 864] },
     ],
     winWhen: ['hold'],
     triggers: [
@@ -1923,9 +1923,9 @@ const MISSIONS = [
           { unit: 'screecher', team: 3, n: 3, at: [2304, 400], to: [1382, 3246] },
         ] },
       // the west den: the valve opens
-      { when: { time: 420 }, focus: [1290, 1037, 3], objective: 'denW',
+      { when: { time: 420 }, focus: [1390, 904, 3], objective: 'denW',
         alarm: '⚠ The ground is opening on the west prong!',
-        spawn: { group: 'denW', bld: 'den', team: 3, at: [1290, 1037] },
+        spawn: { group: 'denW', bld: 'den', team: 3, at: [1390, 904] },
         say: [['sci', 'Den, west prong — and dens do not visit, Commander, they SETTLE. Kill it or its packs walk your fence line all day.']] },
       { when: { time: 560 },
         spawn: [
@@ -1934,9 +1934,9 @@ const MISSIONS = [
           { unit: 'screecher', team: 3, n: 4, at: [4520, 1300], to: [3594, 3041] },
         ] },
       // the east den: his problem — which makes it your problem
-      { when: { time: 650 }, focus: [3300, 900, 3], objective: 'denE',
+      { when: { time: 650 }, focus: [3273, 864, 3], objective: 'denE',
         alarm: '⚠ A second den — east prong!',
-        spawn: { group: 'denE', bld: 'den', team: 3, at: [3300, 900] },
+        spawn: { group: 'denE', bld: 'den', team: 3, at: [3273, 864] },
         say: [['red', 'One of those is digging in above MY fort. Expedition, I have no artillery left. I am asking. Officially. On the record I will later deny.']] },
       { when: { time: 760 },
         spawn: [

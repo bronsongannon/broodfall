@@ -2473,6 +2473,7 @@ function stampVision(x, y, r, fly) {
   }
 }
 let devReveal = false;   // dev mode: the whole map, no fog — for judging layouts
+let simSpeed = 1;        // dev fast-forward (\ cycles ×1/×4/×8, devMode only)
 let devMode = false;     // cheat mode: free tech + bottomless crystals (Space x5 over the ? chip)
 let dinoRage = 0;        // every murdered grazer makes the planet's dinos angrier (wider aggro, faster respawns)
 const dinoAggro = () => Math.min(dinoRage * 25, 150);
@@ -5093,6 +5094,13 @@ window.addEventListener('keydown', (e) => {
   if (e.code === 'KeyM') { muted = !muted; btnMute.textContent = muted ? '🔇' : '🔊'; if (muted) stopVoice(); return; }
   if (e.code === 'KeyP') { togglePause(); return; }
   if (e.code === 'KeyF') { toggleFogMemory(); return; }
+  if (e.code === 'Backslash' && devMode) {   // dev fast-forward: blitz the
+    // build-up, play the set-piece at full speed (Bronson 2026-08-24 —
+    // "load just the last bit": no save system, so speed is the rewind)
+    simSpeed = simSpeed === 1 ? 4 : simSpeed === 4 ? 8 : 1;
+    toast('⏩ Sim speed ×' + simSpeed + (simSpeed > 1 ? ' — \\ to cycle, back to ×1 before the fight' : ''));
+    return;
+  }
   if (e.code === 'Backquote') {   // dev mode: reveal the whole map
     devReveal = !devReveal;
     updateFog();
@@ -8561,7 +8569,9 @@ function frameBody(now) {
     if (!started || paused || userPaused) { /* menu, controls, or pause — world waits */ }
     else if (!gameOver) {
       const s0 = performance.now();
-      update();
+      // dev fast-forward: extra sim ticks per real step (devMode-gated at the
+      // keybind; simSpeed is always 1 in normal play)
+      for (let i = 0; i < simSpeed && !gameOver; i++) update();
       simMs += (performance.now() - s0 - simMs) * 0.06;   // rolling sim cost for the dev readout
     }
     else { tick++; updateFx(); updateCamera(); }   // aftermath keeps burning behind the overlay
@@ -9580,6 +9590,7 @@ document.getElementById('btn-deploy').addEventListener('click', () => {
 });
 // wipe the world so startGame can never stack two setups (also enables restarts)
 function resetWorld() {
+  simSpeed = 1;   // a leftover ×8 must never leak into the next game
   units = []; buildings = []; crystals = []; bullets = []; fxs = []; eggs = []; alerts = []; rocks = [];
   nukes = []; nukeTargeting = null;
   plotDeaths = {}; plotCaps = {}; vents = [];

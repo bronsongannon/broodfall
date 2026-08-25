@@ -1879,7 +1879,7 @@ const MISSIONS = [
     // truce line. Lose = EITHER HQ falls — you protect the man you spent
     // the whole war fighting.
     title: 'Strange Bedfellows', act: 'Act II — The Awakening',
-    map: 'forks', diff: 'normal', noWaves: true, allies: [[1, 2]],
+    map: 'forks', diff: 'normal', noWaves: true, allies: [[1, 2]], introduces: ['sensor'],
     mapOverride: {
       eHQ: [3594, 3041], eRax: [3318, 3196], eFac: [3917, 3110],
       eSup: [[3779, 3283], [4055, 2880]], eTur: [[3041, 2861], [3502, 2673]],
@@ -1940,7 +1940,7 @@ const MISSIONS = [
       { when: { time: 560 },
         spawn: [
           { unit: 'raptor', team: 3, n: 6, at: [1300, 700], order: 'attackhq' },
-          { unit: 'ironback', team: 3, n: 1, at: [2304, 400], to: [3594, 3041] },
+          { unit: 'ironback', team: 3, n: 1, at: [2304, 400], order: 'attackhq' },
           { unit: 'screecher', team: 3, n: 4, at: [4520, 1300], to: [3594, 3041] },
         ] },
       // the east den: his problem — which makes it your problem
@@ -1957,9 +1957,12 @@ const MISSIONS = [
       { when: { time: 730 },
         say: [['sci', 'Field note, off the record: forty-one corpses catalogued and every one died FACING the guns. Nothing this planet sends is afraid of us. It simply has not finished arriving.'],
               ['red', 'Your scientist has a gift for morale, expedition.']] },
+      // armor splits: the player SEES ironbacks now (round 3 — all five were
+      // aimed at Krauss's wall and Bronson never met one)
       { when: { time: 780 }, alarm: '⚠ Armored contacts — both prongs at once!',
         spawn: [
-          { unit: 'ironback', team: 3, n: 2, at: [3300, 700], to: [3594, 3041] },
+          { unit: 'ironback', team: 3, n: 1, at: [3300, 700], to: [3594, 3041] },
+          { unit: 'ironback', team: 3, n: 1, at: [1300, 700], order: 'attackhq' },
           { unit: 'raptor', team: 3, n: 5, at: [1300, 700], order: 'attackhq' },
         ] },
       // THE LAST MINUTE (round 2, Bronson: "triple it. the last minute should
@@ -1975,7 +1978,8 @@ const MISSIONS = [
       { when: { time: 850 },
         spawn: [
           { unit: 'raptor', team: 3, n: 8, at: [1300, 700], order: 'attackhq' },
-          { unit: 'ironback', team: 3, n: 2, at: [3300, 700], to: [3594, 3041] },
+          { unit: 'ironback', team: 3, n: 2, at: [1300, 700], order: 'attackhq' },
+          { unit: 'ironback', team: 3, n: 1, at: [3300, 700], to: [3594, 3041] },
           { unit: 'screecher', team: 3, n: 6, at: [4520, 1300], to: [3594, 3041] },
         ] },
       { when: { time: 870 },
@@ -1989,6 +1993,17 @@ const MISSIONS = [
         alarm: '🔓 New construction: Overwatch Array',
         say: [['sci', 'The waves STOPPED — and that is exactly my point, Commander: they stop, they come, and we never know which. Fifteen minutes of corpses taught me their rhythm. Give me a tower on the junction overlook — sensors, power, and altitude — and I will tell you when the next horde is coming before it knows itself.'],
               ['ops', 'You heard her. Build the array, Commander — 800 crystals buys us eyes. The overlook is marked.']] },
+      // ...and the planet proves her point: the moment she asks for the
+      // tower, TWO dens erupt in the flats and hunt everything standing
+      // (round 3, Bronson: "when the array comes up, have 2 more raptor
+      // nests pop up and attack everything")
+      { when: { done: ['hold'] }, delay: 8, focus: [900, 1950, 3],
+        alarm: '⚠ The ground is opening — TWO new dens!',
+        spawn: [
+          { bld: 'den', team: 3, at: [900, 1950] },
+          { bld: 'den', team: 3, at: [3720, 1950] },
+        ],
+        say: [['sci', 'Seismic — TWO eruptions, both flats, right now. THAT, Commander. That is why I need the tower. Build it while I still have a valley to point it at.']] },
       // stragglers harass the construction — the quiet is never quite quiet
       { when: { done: ['hold'], notDone: ['array'] }, delay: 40, repeat: true, every: 55,
         spawn: { unit: 'raptor', team: 3, n: 3, at: [1300, 700], to: [1935, 2281] } },
@@ -2050,10 +2065,15 @@ const missionAllows = (kind, type) => {
 const BUILD_MENU = [['turret', 'T'], ['barracks', 'B'], ['factory', 'V'], ['supply', 'C'], ['power', 'O'], ['hydro', 'J'], ['refinery', 'G'], ['airpad', 'X'], ['flak', 'Y'], ['silo', 'N'], ['sensor', '']];
 // grantOnly buildings unlock the moment a mission trigger grants them (their
 // intro), and stay unlocked FOREVER once M11 is beaten — later missions and
-// skirmish included. Everything else always passes.
-const grantActive = (type) => !BLD[type].grantOnly
-  || !!(mission && ms && ms.grants && ms.grants.includes(type))
-  || campaignDone() >= 11;
+// skirmish included. EXCEPT inside a mission that `introduces` the building:
+// there the reveal always waits for the grant trigger, even on replays
+// (round 3, Bronson: the array showed from t=0 on his second run).
+const grantActive = (type) => {
+  if (!BLD[type].grantOnly) return true;
+  const granted = !!(ms && ms.grants && ms.grants.includes(type));
+  if (mission && mission.introduces && mission.introduces.includes(type)) return granted;
+  return granted || campaignDone() >= 11;
+};
 // tech tree checks (see BLD req fields)
 function hasTech(team, type) {
   if (devMode && team === 1) return true;   // dev mode: the whole tree, no prerequisites

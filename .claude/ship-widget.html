@@ -1,4 +1,4 @@
-<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Checklist for finishing the Broodfall campaign ahead of the Steam Next Fest demo, a log of shipped fixes, and a lettered button per task that starts a working session on it.</h2>
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Broodfall build checklist: campaign progress toward the Steam Next Fest demo, with a button per task to start working on it.</h2>
 
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:0 0 1.5rem">
   <div style="background:var(--surface-1);border-radius:var(--radius);padding:1rem">
@@ -15,172 +15,72 @@
   </div>
 </div>
 
-<p style="font-size:13px;color:var(--text-secondary);margin:0 0 1rem"><b>The August submission date is dead (Aug 11).</b> Build the game first, tackle the store after — the paid tier IS Acts 2–3, so releasing before the campaign is finished would sell content that doesn't exist yet. Act 1 free is the demo on both storefronts; $14.99 unlocks the rest. Wishlists are earned before launch, which makes the Next Fest demo the date that matters. Tick boxes as you finish; click a letter chip to start working on that task with me right here.</p>
-
-<div style="background:var(--surface-2);border:0.5px solid var(--border);border-radius:12px;padding:1rem 1.25rem;margin:0 0 1rem">
-  <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
-    <i class="ti ti-brand-apple" style="font-size:20px" aria-hidden="true"></i>
-    <p style="font-weight:500;font-size:15px;margin:0">Apple submission track</p>
-    <span style="margin-left:auto;background:var(--surface-1);color:var(--text-secondary);font-size:12px;padding:3px 10px;border-radius:var(--radius)">unscheduled — after the campaign</span>
-  </div>
-  <p style="font-size:13px;color:var(--text-secondary);margin:0 0 10px">Correct order when the time comes, no dates until the game is done. The store submission is a rehearsal of the pipeline, not a launch.</p>
-  <div id="track-apple"></div>
-</div>
+<p style="font-size:13px;color:var(--text-secondary);margin:0 0 1rem">Build the game first, store after (Aug 11). Act 1 free = the demo; $14.99 unlocks Acts 2–3. Click a chip to start that task.</p>
 
 <div style="background:var(--surface-2);border:0.5px solid var(--border);border-radius:12px;padding:1rem 1.25rem;margin:0 0 1rem">
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
     <i class="ti ti-device-gamepad-2" style="font-size:20px" aria-hidden="true"></i>
-    <p style="font-weight:500;font-size:15px;margin:0">Game build roadmap</p>
+    <p style="font-weight:500;font-size:15px;margin:0">Now — playtests and next builds</p>
     <span style="margin-left:auto;background:var(--bg-accent);color:var(--text-accent);font-size:12px;padding:3px 10px;border-radius:var(--radius)">the priority</span>
   </div>
-  <div id="track-game"></div>
+  <div id="track-now"></div>
 </div>
 
 <div style="background:var(--surface-2);border:0.5px solid var(--border);border-radius:12px;padding:1rem 1.25rem;margin:0 0 1rem">
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-    <i class="ti ti-palette" style="font-size:20px" aria-hidden="true"></i>
-    <p style="font-weight:500;font-size:15px;margin:0">Art and audio</p>
+    <i class="ti ti-brand-apple" style="font-size:20px" aria-hidden="true"></i>
+    <p style="font-weight:500;font-size:15px;margin:0">Parked — store track + one-shot batches</p>
+    <span style="margin-left:auto;background:var(--surface-1);color:var(--text-secondary);font-size:12px;padding:3px 10px;border-radius:var(--radius)">after the campaign</span>
   </div>
-  <p style="font-size:13px;color:var(--text-secondary);margin:0 0 10px">Death frames: infantry + dinos only — vehicles keep the fireball, aircraft skip. Standing rule: every future dino sheet includes IDLE + DEATH from day one.</p>
-  <div id="track-art"></div>
-</div>
-
-<div style="background:var(--surface-2);border:0.5px solid var(--border);border-radius:12px;padding:1rem 1.25rem;margin:0 0 1.5rem">
-  <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
-    <i class="ti ti-checklist" style="font-size:20px" aria-hidden="true"></i>
-    <p style="font-weight:500;font-size:15px;margin:0">Shipped</p>
-    <span style="margin-left:auto;background:var(--bg-success);color:var(--text-success);font-size:12px;padding:3px 10px;border-radius:var(--radius)">Jul 11 – Aug 13</span>
-  </div>
-  <p style="font-size:13px;color:var(--text-secondary);margin:0 0 10px">Everything below is built, verified, and pushed.</p>
-  <div id="shipped"></div>
+  <div id="track-parked"></div>
 </div>
 
 <div style="background:var(--surface-2);border:0.5px solid var(--border);border-radius:12px;padding:1rem 1.25rem;margin:0 0 1.5rem">
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
     <i class="ti ti-map-2" style="font-size:20px" aria-hidden="true"></i>
-    <p style="font-weight:500;font-size:15px;margin:0">Campaign arc — all three acts</p>
-    <span style="margin-left:auto;background:var(--bg-warning);color:var(--text-warning);font-size:12px;padding:3px 10px;border-radius:var(--radius)">11 of 20 — past halfway</span>
+    <p style="font-weight:500;font-size:15px;margin:0">Campaign arc</p>
+    <span style="margin-left:auto;background:var(--bg-warning);color:var(--text-warning);font-size:12px;padding:3px 10px;border-radius:var(--radius)">11 of 20</span>
   </div>
-  <p style="font-size:13px;color:var(--text-secondary);margin:0 0 10px">Full mission-by-mission design in CAMPAIGN.md. Act 1 is the free demo on both storefronts; $14.99 unlocks Acts 2–3 and every map, with all 20 complete at launch. Click a mission chip to start building it. The allied AI faction is BUILT (M11) — M18's joint assault inherits it. Remaining engine prerequisites: corrupted spawner buildings (M14), den-seeding timer (M15), Broodmother combat build (M20).</p>
-  <p style="font-size:13px;font-weight:500;margin:6px 0 2px">Act 1 — The Crystal War (ships in v1)</p>
+  <p style="font-size:13px;color:var(--text-secondary);margin:0 0 10px">Design in CAMPAIGN.md. Allied AI built (M11) — M18 inherits it. Remaining engine: corrupted spawners (M14), den-seeding (M15), combat Broodmother (M20). Maps left: Evac Coast, The Crater.</p>
+  <p style="font-size:13px;font-weight:500;margin:6px 0 2px">Act 1 — complete (the free demo)</p>
   <div id="act1"></div>
-  <p style="font-size:13px;font-weight:500;margin:12px 0 2px">Act 2 — The Awakening (red falls to the planet)</p>
+  <p style="font-size:13px;font-weight:500;margin:12px 0 2px">Act 2 — The Awakening</p>
   <div id="act2"></div>
-  <p style="font-size:13px;font-weight:500;margin:12px 0 2px">Act 3 — Broodfall (take it back)</p>
+  <p style="font-size:13px;font-weight:500;margin:12px 0 2px">Act 3 — Broodfall</p>
   <div id="act3"></div>
 </div>
 
 <div style="display:flex;gap:8px;flex-wrap:wrap">
   <button onclick="sendPrompt('Let\'s build Broodfall mission 12 Exodus — the civilian convoy escort on the Exodus Road map, which is already built.')">Build M12 Exodus ↗</button>
-  <button onclick="sendPrompt('Let\'s build the next map from the Broodfall roster — Evac Coast (M13: coastline LZ, water on one full edge).')">Evac Coast map ↗</button>
   <button onclick="sendPrompt('What should I work on next from the Broodfall ship checklist?')">What's next? ↗</button>
 </div>
 
 <script>
 const TRACKS = {
-  apple: [
-    ['ap1','Developer Program membership — covered by your existing account','done',
-      'My Apple Developer membership already exists. What exactly do I do in App Store Connect to add Broodfall as a second app — app record, bundle ID, and anything that could trip me up?'],
-    ['ap2','Create the Broodfall app record in App Store Connect — and the IAP itself: non-consumable com.bronsongannon.broodfall.full at $14.99 (REVISED Jul 28 — sale $9.99 on a 45-day cadence; the shipped gate expects that exact product id)','',
-      'Walk me through creating the Broodfall app record in App Store Connect: reserving the "Broodfall" name, bundle ID com.bronsongannon.broodfall (must match the Xcode project), category Games > Strategy, age rating for a cartoon RTS, the free-with-IAP setup — and creating the IAP product itself: non-consumable, product id com.bronsongannon.broodfall.full, at the REVISED $14.99 base price from the 2026-07-28 business model (StoreBridge.swift ships expecting exactly that product id; price tier is set in App Store Connect, not code). Also flag the open decision: the revised free tier is all of Act 1 + 4 skirmish maps, but game.js still gates at FREE_MISSIONS 3 and basin-only — should the constants move now or at Steam launch?'],
-    ['ap9','IAP gate DONE — BFStore entitlement layer + StoreBridge.swift (StoreKit 2), missions 4+ and 3 maps gated, restore UI, dev cheats dead in release builds; test-purchase via mac/Products.storekit in the Run scheme','done',
-      'The IAP gate is built and verified (BFStore in game.js + mac/Broodfall/StoreBridge.swift). Walk me through the one live check left: Run in Xcode with the Products.storekit test config, buy and restore in the app, then how review\'s sandbox purchase will differ once the real IAP exists in App Store Connect.'],
-    ['ap3','Mac wrapper DONE — sandboxed WKWebView shell, game verified inside (mac/)','done',
-      'The Mac wrapper is built and verified (mac/README.md). Walk me through what\'s left before archiving: app icon asset catalog, bundle ID match with App Store Connect, and the Distribution signing switch.'],
-    ['ap4','App icon DONE — archive-ready, from the game\'s crystal sprite (mac/icon/)','done',
-      'The app icon is live (mac/icon/). I want to try the upgraded concept — walk me through generating the crystal + raptor eye-shine icon with the Gemini prompt in mac/icon/README.md and dropping it in as the new master.'],
-    ['ap5','Store listing: screenshots DONE (assets/store/screenshots/) — description, subtitle, keywords left. TWO RULES: performance copy says \"smooth, adaptive, tuned for battery play\" — never promise a number; and NO competitor trademarks anywhere in listing or keywords (no StarCraft, Brood War, Command & Conquer, Blizzard — Apple 2.3.7 rejects for it, and \"brood war\" is a registered Blizzard mark)','',
-      'Draft the full App Store listing for Broodfall: description, subtitle, keywords, promo text, and a shot list for the required Mac screenshots. Two hard rules: (1) performance copy is adaptive wording only — plugged is 60fps but battery is ~25fps by macOS policy, so never promise a number; (2) zero competitor trademarks in any metadata — no StarCraft, Brood War, Command & Conquer, or Blizzard in the description, subtitle, keywords, or promo text (Apple guideline 2.3.7 + the standing brood-war trademark rule). Describe the genre in our own words: classic-style real-time strategy.'],
-    ['ap6','Privacy policy DONE — bronsongannon.github.io/broodfall/privacy.html','done',
-      'Write the privacy policy page for Broodfall (it collects no data) and set it up on GitHub Pages so I have the URL App Store Connect asks for.'],
-    ['ap7','Sandbox entitlements, code signing, notarize, test on a clean Mac','',
-      'Guide me through sandbox entitlements, code signing, and notarization for the Broodfall Mac app, plus how to test the built .app cleanly and dodge the guideline 4.2 thin-wrapper flag.'],
-    ['ap8','Archive, upload, submit for review. FIRST: flip DEV_PRERELEASE to false in game.js (dev tools must not ship)','',
-      'Time to submit Broodfall: FIRST flip DEV_PRERELEASE to false in game.js (it keeps dev tools alive in local wrapper builds — shipping it true is a paywall bypass), then walk me through archiving in Xcode, uploading to App Store Connect, filling out the review form, and submitting.'],
+  now: [
+    ['g14','Playtest M9 with the dawn horde (22 wings at dawn-60, then the recall)','',
+      'I replayed M9 with the dawn horde. Here is my verdict on the night, the horde, and the recall beat — help me tune: horde size (22), timing (dawn-60s), lane cadences.'],
+    ['g13','Playtest M11 Strange Bedfellows — allied AI debut. Does defending Krauss pull you east? 20-25 min?','',
+      'I playtested M11. Watch-list: runtime vs 20-25, turtling vs reinforcing his fort, den value, truce feel. Knobs: wave sizes/cadences, den timing, fort strength, hold length (1080s).'],
+    ['g12','M10 verdict landed: "really challenged," 34 min. Round 5 only if you want it trimmed toward 20-25','',
+      'Trim M10 from 34 min toward 20-25 without losing the challenge. Levers: battery count (6), garrison, repair crews (3), sortie cadences, red trickle.'],
+    ['g15','Build M12 Exodus — map ready, convoy tech ready, pure mission authoring','',
+      'Let\'s build Broodfall M12 Exodus: escort Krauss\'s civilian convoy down Exodus Road past Ironback roadblocks. Pull the design from CAMPAIGN.md and start.'],
+    ['g16','Build Evac Coast map (M13) — coastline LZ, water on one full edge','',
+      'Let\'s build the Evac Coast map from the roster: coastline LZ for M13, water along one full edge, rivers machinery.'],
   ],
-  game: [
-    ['g1','Mission framework + Mission 1 "Landfall" (briefings, objectives, capture op)','',
-      'Show me how to author a new Broodfall mission with the MISSIONS framework — walk through the spec format so we can bang out missions fast.'],
-    ['g2','Tech tree, power grid, depot repair field, factory/airpad repair bays','',
-      'Recap the tech tree and power grid knobs in Broodfall and where to tune them if playtests say the brownout or repair costs feel off.'],
-    ['g9','Landfall pacing round 3 DONE — the colony reprisal (every nest empties onto your base when you take the specimen)','',
-      'Recap exactly what the Landfall colony reprisal does and which knobs tune it — wave size, the 20s warning window, the re-rally cadence — in case my playtest says it is too hard or too soft.'],
-    ['g3','Playtest Landfall again — does the colony reprisal land it at 15 min, and does it read as a reaction to the capture?','',
-      'I\'m replaying Mission 1 Landfall after the colony reprisal landed (every nest empties onto the base when you deliver the specimen). Give me a short list of what to watch for — total runtime, whether the 20s warning is enough time to reinforce, whether the wave feels like a reaction or just a wave, and whether the fight resolves too fast — so my feedback is useful.'],
-    ['g4','Team color pass — wild dino bone/moss, red identity touches','',
-      'Let\'s do the Broodfall team color pass from CAMPAIGN.md: bone/moss wild dinos, red team identity touches, and colorblind-safe brightness separation.'],
-    ['g5','Raptor + Raptor Den — the Act 1 finale swarm tease','',
-      'Let\'s build the Raptor and Raptor Den for Broodfall: fast melee pack hunter (short-range fake melee) and a den that sends periodic hunting packs.'],
-    ['g6','Missions 2–3: harvester convoy escort, first nest crack','',
-      'Let\'s design and build Broodfall missions 2 and 3: the harvester convoy escort and the first nest crack, using the existing mission framework.'],
-    ['g10','Performance SETTLED (Jul 30): plugged = 60fps full sharpness; battery = sharp stable ~25fps (macOS paces web content on battery — platform, not us). BAT profile + CAP↑ grace path verified live','',
-      'Recap the final performance posture and the graceful-degradation stack (BAT profile, CAP-up conviction, two-speed recovery) and what each dev-readout marker means, so I can spot a real regression from a platform throttle at a glance.'],
-    ['g7','Pacing pass toward 20–30 minute matches','',
-      'Let\'s start the Broodfall pacing pass toward 20-30 minute matches: what levers exist (HP, patch sizes, wave cadence, map size) and a tuning plan.'],
-    ['g8','Map roster: 15 maps / 20 missions locked (CAMPAIGN.md) — 13 built; 2 to go: Evac Coast, The Crater','',
-      'Let\'s build the next map from the Broodfall 15-map roster in CAMPAIGN.md — Evac Coast (M13: coastline LZ with water on one full edge, the Act 2 finale\'s last stand).'],
-    ['g12','Playtest M10 round 4 DONE — your verdict: "that was better, first time i was really challenged. 34 min." The fortress no longer sallies; harriers fly sorties. Round 5 only if you want the 34 trimmed toward 20-25','',
-      'M10 came in at 34 minutes and genuinely challenging after round 3 (no assault waves, authored sorties) and the harrier sortie loop. If we want to trim toward the 20-25 mandate, the levers are: battery count (6), garrison sizes, repair crew count (3), sortie cadences, and red economy trickle. Suggest a surgical trim that keeps the challenge but shaves 5-10 minutes.'],
-    ['g13','Playtest M11 Strange Bedfellows — the allied AI debut. Watch: does defending Krauss\'s fort actually pull your army east, and does build-up + the 18-minute hold land in 20-25?','',
-      'I\'m playtesting M11 Strange Bedfellows (allied AI debut). Watch-list me: total runtime vs the 20-25 mandate, whether the east-side waves force me to actually reinforce Krauss\'s fort or whether turtling at home wins, whether the two dens read as worthwhile optional kills, whether shared vision and the truce fence feel natural, and whether the bicker dialogue lands. Knobs: wave sizes/cadences, den timing, ally fort strength, hold length (1080s).'],
-    ['g14','Playtest M9 with the dawn horde — 22 wings in the last minute, then the recall empties the sky','',
-      'I\'m replaying M9 Roost after the last-minute horde landed (22 screechers + raptors at dawn minus 60 seconds, then the recall empties the sky mid-attack). Tell me: did the night finally feel dangerous end to end, did the horde arrive as a climax or a wipe, and does the recall beat land. Knobs: horde size (22), timing (dawn-60s), lane cadences (45/35/30).'],
-  ],
-  art: [
-    ['a1','Source the 14 sound-effect slots (Kenney / Freesound CC0)','',
-      'Help me fill Broodfall\'s 14 sound-effect slots: point me at exact Kenney/CC0 packs and files for each slot in assets/sfx/README.md.'],
-    ['a2','THE SPRITE WANTED LIST IS EMPTY (Aug 24): unit_rig + dino_roost both landed as ChatGPT sprites, bld_power was already covered. Every registered art slot in the game now has real art — future rows only appear when design creates new things (M14 corrupted buildings, Act 3 dinos, store key art)','',
-      'Recap the art pipeline state: which slots have art, what the tool doctrine routes where, and what future content (M14 corrupted spawners, Act 3 dinos, the app icon upgrade, store key art) will reopen the art queue.'],
-    ['a3','Dino art hunt — itch.io CC0 packs first, AI-generate if nothing fits','',
-      'Let\'s hunt for CC0 top-down dinosaur sprites for Broodfall (spitter, nest, future raptor) — search itch.io and OpenGameArt, and fall back to generation prompts.'],
-    ['a4','Standing sniper art (only the prone pose exists today)','',
-      'Help me create the standing sniper sprite for Broodfall to pair with the existing prone hunker art — generation prompt and drop-in steps.'],
-    ['a5','Turret gun red (30-second Gemini recolor)','',
-      'I dropped the red turret gun recolor in Source 2 — process it into turret_gun_red.png and verify it composites on red turret bases in-game.'],
-    ['a6','Rocket trooper death sheet — red recolor of the existing sheet','',
-      'I dropped the red recolor of the rocket trooper spritesheet in Source 2 — slice its death frames into unit_rocket_death1..4_red.png and verify red rocket troopers fall.'],
-    ['a7','Spitter death sheet (wild colorway, IDLE + DEATH only)','',
-      'I dropped the wild spitter IDLE+DEATH sheet in Source 2 — slice the death frames into unit_spitter_death slots and verify dinos leave carcasses. Acts 2-3 will show this constantly.'],
-    ['a8','Infantry death sheets: marine, sniper, medic, engineer (teal + red recolors)','',
-      'I dropped infantry death sheets in Source 2 (marine/sniper/medic/engineer, teal plus red recolors) — slice and install all of them, then show me a battle with bodies.'],
-    ['a9','Cast portraits: Vega, Lin, Krauss — DaVinci film-still set, live in the PiP','',
-      'The three cast portraits are live (assets/portraits/). Review them in-game across missions 1-3 dialogue and tell me if any need a regenerate before the set is locked.'],
-    ['a10','Voice: ON HOLD until the campaign is done (your call, Aug 13 — one batch at the end, no more incremental updates). Then: regenerate voice-script.tsv, cut everything in one pass. Voices locked so far: Vega = Cassidy, Krauss = Rob; Lin revoice + Boone\'s pick happen then too. Rewording a line orphans its clip, so late script changes stay cheap until the batch','',
-      'The campaign is done — time for the one-shot voice batch. Regenerate assets/voice/voice-script.tsv fresh (every mission, final wording), then plan the full recording pass: Vega\'s complete set for Cassidy, Krauss\'s complete set for Rob, pick Lin\'s new voice and Boone\'s voice from the briefs in PORTRAITS.md, and walk me through cutting and dropping each speaker\'s batch in TSV row order.'],
-    ['a11','Walk cycles COMPLETE: all 13 walkers animated (DaVinci videos + derived colorways)','',
-      'All walk cycles are live. Playtest a big mixed battle and tell me if any unit\'s gait cadence or frame count feels off — WALK_STRIDE_PX is the knob.'],
+  parked: [
+    ['p1','Apple track: wrapper, IAP gate, icon, privacy, screenshots all DONE. Left: app record + listing copy + notarize + submit. FIRST: flip DEV_PRERELEASE false','',
+      'Resume the Mac App Store track for Broodfall: create the app record + IAP (com.bronsongannon.broodfall.full, $14.99), finish listing copy (no competitor trademarks, no fps numbers), notarize, submit. First flip DEV_PRERELEASE to false in game.js.'],
+    ['p2','Voice: ON HOLD until campaign done (Aug 13) — one batch at the end. Vega=Cassidy, Krauss=Rob locked; Lin revoice + Boone pick then','',
+      'The campaign is done — run the one-shot voice batch: regenerate voice-script.tsv with final wording, cut every speaker in one pass, pick Lin\'s and Boone\'s voices (briefs in PORTRAITS.md).'],
+    ['p3','Art: sprite wanted list EMPTY (Aug 24). Tool doctrine in ART-WANTED.md — ChatGPT: portraits + statics; DaVinci: video + documentary; Gemini: recolors. Queue reopens with M14 spawners / Act 3 dinos / store key art','',
+      'Recap the art tool doctrine and what future content reopens the art queue.'],
+    ['p4','Free-tier constants: paper says all Act 1 + 4 maps; game.js still FREE_MISSIONS 3 / basin-only. Decide at store time','',
+      'Decide the free-tier gate: move FREE_MISSIONS and FREE_MAPS to match the revised model (all Act 1 + 4 skirmish maps) now or at Steam launch?'],
   ],
 };
-const SHIPPED = [
-  'M11 "STRANGE BEDFELLOWS" BUILT — AND THE ALLIED AI WITH IT (Aug 13): the biggest Act 2 engine item is in. A mission can now declare teams allied, and the whole engine honors it through one predicate: nobody auto-targets an ally, nobody retaliates against one, right-clicking his units walks instead of attacks, splash spares him, his eyes are your eyes on the fog, and your engineers can mend his wall. The mission: Krauss\'s thirty survivors hold a ruined fort in Twin Forks\' east pocket, you hold the west, and an 18-minute night of escalating waves — spitters, raptors, screechers, ironbacks, and two dens that erupt mid-hold as optional kills that quiet the pressure — breaks against both walls. His half is his: the truce line refuses your buildings. Lose if EITHER headquarters falls. Shipped with two more generic levers: missions can relocate bases on shared maps, and fence ground from construction. Krauss and Vega bicker the whole way; the outro opens the road to M12 — four hundred civilians, two valleys east, and the road just went dark',
-  'M9\'S NIGHT ENDS WITH THE FLOCK (Aug 13, your replay verdict "too easy"): sixty seconds before dawn the whole flock rises at once — 22 screechers from every launch point plus raptors on the ground, dead roosts included — and then the dawn recall empties a sky with the horde still wheeling in it. Verified: 39 wings aloft at the 700-second mark, zero at dawn, win — and a full-clear early dawn never sees the horde at all',
-  'HARRIERS BOMB BUILDINGS NOW (Aug 12, from the M10 round-4 run — "first time i was really challenged," 34 min): the question "why cant harriers drop bombs on buildings" turned out to be two bugs. Right-click strikes had been silently dead since Aug 1 — the no-attack guard for unarmed units checked a property that never gets copied onto the actual harrier, so every manual attack order was ignored. And the auto-targeting only ever looked at units, so an attack-moved harrier would circle a fortress of gun batteries without dropping a thing. Fixed, plus a real feature on top: attack-move is now the sortie order — the jet strikes units first, then structures, and keeps flying home to rearm and returning to its patrol point on its own until you call it off. Right-click stays a single surgical run. Red\'s harriers get the same treatment, so keep building flak',
-  'M10 ROUND 3 (Aug 12, "swarmed with twice the amount of units I have"): the fortress stopped sallying — the standard hard-AI assault waves are off, his army stays home and defends, and the early game is authored gate sorties instead (probe raiders, one announced tank, a counterattack once the batteries fall). The opening is buildable again; the city itself got harder',
-  'M10 "BROODFALL" BUILT (Aug 11) — the title drop, and the campaign\'s halfway mark. Nine missions of war end as a footnote: you siege Krauss\'s walled city down the kill lanes, and the moment his fortress HQ staggers below half health the planet calls it — the kill objective is CANCELLED on the HUD (new engine machinery: an objective can be withdrawn mid-mission, struck through, settled), the red AI stands down, and an unkillable swarm with the first IRONBACKS eats the city in two real-time minutes while Krauss\'s voice cracks on open comms. The win flips to "evacuate 8 units through the eastern pass" — any 8, mixed types, another new engine piece. The swarm is leashed to the fortress by a repeating re-rally so the terror stays theater — except THREE: twenty seconds into the collapse a breakaway pack takes your scent and chases the column all the way across the map, re-aimed at the nearest unit every 20 seconds. Round 2 hardened the city into a two-phase siege (six batteries, inner ring, doubled garrison, repair crews living on the wall); round 4 verdict: really challenged, 34 minutes. Shipped with Krauss\'s Bastion (13 of 15 maps)',
-  'M9 REBORN AS THE ROOST (Aug 5): the switchback mountain died to one sentence — "i hate this mission. its terrible" — and the lesson is now doctrine: fantasy first, geometry second. A corridor maze is fiddly micro no matter how well it is sealed. The new shape is his pick: land IN FORCE at dusk below dead K-7, build a listening post (the flak requirement forces the factory tech walk), then hold a 12-minute night against screecher waves off three roost-nests — kill a roost and its wave lane goes silent, the optional objective as valve. Sorties recover three flight recorders, each a story beat, the last one K-7\'s final minute: a ROAR that calls the flock off mid-kill — which is exactly how the mission ends at dawn. Boone: "Not beaten. Called."',
-  'THE MOUNTAIN PAID FOR THREE ENGINE LESSONS (Aug 5): the scrapped 8-switchback climb left permanent engine wins — map decor jitter is now deterministic (Math.random was rerolling the walls every game, opening and closing 200px corridors per run), lane-width pathability math is written down (rock inflation + corner-cut rules mean r24 walls at 144px pitch), and missions gained terrain overlays with a clear list that prunes map furniture out of their lanes. The debug kit that cracked it — flood-fill from the LZ + ASCII grid dumps — beat five straight rounds of geometry guessing',
-  'EXODUS ROAD OPENS THE CORRIDOR ERA (Aug 4): 12th roster map (M12\'s home) — a Z-shaped night-swamp causeway walled by water and ridge bluffs, with fire vents as the first soft wall: passable burning ground that flyers ignore. Ridges now paint as continuous mesa walls instead of little disks, and corridor maps get an enforcement test — a corner-to-corner raider whose trail must ride both elbows. Near-touching wall endpoints always leak; overlap them',
-  'THE WORLD GROWS HALF AGAIN (Aug 4): 144x108 tiles — almost exactly classic 128x128 RTS scale, serving the 20-30 minute match goal. Every absolute mission coordinate migrated x1.5 by scripted regex (~203 groups), gameplay radii deliberately untouched, and the whole campaign re-verified the same night: 11/11 map crossings, every mission chain, zero errors',
-  'MSGT. BOONE, CALLSIGN LIGHTHOUSE (Aug 4): fourth cast member and hero commando — mission-granted, leads both commando missions (M5 and M9), dies and the mission fails. The character rule: he barely speaks — one flat calm sentence, only when it matters. Portrait, sprite, walk cycle, and death sequence all landed; ElevenLabs voice pick still open',
-  'PLAYTEST WEEK (Aug 1): support units ignore attack commands — engineers no longer charge the firing line on A-move (a token 2-damage melee poke had slipped them past every unarmed guard); M5 relaxed to its shipping difficulty (16 troops, softer cadences) after 22 proved too hard and 11 was a speedrun; objectives with kill counts show live progress and their beacons track survivors instead of pulsing over the first kill\'s rubble; and won-is-won — once the outro plays, no defeat path can fire (a straggler gunned down mid-victory-speech was failing the mission)',
-  'PERFORMANCE SETTLED (Jul 31): big battles hold about 30-39fps in the Mac app and — more to the point — they stop getting worse as the fight grows. Before this, the frame rate fell exactly when the action peaked. Two real causes, found after three wrong ones. The app was running JavaScript with no JIT, because the Hardened Runtime entitlement was never asked for; that alone made the simulation ten times more expensive than the identical code in Chrome. And the effects system allocated a brand-new array sixty times a second plus two objects per spark, producing garbage collected between frames where no timer could see it. Result: 2.4x the units at a higher frame rate. What remains is frame pacing inside WebKit, which is where the Chromium wrapper already planned for Steam gets to prove itself',
-  'THE FPS SAGA, CLOSED (Jul 30): the mystery 25fps was three stacked causes — a frame-gate bug eating every other vsync frame (fixed), a governor limit-cycle causing the flicker (fixed), and the real wall: macOS paces WKWebView and Safari at ~22-26Hz on battery, dynamically, and nothing App-Store-safe pierces it. Shipped instead: battery detection in the wrapper (PowerBridge), a BAT power profile, futile-cut + floor-starve conviction that restores full sharpness when quality cuts cannot help (CAP↑), two-speed recovery, and an sfx rate limiter. Final posture: 60fps plugged, sharp stable full-effects ~25fps unplugged',
-  'VEGA SPEAKS (Jul 30): Cassidy locked as her voice — M1\'s twelve original lines cut, hash-matched and installed. The Broodmother is COMPLETE (Jul 28 night): approved tyrannosaur static, walk cycle, death sequence, boss-scale draw box, pulsing spine glow, brood-laying, and invuln support for her M13 scripted walk',
-  'PLAYTEST FIXES (Jul 29): objectives with a count show live progress (3/4) in the HUD; any harvester counts toward a delivery; arrival latches per hauler; medics hold behind the firing line instead of dying 100px ahead of it; WASD camera is a start-menu toggle',
-  'BUSINESS MODEL REVISED (Jul 28): free tier widens to ALL of Act 1 + 4 skirmish maps, base price $14.99, sale $9.99 on a ~45-day cadence. DLC ladder: dino faction flagship, commando + light-vehicles pack, endless horde-survival, Rubicon mini-campaign banked. Steam launch Feb 10 2027; Next Fest demo Oct 2026. NOTE: the in-game gate still reads FREE_MISSIONS 3 / basin-only — an open decision, not an oversight',
-  'ACT 2 HAS OPENED (Jul 28): mission 8 "Strip Mine" — the first mission you can lose without losing a fight. Krauss\'s haul counter is the enemy, his forward refinery is the valve, and mid-mission he nukes the pit colonies as "overburden removal." Something answers',
-  'TWO NEW DINOS LIVE (Jul 28): the Screecher (flying harasser) and the Ironback (armored siege bruiser), full art. RAPTOR IS SCARY NOW: 34px to 46px, melee reach grew with the body',
-  'LANDFALL HAS AN ENDING (Jul 28): taking the specimen empties EVERY nest on the map onto your base — warning, then charge. At the tutorial minimum a passive player loses 5 in 6; three marines queued during the warning holds every time',
-  'ACT 1 IS COMPLETE (Jul 27): missions 4-6 built — Dig In, Ghost Survey, Countdown. Survive and deadline objectives, commando missions with no HQ, scripted enemy nukes, waves that hunt a building type',
-  'MISSION 7 "High Water Mark" BUILT (Jul 26) — the Act 1 finale against a live red base: dam, river forts, HQ — then a den erupts under the ruins mid-victory-speech',
-  'Dams are built by hand; dam crossings are single file and stepping off drowns you (Jul 27)',
-  'Rivers, Hydro Dam and building sell (Jul 25-26); three roster maps (Jul 26): High Water Mark, Twin Forks, Overgrown Basin',
-  'Full colorway art set: every unit + building, both teams. Death frames for all infantry + dinos. Walk cycles 13/13. Audio: 18 real slots (Sonniss GDC). Cast portraits complete. Dialogue PiP + voice pipeline',
-  'Elevation: vision high ground — plateaus, cliff rims, ramp-only routes. Team color pass: wild dinos read as nature. Raptor + Raptor Den complete. Dev mode: Space x5 over the controls chip',
-  'THE GAME IS BROODFALL (Jul 23): full rename — title screen, Broodfall.app + bundle id, repo github.com/bronsongannon/broodfall. M10 takes the title drop, M20 is Heartvein',
-  'IAP GATE SHIPPED (Jul 22): BFStore entitlement layer + StoreBridge.swift (StoreKit 2), fails closed in-wrapper, web build stays unlocked, dev cheats dead in release builds. Mac wrapper + app icon + privacy policy + store screenshots all DONE — the Apple track waits on the campaign, nothing else',
-];
-const PRE = { ap1: 1, ap3: 1, ap4: 1, ap6: 1, ap9: 1, g1: 1, g2: 1, g4: 1, g5: 1, g6: 1, g9: 1, g10: 1, g12: 1, a1: 1, a2: 1, a3: 1, a4: 1, a5: 1, a6: 1, a7: 1, a8: 1, a9: 1, a11: 1 };
+const PRE = { g12: 1, p3: 1 };
 const KEY = 'cc-ship-checklist-v1';
 let saved = {};
 try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
@@ -194,20 +94,13 @@ function row(id, label, due, prompt) {
   return '<div style="display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-top:0.5px solid var(--border)">' +
     '<input type="checkbox" data-k="' + id + '"' + (on ? ' checked' : '') + ' style="margin-top:3px">' +
     '<span style="flex:1;font-size:14px;line-height:1.5;' + (on ? 'color:var(--text-muted);text-decoration:line-through' : '') + '">' + label + '</span>' +
-    (due ? '<span style="font-size:12px;color:var(--text-secondary);white-space:nowrap;padding-top:4px">' + (due === 'done' ? '' : 'by ' + due) + '</span>' : '') +
     '<button data-p="' + id + '" aria-label="Work on this task with Claude" title="Work on this with Claude" ' +
     'style="width:26px;height:26px;padding:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;border-radius:6px;flex-shrink:0">' + L + '</button>' +
   '</div>';
 }
-let total = 0;
 for (const [track, items] of Object.entries(TRACKS)) {
-  total += items.length;
   document.getElementById('track-' + track).innerHTML = items.map(i => row(...i)).join('');
 }
-document.getElementById('shipped').innerHTML = SHIPPED.map(s =>
-  '<div style="display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-top:0.5px solid var(--border)">' +
-  '<i class="ti ti-check" style="font-size:16px;margin-top:2px;color:var(--text-success)" aria-hidden="true"></i>' +
-  '<span style="flex:1;font-size:14px;line-height:1.5;color:var(--text-secondary)">' + s + '</span></div>').join('');
 function refresh() {
   document.querySelectorAll('input[data-k]').forEach(cb => {
     const span = cb.nextElementSibling;
@@ -227,44 +120,36 @@ document.querySelectorAll('button[data-p]').forEach(btn => {
 });
 const ACTS = {
   act1: [
-    ['M1','Landfall','Outpost, scouting, the probe, the first live capture — then every nest empties onto your base','built'],
-    ['M2','Claim Jumpers','Convoy escort vs Krauss\'s raiders — the war starts as a mining claim dispute','built'],
-    ['M3','The Nest Problem','First artillery, first nest crack; Lin objects on the record','built'],
-    ['M4','Dig In','Red\'s offensive targets your power plants — the brownout lesson, received','built'],
-    ['M5','Ghost Survey','Commando raid; the stolen data reveals the Heart Crystal signal','built'],
-    ['M6','Countdown','Kill Krauss\'s silo before the launch clock runs out','built'],
-    ['M7','High Water Mark','Win the war — then a den erupts under the ruins. Act 1 ends mid-victory-speech','built'],
+    ['M1','Landfall','built'], ['M2','Claim Jumpers','built'], ['M3','The Nest Problem','built'],
+    ['M4','Dig In','built'], ['M5','Ghost Survey','built'], ['M6','Countdown','built'], ['M7','High Water Mark','built'],
   ],
   act2: [
-    ['M8','Strip Mine','An economy race you can lose without a fight — then the pit floor opens and a den hunts BOTH sides','built'],
-    ['M9','Roost','Land in force at dusk below dead K-7, raise the listening post, hold the night — and in the last minute the whole flock rises, 22 wings, until dawn calls them off','built'],
-    ['M10','Broodfall','The title drop: your final assault on Krauss becomes his city falling to the swarm — kill objective CANCELLED mid-mission, first Ironbacks, evacuate 8 through the eastern pass. Verdict: "really challenged," 34 min','built'],
-    ['M11','Strange Bedfellows','The truce: Krauss\'s survivors hold a ruined fort in the east pocket, you hold the west, and the valley between belongs to the planet — lose if EITHER HQ falls','built'],
-    ['M12','Exodus','Escort his civilian convoy past Ironback roadblocks — the map (Exodus Road) is already built and waiting'],
-    ['M13','The Broodmother Wakes','Hold the evac LZ, then watch her walk through the ruins. You leave. Needs the Evac Coast map'],
+    ['M8','Strip Mine','built'], ['M9','Roost','built'], ['M10','Broodfall — the title drop','built'],
+    ['M11','Strange Bedfellows — allied AI','built'],
+    ['M12','Exodus — civilian convoy, map ready',''],
+    ['M13','The Broodmother Wakes — needs Evac Coast',''],
   ],
   act3: [
-    ['M14','Return to Ruin','Beachhead in the overgrown Act 1 basin; corrupted red buildings are living spawners (engine: corrupted spawners)'],
-    ['M15','The Overgrowth','Dens seed new dens on a timer — kill them all before they hit 12 (engine: den-seeding timer)'],
-    ['M16','Lin\'s Gambit','Capture three live raptors + red lab data cores; the Mission 1 rig arc pays off'],
-    ['M17','The Screeching Sky','Air war on cliff roosts strangling your mining economy — the roost building already exists'],
-    ['M18','Krauss\'s Debt','Joint assault; his last warhead breaches the crater wall — the allied AI is built and waiting'],
-    ['M19','The Mega-Hive','Siege of red\'s old HQ crater — every system in the game at once'],
-    ['M20','Heartvein','Broodmother + the Heart Crystal: shatter it or take it — your choice IS the ending (engine: combat Broodmother, winAny)'],
+    ['M14','Return to Ruin — needs corrupted spawners',''],
+    ['M15','The Overgrowth — needs den-seeding timer',''],
+    ['M16','Lin\'s Gambit — rig captures',''],
+    ['M17','The Screeching Sky — roosts exist',''],
+    ['M18','Krauss\'s Debt — allied AI ready',''],
+    ['M19','The Mega-Hive',''],
+    ['M20','Heartvein — needs combat Broodmother + winAny',''],
   ],
 };
 for (const [act, rows] of Object.entries(ACTS)) {
-  document.getElementById(act).innerHTML = rows.map(([m, title, desc, built]) =>
-    '<div style="display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-top:0.5px solid var(--border)">' +
-    '<span style="flex:1;font-size:14px;line-height:1.5"><span style="font-weight:500">' + title + '.</span> <span style="color:var(--text-secondary)">' + desc + '</span></span>' +
+  document.getElementById(act).innerHTML = rows.map(([m, title, built]) =>
+    '<div style="display:flex;align-items:center;gap:10px;padding:5px 0;border-top:0.5px solid var(--border)">' +
+    '<span style="flex:1;font-size:14px">' + m + ' — ' + title + '</span>' +
     (built
-      ? '<span style="min-width:36px;height:26px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ti-check" style="font-size:16px;color:var(--text-success)" aria-hidden="true"></i></span>'
-      : '<button data-m="' + m + '" data-t="' + title + '" aria-label="Start building this mission" title="Build this mission with Claude" ' +
-        'style="min-width:36px;height:26px;padding:0 6px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;border-radius:6px;flex-shrink:0">' + m + '</button>')
+      ? '<i class="ti ti-check" style="font-size:16px;color:var(--text-success)" aria-hidden="true"></i>'
+      : '<button data-m="' + m + '" style="min-width:36px;height:24px;padding:0 6px;font-size:12px;border-radius:6px">' + m + '</button>')
     + '</div>').join('');
 }
 document.querySelectorAll('button[data-m]').forEach(btn => {
-  btn.addEventListener('click', () => sendPrompt('Let\'s build Broodfall mission ' + btn.dataset.m.slice(1) + ' "' + btn.dataset.t + '" — pull its design from CAMPAIGN.md, list any engine prerequisites still missing, and start implementing.'));
+  btn.addEventListener('click', () => sendPrompt('Let\'s build Broodfall mission ' + btn.dataset.m.slice(1) + ' — pull its design from CAMPAIGN.md, list missing engine prerequisites, and start implementing.'));
 });
 refresh();
 </script>

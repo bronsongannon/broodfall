@@ -4964,7 +4964,7 @@ function overlayStats() {
     // named casualties (M12's convoy): every lost NAMED unit appears in the
     // debrief — losing "Reyes" costs more than losing a harvester
     (mission && ms && ms.lostNames && ms.lostNames.length
-      ? `<div style="grid-column:1/-1"><b>${ms.lostNames.join(', ')}</b><span>lost on the road</span></div>` : '');
+      ? `<div style="flex-basis:100%"><b style="font-size:16px">${ms.lostNames.join(', ')}</b><span>lost on the road</span></div>` : '');
 }
 function checkEnd() {
   if (gameOver) return;

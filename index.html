@@ -152,13 +152,16 @@
     background: rgba(8, 10, 8, 0.82);
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     gap: 14px; z-index: 20;
+    padding: 24px; overflow-y: auto;   /* long debriefs scroll, never clip */
   }
-  #overlay h1 { font-size: 52px; letter-spacing: 2px; }
+  #overlay h1 { font-size: 52px; letter-spacing: 2px; text-align: center; }
   #overlay h1.win { color: #7fd8a8; }
   #overlay h1.lose { color: #e0564a; }
-  #overlay p { color: #9aa89e; font-size: 16px; }
+  #overlay p { color: #9aa89e; font-size: 16px; max-width: min(680px, calc(100vw - 48px)); text-align: center; }
   #ov-stats {
-    display: flex; gap: 26px; margin-top: 10px;
+    display: flex; gap: 20px 26px; margin-top: 10px;
+    flex-wrap: wrap; justify-content: center;                 /* stats wrap instead of running off-screen */
+    max-width: min(760px, calc(100vw - 48px));
     background: rgba(16, 22, 18, 0.85);
     border: 1px solid rgba(120, 200, 190, 0.3);
     border-radius: 12px; padding: 14px 26px;

@@ -188,6 +188,12 @@ const BLD = {
   // no skirmish map places one yet, missions spawn them via bld triggers.
   den:      { label: 'Raptor Den',   hp: 2200, w: 115, h: 115, supply: 0, sight: 240 },   // 144 -> 115 (Bronson 2026-08-24: too big)
   roost:    { label: 'Screecher Roost', hp: 950, w: 84, h: 84, supply: 0, sight: 220 },
+  // Dr. Lin's horde-forecast tower. INTRO: M11 phase 2 (a trigger grants it);
+  // from then on it's permanent arsenal — every later mission and skirmish
+  // once M11 is beaten (grantActive). Expensive by design (Bronson). Huge
+  // sight + assault waves get announced with an origin ping while one stands.
+  // Exempt from the near-base rule — it wants a summit.
+  sensor:   { label: 'Overwatch Array', hp: 500, w: 60, h: 60, supply: 0, sight: 460, cost: 800, buildTime: 35 * 60, req: ['power'], pow: 3, grantOnly: 1 },
 };
 const DEPOT_HEAL_RADIUS = 240;   // the depot's repair field
 const DEPOT_HEAL_RATE = 0.06;    // hp/tick per depot — a fraction of an engineer's 0.55
@@ -1890,12 +1896,16 @@ const MISSIONS = [
       ['ops', 'The rules are simple and non-negotiable: his fort stands, our base stands, or this truce dies with whichever one falls. Build west of the stem — his ground is his. Hold until the flats go quiet.'],
     ],
     objectives: [
-      { id: 'hold', text: 'Hold the valley until the flats go quiet', type: 'survive', secs: 1080 },
+      // 15 min (was 18 — Bronson: "boring... weird amount of time")
+      { id: 'hold', text: 'Hold the valley — 15 minutes', type: 'survive', secs: 900 },
       { id: 'shield', text: 'Krauss\'s fort must not fall', type: 'flag' },
       { id: 'denW', text: 'Optional: destroy the west den', type: 'groupDead', group: 'denW', hidden: true, mark: [1390, 904] },
       { id: 'denE', text: 'Optional: destroy the east den', type: 'groupDead', group: 'denE', hidden: true, mark: [3273, 864] },
+      // phase 2: Lin's corpse-ledger pays off — build her forecast tower on
+      // the junction overlook. Intro of the permanent Overwatch Array.
+      { id: 'array', text: 'Build Dr. Lin\'s Overwatch Array at the junction overlook', type: 'built', bld: 'sensor', count: 1, x: 1935, y: 2281, r: 300, hidden: true, mark: [1935, 2281] },
     ],
-    winWhen: ['hold'],
+    winWhen: ['hold', 'array'],
     triggers: [
       // the ruined fort: extra teeth on his wall, pre-damaged — survivors, not a garrison
       { when: { time: 0.5 },
@@ -1944,32 +1954,53 @@ const MISSIONS = [
           { unit: 'raptor', team: 3, n: 4, at: [3300, 700], to: [3594, 3041] },
           { unit: 'screecher', team: 3, n: 3, at: [2304, 400], to: [1382, 3246] },
         ] },
-      { when: { time: 870 },
+      { when: { time: 730 },
         say: [['sci', 'Field note, off the record: forty-one corpses catalogued and every one died FACING the guns. Nothing this planet sends is afraid of us. It simply has not finished arriving.'],
               ['red', 'Your scientist has a gift for morale, expedition.']] },
-      { when: { time: 940 }, alarm: '⚠ Armored contacts — both prongs at once!',
+      { when: { time: 780 }, alarm: '⚠ Armored contacts — both prongs at once!',
         spawn: [
           { unit: 'ironback', team: 3, n: 2, at: [3300, 700], to: [3594, 3041] },
           { unit: 'raptor', team: 3, n: 5, at: [1300, 700], order: 'attackhq' },
-          { unit: 'screecher', team: 3, n: 4, at: [2304, 400], to: [1382, 3246] },
         ] },
-      // the last wave breaks against both walls as the clock runs out
-      { when: { time: 1010 }, alarm: '⚠ Massed assault — everything at once!',
+      // THE LAST MINUTE (round 2, Bronson: "triple it. the last minute should
+      // be a serious battle" — old finale was 17 units, this is ~51 in three
+      // pulses so it fights like a battle instead of arriving like a blob)
+      { when: { time: 830 }, alarm: '⚠ MASSED ASSAULT — the whole valley is moving!',
+        spawn: [
+          { unit: 'raptor', team: 3, n: 8, at: [1300, 700], order: 'attackhq' },
+          { unit: 'raptor', team: 3, n: 6, at: [3300, 700], to: [3594, 3041] },
+          { unit: 'screecher', team: 3, n: 5, at: [2304, 400], to: [1382, 3246] },
+        ],
+        say: [['ops', 'Everything the flats have left is coming at once — one more minute, all of you. HOLD.']] },
+      { when: { time: 850 },
+        spawn: [
+          { unit: 'raptor', team: 3, n: 8, at: [1300, 700], order: 'attackhq' },
+          { unit: 'ironback', team: 3, n: 2, at: [3300, 700], to: [3594, 3041] },
+          { unit: 'screecher', team: 3, n: 6, at: [4520, 1300], to: [3594, 3041] },
+        ] },
+      { when: { time: 870 },
         spawn: [
           { unit: 'raptor', team: 3, n: 6, at: [1300, 700], order: 'attackhq' },
-          { unit: 'raptor', team: 3, n: 5, at: [3300, 700], to: [3594, 3041] },
-          { unit: 'screecher', team: 3, n: 3, at: [4520, 1300], to: [3594, 3041] },
-          { unit: 'screecher', team: 3, n: 3, at: [2304, 400], to: [1382, 3246] },
-        ],
-        say: [['ops', 'One more push, all of you — the flats are emptying. Whatever is left is HERE.']] },
-      { when: { done: ['hold'] }, complete: 'shield' },
+          { unit: 'raptor', team: 3, n: 4, at: [3300, 700], to: [3594, 3041] },
+          { unit: 'screecher', team: 3, n: 6, at: [2304, 400], to: [1382, 3246] },
+        ] },
+      // ---- PHASE 2: the hold ends, and Lin gets her tower ----
+      { when: { done: ['hold'] }, objective: 'array', grant: 'sensor',
+        alarm: '🔓 New construction: Overwatch Array',
+        say: [['sci', 'The waves STOPPED — and that is exactly my point, Commander: they stop, they come, and we never know which. Fifteen minutes of corpses taught me their rhythm. Give me a tower on the junction overlook — sensors, power, and altitude — and I will tell you when the next horde is coming before it knows itself.'],
+              ['ops', 'You heard her. Build the array, Commander — 800 crystals buys us eyes. The overlook is marked.']] },
+      // stragglers harass the construction — the quiet is never quite quiet
+      { when: { done: ['hold'], notDone: ['array'] }, delay: 40, repeat: true, every: 55,
+        spawn: { unit: 'raptor', team: 3, n: 3, at: [1300, 700], to: [1935, 2281] } },
+      { when: { done: ['array'] }, complete: 'shield',
+        say: [['sci', 'Array online. First sweep... contact mass to the east, two valleys out, moving in column. Not a horde, Commander — people. Four hundred plus, on foot, and everything between here and there just went dark.'],
+              ['red', 'That is the mining camp. Those are MY people, expedition.']] },
       // the truce's teeth: HIS headquarters falls, the mission falls
-      { when: { bldBelow: ['hq', 2, 0], notDone: ['hold'] }, lose: true },
+      { when: { bldBelow: ['hq', 2, 0] }, lose: true },
     ],
     outro: [
-      ['red', 'Still standing. Both flags. Expedition — Krauss. That is the entire transmission, and it is the warmest one I have ever sent.'],
-      ['ops', 'Copy your warmth, Rubicon. Get some sleep.'],
-      ['sci', 'Before anyone sleeps: his miners tell me there are four hundred civilians in a camp two valleys east, and the road between here and there just went dark. Commander... we should talk about the road.'],
+      ['red', 'Still standing. Both flags, and a tower that sees tomorrow. Expedition — Krauss. That is the warmest transmission I have ever sent.'],
+      ['ops', 'Copy your warmth, Rubicon. Nobody sleeps yet — your scientist\'s tower found four hundred reasons to talk about the road east.'],
     ],
     winText: 'The valley held — both halves of it. Twenty missions of war taught two companies how to fight each other, and one long day taught them how to stop. Lin\'s corpse ledger says the waves are getting bigger. Krauss\'s miners say the road east is full of people who cannot fight at all.',
     loseText: 'A truce is a wall with two sides, and one of them fell. The fork belongs to the planet now — and the survivors of two companies retreat down the same road, together at last, in the worst possible way.',
@@ -2016,7 +2047,13 @@ const missionAllows = (kind, type) => {
   if (!mission || !mission.allow || !mission.allow[kind]) return true;
   return mission.allow[kind].includes(type);
 };
-const BUILD_MENU = [['turret', 'T'], ['barracks', 'B'], ['factory', 'V'], ['supply', 'C'], ['power', 'O'], ['hydro', 'J'], ['refinery', 'G'], ['airpad', 'X'], ['flak', 'Y'], ['silo', 'N']];
+const BUILD_MENU = [['turret', 'T'], ['barracks', 'B'], ['factory', 'V'], ['supply', 'C'], ['power', 'O'], ['hydro', 'J'], ['refinery', 'G'], ['airpad', 'X'], ['flak', 'Y'], ['silo', 'N'], ['sensor', '']];
+// grantOnly buildings unlock the moment a mission trigger grants them (their
+// intro), and stay unlocked FOREVER once M11 is beaten — later missions and
+// skirmish included. Everything else always passes.
+const grantActive = (type) => !BLD[type].grantOnly
+  || !!(mission && ms && ms.grants && ms.grants.includes(type))
+  || campaignDone() >= 11;
 // tech tree checks (see BLD req fields)
 function hasTech(team, type) {
   if (devMode && team === 1) return true;   // dev mode: the whole tree, no prerequisites
@@ -4766,7 +4803,17 @@ function waveUpdate() {
       u.order = { type: 'move', x: p.x, y: p.y };   // tags along, heals on arrival
     }
   }
-  if (sent > 0) { toast('⚔ Enemy assault incoming!'); snd.alarm(); }
+  if (sent > 0) {
+    // a standing Overwatch Array turns the vague alarm into a forecast:
+    // strength + a minimap ping on the assault's point of origin
+    const array = buildings.find(b => b.team === 1 && b.type === 'sensor' && b.built >= 1 && b.hp > 0);
+    if (array) {
+      const src = units.find(u => u.team === 2 && u.order.type === 'attackmove');
+      if (src) alerts.push({ x: src.x, y: src.y, t: 0 });
+      toast(`📡 Overwatch: assault wave detected — ${sent} hostiles, origin marked`);
+    } else toast('⚔ Enemy assault incoming!');
+    snd.alarm();
+  }
 }
 
 // ---------------- End condition ----------------
@@ -5174,6 +5221,7 @@ btnFog.addEventListener('click', () => { audioInit(); toggleFogMemory(); });
 
 // building placement
 function startPlacing(type) {
+  if (!grantActive(type)) return;   // not introduced yet — invisible, not just locked
   if (!missionAllows('bld', type)) {
     toast(`${BLD[type].label} is not authorised for this operation.`);
     snd.error();
@@ -5188,6 +5236,7 @@ function startPlacing(type) {
 }
 function canPlaceBuilding(type, wx, wy) {
   const d = BLD[type];
+  if (!grantActive(type)) return false;
   if (!missionAllows('bld', type)) return false;
   if (!hasTech(1, type)) return false;
   if (teams[1].crystals < d.cost) return false;
@@ -5227,6 +5276,8 @@ function canPlaceBuilding(type, wx, wy) {
   if (type === 'refinery') {
     return crystals.some(c => c.amount > 0 && dist2(wx, wy, c.x, c.y) < REFINERY_NEAR_CRYSTAL ** 2);
   }
+  // the Overwatch Array wants a summit, not a base — anywhere scouted goes
+  if (type === 'sensor') return true;
   // defense towers must anchor to a permanent structure (HQ/Barracks/Factory/…) — no tower-to-tower creep
   const isDef = (t) => t === 'turret' || t === 'flak';
   return buildings.some(b => b.team === 1 && (!isDef(type) || !isDef(b.type)) &&
@@ -5398,7 +5449,7 @@ function cardSig() {
   return selection.map(e => e.id).join(',') + '|' +
     selection.filter(e => e.queue).map(e => e.queue.join('.') + ':' + e.boost).join(';') + '|' +
     (placing || '') + (attackMoveMode ? 'A' : '') + '|' +
-    BUILD_MENU.map(([t]) => (missionAllows('bld', t) ? '' : 'x') + (teams[1].crystals >= BLD[t].cost ? 'y' : 'n') + (hasTech(1, t) ? 'u' : 'l')).join('') + '|' +
+    BUILD_MENU.map(([t]) => (grantActive(t) ? 'g' : 'h') + (missionAllows('bld', t) ? '' : 'x') + (teams[1].crystals >= BLD[t].cost ? 'y' : 'n') + (hasTech(1, t) ? 'u' : 'l')).join('') + '|' +
     Object.values(teams[1].up).join('') + '.' + Math.floor(teams[1].crystals / 25) + '.' + teams[1].eggs +
     '.' + units.reduce((s, u) => s + (u.team === 1 && (u.type === 'spitter' || u.type === 'harrier') ? 1 : 0), 0) +
     '.' + selection.map(e => (e.warhead || '') + (e.cargo ? e.cargo.length : '') + (e.sunk ? 's' : '')).join('') +
@@ -5421,12 +5472,13 @@ function refreshCard() {
   if (!placing && !attackMoveMode) {
     buildRow = '<div class="row">';
     for (const [t, k] of BUILD_MENU) {
+      if (!grantActive(t)) continue;   // not introduced yet
       if (!missionAllows('bld', t)) continue;
       if (!hasTech(1, t)) continue;   // progressive disclosure — locked buildings stay hidden
       if (BLD[t].water && !(groundM && groundM.rivers)) continue;   // no dams on dry maps
       const d = BLD[t];
       const dim = teams[1].crystals < d.cost ? ' class="dim"' : '';
-      buildRow += `<button data-act="build:${t}"${dim}>${d.label} · ${d.cost} ⬡ <small>[${k}]</small></button>`;
+      buildRow += `<button data-act="build:${t}"${dim}>${d.label} · ${d.cost} ⬡ ${k ? `<small>[${k}]</small>` : ''}</button>`;
     }
     buildRow += '</div>';
   }
@@ -5642,7 +5694,7 @@ elDock.addEventListener('pointerdown', (e) => {
 let wasLowPower = false;
 let lastAvail = null;   // build-menu availability — announces newly unlocked buildings
 function refreshTopbar() {
-  const avail = BUILD_MENU.filter(([t]) => missionAllows('bld', t) && hasTech(1, t) && !(BLD[t].water && !(groundM && groundM.rivers))).map(([t]) => t);
+  const avail = BUILD_MENU.filter(([t]) => grantActive(t) && missionAllows('bld', t) && hasTech(1, t) && !(BLD[t].water && !(groundM && groundM.rivers))).map(([t]) => t);
   if (lastAvail) {
     const fresh = avail.filter(t => !lastAvail.includes(t));
     if (fresh.length) {
@@ -6847,6 +6899,40 @@ function drawBuilding(b) {
   }
   if (b.type === 'den') {
     drawDen(b);
+    if (b.hp < b.maxHp) drawHpBar(b.x, y - 10, b.w * 0.8, b.hp, b.maxHp);
+    return;
+  }
+  if (b.type === 'sensor') {
+    // Lin's array: plated base, lattice mast, spinning dish + a slow radar
+    // sweep once online. Deliberately reads scientific, not military.
+    cx.fillStyle = '#1d2622';
+    rr(cx, x + 4, y + 4, b.w - 8, b.h - 8, 8); cx.fill();
+    cx.strokeStyle = C.bld || C.main; cx.lineWidth = 2;
+    rr(cx, x + 4, y + 4, b.w - 8, b.h - 8, 8); cx.stroke();
+    for (const [lx, ly] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
+      cx.fillStyle = '#39453f';
+      cx.fillRect(b.x + lx * b.w * 0.30 - 4, b.y + ly * b.h * 0.30 - 4, 8, 8);
+    }
+    if (b.built >= 1) {
+      const a = tick * 0.02;
+      cx.save(); cx.translate(b.x, b.y); cx.rotate(a);
+      cx.strokeStyle = C.fx || '#8fd8cf'; cx.lineWidth = 3;
+      cx.beginPath(); cx.arc(0, 0, 13, -0.9, 0.9); cx.stroke();       // the dish
+      cx.fillStyle = '#dbe8e2'; cx.fillRect(-2, -2, 10, 4);            // feed horn
+      cx.restore();
+      // radar sweep — the forecast, visible
+      cx.strokeStyle = 'rgba(143,216,207,0.35)'; cx.lineWidth = 1.5;
+      cx.beginPath(); cx.moveTo(b.x, b.y);
+      cx.lineTo(b.x + Math.cos(a * 1.7) * b.w * 1.1, b.y + Math.sin(a * 1.7) * b.w * 1.1); cx.stroke();
+    } else {
+      cx.fillStyle = '#4a5751';
+      cx.beginPath(); cx.arc(b.x, b.y, 9, 0, Math.PI * 2); cx.fill();
+    }
+    if (sel) { cx.strokeStyle = '#cfe8db'; cx.lineWidth = 1.5; rr(cx, x + 1, y + 1, b.w - 2, b.h - 2, 9); cx.stroke(); }
+    if (b.built < 1) {
+      cx.fillStyle = '#cfe8db'; cx.font = '11px system-ui'; cx.textAlign = 'center';
+      cx.fillText(Math.floor(b.built * 100) + '%', b.x, b.y - b.h / 2 - 8);
+    }
     if (b.hp < b.maxHp) drawHpBar(b.x, y - 10, b.w * 0.8, b.hp, b.maxHp);
     return;
   }
@@ -8580,7 +8666,7 @@ function missionInit(idx) {
     // pathing the player cannot read or influence, and measuring it proved
     // razing Krauss's forward camp moved his total by 6 crystals in 7000.
     // Scripted, it becomes an antagonist with a valve the player can shut.
-    groups: {}, flags: {}, haul: 0, winAt: 0, outroDone: false,
+    groups: {}, flags: {}, grants: [], haul: 0, winAt: 0, outroDone: false,
   };
 }
 
@@ -9045,6 +9131,11 @@ function fireTrigger(t) {
       u.order = { type: 'attackmove', x: tx, y: ty };
       if (ids && !ids.includes(u.id)) ids.push(u.id);
     }
+  }
+  // a mission INTRODUCES a grantOnly building (M11: the Overwatch Array) —
+  // it joins the build row now, and grantActive keeps it forever post-M11
+  if (t.grant) for (const g of [].concat(t.grant)) {
+    if (!ms.grants.includes(g)) { ms.grants.push(g); lastCardSig = ''; }
   }
   if (t.alarm) { toast(t.alarm); snd.alarm(); }
   // the Broodmother calls her children home: roar + shake, then every living

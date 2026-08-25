@@ -200,6 +200,10 @@ neither can the enemy, so their depots are a real target).
 - **Turret** (140) — stationary base defense; must anchor to a main building
   (HQ, Barracks, Factory…), so no turret-chaining across the map
 - **Missile Silo** (500) — unlocks the endgame. See below ☢
+- **Overwatch Array** (800) — Dr. Lin's horde-forecast tower, unlocked by the
+  campaign (Mission 11) and yours for good after that. Huge sight radius, can
+  be built anywhere you've scouted (it wants a summit) — and while one stands,
+  incoming assaults are announced with their strength and origin marked
 
 ## The Nuclear Option ☢
 

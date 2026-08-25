@@ -136,7 +136,7 @@
   #btn-help-close:hover { background: #1d4536; }
 
   #toast {
-    position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%);
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
     background: rgba(20, 26, 21, 0.92);
     border: 1px solid rgba(120, 200, 190, 0.4);
     border-radius: 8px;
@@ -260,7 +260,8 @@
 
   /* mission dialogue bar (campaign only) — portrait PiP + typewriter text */
   #dialogue {
-    position: fixed; bottom: 148px; left: 50%; transform: translateX(-50%);
+    /* half-lowered from 148px — it sat on top of the HQ at mission start */
+    position: fixed; bottom: 74px; left: 50%; transform: translateX(-50%);
     z-index: 12; pointer-events: none;
     display: flex; gap: 12px; align-items: flex-start;
     width: max-content; max-width: min(640px, calc(100vw - 40px));

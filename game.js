@@ -2020,6 +2020,116 @@ const MISSIONS = [
     winText: 'The valley held — both halves of it. Twenty missions of war taught two companies how to fight each other, and one long day taught them how to stop. Lin\'s corpse ledger says the waves are getting bigger. Krauss\'s miners say the road east is full of people who cannot fight at all.',
     loseText: 'A truce is a wall with two sides, and one of them fell. The fork belongs to the planet now — and the survivors of two companies retreat down the same road, together at last, in the worst possible way.',
   },
+  {
+    // M12 — "Exodus." The M2 convoy, reversed: the cargo is PEOPLE. Eight
+    // named vehicles of Krauss's civilians run the Z-road to his allied evac
+    // station in the NE while the planet contests every leg — Ironback
+    // roadblocks parked ON the road (the artillery lesson, weaponized),
+    // a den that erupts BEHIND the column, the vent flare line mid-route,
+    // and (teeth doctrine) a boarding hold at the evac where the last two
+    // minutes are the serious battle. Named-loss debrief: every driver who
+    // dies is listed by name. Lose = 3 vehicles (6 of 8 must arrive) or HQ.
+    title: 'Exodus', act: 'Act II — The Awakening',
+    map: 'exodus', diff: 'normal', noWaves: true, allies: [[1, 2]],
+    noBuild: { rect: [3318, 0, 4608, 1037],
+      msg: 'The evac ground is Rubicon\'s — the truce holds here too' },
+    brief: [
+      ['ops', 'The Overwatch Array found them and Boone walked them in overnight: four hundred of Krauss\'s civilians, riding everything with wheels. Rubicon holds an evac station at the northeast end of the causeway road. Between here and there is twelve kilometers of drowned dark, and the planet has moved in.'],
+      ['red', 'Expedition — those are miners, cooks, two schoolteachers, and my chief surveyor\'s daughters. I have nothing left to escort them with. I am asking you to do it, and I am not calling it a favor, because I intend to owe you.'],
+      ['sci', 'The road reads worse than the valley did. Dens along the whole artery, and the burning stretch mid-route — thread the gaps, or the vehicles cook. Commander: they move when YOU move them. Nobody else drives.'],
+    ],
+    intro: [
+      ['ops', 'Eight vehicles, eight drivers with names. Build your escort first — the road will not forgive a thin one. Armor and rockets for the roadblocks, guns for the sky, then move the convoy as one.'],
+      ['cdo', 'Delivered. Your road now.'],
+    ],
+    objectives: [
+      { id: 'deliver', text: 'Escort the convoy to the evac station — 6 of 8 vehicles', type: 'groupReach', group: 'convoy', count: 6, x: 4009, y: 600, r: 260, mark: [4009, 600] },
+      { id: 'board', text: 'Hold the evac perimeter while the civilians board', type: 'survive', secs: 120, hidden: true },
+      { id: 'block1', text: 'Optional: break the causeway roadblock', type: 'groupDead', group: 'block1', hidden: true, mark: [2373, 1330] },
+      { id: 'block2', text: 'Optional: break the northern roadblock', type: 'groupDead', group: 'block2', hidden: true, mark: [3320, 930] },
+    ],
+    winWhen: ['deliver', 'board'],
+    triggers: [
+      // the convoy: eight named vehicles, parked at your gate. Player-driven.
+      { when: { time: 0.5 },
+        spawn: [
+          { group: 'convoy', unit: 'harvester', team: 1, n: 5, at: [700, 3080],
+            names: ['Okafor', 'Reyes', 'Tam', 'Volkova', 'Ashby'] },
+          { group: 'convoy', unit: 'apc', team: 1, n: 3, at: [880, 3180],
+            names: ['Ngata', 'Petrenko', 'Iwu'] },
+        ] },
+      // turtling is not free: light probes at the base until the column moves
+      { when: { time: 240, notDone: ['deliver'] }, repeat: true, every: 120,
+        spawn: { unit: 'raptor', team: 3, n: 3, at: [1200, 2300], order: 'attackhq' } },
+      { when: { time: 300, notDone: ['deliver'] },
+        say: [['red', 'Expedition, my people are sitting in parked vehicles listening to the flats sing. Whenever you are ready. Preferably before the planet is.']] },
+      // leg 1: the door closes behind you — a den erupts at the REAR
+      { when: { near: [2120, 2695, 320] }, focus: [820, 2450, 3],
+        alarm: '⚠ Den eruption — BEHIND the column!',
+        spawn: [
+          { bld: 'den', team: 3, at: [820, 2450] },
+          { unit: 'raptor', team: 3, n: 4, at: [900, 2500], to: [2120, 2695] },
+        ],
+        say: [['sci', 'Eruption on your back-trail — the road home just closed. Forward is the only direction that exists now, Commander.']] },
+      // elbow 2: the first Ironback roadblock, parked ON the road
+      { when: { near: [2304, 1700, 340] }, objective: 'block1',
+        alarm: '⚠ Roadblock — armored contacts on the causeway!',
+        spawn: [
+          { group: 'block1', unit: 'ironback', team: 3, n: 2, at: [2373, 1330], order: 'guard' },
+          { group: 'block1', unit: 'spitter', team: 3, n: 3, at: [2450, 1400], order: 'guard' },
+        ],
+        say: [['sci', 'Two Ironbacks sitting on the road like they own it — and they do, until artillery says otherwise. Crack them or squeeze the column past the flare line to the west. Both cost something.']] },
+      // the burning stretch: wings hit the column in the vents
+      { when: { near: [2244, 1950, 300] }, alarm: '⚠ Wings on the column — over the fire line!',
+        spawn: { unit: 'screecher', team: 3, n: 5, at: [2304, 1200], to: [2244, 1950] } },
+      // leg 3: the second, heavier roadblock
+      { when: { near: [3000, 1150, 340] }, objective: 'block2',
+        alarm: '⚠ Second roadblock — the north road is held!',
+        spawn: [
+          { group: 'block2', unit: 'ironback', team: 3, n: 3, at: [3320, 930], order: 'guard' },
+          { group: 'block2', unit: 'raptor', team: 3, n: 4, at: [3400, 1000], order: 'guard' },
+        ],
+        say: [['red', 'That is the last ridge, expedition. My station guns can see you. Bring them the rest of the way and I will light the road myself.']] },
+      // ---- ARRIVAL: the boarding hold. The planet answers (teeth doctrine) ----
+      { when: { done: ['deliver'] }, objective: 'board', focus: [4009, 600, 3],
+        alarm: '⚠ Massive seismic response — the evac ground is waking!',
+        spawn: [
+          { bld: 'den', team: 3, at: [3500, 780] },
+          { bld: 'den', team: 3, at: [4280, 1180] },
+        ],
+        say: [['sci', 'They are aboard and the ground HEARD it — two eruptions, both flanks of the station. Two minutes to spool the transports, Commander. Hold the perimeter.'],
+              ['red', 'Station guns are yours. My people are watching you from the windows, expedition. Show them the truce was worth it.']] },
+      // the last two minutes are the serious battle: three pulses, ~45 strong
+      { when: { done: ['deliver'] }, delay: 30, alarm: '⚠ MASSED ASSAULT on the evac station!',
+        spawn: [
+          { unit: 'raptor', team: 3, n: 8, at: [3300, 300], to: [4009, 600] },
+          { unit: 'ironback', team: 3, n: 2, at: [3400, 1300], to: [4009, 600] },
+          { unit: 'screecher', team: 3, n: 5, at: [4550, 1500], to: [4009, 600] },
+        ],
+        say: [['ops', 'Everything on the flats wants this station. Two minutes, all guns — NOTHING touches those transports.']] },
+      { when: { done: ['deliver'] }, delay: 60,
+        spawn: [
+          { unit: 'raptor', team: 3, n: 8, at: [4550, 900], to: [4009, 600] },
+          { unit: 'ironback', team: 3, n: 2, at: [3300, 300], to: [4009, 600] },
+          { unit: 'screecher', team: 3, n: 6, at: [3200, 1600], to: [4009, 600] },
+        ] },
+      { when: { done: ['deliver'] }, delay: 90,
+        spawn: [
+          { unit: 'raptor', team: 3, n: 8, at: [3400, 1400], to: [4009, 600] },
+          { unit: 'screecher', team: 3, n: 6, at: [4550, 300], to: [4009, 600] },
+        ] },
+      // the truce's teeth, both directions: too few vehicles = the mission dies
+      { when: { groupBelow: ['convoy', 6] }, lose: true,
+        say: [['red', 'Stop. Count them again. ...Count them AGAIN.']] },
+      { when: { bldBelow: ['hq', 2, 0] }, lose: true },
+    ],
+    outro: [
+      ['red', 'Four hundred souls airborne. Expedition — I have commanded men for thirty years and I have never once said this across an open channel: thank you.'],
+      ['sci', 'Commander... the array kept logging through the boarding. The response tonight was not local. Everything within forty kilometers turned toward this station the moment those engines lit. Something is coordinating — and it just learned where we gather.'],
+    ],
+    winText: 'Eight vehicles went into the dark and the drivers who made it will tell the story for the rest of their lives. The civilians are out. The soldiers are not — and the planet now knows exactly what an evacuation sounds like.',
+    loseText: 'The road east is quiet again. The vehicles that stopped are part of it now — and the names of the drivers go on a wall that two companies will have to share.',
+  },
 ];
 
 // Research, StarCraft-style: bought at the producing building, occupies its queue.
@@ -3669,6 +3779,8 @@ function damage(e, d, src) {
     if (src.team === 1) toast('🦖 The wildlife stirs… the dinosaurs grow agitated');
   }
   if (e.hp <= 0) {
+    // a named unit's death goes in the record (M12: the drivers)
+    if (e.cname && mission && ms) (ms.lostNames = ms.lostNames || []).push(e.cname);
     if (src && src.team === 1 && !isAllied(e.team, 1)) stats.kills++;
     if (e.team === 1 && e.kind === 'unit') stats.lost++;
     // veterancy credit: the killer remembers, and might rank up (no ranks
@@ -4848,7 +4960,11 @@ function overlayStats() {
     `<div><b>${stats.built}</b><span>units fielded</span></div>` +
     `<div><b>${stats.lost}</b><span>units lost</span></div>` +
     `<div><b>${stats.kills}</b><span>kills</span></div>` +
-    `<div><b>${Math.floor(stats.mined)}</b><span>crystals mined</span></div>`;
+    `<div><b>${Math.floor(stats.mined)}</b><span>crystals mined</span></div>` +
+    // named casualties (M12's convoy): every lost NAMED unit appears in the
+    // debrief — losing "Reyes" costs more than losing a harvester
+    (mission && ms && ms.lostNames && ms.lostNames.length
+      ? `<div style="grid-column:1/-1"><b>${ms.lostNames.join(', ')}</b><span>lost on the road</span></div>` : '');
 }
 function checkEnd() {
   if (gameOver) return;
@@ -9062,6 +9178,7 @@ function doSpawn(sp) {
     else if (sp.order === 'attackhq' && hq) u.order = { type: 'attackmove', x: hq.x, y: hq.y };
     else if (sp.order === 'guard') u.order = { type: 'guard', hx: u.x, hy: u.y };
     else if (sp.to) u.order = { type: isCombat(u) ? 'attackmove' : 'move', x: sp.to[0], y: sp.to[1] };
+    if (sp.names && sp.names[i]) u.cname = sp.names[i];   // named unit — death lands in the debrief
     if (sp.specimen) u.specimen = true;   // protected: player weapons won't track it
     if (sp.invuln) u.invuln = true;       // scripted set-piece (M13's Broodmother walk): the story owns it
     if (sp.hpMul) { u.maxHp = Math.round(u.maxHp * sp.hpMul); u.hp = u.maxHp; }   // story-tough (M9's survivors)

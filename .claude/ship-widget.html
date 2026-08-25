@@ -3,7 +3,7 @@
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:0 0 1.5rem">
   <div style="background:var(--surface-1);border-radius:var(--radius);padding:1rem">
     <p style="font-size:13px;color:var(--text-secondary);margin:0 0 4px">Campaign</p>
-    <p style="font-size:24px;font-weight:500;margin:0">11 <span style="font-size:15px;color:var(--text-secondary)">/ 20 missions</span></p>
+    <p style="font-size:24px;font-weight:500;margin:0">12 <span style="font-size:15px;color:var(--text-secondary)">/ 20 missions</span></p>
   </div>
   <div style="background:var(--surface-1);border-radius:var(--radius);padding:1rem">
     <p style="font-size:13px;color:var(--text-secondary);margin:0 0 4px">Next Fest demo</p>
@@ -39,7 +39,7 @@
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
     <i class="ti ti-map-2" style="font-size:20px" aria-hidden="true"></i>
     <p style="font-weight:500;font-size:15px;margin:0">Campaign arc</p>
-    <span style="margin-left:auto;background:var(--bg-warning);color:var(--text-warning);font-size:12px;padding:3px 10px;border-radius:var(--radius)">11 of 20</span>
+    <span style="margin-left:auto;background:var(--bg-warning);color:var(--text-warning);font-size:12px;padding:3px 10px;border-radius:var(--radius)">12 of 20</span>
   </div>
   <p style="font-size:13px;color:var(--text-secondary);margin:0 0 10px">Design in CAMPAIGN.md. Allied AI built (M11) — M18 inherits it. Remaining engine: corrupted spawners (M14), den-seeding (M15), combat Broodmother (M20). Maps left: Evac Coast, The Crater.</p>
   <p style="font-size:13px;font-weight:500;margin:6px 0 2px">Act 1 — complete (the free demo)</p>
@@ -51,7 +51,7 @@
 </div>
 
 <div style="display:flex;gap:8px;flex-wrap:wrap">
-  <button onclick="sendPrompt('Let\'s build Broodfall mission 12 Exodus — the civilian convoy escort on the Exodus Road map, which is already built.')">Build M12 Exodus ↗</button>
+  <button onclick="sendPrompt('Let\'s build the Evac Coast map from the roster — coastline LZ for M13, water along one full edge.')">Evac Coast map ↗</button>
   <button onclick="sendPrompt('What should I work on next from the Broodfall ship checklist?')">What's next? ↗</button>
 </div>
 
@@ -64,8 +64,8 @@ const TRACKS = {
       'I playtested M11. Watch-list: runtime vs 20-25, turtling vs reinforcing his fort, den value, truce feel. Knobs: wave sizes/cadences, den timing, fort strength, hold length (1080s).'],
     ['g12','M10 verdict landed: "really challenged," 34 min. Round 5 only if you want it trimmed toward 20-25','',
       'Trim M10 from 34 min toward 20-25 without losing the challenge. Levers: battery count (6), garrison, repair crews (3), sortie cadences, red trickle.'],
-    ['g15','Build M12 Exodus — map ready, convoy tech ready, pure mission authoring','',
-      'Let\'s build Broodfall M12 Exodus: escort Krauss\'s civilian convoy down Exodus Road past Ironback roadblocks. Pull the design from CAMPAIGN.md and start.'],
+    ['g15','Playtest M12 Exodus — the road escort: named drivers, roadblocks, the rear den, the boarding hold','',
+      'I playtested M12 Exodus. Verdict on: runtime, whether the roadblocks force real decisions (crack vs squeeze past), the rear-den moment, the boarding-hold battle, and whether losing a named driver stings. Knobs: roadblock sizes, pulse sizes, board length (120s), lose threshold (6 of 8).'],
     ['g16','Build Evac Coast map (M13) — coastline LZ, water on one full edge','',
       'Let\'s build the Evac Coast map from the roster: coastline LZ for M13, water along one full edge, rivers machinery.'],
   ],
@@ -126,7 +126,7 @@ const ACTS = {
   act2: [
     ['M8','Strip Mine','built'], ['M9','Roost','built'], ['M10','Broodfall — the title drop','built'],
     ['M11','Strange Bedfellows — allied AI','built'],
-    ['M12','Exodus — civilian convoy, map ready',''],
+    ['M12','Exodus — eight named vehicles up the causeway road','built'],
     ['M13','The Broodmother Wakes — needs Evac Coast',''],
   ],
   act3: [

@@ -2064,11 +2064,11 @@ const MISSIONS = [
       { when: { time: 300, notDone: ['deliver'] },
         say: [['red', 'Expedition, my people are sitting in parked vehicles listening to the flats sing. Whenever you are ready. Preferably before the planet is.']] },
       // leg 1: the door closes behind you — a den erupts at the REAR
-      { when: { near: [2120, 2695, 320] }, focus: [820, 2450, 3],
+      { when: { near: [2120, 2695, 320] }, focus: [1000, 2760, 3],
         alarm: '⚠ Den eruption — BEHIND the column!',
         spawn: [
-          { bld: 'den', team: 3, at: [820, 2450] },
-          { unit: 'raptor', team: 3, n: 4, at: [900, 2500], to: [2120, 2695] },
+          { bld: 'den', team: 3, at: [1000, 2760] },
+          { unit: 'raptor', team: 3, n: 4, at: [1080, 2800], to: [2120, 2695] },
         ],
         say: [['sci', 'Eruption on your back-trail — the road home just closed. Forward is the only direction that exists now, Commander.']] },
       // elbow 2: the first Ironback roadblock, parked ON the road
@@ -9148,11 +9148,26 @@ function doSpawn(sp) {
   const hq = buildings.find(b => b.team === 1 && b.type === 'hq');
   if (sp.egg) { makeEgg(sp.egg[0], sp.egg[1]); return; }   // set dressing (M9's streets)
   if (sp.bld) {   // pre-built structures (outposts, survey posts, dino lairs)
+    // no organism digs its den in a river: dino structures authored over a
+    // water channel slide to the nearest dry footprint before spawning
+    // (M12's rear den sat 80px into the causeway channel — Bronson 2026-08-25)
+    let [bx, by] = sp.at;
+    if (sp.bld === 'den' || sp.bld === 'nest' || sp.bld === 'roost') {
+      const half = (BLD[sp.bld].w || 80) / 2;
+      const wet = (px, py) => rocks.some(rk => rk.water && dist(px, py, rk.x, rk.y) < rk.r + half);
+      if (wet(bx, by)) {
+        outer: for (let step = 40; step <= 600; step += 40)
+          for (let a = 0; a < Math.PI * 2; a += Math.PI / 8) {
+            const px = clamp(bx + Math.cos(a) * step, 80, W - 80), py = clamp(by + Math.sin(a) * step, 80, H - 80);
+            if (!wet(px, py)) { bx = px; by = py; break outer; }
+          }
+      }
+    }
     // dino structures come alive: dens get their door guard + hunt clock,
     // nests their brood — a bare makeBuilding would spawn them inert
-    const b = sp.bld === 'den' ? makeDen(sp.at[0], sp.at[1], sp.birth)
-      : sp.bld === 'nest' ? makeNest(sp.at[0], sp.at[1])
-      : sp.bld === 'roost' ? makeRoost(sp.at[0], sp.at[1])
+    const b = sp.bld === 'den' ? makeDen(bx, by, sp.birth)
+      : sp.bld === 'nest' ? makeNest(bx, by)
+      : sp.bld === 'roost' ? makeRoost(bx, by)
       : makeBuilding(sp.bld, sp.team || 1, sp.at[0], sp.at[1]);
     if (sp.invuln) b.invuln = true;   // scripted, unkillable (M7's den erupts; you don't get to answer it)
     // ruins: spawn pre-damaged (M9's silent camp — standing wrecks that smoke

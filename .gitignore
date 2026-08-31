@@ -10,6 +10,9 @@ assets/sprites/Source 2/*.dmg
 mac/build/
 mac/Broodfall.xcodeproj/project.xcworkspace/xcuserdata/
 
+# Local Xcode/Swift caches created by Codex build checks
+.codex-derived/
+
 # scrapped generations kept on disk for reference, not worth versioning
 assets/sprites/source/_scrapped/
 

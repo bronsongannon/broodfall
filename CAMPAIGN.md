@@ -152,15 +152,14 @@ them; going around costs time and raptor attrition). Convoy moves when you move
 it; every vehicle lost is named in the debrief. *needs: convoy group orders
 (reuse M2 escort work); named-unit loss reporting in debrief (cosmetic).*
 
-**M13 — "The Broodmother Wakes."** Act finale: last stand at the evacuation LZ.
-Hold the perimeter while transports lift off in waves (each wave = a timer +
-a supply-of-units-you-must-keep-alive), against everything the planet has:
-raptor floods, Screecher dives, Ironback sieges. As the last transport loads,
-the ground splits and the **Broodmother** makes her entrance — invulnerable,
-scripted, walking through red's ruins and your abandoned outer wall like paper.
-You don't fight her. You LEAVE. Act 3 is about coming back. *needs: Broodmother
-(scripted-invulnerable variant only); staged evacuation objectives; `unitLost`
-count trigger.*
+**M13 — "The Broodmother Wakes."** ✅ BUILT (2026-09-01). Act finale: five
+minutes to fortify Evac Coast, then protect three five-vehicle manifests through
+four-minute launch clocks as the siege escalates from raptor floods to Screecher
+dives to Ironback columns. Each flight can lose one named vehicle; a second loss
+ends the mission. The final launch brings the invulnerable **Broodmother** through
+a scripted seismic reveal, cancels the base as a loss condition, and forces an
+eight-unit rally-and-run to the north-coast skiff. Deterministic full-chain runtime:
+23:15. Act 3 is about coming back.
 
 ### Act 3 — Broodfall (missions 14–20) — detailed design (2026-07-12)
 
@@ -267,8 +266,8 @@ flora + ground palettes. ✅ = built.
 | 9 | ✅ The Boneyard | ash flats, ribcages + snags, burial mounds | M9 (dread mission — bases relocated) (+skirmish) |
 | 10 | ✅ Krauss's Bastion | fortified red city-base, walls + kill lanes | M10 |
 | 11 | ✅ Twin Forks | forked valley; SE flat + field = the allied HQ pocket | M11 |
-| 12 | Exodus Road | night swamp causeway — one long escort artery | M12 |
-| 13 | Evac Coast | coastline LZ, water on one full edge | M13 |
+| 12 | ✅ Exodus Road | night swamp causeway — one long escort artery | M12 |
+| 13 | ✅ Evac Coast | coastline LZ, water on one full edge | M13 |
 | 14 | ✅ Overgrown Basin | Crystal Basin's exact bones, jungle-swallowed (story reuse) | M14, M15 |
 | 15 | The Crater | impact crater: rim (M18) → interior siege (M19) → the Heartvein (M20) | M18, M19, M20 |
 

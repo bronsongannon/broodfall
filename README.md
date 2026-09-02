@@ -21,12 +21,11 @@ from your officers (Cpt. Vega, ops; Dr. Lin, xenobiology), in-mission dialogue,
 and an objectives panel that tracks your progress. Beat a mission to unlock the
 next — progress is saved in your browser.
 
-**Mission 1 — Landfall** is live: establish the expedition's first outpost,
-scout the crystal fields (the wildlife won't hunt what it hasn't seen — but it
-notices patrols), survive the retaliation, and capture a live spitter for
-Dr. Lin with the unarmed **Capture Rig**. Your troops fire at half rate around
-the protected specimen — keep them busy soaking hits, let the rig do the work,
-and haul it home breathing. More of Act I is on the way.
+Missions 1–13 are live. Act 1 follows the crystal war from **Landfall** through
+**High Water Mark**; Act 2 turns the planet itself into the enemy, ending with
+the three-flight last stand in **The Broodmother Wakes**. The campaign includes
+base-building battles, commando raids, convoys, allied defenses, named losses,
+and staged evacuations across fourteen campaign maps.
 
 ## Dinosaurs 🦖
 

@@ -646,6 +646,10 @@ const MAPS = {
       // open west-middle and skipped elbow 1 entirely):
       [W * 0.02, H * 0.52, W * 0.405, H * 0.48, 58],  // pocket A's north wall / west-middle seal (overlaps leg-2 west wall)
       [W * 0.52, H * 0.135, W * 0.73, H * 0.095, 56], // north-lane seal above leg 3
+      // Carry the channel off the north edge instead of ending it in a round
+      // blue cap beside the evac station. The old dead end read as a stamped
+      // puddle from the arrival camera; this makes it a real marsh outlet.
+      [W * 0.72, H * 0.105, W * 0.76, -120, 58],
     ],
     // ridge bluffs double the elbows — the new continuous-wall look up close
     ridges: [
@@ -667,6 +671,59 @@ const MAPS = {
     groves: [[W * 0.22, H * 0.90, 90, 5], [W * 0.70, H * 0.66, 90, 5], [W * 0.60, H * 0.10, 85, 4]],
     trees: [[W * 0.34, H * 0.86], [W * 0.44, H * 0.60], [W * 0.57, H * 0.34], [W * 0.20, H * 0.66], [W * 0.75, H * 0.42]],
     pits: [[W * 0.31, H * 0.77, 30], [W * 0.66, H * 0.31, 30]],
+  },
+  coast: {
+    label: 'Evac Coast',
+    desc: 'A storm coast with one strip of landing ground between the sea and the inland dark.',
+    blurb: 'Last landing ground before the sea',
+    // roster map #13 (M13 "The Broodmother Wakes"). The ocean owns the full
+    // east edge; the main LZ sits in the center pocket and the emergency skiff
+    // waits on the north beach. Three inland approaches converge on the pad,
+    // while a broken Rubicon wall makes a disposable first line to its west.
+    ground: { base: '#121716', mottle: 'rgba(145,175,170,0.02)', pebble: 'rgba(170,185,175,0.065)', grid: 'rgba(150,190,185,0.024)', hi: 'rgba(220,225,205,0.09)' },
+    pHQ: [W * 0.16, H * 0.76], pRax: [W * 0.22, H * 0.80], pPatch: [W * 0.13, H * 0.64],
+    eHQ: [W * 0.84, H * 0.50], eRax: [W * 0.79, H * 0.56], eFac: [W * 0.77, H * 0.44],
+    eSup: [[W * 0.88, H * 0.59], [W * 0.85, H * 0.39]], eTur: [[W * 0.77, H * 0.38], [W * 0.77, H * 0.62]],
+    eAir: [W * 0.88, H * 0.47],
+    ePatch: [W * 0.70, H * 0.68],
+    // A chain wider than the coastline itself renders surf and makes the whole
+    // eastern edge ground-impassable. Flyers can cross it on launch.
+    rivers: [
+      [W * 0.955, -120, W * 0.945, H * 0.28, 150],
+      [W * 0.945, H * 0.24, W * 0.965, H * 0.55, 150],
+      [W * 0.965, H * 0.51, W * 0.94, H * 0.78, 150],
+      [W * 0.94, H * 0.74, W * 0.955, H + 120, 150],
+    ],
+    patches: [
+      { p: [W * 0.20, H * 0.58], n: 9, a: 3200, nests: [] },
+      { p: [W * 0.48, H * 0.77], n: 9, a: 3000, nests: [[W * 0.52, H * 0.82]] },
+      { p: [W * 0.47, H * 0.24], n: 8, a: 2800, nests: [[W * 0.43, H * 0.19]] },
+    ],
+    // The inland ridges shape three attack lanes without sealing the base away
+    // from the LZ. The short eastern pair shelters the north-beach skiff.
+    ridges: [
+      [W * 0.31, H * 0.10, W * 0.41, H * 0.31, 48],
+      [W * 0.30, H * 0.91, W * 0.43, H * 0.72, 48],
+      [W * 0.53, H * 0.32, W * 0.62, H * 0.40, 44],
+      [W * 0.53, H * 0.68, W * 0.62, H * 0.60, 44],
+      [W * 0.79, H * 0.20, W * 0.86, H * 0.24, 42],
+      [W * 0.78, H * 0.33, W * 0.86, H * 0.29, 42],
+    ],
+    // Expedition haul road to the shared pad, then the narrow emergency run
+    // north along the beach used only after the Broodmother arrives.
+    roads: [
+      [[W * 0.16, H * 0.76], [W * 0.39, H * 0.67], [W * 0.61, H * 0.55], [W * 0.84, H * 0.50]],
+      [[W * 0.84, H * 0.50], [W * 0.86, H * 0.32], [W * 0.86, H * 0.17]],
+    ],
+    plateaus: [
+      { c: [[W * 0.57, H * 0.50, 135], [W * 0.55, H * 0.46, 90]], ramps: [[W * 0.65, H * 0.50, 88]] },
+    ],
+    boulders: [[W * 0.09, H * 0.28, 55], [W * 0.50, H * 0.92, 52], [W * 0.68, H * 0.12, 48]],
+    flora: { blotch: 'rgba(120,155,140,0.46)', blotch2: 'rgba(15,25,23,0.58)', tuft: 'rgba(155,180,150,0.46)', bush: '#24362e', bushHi: '#3d5548', canopy: '#223a31', canopyHi: '#39584a', clumps: 75 },
+    groves: [[W * 0.10, H * 0.48, 105, 6], [W * 0.50, H * 0.10, 100, 5], [W * 0.51, H * 0.90, 95, 5]],
+    trees: [[W * 0.22, H * 0.18], [W * 0.37, H * 0.52], [W * 0.70, H * 0.82], [W * 0.73, H * 0.25]],
+    bones: [[W * 0.26, H * 0.48, 50, -0.25]],
+    pits: [[W * 0.38, H * 0.38, 32], [W * 0.67, H * 0.72, 30]],
   },
   bastion: {
     label: "Krauss's Bastion",
@@ -1893,12 +1950,12 @@ const MISSIONS = [
       ['sci', 'For the record: the swarm that took the Bastion did not disband. It is HUNTING, in this direction, and it does not distinguish between our flags. Every corpse it leaves me is data — keep them coming, Commander.'],
     ],
     intro: [
-      ['ops', 'The rules are simple and non-negotiable: his fort stands, our base stands, or this truce dies with whichever one falls. Build west of the stem — his ground is his. Hold until the flats go quiet.'],
+      ['ops', 'The rules are simple and non-negotiable: his fort stands, our base stands, or this truce dies with whichever one falls. Krauss commands the red forces; they fight automatically, but you cannot give them orders. Build west of the stem and hold until the flats go quiet.'],
     ],
     objectives: [
       // 15 min (was 18 — Bronson: "boring... weird amount of time")
       { id: 'hold', text: 'Hold the valley — 15 minutes', type: 'survive', secs: 900 },
-      { id: 'shield', text: 'Krauss\'s fort must not fall', type: 'flag' },
+      { id: 'shield', text: 'Krauss\'s autonomous fort must not fall', type: 'flag' },
       { id: 'denW', text: 'Optional: destroy the west den', type: 'groupDead', group: 'denW', hidden: true, mark: [1390, 904] },
       { id: 'denE', text: 'Optional: destroy the east den', type: 'groupDead', group: 'denE', hidden: true, mark: [3273, 864] },
       // phase 2: Lin's corpse-ledger pays off — build her forecast tower on
@@ -2031,6 +2088,7 @@ const MISSIONS = [
     // dies is listed by name. Lose = 3 vehicles (6 of 8 must arrive) or HQ.
     title: 'Exodus', act: 'Act II — The Awakening',
     map: 'exodus', diff: 'normal', noWaves: true, allies: [[1, 2]],
+    lossLabel: 'lost on the road',
     noBuild: { rect: [3318, 0, 4608, 1037],
       msg: 'The evac ground is Rubicon\'s — the truce holds here too' },
     brief: [
@@ -2039,11 +2097,11 @@ const MISSIONS = [
       ['sci', 'The road reads worse than the valley did. Dens along the whole artery, and the burning stretch mid-route — thread the gaps, or the vehicles cook. Commander: they move when YOU move them. Nobody else drives.'],
     ],
     intro: [
-      ['ops', 'Eight vehicles, eight drivers with names. Build your escort first — the road will not forgive a thin one. Armor and rockets for the roadblocks, guns for the sky, then move the convoy as one.'],
+      ['ops', 'Eight vehicles, eight drivers with names. You command the convoy and your expedition escort. The red evac-station garrison stays under Krauss — allied, but autonomous. Build armor and rockets for the roadblocks, guns for the sky, then move as one.'],
       ['cdo', 'Delivered. Your road now.'],
     ],
     objectives: [
-      { id: 'deliver', text: 'Escort the convoy to the evac station — 6 of 8 vehicles', type: 'groupReach', group: 'convoy', count: 6, x: 4009, y: 600, r: 260, mark: [4009, 600] },
+      { id: 'deliver', text: 'Escort 6 of 8 vehicles to Krauss\'s autonomous evac garrison', type: 'groupReach', group: 'convoy', count: 6, x: 4009, y: 600, r: 260, mark: [4009, 600] },
       { id: 'board', text: 'Hold the evac perimeter while the civilians board', type: 'survive', secs: 120, hidden: true },
       { id: 'block1', text: 'Optional: break the causeway roadblock', type: 'groupDead', group: 'block1', hidden: true, mark: [2373, 1330] },
       { id: 'block2', text: 'Optional: break the northern roadblock', type: 'groupDead', group: 'block2', hidden: true, mark: [3320, 930] },
@@ -2098,7 +2156,7 @@ const MISSIONS = [
           { bld: 'den', team: 3, at: [4280, 1180] },
         ],
         say: [['sci', 'They are aboard and the ground HEARD it — two eruptions, both flanks of the station. Two minutes to spool the transports, Commander. Hold the perimeter.'],
-              ['red', 'Station guns are yours. My people are watching you from the windows, expedition. Show them the truce was worth it.']] },
+              ['red', 'Station guns are firing on their own — they remain under my command. Your escort holds the road and the outer perimeter. My people are watching from the windows, expedition. Show them the truce was worth it.']] },
       // the last two minutes are the serious battle: three pulses, ~45 strong
       { when: { done: ['deliver'] }, delay: 30, alarm: '⚠ MASSED ASSAULT on the evac station!',
         spawn: [
@@ -2129,6 +2187,155 @@ const MISSIONS = [
     ],
     winText: 'Eight vehicles went into the dark and the drivers who made it will tell the story for the rest of their lives. The civilians are out. The soldiers are not — and the planet now knows exactly what an evacuation sounds like.',
     loseText: 'The road east is quiet again. The vehicles that stopped are part of it now — and the names of the drivers go on a wall that two companies will have to share.',
+  },
+  {
+    // M13 — Act 2 finale. Three four-minute manifests load under an escalating
+    // siege after a five-minute fortification window: raptors, then wings,
+    // then Ironbacks. Each launch replaces its ground vehicles with outbound
+    // allied aircraft. When the last flight clears, the Broodmother walks in
+    // invulnerable and the mission stops pretending the base can be saved.
+    title: 'The Broodmother Wakes', act: 'Act II — The Awakening',
+    map: 'coast', diff: 'hard', noEnemy: true, noWaves: true, allies: [[1, 2]],
+    lossLabel: 'lost at the flight line',
+    noBuild: { rect: [3780, 1370, 4300, 2080],
+      msg: 'Keep the flight line clear — build the perimeter outside the pad' },
+    brief: [
+      ['ops', 'Exodus Road bought us one night. This coast is the last ground the transports can use, and every surviving Rubicon camp is coming here. We hold the strip until three flights are airborne. Then we are gone.'],
+      ['red', 'My crews have welded a flight line out of refinery deck plates. The manifests arrive one at a time; if too many vehicles die on the pad, that flight dies with them. I have no fourth list, expedition.'],
+      ['sci', 'The Overwatch Array sees every den in the region turning toward the coast in sequence. Not a migration. Orders. Whatever is beneath us has stopped hiding that it can think.'],
+    ],
+    intro: [
+      ['ops', 'Five minutes until the first manifest reaches the pad. Build two lines: guns for the flood, flak behind them for the sky, artillery where it can break armor before armor reaches the wall.'],
+      ['red', 'Rubicon commands the flight line and its red crews. Expedition commands everything west of it. Separate orders, same job.'],
+    ],
+    objectives: [
+      { id: 'ready', text: 'Fortify the evacuation perimeter — first manifest inbound', type: 'survive', secs: 300 },
+      { id: 'lift1', text: 'Flight One — keep 4 of 5 manifest vehicles alive until launch', type: 'survive', secs: 240, hidden: true },
+      { id: 'lift2', text: 'Flight Two — keep 4 of 5 manifest vehicles alive until launch', type: 'survive', secs: 240, hidden: true },
+      { id: 'lift3', text: 'Final Flight — keep 4 of 5 manifest vehicles alive until launch', type: 'survive', secs: 240, hidden: true },
+      { id: 'regroup', text: 'Abandon the base — rally 8 troops at the flight line', type: 'groupReach', any: 1, count: 8, x: 3820, y: 1728, r: 330, hidden: true, mark: [3820, 1728] },
+      { id: 'escape', text: 'Evacuate those 8 troops at the north-coast skiff', type: 'groupReach', any: 1, after: 'regroup', count: 8, x: 3960, y: 590, r: 230, hidden: true, mark: [3960, 590] },
+    ],
+    winWhen: ['ready', 'lift1', 'lift2', 'lift3', 'regroup', 'escape'],
+    triggers: [
+      // Rubicon owns only the flight line: an HQ/operations hut, repair cover,
+      // guns, and a thin allied garrison. noEnemy keeps its economy inert.
+      { when: { time: 0.5 }, spawn: [
+        { bld: 'hq', team: 2, at: [4020, 1728] },
+        { bld: 'airpad', team: 2, at: [4080, 1510] },
+        { bld: 'supply', team: 2, at: [3820, 1570] },
+        { bld: 'supply', team: 2, at: [3820, 1900] },
+        { bld: 'turret', team: 2, at: [3600, 1440] },
+        { bld: 'turret', team: 2, at: [3600, 2010] },
+        { bld: 'flak', team: 2, at: [3740, 1728] },
+        { unit: 'marine', team: 2, n: 5, at: [3500, 1650], order: 'guard' },
+        { unit: 'rocket', team: 2, n: 2, at: [3530, 1810], order: 'guard' },
+      ] },
+      // The five-minute build is pressured, but the mission's real difficulty
+      // belongs to the manifests rather than opening spam.
+      { when: { time: 180, notDone: ['ready'] },
+        spawn: { unit: 'raptor', team: 3, n: 3, at: [2200, 650], to: [3600, 1728] } },
+      { when: { time: 270, notDone: ['ready'] },
+        spawn: [
+          { unit: 'raptor', team: 3, n: 3, at: [2100, 2880], to: [3600, 1728] },
+          { unit: 'screecher', team: 3, n: 1, at: [2900, 300], to: [3600, 1728] },
+        ] },
+
+      // FLIGHT ONE — flood. The vehicles are the objective; four must remain.
+      { when: { done: ['ready'] }, objective: 'lift1', focus: [3800, 1728, 3],
+        alarm: '⚠ FLIGHT ONE ON THE PAD — protect the manifest!',
+        spawn: [
+          { group: 'manifest1', unit: 'harvester', team: 2, n: 5, at: [3720, 1630], order: 'guard',
+            names: ['Flight 1 — Alba', 'Flight 1 — Chen', 'Flight 1 — Dlamini', 'Flight 1 — Farouk', 'Flight 1 — Sato'] },
+          { bld: 'den', team: 3, at: [2760, 700] },
+          { bld: 'den', team: 3, at: [2700, 2850] },
+        ],
+        say: [['ops', 'Flight One is loading. Five vehicles on the manifest — we need four intact when the clock hits zero. The flood is coming through both inland cuts.']] },
+      { when: { done: ['ready'], notDone: ['lift1'] }, delay: 20, repeat: true, every: 45,
+        spawn: [
+          { unit: 'raptor', team: 3, n: 6, at: [2500, 420], to: [3800, 1728] },
+          { unit: 'spitter', team: 3, n: 3, at: [2450, 3030], to: [3800, 1728] },
+        ] },
+      { when: { notDone: ['lift1'], groupLost: ['manifest1', 1] },
+        say: [['red', 'One vehicle off the first manifest. You may lose ONE, expedition. There is no room for another name.']] },
+      { when: { notDone: ['lift1'], groupBelow: ['manifest1', 4] }, lose: true },
+
+      // FLIGHT TWO — the sky. Flight One visibly lifts east over the water as
+      // the second ground manifest rolls onto the same bloodied pad.
+      { when: { done: ['lift1'] }, extract: 'manifest1', objective: 'lift2',
+        alarm: '✈ FLIGHT ONE AWAY — Flight Two loading!',
+        spawn: [
+          { unit: 'gunship', team: 2, n: 2, at: [4050, 1600], to: [4550, 1500] },
+          { group: 'manifest2', unit: 'apc', team: 2, n: 5, at: [3700, 1780], order: 'guard',
+            names: ['Flight 2 — Haddad', 'Flight 2 — Ibarra', 'Flight 2 — Mensah', 'Flight 2 — Novak', 'Flight 2 — Park'] },
+          { bld: 'roost', team: 3, at: [3150, 480] },
+          { bld: 'roost', team: 3, at: [3200, 3040] },
+        ],
+        say: [['sci', 'First flight clear. The high contacts are folding toward the coast now — this wave has WINGS. Keep them off the second manifest.']] },
+      { when: { done: ['lift1'], notDone: ['lift2'] }, delay: 15, repeat: true, every: 45,
+        spawn: [
+          { unit: 'screecher', team: 3, n: 7, at: [3000, 220], to: [3800, 1728] },
+          { unit: 'raptor', team: 3, n: 4, at: [2350, 2860], to: [3800, 1728] },
+        ] },
+      { when: { notDone: ['lift2'], groupLost: ['manifest2', 1] },
+        say: [['ops', 'Second manifest took a loss. Flak tight to the pad — one more vehicle and that flight cannot launch.']] },
+      { when: { notDone: ['lift2'], groupBelow: ['manifest2', 4] }, lose: true },
+
+      // FINAL FLIGHT — armor reaches the actual player. Fast cadence and two
+      // opening siege columns make this the mission's hardest conventional beat.
+      { when: { done: ['lift2'] }, extract: 'manifest2', objective: 'lift3',
+        alarm: '✈ FLIGHT TWO AWAY — FINAL MANIFEST ON THE PAD!',
+        spawn: [
+          { unit: 'gunship', team: 2, n: 2, at: [4050, 1780], to: [4550, 1880] },
+          { group: 'manifest3', unit: 'harvester', team: 2, n: 3, at: [3690, 1600], order: 'guard',
+            names: ['Final — Reyes', 'Final — Singh', 'Final — Varga'] },
+          { group: 'manifest3', unit: 'apc', team: 2, n: 2, at: [3710, 1830], order: 'guard',
+            names: ['Final — Washington', 'Final — Yoon'] },
+          { unit: 'ironback', team: 3, n: 4, at: [2250, 620], to: [3800, 1728] },
+          { unit: 'ironback', team: 3, n: 4, at: [2200, 2920], to: [3800, 1728] },
+        ],
+        say: [['red', 'Last list. Last flight. Armor on both inland roads — break it before it reaches the pad or there will be nobody left to evacuate.']] },
+      { when: { done: ['lift2'], notDone: ['lift3'] }, delay: 10, repeat: true, every: 35,
+        spawn: [
+          { unit: 'raptor', team: 3, n: 7, at: [2360, 450], to: [3800, 1728] },
+          { unit: 'ironback', team: 3, n: 2, at: [2100, 2900], to: [3800, 1728] },
+          { unit: 'screecher', team: 3, n: 5, at: [3300, 150], to: [3800, 1728] },
+        ] },
+      { when: { notDone: ['lift3'], groupLost: ['manifest3', 1] },
+        say: [['red', 'Final manifest is down one. Four vehicles or we leave a whole camp on this beach. HOLD.']] },
+      { when: { notDone: ['lift3'], groupBelow: ['manifest3', 4] }, lose: true },
+
+      // The act turn: the last civilians clear, then the camera belongs to her.
+      // Plot armor makes the instruction physical — do not fight, leave.
+      { when: { done: ['lift3'] }, extract: 'manifest3', objective: 'regroup', noBase: true,
+        focus: [1800, 1728, 5], reveal: [1800, 1728, 540, 6], alarm: '⚠ SEISMIC BREACH — COLOSSAL CONTACT!',
+        spawn: [
+          { unit: 'gunship', team: 2, n: 3, at: [4060, 1700], to: [4550, 1700] },
+          { group: 'mother', unit: 'broodmother', team: 3, n: 1, at: [1800, 1728], to: [3820, 1728], invuln: true },
+          { unit: 'raptor', team: 3, n: 10, at: [1900, 1630], to: [3820, 1728] },
+        ],
+        say: [['sci', 'That is not a den. Commander — that is what the dens are FOR. Weapons cannot stop her. The north-coast skiff is marked. Leave the base. LEAVE.'],
+              ['ops', 'All expedition units fall back north! Eight troops on the skiff and we are gone — nothing else on this map matters now!']] },
+      { when: { done: ['regroup'] }, objective: 'escape',
+        say: [['ops', 'Eight accounted for. North beach, now — move before she reaches the pad!']] },
+      { when: { done: ['lift3'], notDone: ['escape'] }, delay: 12, repeat: true, every: 12,
+        rally: { of: 'mother', to: [3820, 1728] } },
+      { when: { done: ['lift3'], notDone: ['escape'] }, delay: 30,
+        spawn: [
+          { unit: 'raptor', team: 3, n: 5, at: [3300, 1000], to: [3960, 590] },
+          { unit: 'screecher', team: 3, n: 4, at: [4200, 1200], to: [3960, 590] },
+        ],
+        say: [['red', 'She walked through my outer line without slowing. Expedition, get your people on that skiff. I will count this time.']] },
+      { when: { done: ['lift3'], notDone: ['escape'], anyBelow: 8 }, lose: true },
+      { when: { time: 1, notDone: ['lift3'], bldBelow: ['hq', 2, 0] }, lose: true },
+    ],
+    outro: [
+      ['ops', 'Skiff clear. Coast is lost. All surviving flights, turn west and do not look back.'],
+      ['sci', 'I saw her directing them. Not signaling — directing. We spent two acts studying nests as if they were colonies. They are an army, and we just met its general.'],
+      ['red', 'Then we stop running when we have a weapon that can kill her. Until then, remember every meter of ground she took from us.'],
+    ],
+    winText: 'Three flights rise over the black water. Behind them, the Broodmother walks through the last human walls on the coast and does not stop. Act II ends in retreat. Act III begins with a promise to return.',
+    loseText: 'The flight line goes silent with names still on the manifests. The sea is open, the transports are waiting, and the coast belongs to the Broodmother.',
   },
 ];
 
@@ -2611,6 +2818,10 @@ function updateFog() {
   // player case rides the same check
   for (const u of units) if (isAllied(u.team, 1)) stampVision(u.x, u.y, UNIT[u.type].sight, u.fly);
   for (const b of buildings) if (isAllied(b.team, 1)) stampVision(b.x, b.y, BLD[b.type].sight);
+  // Scripted scans own the camera for only a few seconds, then expire. This is
+  // presentation visibility, not a permanent map reveal (M13's breach).
+  if (ms && ms.reveals) for (const r of ms.reveals)
+    if (tick < r.until) stampVision(r.x, r.y, r.r, true);
   const d = fogImg.data;
   for (let i = 0; i < visible.length; i++) {
     d[i * 4 + 3] = visible[i] ? 0 : (fogMemory && explored[i]) ? 150 : 255;   // rgb stays black
@@ -4961,10 +5172,10 @@ function overlayStats() {
     `<div><b>${stats.lost}</b><span>units lost</span></div>` +
     `<div><b>${stats.kills}</b><span>kills</span></div>` +
     `<div><b>${Math.floor(stats.mined)}</b><span>crystals mined</span></div>` +
-    // named casualties (M12's convoy): every lost NAMED unit appears in the
-    // debrief — losing "Reyes" costs more than losing a harvester
+    // named casualties (M12's convoy, M13's manifests): every lost NAMED unit
+    // appears in the debrief — losing "Reyes" costs more than losing a chassis
     (mission && ms && ms.lostNames && ms.lostNames.length
-      ? `<div style="flex-basis:100%"><b style="font-size:16px">${ms.lostNames.join(', ')}</b><span>lost on the road</span></div>` : '');
+      ? `<div style="flex-basis:100%"><b style="font-size:16px">${ms.lostNames.join(', ')}</b><span>${mission.lossLabel || 'named losses'}</span></div>` : '');
 }
 function checkEnd() {
   if (gameOver) return;
@@ -5087,6 +5298,10 @@ window.addEventListener('mouseup', (e) => {
     // point select (own things only)
     const t = thingAtPoint(wx, wy);
     selection = (t && t.team === 1 && t.hp > 0) ? [t] : [];
+    if (t && t.team !== 1 && t.hp > 0 && isAllied(t.team, 1)) {
+      const what = t.kind === 'building' ? 'structure' : 'unit';
+      toast(`Allied Rubicon ${what} — Krauss commands it; you command the blue expedition forces`);
+    }
   } else {
     const picked = units.filter(u => u.team === 1 && u.x >= x0 && u.x <= x1 && u.y >= y0 && u.y <= y1);
     if (picked.length) selection = picked;
@@ -7201,6 +7416,25 @@ function drawBuilding(b) {
   // procedural paths both get them)
   drawBuildingDecor(b);
   if (b.type === 'hq' && b.team === 2 && b.built >= 1) drawRubiconBanner(b);
+  // An alliance changes target logic, not ownership. Label the allied HQ so
+  // the first visit to a Rubicon camp never promises units the player cannot
+  // actually command. This follows the camp in M11–13 without tagging every
+  // red soldier and cluttering the battlefield.
+  if (b.type === 'hq' && b.team !== 1 && isAllied(b.team, 1) && b.built >= 1) {
+    const label = 'ALLY · AUTONOMOUS';
+    cx.save();
+    cx.font = '700 10px -apple-system, BlinkMacSystemFont, sans-serif';
+    cx.textAlign = 'center';
+    const lw = cx.measureText(label).width + 14, ly = y - 21;
+    cx.fillStyle = 'rgba(8,18,17,0.88)';
+    rr(cx, b.x - lw / 2, ly - 10, lw, 17, 6); cx.fill();
+    cx.strokeStyle = 'rgba(111,227,208,0.72)';
+    cx.lineWidth = 1;
+    rr(cx, b.x - lw / 2, ly - 10, lw, 17, 6); cx.stroke();
+    cx.fillStyle = '#9fe8df';
+    cx.fillText(label, b.x, ly + 2);
+    cx.restore();
+  }
   if (sunk) cx.restore();   // selection corners + hp bar stay full-footprint
 
   if (sel) {
@@ -8812,7 +9046,7 @@ function missionInit(idx) {
     // pathing the player cannot read or influence, and measuring it proved
     // razing Krauss's forward camp moved his total by 6 crystals in 7000.
     // Scripted, it becomes an antagonist with a valve the player can shut.
-    groups: {}, flags: {}, grants: [], haul: 0, winAt: 0, outroDone: false,
+    groups: {}, flags: {}, grants: [], reveals: [], haul: 0, winAt: 0, outroDone: false,
   };
 }
 
@@ -9103,6 +9337,14 @@ function condMet(w) {
     const g = groupAlive(w.groupDead);
     if (!g || g.length) return false;
   }
+  // how many members of a fixed authored group have been lost. Unlike
+  // groupBelow this expresses the first casualty cleanly, so a mission can
+  // react before the quota itself is doomed (M13's transport manifests).
+  if (w.groupLost) {
+    const ids = ms.groups[w.groupLost[0]];
+    const g = groupAlive(w.groupLost[0]);
+    if (!ids || !g || ids.length - g.length < w.groupLost[1]) return false;
+  }
   // too few of a UNIT TYPE left alive — the type-based twin of groupBelow, so a
   // convoy mission fails on "you cannot deliver the quota any more" rather than
   // on which particular haulers died
@@ -9110,6 +9352,10 @@ function condMet(w) {
     if (units.filter(u => u.team === 1 && u.hp > 0 && u.type === w.unitsBelow[0]).length >= w.unitsBelow[1])
       return false;
   }
+  // mixed-unit survival quota — the loss-side twin of groupReach `any`.
+  // M13's final retreat cannot hang forever if fewer troops remain than the
+  // extraction objective can possibly accept.
+  if (w.anyBelow != null && units.filter(u => u.team === 1 && u.hp > 0).length >= w.anyBelow) return false;
   // too few of a group left alive (convoy attrition → mission failure)
   if (w.groupBelow) {
     const g = groupAlive(w.groupBelow[0]);
@@ -9245,6 +9491,19 @@ function fireTrigger(t) {
   // standard rule printed MISSION FAILED in the middle of a working evacuation.
   if (t.noBase) ms.noBase = true;
   if (t.complete) ms.flags[t.complete] = true;
+  if (t.reveal) {
+    const [x, y, r, secs] = t.reveal;
+    ms.reveals.push({ x, y, r, until: tick + secs * 60 });
+    updateFog();
+  }
+  // A launched manifest leaves the battlefield without being killed. Remove
+  // its surviving ground vehicles before the outbound aircraft appears; the
+  // group remains in ms.groups as an immutable record of who boarded.
+  if (t.extract) for (const name of [].concat(t.extract)) {
+    const ids = ms.groups[name] || [];
+    for (let i = units.length - 1; i >= 0; i--)
+      if (ids.includes(units[i].id) && units[i].hp > 0) units.splice(i, 1);
+  }
   if (t.spawn) for (const sp of [].concat(t.spawn)) doSpawn(sp);
   // The world's own wildlife mobilises: every living unit of a team drops what
   // it was doing and converges on a point (default: the player HQ). Nest guards

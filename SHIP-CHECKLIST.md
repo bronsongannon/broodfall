@@ -20,14 +20,13 @@ Interactive version: `.claude/ship-widget.html` renders as a widget at the start
 of every Claude session (SessionStart hook in `.claude/settings.json`). Keep this
 file and the widget's task lists in sync.
 
-## PRIORITY: finish the campaign (9 missions remain, 11 of 20 built)
+## PRIORITY: finish the campaign (7 missions remain, 13 of 20 built)
 
-M11 "Strange Bedfellows" BUILT 2026-08-13 — and with it the ALLIED AI faction
-(mission `allies` machinery: one isAllied predicate through the hostility
-funnels, shared vision, ally repair, `mapOverride` base relocation, `noBuild`
-truce fencing). M18's joint assault inherits all of it. Engine work still
-gating missions: corrupted spawner buildings (M14), den-seeding timer (M15),
-Broodmother combat version (M20). Maps still to build: Evac Coast, The Crater.
+Act 2 is complete through M13 "The Broodmother Wakes." Allied-faction machinery,
+named-loss reporting, staged evacuation, and the scripted Broodmother are now
+available for reuse. Engine work still gating missions: corrupted spawner
+buildings (M14), den-seeding timer (M15), and the Broodmother combat version
+(M20). The Crater is the only campaign map still to build.
 Standing rule: **M10+ missions are a mandatory 20–25 minutes** — M11's 18-min
 hold clock + build-up sits in range; Bronson's stopwatch confirms.
 
@@ -83,6 +82,8 @@ Still the correct order when it's time. No dates until the game is done.
 - [x] M10 playtest round 1 (Bronson 2026-08-12): "M10 is cool." Two fixes from it, both in: (1) the breakaway hunters are story-tough (hpMul 6 → 390hp) instead of invulnerable — they reached his base and "wouldnt die"; now you outrun them or mass fire and pay for it, and only the city swarm stays unkillable. (2) The collapse opens with FOUR LOCKED SECONDS on the wall breach — trigger `focus` gained an optional `[x, y, secs]` form (hold + lock, uninterruptible) so set-pieces can own the camera briefly
 - [x] M10 lengthening round (Bronson 2026-08-12: ~15 min vs the 20-25 mandate; "i took down all of Krauss base with just 7-10 units. it should have to be almost triple that"). Picked A + B + a war-strength fortress: the siege is TWO PHASES now (HQ objective hidden until the gate batteries fall — the M7 forts→HQ chain), batteries 4→6 (three per gate), an inner defensive ring (2 turrets + 3rd flak), garrison roughly doubled (12 marines / 6 rockets / 3 snipers + 2 tanks + 1 artillery on guard), and three red REPAIR CREWS living at the batteries — idle engineers mend whatever the wall loses between pushes (240px idle-acquisition radius, so the crews are parked AT their guns; snipe the crews or fight the mending). Lin warns about them in the intro. Verified: crews fully mend wounded batteries at both gates + inner ring in ~40s, phase gate reveals the HQ objective, full chain to WIN, zero errors. Option (c) counterattack sortie BANKED if round 3 still runs short
 - [ ] Playtest M10 round 3 — stopwatch the two-phase siege against the 20-25 mandate, and gauge whether ~25-30 units is now the honest price of the city. Knobs: battery count (6), garrison sizes, repair crew count (3), hunter hpMul (6), camera lock (4s)
+- [x] M13 "The Broodmother Wakes" BUILT (2026-09-01) — Act 2 finale on the new Evac Coast map. Five-minute fortification, then three four-minute launch clocks with five named manifest vehicles apiece (one loss allowed per flight), escalating raptor → Screecher → Ironback pressure, outbound allied aircraft, and an invulnerable Broodmother breach that flips the mission to an eight-unit rally plus north-skiff escape. New generic machinery: `groupLost` warning condition, `extract` trigger action, mixed-unit `anyBelow` defeat condition, expiring scripted `reveal`, and mission-specific named-loss labels. Full deterministic chain completed at 23:15; second-manifest-loss defeat verified; opening pressure moved off the player HQ after the first timing pass exposed a minute-three setup wipe.
+- [ ] Playtest M13 round 1 — stopwatch the real fight against the 20–25 mandate and judge whether each manifest reads as a distinct escalation without the pad becoming unreadable. Knobs: setup 300s; launches 240s each; manifest quota 4/5; Flight One 65s cadence; Flight Two 60s; Final Flight 45s; final escape quota 8.
 - [ ] Pacing pass toward 20–30 minute matches — game-wide: skirmish AND the mission ramp (M9 ≥10 min; every mission M10+ mandatory 20–25 per the 2026-08-04 standing rule)
 
 ## Art and audio
@@ -121,6 +122,6 @@ Still the correct order when it's time. No dates until the game is done.
 - [x] Units killed mid-tick can no longer act or count toward mission objectives
 - [x] Nuke safety: no dead-silo launches, no mode-stacking accidental launches, no overlay race on quit
 - [x] Menu hotkeys gated off, mission rig costs no supply, enemy plant can't spawn on crystals, AI refineries obey the tech tree
-- [ ] Map roster: 15 maps / 20 missions locked 2026-07-24 (table in CAMPAIGN.md). 13 built (Krauss's Bastion landed 2026-08-11 with M10); 2 to build — Evac Coast (M13), The Crater (M18–M20)
+- [ ] Map roster: 15 maps / 20 missions locked 2026-07-24 (table in CAMPAIGN.md). 14 built; 1 to build — The Crater (M18–M20)
 - [x] Mission 7 "High Water Mark" built 2026-07-26 — the Act 1 finale and the first campaign mission with a live red base (AI + waves). Dam → both river forts → Krauss's HQ → the den that erupts mid-victory-speech. Win chain, lose path and an 18k-tick hands-off soak verified
 - [x] Missions 4–6 ("Dig In", "Ghost Survey", "Countdown") — BUILT 2026-07-27. **ACT 1 IS COMPLETE, 7/20 missions.** Shipped with them: the framework batch (`survive` + `limit`/`onExpire` deadline objectives with a live HUD countdown, `groupDead`, location-aware `built`, `noBase` commando missions, trigger action `nuke` for scripted launches, spawn `aim` at a building type). Paid tier is now 4 missions instead of 1

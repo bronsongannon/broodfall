@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check JavaScript syntax
+        run: node --check game.js
+      - name: Smoke-test static serving
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 8777 > /tmp/broodfall-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid"' EXIT
+          for attempt in {1..20}; do
+            if curl --fail --silent --show-error http://127.0.0.1:8777/ > /dev/null; then
+              break
+            fi
+            sleep 0.25
+          done
+          curl --fail --silent --show-error http://127.0.0.1:8777/game.js > /dev/null
+
+  native-build:
+    runs-on: macos-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build unsigned macOS wrapper
+        run: >-
+          xcodebuild
+          -project mac/Broodfall.xcodeproj
+          -scheme Broodfall
+          -configuration Debug
+          -derivedDataPath /tmp/broodfall-derived
+          CODE_SIGNING_ALLOWED=NO
+          build

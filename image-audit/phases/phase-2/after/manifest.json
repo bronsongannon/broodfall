@@ -1,0 +1,206 @@
+{
+  "schema_version": 1,
+  "scope": "phase",
+  "phase": 2,
+  "state": "after",
+  "git_ref": null,
+  "slots": 19,
+  "present": 19,
+  "missing": [],
+  "contact_sheets": [
+    "source-1.png",
+    "gameplay-1.png"
+  ],
+  "assets": [
+    {
+      "path": "assets/sprites/unit_apc_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        35,
+        35
+      ],
+      "file_sha256": "5917a9543ff059860fae2e9b949cafd478a8c3cd29699da4c8940e4923b99a68"
+    },
+    {
+      "path": "assets/sprites/unit_apc_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        35,
+        35
+      ],
+      "file_sha256": "09a1a4fe6d567c22fa4387d3ea1f12f72b20bb8f46d5909b5373e99fd81b262c"
+    },
+    {
+      "path": "assets/sprites/unit_artillery_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        35,
+        35
+      ],
+      "file_sha256": "376b0bdca4a3bc43ea7e3cf92c25eeabec3b8931dd680a17d8715a486b8d06c7"
+    },
+    {
+      "path": "assets/sprites/unit_artillery_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        35,
+        35
+      ],
+      "file_sha256": "9264b27a2a459333e3ffc8a77bc5b775711bc8785ba64575182e34b90b3ddea9"
+    },
+    {
+      "path": "assets/sprites/unit_gunship_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        34,
+        34
+      ],
+      "file_sha256": "af984678b0a8903544303f058df996e17ad64ebe3e62b344a4d81b3f951861b0"
+    },
+    {
+      "path": "assets/sprites/unit_gunship_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        34,
+        34
+      ],
+      "file_sha256": "8e2c3884ec33837dfc40403e18e9cd73a44f783beed6e0c703237780195d26ed"
+    },
+    {
+      "path": "assets/sprites/unit_harrier_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        32,
+        32
+      ],
+      "file_sha256": "014d9d1dd2b7df49f5f434cc9449d6be88572dddd7379922e12acb68e764095a"
+    },
+    {
+      "path": "assets/sprites/unit_harrier_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        32,
+        32
+      ],
+      "file_sha256": "48a92812339eeee148f561b7fc5de21091d897aa7f3085767d936fcf86b88aa3"
+    },
+    {
+      "path": "assets/sprites/unit_harvester_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        30,
+        30
+      ],
+      "file_sha256": "5cfd2ba8e2855b8d63a3d1bfe48eaf70fe4065b007f1de49f656d61f4cbe1662"
+    },
+    {
+      "path": "assets/sprites/unit_harvester_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        30,
+        30
+      ],
+      "file_sha256": "53534f04d2ae87083683e1c9b8835c3bd47109e74301d5818625c8923ab0a4fe"
+    },
+    {
+      "path": "assets/sprites/unit_raider_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        30,
+        30
+      ],
+      "file_sha256": "e73ef57270318fc17466ce2a72a84123a1d70d28024821247f7bc07450252ded"
+    },
+    {
+      "path": "assets/sprites/unit_raider_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        30,
+        30
+      ],
+      "file_sha256": "14ffba6a263fdf58ee063f558425870f012326c7cd7440526d0b1e2ef79fa94b"
+    },
+    {
+      "path": "assets/sprites/unit_rig_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        30,
+        30
+      ],
+      "file_sha256": "8e955247dffd16e9ce721bda1ef6ed23c5093b3ed7e4184ca82e28e95cf32185"
+    },
+    {
+      "path": "assets/sprites/unit_rig_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        30,
+        30
+      ],
+      "file_sha256": "f0b5162852aec921e59f77d27fbabaa0ae3da4147e79fcda2b9dd231dca8766f"
+    },
+    {
+      "path": "assets/sprites/unit_tank_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        38,
+        38
+      ],
+      "file_sha256": "d52565e25cff32a9206bb28d123bdfcbd8e902153bc82411a1a57c1fca4efaa7"
+    },
+    {
+      "path": "assets/sprites/unit_tank_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        38,
+        38
+      ],
+      "file_sha256": "dceaeca0e2efad068e4024e4c583ed3ca299c80cd50798fd66c7766dd54b1e07"
+    },
+    {
+      "path": "assets/sprites/unit_artillery_hunker_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        35,
+        35
+      ],
+      "file_sha256": "47cc8abec11745192bef51387f65206b7145f1c230f9499a7493aa3632910b8a"
+    },
+    {
+      "path": "assets/sprites/unit_artillery_hunker_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        35,
+        35
+      ],
+      "file_sha256": "f76e5750f4cb0985d7b9ccb084ee95c7a3a99289c000041ecd96cb59a8da5cc1"
+    },
+    {
+      "path": "assets/sprites/unit_carrier_teal.png",
+      "role": "approved benchmark",
+      "present": true,
+      "draw_size": [
+        200,
+        200
+      ],
+      "file_sha256": "173b0714e5979276e64e430a49805eaca5feae23ec3d986108a0a3ed60187efb"
+    }
+  ]
+}

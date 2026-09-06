@@ -112,6 +112,10 @@ const UNIT = {
   gunship:   { label: 'Gunship',   cost: 240, supply: 2, hp: 150, speed: 3.2,  r: 12, dmg: 10, range: 130, cooldown: 18,  buildTime: 11 * 60, sight: 260, fly: 1 },
   // Strike bomber: one devastating bomb per run, then home to the Airpad to rearm.
   harrier:   { label: 'Harrier',   cost: 320, supply: 2, hp: 120, speed: 4.2,  r: 12, dmg: 0,  range: 0,   cooldown: 0,   buildTime: 13 * 60, sight: 240, fly: 1, bomb: 120, bombSplash: 55, bombBldBonus: 1.4 },
+  // Playable naval command platform. Water-only movement is handled before
+  // the ground A* stack; its strike jets are temporary carrier sorties rather
+  // than trainable units, so they never consume supply or Harrier capacity.
+  carrier:   { label: 'Expedition Carrier', cost: 800, supply: 6, hp: 1800, speed: 0.72, r: 48, dmg: 0, range: 0, cooldown: 0, buildTime: 24 * 60, sight: 520, waterOnly: 1 },
   // Siege piece. Shells fly to where the target WAS (no homing) and splash on
   // impact — devastating vs buildings/nests, whiffs vs anything fast. Can't
   // fire inside minRange, and sight < range means it wants spotters.
@@ -162,6 +166,9 @@ const BLD = {
   hq:       { label: 'Headquarters', hp: 3000, w: 96, h: 96, supply: 20, sight: 300, trains: ['harvester', 'engineer'], gen: 8 },
   barracks: { label: 'Barracks',     hp: 1100, w: 78, h: 78, supply: 4,  sight: 250, trains: ['marine', 'sniper', 'medic', 'rocket'], cost: 150, buildTime: 13 * 60, req: ['supply'], pow: 3 },
   factory:  { label: 'Factory',      hp: 1000, w: 88, h: 72, supply: 4,  sight: 220, trains: ['raider', 'tank', 'artillery', 'apc'], cost: 200, buildTime: 15 * 60, req: ['barracks'], pow: 4 },
+  // Half workshop, half launch ways. It must straddle a scouted ocean shore;
+  // carriers leave from the water side and can only rally to navigable water.
+  shipyard: { label: 'Naval Shipyard', hp: 1300, w: 128, h: 90, supply: 4, sight: 380, trains: ['carrier'], cost: 450, buildTime: 20 * 60, req: ['factory'], pow: 5, shore: 1 },
   // Beyond housing: the depot is the base's logistics hub — it slowly patches
   // up nearby friendly buildings (a weak, free engineer that never wanders off).
   supply:   { label: 'Supply Depot', hp: 500,  w: 56, h: 56, supply: 8,  sight: 180, cost: 100, buildTime: 10 * 60, sink: 1 },
@@ -188,6 +195,9 @@ const BLD = {
   // no skirmish map places one yet, missions spawn them via bld triggers.
   den:      { label: 'Raptor Den',   hp: 2200, w: 115, h: 115, supply: 0, sight: 240 },   // 144 -> 115 (Bronson 2026-08-24: too big)
   roost:    { label: 'Screecher Roost', hp: 950, w: 84, h: 84, supply: 0, sight: 220 },
+  // Mission 13's last way out. It is a real world object with a passenger
+  // manifest, but not ground terrain: troops walk onto its land-side ramp.
+  skiff:    { label: 'Evacuation Skiff', hp: 1200, w: 170, h: 92, supply: 0, sight: 220, boat: 1, navIgnore: 1 },
   // Dr. Lin's horde-forecast tower. INTRO: M11 phase 2 (a trigger grants it);
   // from then on it's permanent arsenal — every later mission and skirmish
   // once M11 is beaten (grantActive). Expensive by design (Bronson). Huge
@@ -225,6 +235,17 @@ const BROODMOTHER_BROOD_CAP = 8;
 // crew on the bank can raise a dam spanning mid-channel (WALK_HALF_L is 155).
 const ENG_BUILD_RANGE = 175;
 const HARRIER_CAP = 5;         // max harriers a side can field (alive + queued)
+const CARRIER_CAP = 2;         // capital ships stay rare, readable, and worth protecting
+const CARRIER_STRIKE_RANGE = 1700;
+const CARRIER_STRIKE_COOLDOWN = 45 * 60;
+const CARRIER_STRIKE_JETS = 3;
+// The approved carrier art is unusually narrow on its square source canvas.
+// Draw/selection dimensions are deliberately separate from its unchanged
+// navigation radius so the capital ship reads larger than the evacuation skiff
+// without altering water clearance or shore collision.
+const CARRIER_ART_BOX = 200;
+const CARRIER_SELECT_HALF_LENGTH = 100;
+const CARRIER_SELECT_HALF_BEAM = 36;
 const HARRIER_REARM = 7 * 60;  // seconds on the pad between sorties
 
 // ---------------- Maps ----------------
@@ -686,13 +707,12 @@ const MAPS = {
     eSup: [[W * 0.88, H * 0.59], [W * 0.85, H * 0.39]], eTur: [[W * 0.77, H * 0.38], [W * 0.77, H * 0.62]],
     eAir: [W * 0.88, H * 0.47],
     ePatch: [W * 0.70, H * 0.68],
-    // A chain wider than the coastline itself renders surf and makes the whole
-    // eastern edge ground-impassable. Flyers can cross it on launch.
+    // One continuous band reaches well beyond the eastern edge. The old four-
+    // segment chain painted four rounded caps and four translucent texture
+    // layers on top of one another, producing giant circular seams in the sea.
+    // `coast` keeps the shoreline organic without a river's full-width meander.
     rivers: [
-      [W * 0.955, -120, W * 0.945, H * 0.28, 150],
-      [W * 0.945, H * 0.24, W * 0.965, H * 0.55, 150],
-      [W * 0.965, H * 0.51, W * 0.94, H * 0.78, 150],
-      [W * 0.94, H * 0.74, W * 0.955, H + 120, 150],
+      [W + 40, -200, W + 40, H + 200, 500, 'coast-east'],
     ],
     patches: [
       { p: [W * 0.20, H * 0.58], n: 9, a: 3200, nests: [] },
@@ -2213,8 +2233,8 @@ const MISSIONS = [
       { id: 'lift1', text: 'Flight One — keep 4 of 5 manifest vehicles alive until launch', type: 'survive', secs: 240, hidden: true },
       { id: 'lift2', text: 'Flight Two — keep 4 of 5 manifest vehicles alive until launch', type: 'survive', secs: 240, hidden: true },
       { id: 'lift3', text: 'Final Flight — keep 4 of 5 manifest vehicles alive until launch', type: 'survive', secs: 240, hidden: true },
-      { id: 'regroup', text: 'Abandon the base — rally 8 troops at the flight line', type: 'groupReach', any: 1, count: 8, x: 3820, y: 1728, r: 330, hidden: true, mark: [3820, 1728] },
-      { id: 'escape', text: 'Evacuate those 8 troops at the north-coast skiff', type: 'groupReach', any: 1, after: 'regroup', count: 8, x: 3960, y: 590, r: 230, hidden: true, mark: [3960, 590] },
+      { id: 'regroup', text: 'Abandon the base — rally 8 troops at the flight line', type: 'groupReach', infantry: 1, count: 8, x: 3820, y: 1728, r: 330, hidden: true, mark: [3820, 1728] },
+      { id: 'escape', text: 'Right-click the north-coast skiff with 8 troops selected', type: 'board', boat: 'skiff', count: 8, hidden: true, mark: [4190, 590] },
     ],
     winWhen: ['ready', 'lift1', 'lift2', 'lift3', 'regroup', 'escape'],
     triggers: [
@@ -2228,6 +2248,7 @@ const MISSIONS = [
         { bld: 'turret', team: 2, at: [3600, 1440] },
         { bld: 'turret', team: 2, at: [3600, 2010] },
         { bld: 'flak', team: 2, at: [3740, 1728] },
+        { group: 'skiff', bld: 'skiff', team: 2, at: [4190, 590], invuln: true },
         { unit: 'marine', team: 2, n: 5, at: [3500, 1650], order: 'guard' },
         { unit: 'rocket', team: 2, n: 2, at: [3530, 1810], order: 'guard' },
       ] },
@@ -2322,8 +2343,8 @@ const MISSIONS = [
         rally: { of: 'mother', to: [3820, 1728] } },
       { when: { done: ['lift3'], notDone: ['escape'] }, delay: 30,
         spawn: [
-          { unit: 'raptor', team: 3, n: 5, at: [3300, 1000], to: [3960, 590] },
-          { unit: 'screecher', team: 3, n: 4, at: [4200, 1200], to: [3960, 590] },
+          { unit: 'raptor', team: 3, n: 5, at: [3300, 1000], to: [4100, 590] },
+          { unit: 'screecher', team: 3, n: 4, at: [4200, 1200], to: [4100, 590] },
         ],
         say: [['red', 'She walked through my outer line without slowing. Expedition, get your people on that skiff. I will count this time.']] },
       { when: { done: ['lift3'], notDone: ['escape'], anyBelow: 8 }, lose: true },
@@ -2331,10 +2352,10 @@ const MISSIONS = [
     ],
     outro: [
       ['ops', 'Skiff clear. Coast is lost. All surviving flights, turn west and do not look back.'],
-      ['sci', 'I saw her directing them. Not signaling — directing. We spent two acts studying nests as if they were colonies. They are an army, and we just met its general.'],
+      ['sci', 'I saw her directing them. Not signaling — directing. We spent five months studying nests as if they were colonies. They are an army, and we just met its general.'],
       ['red', 'Then we stop running when we have a weapon that can kill her. Until then, remember every meter of ground she took from us.'],
     ],
-    winText: 'Three flights rise over the black water. Behind them, the Broodmother walks through the last human walls on the coast and does not stop. Act II ends in retreat. Act III begins with a promise to return.',
+    winText: 'Three flights rise over the black water. Behind them, the Broodmother walks through the last human walls on the coast and does not stop. Five months after landfall, the retreat hardens into a promise to return.',
     loseText: 'The flight line goes silent with names still on the manifests. The sea is open, the transports are waiting, and the coast belongs to the Broodmother.',
   },
 ];
@@ -2379,7 +2400,9 @@ const missionAllows = (kind, type) => {
   if (!mission || !mission.allow || !mission.allow[kind]) return true;
   return mission.allow[kind].includes(type);
 };
-const BUILD_MENU = [['turret', 'T'], ['barracks', 'B'], ['factory', 'V'], ['supply', 'C'], ['power', 'O'], ['hydro', 'J'], ['refinery', 'G'], ['airpad', 'X'], ['flak', 'Y'], ['silo', 'N'], ['sensor', '']];
+const BUILD_MENU = [['turret', 'T'], ['barracks', 'B'], ['factory', 'V'], ['shipyard', ''], ['supply', 'C'], ['power', 'O'], ['hydro', 'J'], ['refinery', 'G'], ['airpad', 'X'], ['flak', 'Y'], ['silo', 'N'], ['sensor', '']];
+const hasOcean = () => !!(groundM && groundM.rivers
+  && groundM.rivers.some(r => String(r[5] || '').startsWith('coast-')));
 // grantOnly buildings unlock the moment a mission trigger grants them (their
 // intro), and stay unlocked FOREVER once M11 is beaten — later missions and
 // skirmish included. EXCEPT inside a mission that `introduces` the building:
@@ -2426,6 +2449,7 @@ let vents = [];          // burning ground {x, y, r} — passable, damages groun
 const VENT_DMG = 0.1125; // hp/tick (~6.75/s — raised 25% 2026-08-04, Bronson: "soldiers die 25% faster in the flames")
 let nukes = [];          // inbound warheads {x, y, team, tier, t, max}
 let nukeTargeting = null;   // the silo currently picking a target
+let carrierStrikeTargeting = null;   // selected carrier waiting for a beach target
 const NUKE = {
   tac: { label: 'Tactical Nuke', cost: 10000, radius: 170, dmg: 1300, hqSafe: true },
   hq:  { label: 'Bunker Buster', cost: 25000, radius: 200, dmg: 3200, hqSafe: false },
@@ -2449,7 +2473,8 @@ let fogMemory = true;   // true = explored ground stays dimly visible; false = r
 const dist2 = (x1, y1, x2, y2) => { const dx = x2 - x1, dy = y2 - y1; return dx * dx + dy * dy; };
 const dist = (x1, y1, x2, y2) => Math.sqrt(dist2(x1, y1, x2, y2));
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-const isCombat = (u) => u.type !== 'harvester' && u.type !== 'engineer' && u.type !== 'medic' && u.type !== 'rig' && u.type !== 'critter';
+const isCombat = (u) => u.type !== 'harvester' && u.type !== 'engineer' && u.type !== 'medic'
+  && u.type !== 'rig' && u.type !== 'critter' && u.type !== 'carrier';
 // Mission-level ALLIANCE (M11 "Strange Bedfellows" — the Act 2 engine item):
 // mission spec `allies: [[1, 2]]` makes those teams mutual non-hostiles.
 // One predicate, threaded through the hostility FUNNELS (nearestEnemyUnit/
@@ -2505,10 +2530,13 @@ let bodiesReady = false;
   }
 })();
 
-// Optional art slots — no files exist for these yet. Drop a PNG with the
-// right name into assets/sprites/ and it's used automatically next reload;
-// until then the procedural drawing stays. See assets/sprites/ART-WANTED.md.
+// Drop-in art slots. Installed production files win automatically; genuinely
+// absent slots retain the procedural/neutral fallback so partial unrelated art
+// sets cannot break rendering. See assets/sprites/ART-WANTED.md.
 const OPT = {};
+// Bump when a production sprite family is replaced. Optional art is otherwise
+// aggressively reused by browser/WebView caches under its stable drop-in name.
+const OPT_ART_REV = 'human-tech-20260906c5';
 (function loadOptional() {
   const names = ['dino_spitter', 'dino_nest', 'dino_den', 'dino_roost', 'gunship', 'artillery', 'egg', 'medic', 'rocket_trooper', 'apc', 'harrier'];
   for (const k in UNIT) names.push('unit_' + k);   // unit_marine.png, unit_tank.png, …
@@ -2516,21 +2544,21 @@ const OPT = {};
   names.push('unit_marine_hunker', 'unit_sniper_hunker', 'unit_artillery_hunker');   // dug-in poses
   names.push('rock', 'crystal');   // terrain art (natural colors, not tinted)
   names.push('tree', 'tree_dead', 'spire', 'bones', 'pit', 'water', 'water2', 'water3', 'water4');   // terrain + seamless water tile frames
-  // pre-colored colorway slots (STYLE-GUIDE.pdf / Gemini pipeline): drawn AS-IS,
+  // pre-colored colorway slots (STYLE-GUIDE.md production pipeline): drawn AS-IS,
   // no team tint. _teal = team 1, _red = team 2, _wild = untamed dinos.
   for (const k in UNIT) names.push('unit_' + k + '_teal', 'unit_' + k + '_red');
   for (const k in BLD) if (k !== 'nest' && k !== 'den') names.push('bld_' + k + '_teal', 'bld_' + k + '_red');
   names.push('unit_marine_hunker_teal', 'unit_marine_hunker_red',
     'unit_sniper_hunker_teal', 'unit_sniper_hunker_red',
     'unit_artillery_hunker_teal', 'unit_artillery_hunker_red',
-    'turret_gun_teal', 'turret_gun_red');
+    'turret_gun_teal', 'turret_gun_red',
+    'flak_gun_teal', 'flak_gun_red');
   // every dino gets a _wild static slot — the hand-list this replaces silently
   // skipped the Screecher and Ironback, so their installed art never loaded
   for (const k in IS_DINO) names.push('unit_' + k + '_wild');
-  // animation frame slots. Any prefix of frames works — the game uses however
-  // many it finds. death: sliced from Gemini spritesheets. walk: sliced from
-  // AI walk-in-place videos via slice_walk.py (2026-07-20, DaVinci marine first;
-  // units without walk art keep the procedural sway fallback).
+  // Animation frame slots. Any prefix can still fall back safely, although the
+  // production human-tech pass installs each soldier only as a complete static,
+  // walk, and death family. Units without walk art keep procedural sway.
   for (const k in UNIT) {
     for (const cw of ['_teal', '_red', '_wild']) {
       for (let i = 1; i <= 4; i++) names.push('unit_' + k + '_death' + i + cw);
@@ -2548,7 +2576,7 @@ const OPT = {};
       if (TERRAIN_SLOTS.has(n) && groundM) paintGround(groundM);
     };
     i.onerror = () => { OPT[n].err = true; };   // settled-absent, distinct from still-loading
-    i.src = 'assets/sprites/' + n + '.png';
+    i.src = 'assets/sprites/' + n + '.png?v=' + OPT_ART_REV;
   }
 })();
 const opt = (n) => (OPT[n] && OPT[n].ok) ? OPT[n].img : null;
@@ -2576,7 +2604,7 @@ function teamSprite(img, team, tint) {
 }
 // structures can run a darker tint than the team's vehicles (red's identity touch)
 const bldSprite = (img, team) => teamSprite(img, team, COLORS[team].bld || COLORS[team].main);
-// pre-colored colorway art (Gemini pipeline): full-color sprites that bypass
+// authored final-color art: full-color sprites that bypass
 // the tint entirely. Missing files fall through to tinted neutral art as ever.
 const CW = { 1: '_teal', 2: '_red', 3: '_wild' };
 const optCW = (base, team) => opt(base + (CW[team] || ''));
@@ -2603,15 +2631,28 @@ function animFrames(type, kind, team, max) {
   return a;
 }
 
+// Authored infantry deliberately share a stable, readable screen footprint.
+// Keeping this independent of the simulation radius lets the long-rifle and
+// launcher silhouettes read without changing collision or pathfinding.
+const HUMAN_ART_BOX = Object.freeze({
+  marine: 30,
+  engineer: 29,
+  sniper: 32,
+  medic: 30,
+  rocket: 32,
+  commando: 32,
+});
+const unitArtBox = (type, radius) => HUMAN_ART_BOX[type] || radius * 2.7;
+
 // world px of ground covered per full walk cycle — cadence knob for walk
 // frames (smaller = faster leg churn; feet look planted when this ≈ sprite size).
 // UNIT[type].stridePx overrides per unit: heavy quadrupeds need a long stride
 // or their amble plays back frantic (grazer playtest 2026-07-21).
 const WALK_STRIDE_PX = 34;
-const strideOf = (t) => UNIT[t].stridePx || WALK_STRIDE_PX;
+const strideOf = (t) => UNIT[t].stridePx || HUMAN_ART_BOX[t] || WALK_STRIDE_PX;
 
 // distance from unit/building center to the muzzle tip of its drawn barrel
-const MUZZLE_LEN = { marine: 15, sniper: 24, rocket: 16, raider: 17, tank: 22, artillery: 28, gunship: 13, turret: 22, flak: 20, engineer: 11, harvester: 12 };
+const MUZZLE_LEN = { marine: 14, sniper: 14, rocket: 14, commando: 14, raider: 14, tank: 17, artillery: 16, gunship: 13, turret: 22, flak: 20, engineer: 11, harvester: 12 };
 const FX_CAP = 450;
 
 // "base under attack" alerts: pulsing minimap pings + a throttled alarm
@@ -2937,6 +2978,8 @@ function makeUnit(type, team, x, y) {
     kills: 0, eggCarry: false, fly: !!d.fly, stuckT: 0, ghostT: 0,
     capT: 0, captive: false,
     cargo: d.cargo ? [] : null, armed: !!d.bomb,
+    strikeCool: 0,
+    navSpeed: 0,
     walkT: 0, moving: false, recoil: 0,
     order: { type: 'idle' },
   };
@@ -2956,11 +2999,16 @@ function makeBuilding(type, team, x, y, constructing) {
     built: constructing ? 0 : 1,
     rally: null,
   };
+  if (d.boat) { b.passengers = []; b.departing = false; }
   if (d.trains) {
     const dir = team === 1 ? -1 : 1;
     b.rally = { x: clamp(x + 120 * -dir, 40, W - 40), y: clamp(y + 90 * dir, 40, H - 40) };
   }
   buildings.push(b);
+  if (type === 'shipyard') {
+    const launch = shipyardLaunchPoint(b, true);
+    if (launch) b.rally = { x: launch.x, y: launch.y };
+  }
   return b;
 }
 function makeCrystal(x, y, amount) {
@@ -3059,7 +3107,8 @@ const blocked = new Uint8Array(MAP_W * MAP_H);
 // (playtest 2026-07-26). Colliders, ground paint, and the water animation all
 // share these exact points.
 function riverPath(seg, all) {
-  const [x1, y1, x2, y2, r] = seg;
+  const [x1, y1, x2, y2, r, style] = seg;
+  const isCoast = typeof style === 'string' && style.startsWith('coast-');
   const dxn0 = x2 - x1, dyn0 = y2 - y1;
   const L = Math.hypot(dxn0, dyn0);
   const dxn = dxn0 / L, dyn = dyn0 / L, nx = -dyn, ny = dxn;
@@ -3074,20 +3123,134 @@ function riverPath(seg, all) {
     const tt = Math.max(0, Math.min(1, ((px - o[0]) * ddx + (py - o[1]) * ddy) / (ddx * ddx + ddy * ddy || 1)));
     return Math.hypot(px - (o[0] + ddx * tt), py - (o[1] + ddy * tt)) < (r + o[4]) * 1.15;
   });
-  const openStart = !nearOther(x1, y1), openEnd = !nearOther(x2, y2);
+  const openStart = !isCoast && !nearOther(x1, y1), openEnd = !isCoast && !nearOther(x2, y2);
   const pts = [];
   for (let d = 0; d <= L; d += 30) {
     // meander eases to zero at the ends so causeway mouths stay put
     const ease = Math.min(1, d / 140, (L - d) / 140);
-    const sway = (Math.sin(d * 0.011 + seed) * 0.55 + Math.sin(d * 0.0042 + seed * 2.7) * 0.45) * r * 0.5 * ease;
+    // Rivers wiggle over a few hundred pixels; a coastline turns over a few
+    // thousand. Reusing river frequencies here created pointed hourglass
+    // coves even after the ocean became a one-sided shape.
+    const sway = isCoast
+      ? (Math.sin(d * 0.0046 + seed) * 0.62 + Math.sin(d * 0.0017 + seed * 2.7) * 0.38) * r * 0.055 * ease
+      : (Math.sin(d * 0.011 + seed) * 0.55 + Math.sin(d * 0.0042 + seed * 2.7) * 0.45) * r * 0.5 * ease;
     // mouths flare outward (delta-style) so causeway gaps pinch hourglass
     const fs = openStart ? Math.min(1, d / 130) : 1;
     const fe = openEnd ? Math.min(1, (L - d) / 130) : 1;
     const flare = 1 + 0.38 * (1 - Math.min(fs, fe));
-    const width = r * flare * (0.82 + 0.22 * Math.sin(d * 0.016 + seed * 1.7) + 0.16 * Math.sin(d * 0.0061 - seed));
+    const width = isCoast
+      ? r * (0.94 + 0.045 * Math.sin(d * 0.0041 + seed * 1.7) + 0.025 * Math.sin(d * 0.0014 - seed))
+      : r * flare * (0.82 + 0.22 * Math.sin(d * 0.016 + seed * 1.7) + 0.16 * Math.sin(d * 0.0061 - seed));
     pts.push({ x: x1 + dxn * d + nx * sway, y: y1 + dyn * d + ny * sway, r: width, d });
   }
   return pts;
+}
+
+// One water outline shared by the baked ground and the animated texture pass.
+// Rivers are closed two-sided bands with rounded mouths. A coast is one-sided:
+// only its land-facing shoreline is organic, while the water continues beyond
+// the named map edge. Keeping both render passes on this helper prevents the
+// texture/shore mismatches that used to expose seams between wide segments.
+function waterShapePath(seg, pts, scale = 1, wobble = true) {
+  const style = seg[5] || 'river';
+  const path = new Path2D();
+  const angAt = (i) => {
+    const q = pts[Math.min(i + 1, pts.length - 1)], o = pts[Math.max(i - 1, 0)];
+    return Math.atan2(q.y - o.y, q.x - o.x);
+  };
+  const edgeAt = (i, side) => {
+    const p = pts[i], ang = angAt(i), right = side < 0;
+    const ripple = wobble
+      ? Math.sin(p.d * (right ? 0.09 : 0.07) + (right ? p.y : p.x)) * 3.5
+      : 0;
+    const width = p.r * scale + ripple;
+    return [p.x - Math.sin(ang) * width * side, p.y + Math.cos(ang) * width * side];
+  };
+
+  // The coast segment is authored north-to-south; its +normal edge is land.
+  // Close the polygon far outside the map instead of drawing a second organic
+  // edge and rounded caps. That makes the sea a true half-plane, not a fat tube.
+  if (style === 'coast-east') {
+    for (let i = 0; i < pts.length; i++) {
+      const [x, y] = edgeAt(i, 1);
+      i ? path.lineTo(x, y) : path.moveTo(x, y);
+    }
+    path.lineTo(W + 900, pts[pts.length - 1].y);
+    path.lineTo(W + 900, pts[0].y);
+    path.closePath();
+    return path;
+  }
+
+  const cap = (i, flip) => {
+    const p = pts[i], ang = angAt(i), width = p.r * scale;
+    for (let k = 1; k < 14; k++) {
+      const ca = ang + (flip ? -1 : 1) * Math.PI / 2 - (k / 14) * Math.PI;
+      path.lineTo(p.x + Math.cos(ca) * width, p.y + Math.sin(ca) * width);
+    }
+  };
+  for (let i = 0; i < pts.length; i++) {
+    const [x, y] = edgeAt(i, 1);
+    i ? path.lineTo(x, y) : path.moveTo(x, y);
+    if (i === pts.length - 1) cap(i, false);
+  }
+  for (let i = pts.length - 1; i >= 0; i--) {
+    const [x, y] = edgeAt(i, -1);
+    path.lineTo(x, y);
+    if (i === 0) cap(i, true);
+  }
+  path.closePath();
+  return path;
+}
+// Runtime water query shared by naval orders and shoreline safety. Terrain
+// water is already authored as overlapping colliders, so this stays aligned
+// with the exact coast/river geometry used by movement and drowning.
+function waterAt(x, y, inset = 0) {
+  return rocks.some(rk => rk.water
+    && dist2(x, y, rk.x, rk.y) <= Math.max(0, rk.r - inset) ** 2);
+}
+function nearestWaterPoint(x, y, inset = 0) {
+  x = clamp(x, inset + 2, W - inset - 2);
+  y = clamp(y, inset + 2, H - inset - 2);
+  if (waterAt(x, y, inset)) return { x, y };
+  // Orders on the beach snap to the nearest safe patch of water. This radial
+  // search runs only on clicks, not per frame, and supports future coves/rivers
+  // without assuming the ocean is always on the east edge.
+  for (let radius = 24; radius <= 1500; radius += 24) {
+    const n = Math.max(16, Math.ceil(Math.PI * 2 * radius / 48));
+    for (let i = 0; i < n; i++) {
+      const a = i / n * Math.PI * 2;
+      const wx = clamp(x + Math.cos(a) * radius, inset + 2, W - inset - 2);
+      const wy = clamp(y + Math.sin(a) * radius, inset + 2, H - inset - 2);
+      if (waterAt(wx, wy, inset)) return { x: wx, y: wy };
+    }
+  }
+  return null;
+}
+function waterClearanceAt(x, y) {
+  let clear = -Infinity;
+  for (const rk of rocks) if (rk.water) clear = Math.max(clear, rk.r - dist(x, y, rk.x, rk.y));
+  return clear;
+}
+function shipyardLaunchPoint(b, far = false) {
+  // Search a ring around the slipway and choose the deepest nearby water.
+  // This avoids hard-coding "east" and lets a future beach face any direction.
+  let best = null;
+  for (const radius of (far ? [210, 245] : [130, 150])) for (let i = 0; i < 32; i++) {
+    const a = i / 32 * Math.PI * 2;
+    const x = clamp(b.x + Math.cos(a) * radius, 54, W - 54);
+    const y = clamp(b.y + Math.sin(a) * radius, 54, H - 54);
+    const clear = waterClearanceAt(x, y);
+    if (clear < UNIT.carrier.r * 1.18) continue;
+    if (!best || clear > best.clear) best = { x, y, clear };
+  }
+  return best;
+}
+function navalHullFits(u, x, y, a = u.faceA) {
+  const forward = u.r * 1.08, beam = u.r * 0.48, inset = 3;
+  const ca = Math.cos(a), sa = Math.sin(a), nx = -sa, ny = ca;
+  return [[0, 0], [forward, 0], [-forward, 0], [forward * 0.55, beam],
+    [forward * 0.55, -beam], [-forward * 0.55, beam], [-forward * 0.55, -beam]]
+    .every(([fx, fy]) => waterAt(x + ca * fx + nx * fy, y + sa * fx + ny * fy, inset));
 }
 const gridPass = (v, foot) => !v || (foot && v === 2);
 function buildTerrainGrid() {
@@ -3171,30 +3334,75 @@ function refreshBridges() {
   }
   buildTerrainGrid();
 }
-function losClear(x0, y0, x1, y1, foot) {
+const pointInNavBox = (x, y, b, pad) =>
+  Math.abs(x - b.x) <= b.w / 2 + pad && Math.abs(y - b.y) <= b.h / 2 + pad;
+const buildingBlocksPath = (b, foot) => b.hp > 0 && !b.sunk
+  && !(b.type === 'hydro' && foot) && !BLD[b.type].navIgnore;
+function segmentHitsBox(x0, y0, x1, y1, b, pad) {
+  const minX = b.x - b.w / 2 - pad, maxX = b.x + b.w / 2 + pad;
+  const minY = b.y - b.h / 2 - pad, maxY = b.y + b.h / 2 + pad;
+  const dx = x1 - x0, dy = y1 - y0;
+  let lo = 0, hi = 1;
+  for (const [p, d, mn, mx] of [[x0, dx, minX, maxX], [y0, dy, minY, maxY]]) {
+    if (Math.abs(d) < 0.0001) { if (p < mn || p > mx) return false; continue; }
+    let a = (mn - p) / d, z = (mx - p) / d;
+    if (a > z) [a, z] = [z, a];
+    lo = Math.max(lo, a); hi = Math.min(hi, z);
+    if (lo > hi) return false;
+  }
+  return true;
+}
+function navigationGrid(foot, x0, y0, x1, y1) {
+  const nav = blocked.slice(), pad = foot ? 10 : 20;
+  for (const b of buildings) {
+    if (!buildingBlocksPath(b, foot)) continue;
+    // A unit already beside/inside a structure must be allowed to leave it;
+    // attacks, repairs and den retreats must also be allowed to approach their
+    // destination structure. Only intermediate buildings become route walls.
+    if (pointInNavBox(x0, y0, b, pad) || pointInNavBox(x1, y1, b, pad)) continue;
+    const gx0 = Math.max(0, Math.floor((b.x - b.w / 2 - pad) / TILE));
+    const gx1 = Math.min(MAP_W - 1, Math.floor((b.x + b.w / 2 + pad) / TILE));
+    const gy0 = Math.max(0, Math.floor((b.y - b.h / 2 - pad) / TILE));
+    const gy1 = Math.min(MAP_H - 1, Math.floor((b.y + b.h / 2 + pad) / TILE));
+    for (let gy = gy0; gy <= gy1; gy++) for (let gx = gx0; gx <= gx1; gx++) nav[gy * MAP_W + gx] = 1;
+  }
+  return nav;
+}
+function losClear(x0, y0, x1, y1, foot, nav) {
+  const cells = nav || blocked;
   const steps = Math.ceil(dist(x0, y0, x1, y1) / 16);
   for (let i = 1; i <= steps; i++) {
     const t = i / steps;
     const gx = Math.floor((x0 + (x1 - x0) * t) / TILE), gy = Math.floor((y0 + (y1 - y0) * t) / TILE);
-    if (!gridPass(blocked[gy * MAP_W + gx], foot)) return false;
+    if (gx < 0 || gy < 0 || gx >= MAP_W || gy >= MAP_H || !gridPass(cells[gy * MAP_W + gx], foot)) return false;
+  }
+  if (!nav) {
+    const pad = foot ? 10 : 20;
+    for (const b of buildings) {
+      if (!buildingBlocksPath(b, foot)) continue;
+      if (pointInNavBox(x0, y0, b, pad) || pointInNavBox(x1, y1, b, pad)) continue;
+      if (segmentHitsBox(x0, y0, x1, y1, b, pad)) return false;
+    }
   }
   return true;
 }
-function nearestFreeTile(gx, gy, foot) {
-  if (gridPass(blocked[gy * MAP_W + gx], foot)) return [gx, gy];
+function nearestFreeTile(gx, gy, foot, nav) {
+  const cells = nav || blocked;
+  if (gx >= 0 && gy >= 0 && gx < MAP_W && gy < MAP_H && gridPass(cells[gy * MAP_W + gx], foot)) return [gx, gy];
   for (let r = 1; r < 14; r++) {
     for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++) {
       if (Math.max(Math.abs(dx), Math.abs(dy)) !== r) continue;
       const nx = gx + dx, ny = gy + dy;
       if (nx < 0 || ny < 0 || nx >= MAP_W || ny >= MAP_H) continue;
-      if (gridPass(blocked[ny * MAP_W + nx], foot)) return [nx, ny];
+      if (gridPass(cells[ny * MAP_W + nx], foot)) return [nx, ny];
     }
   }
   return null;
 }
 function findPath(x0, y0, x1, y1, foot) {
-  const start = nearestFreeTile(Math.floor(x0 / TILE), Math.floor(y0 / TILE), foot);
-  const goal = nearestFreeTile(Math.floor(x1 / TILE), Math.floor(y1 / TILE), foot);
+  const nav = navigationGrid(foot, x0, y0, x1, y1);
+  const start = nearestFreeTile(Math.floor(x0 / TILE), Math.floor(y0 / TILE), foot, nav);
+  const goal = nearestFreeTile(Math.floor(x1 / TILE), Math.floor(y1 / TILE), foot, nav);
   if (!start || !goal) return null;
   const [sx, sy] = start, [gx, gy] = goal;
   const sIdx = sy * MAP_W + sx, gIdx = gy * MAP_W + gx;
@@ -3249,8 +3457,8 @@ function findPath(x0, y0, x1, y1, foot) {
       const nx = cx0 + dx, ny = cy0 + dy;
       if (nx < 0 || ny < 0 || nx >= MAP_W || ny >= MAP_H) continue;
       const n = ny * MAP_W + nx;
-      if (!gridPass(blocked[n], foot)) continue;
-      if (dx && dy && (!gridPass(blocked[cy0 * MAP_W + nx], foot) || !gridPass(blocked[ny * MAP_W + cx0], foot))) continue;   // no corner cutting
+      if (!gridPass(nav[n], foot)) continue;
+      if (dx && dy && (!gridPass(nav[cy0 * MAP_W + nx], foot) || !gridPass(nav[ny * MAP_W + cx0], foot))) continue;   // no corner cutting
       const cost = g[cur] + (dx && dy ? 1.414 : 1);
       if (cost < g[n]) { g[n] = cost; from[n] = cur; push(cost + hFn(n), n); }
     }
@@ -3266,7 +3474,7 @@ function findPath(x0, y0, x1, y1, foot) {
   let anchor = { x: x0, y: y0 }, i = 0;
   while (i < pts.length - 1) {
     let j = pts.length - 1;
-    while (j > i && !losClear(anchor.x, anchor.y, pts[j].x, pts[j].y, foot)) j--;
+    while (j > i && !losClear(anchor.x, anchor.y, pts[j].x, pts[j].y, foot, nav)) j--;
     if (j === i) j = i + 1;   // can't skip — take the next step anyway
     out.push(pts[j]);
     anchor = pts[j];
@@ -3457,6 +3665,18 @@ function setup(mapKey) {
     }
   }
 
+  // First playable naval sandbox. The M13 campaign version keeps its small
+  // evacuation skiff and scripted ending; skirmish gets a real coastal factory.
+  // Its first hull is already on the ways so the mechanic reveals itself within
+  // seconds, while every later carrier is paid for and produced normally.
+  if (!mission && mapKey === 'coast') {
+    const yard = makeBuilding('shipyard', 1, W - 422, H * 0.52);
+    const launch = shipyardLaunchPoint(yard, true);
+    if (launch) yard.rally = { x: launch.x, y: launch.y };
+    yard.queue.push('carrier');
+    yard.prog = UNIT.carrier.buildTime * 0.72;
+  }
+
   // camera centered on the player base — or, with no base, the insertion point
   const home = pHQ || { x: (mission && mission.start) ? mission.start[0] : W / 2,
                         y: (mission && mission.start) ? mission.start[1] : H / 2 };
@@ -3470,7 +3690,7 @@ function setup(mapKey) {
 function supplyUsed(team) {
   let s = 0;
   for (const u of units) {
-    if (u.team !== team) continue;
+    if (u.team !== team || u.carrierSortie) continue;
     s += UNIT[u.type].supply;
     if (u.cargo) for (const c of u.cargo) s += UNIT[c.type].supply;   // passengers count
   }
@@ -3589,8 +3809,18 @@ function acquireTarget(x, y, team, range, attacker) {
 }
 function thingAtPoint(wx, wy) {
   for (const u of units) {
+    if (u.carrierSortie) continue;                         // carrier wing is commanded as one ability
     if (u.team !== 1 && !isVisibleAt(u.x, u.y)) continue;   // hidden by fog
-    if (dist2(wx, wy, u.x, u.y) <= (u.r + 4) ** 2) return u;
+    if (u.type === 'carrier') {
+      const dx = wx - u.x, dy = wy - u.y;
+      const ca = Math.cos(u.faceA), sa = Math.sin(u.faceA);
+      const along = dx * ca + dy * sa;
+      const across = -dx * sa + dy * ca;
+      if ((along / CARRIER_SELECT_HALF_LENGTH) ** 2 + (across / CARRIER_SELECT_HALF_BEAM) ** 2 <= 1) return u;
+      continue;
+    }
+    const hitR = u.r + 4;
+    if (dist2(wx, wy, u.x, u.y) <= hitR ** 2) return u;
   }
   for (const b of buildings) {
     if (b.team !== 1 && !isShownAt(b.x, b.y)) continue;
@@ -3634,6 +3864,15 @@ function commandMove(sel, wx, wy, attackMove) {
   for (const e of sel) {
     if (e.kind !== 'unit') continue;
     const p = spreadPoint(wx, wy, i++);
+    if (UNIT[e.type].waterOnly) {
+      const wet = nearestWaterPoint(p.x, p.y, e.r * 1.35);
+      if (!wet) {
+        e.order = { type: 'idle' };
+        if (e.team === 1) { toast('Carrier orders must stay in navigable water'); snd.error(); }
+        continue;
+      }
+      p.x = wet.x; p.y = wet.y;
+    }
     // support takes the A-move as attackmove too — NOT for fighting, but
     // because that case's standoff branch is where the hold-behind lives.
     // Routing them to plain 'move' (the old behavior) sent them beelining the
@@ -3682,15 +3921,92 @@ function commandRepair(sel, b) {
   }
 }
 
+function dropAirstrikeBomb(src, x, y) {
+  const D = UNIT.harrier;
+  for (const e of units.slice()) {
+    if (isAllied(e.team, src.team) || e.hp <= 0) continue;
+    if (e.specimen && src.team === 1) continue;
+    if (dist(x, y, e.x, e.y) <= D.bombSplash + e.r) damage(e, D.bomb * weaponMult(src), src);
+  }
+  for (const b of buildings.slice()) {
+    if (isAllied(b.team, src.team) || b.hp <= 0) continue;
+    if (dist(x, y, b.x, b.y) <= D.bombSplash + b.r)
+      damage(b, D.bomb * D.bombBldBonus * weaponMult(src), src);
+  }
+  fxs.push({ kind: 'boom', x, y, t: 0, max: 20, size: D.bombSplash });
+  fxExplosion(x, y, 26, true);
+  addShake(x, y, 8);
+  snd.boom();
+}
+function beginCarrierStrike(carrier) {
+  if (!carrier || carrier.hp <= 0 || carrier.type !== 'carrier') return false;
+  if (carrier.strikeCool > 0) {
+    toast(`Strike wing rearming — ${Math.ceil(carrier.strikeCool / 60)}s`);
+    snd.error();
+    return false;
+  }
+  carrierStrikeTargeting = carrier;
+  attackMoveMode = false; placing = null; nukeTargeting = null;
+  setCursor();
+  toast('Choose a beach target inside the carrier range — right-click to abort');
+  lastCardSig = '';
+  return true;
+}
+function launchCarrierStrike(carrier, x, y) {
+  if (!carrier || carrier.hp <= 0 || !units.includes(carrier) || carrier.strikeCool > 0) return false;
+  if (dist(carrier.x, carrier.y, x, y) > CARRIER_STRIKE_RANGE) {
+    toast('Target is outside carrier strike range');
+    snd.error();
+    return false;
+  }
+  if (!isShownAt(x, y)) {
+    toast('Strike target has not been scouted');
+    snd.error();
+    return false;
+  }
+  const approach = Math.atan2(y - carrier.y, x - carrier.x);
+  const nx = -Math.sin(approach), ny = Math.cos(approach);
+  for (let i = 0; i < CARRIER_STRIKE_JETS; i++) {
+    const lane = i - (CARRIER_STRIKE_JETS - 1) / 2;
+    const jet = makeUnit('harrier', carrier.team,
+      carrier.x - Math.cos(carrier.faceA) * 18 + nx * lane * 18,
+      carrier.y - Math.sin(carrier.faceA) * 18 + ny * lane * 18);
+    jet.faceA = approach;
+    jet.carrierSortie = true;
+    jet.homeCarrier = carrier.id;
+    jet.order = {
+      type: 'carrierStrike',
+      x: clamp(x + nx * lane * 46, 20, W - 20),
+      y: clamp(y + ny * lane * 46, 20, H - 20),
+    };
+  }
+  carrier.strikeCool = CARRIER_STRIKE_COOLDOWN;
+  carrierStrikeTargeting = null;
+  fxs.push({ kind: 'ping', x, y, t: 0, max: 34, color: '#f0c86a' });
+  toast('✈ Strike wing launched — three aircraft inbound');
+  snd.launch();
+  lastCardSig = '';
+  setCursor();
+  return true;
+}
+
 // ---------------- Production ----------------
 function trainUnit(b, type) {
   const d = UNIT[type];
   const t = teams[b.team];
   if (type === 'harrier') {
-    const fleet = units.filter(u => u.team === b.team && u.type === 'harrier').length
+    const fleet = units.filter(u => u.team === b.team && u.type === 'harrier' && !u.carrierSortie).length
       + buildings.reduce((s, x) => s + (x.team === b.team ? x.queue.filter(q => q === 'harrier').length : 0), 0);
     if (fleet >= HARRIER_CAP) {
       if (b.team === 1) { toast(`Harrier fleet is at capacity (${HARRIER_CAP})`); snd.error(); }
+      return false;
+    }
+  }
+  if (type === 'carrier') {
+    const fleet = units.filter(u => u.team === b.team && u.type === 'carrier').length
+      + buildings.reduce((s, x) => s + (x.team === b.team ? x.queue.filter(q => q === 'carrier').length : 0), 0);
+    if (fleet >= CARRIER_CAP) {
+      if (b.team === 1) { toast(`Carrier fleet is at capacity (${CARRIER_CAP})`); snd.error(); }
       return false;
     }
   }
@@ -3710,9 +4026,26 @@ const SPAWN_DOOR = {
   factory:  (b) => ({ x: b.x, y: b.y + b.h / 2 + 16 }),
   hq:       (b) => ({ x: b.x, y: b.y + b.h / 2 + 14 }),
   airpad:   (b) => ({ x: b.x, y: b.y }),
+  shipyard: (b) => shipyardLaunchPoint(b) || ({ x: b.x, y: b.y }),
 };
+function refreshRallyRoute(b) {
+  if (!b.rally) return [];
+  const door = SPAWN_DOOR[b.type];
+  const start = door ? door(b) : { x: b.x, y: b.y };
+  // Aircraft lift over obstacles. Barracks output is on foot; factory/HQ
+  // routes reserve enough room for their widest ground vehicles.
+  const path = (b.type === 'airpad' || b.type === 'shipyard') ? [{ x: b.rally.x, y: b.rally.y }]
+    : findPath(start.x, start.y, b.rally.x, b.rally.y, b.type === 'barracks');
+  b.rally._route = path;
+  b.rally._routeTick = tick;
+  return path || [];
+}
 function spawnFromBuilding(b, type) {
-  const rally = b.rally || { x: b.x, y: b.y + b.h };
+  let rally = b.rally || { x: b.x, y: b.y + b.h };
+  if (UNIT[type].waterOnly) {
+    const safe = nearestWaterPoint(rally.x, rally.y, UNIT[type].r * 1.35) || shipyardLaunchPoint(b, true);
+    if (safe) rally = b.rally = { x: safe.x, y: safe.y };
+  }
   const door = SPAWN_DOOR[b.type];
   let sx, sy;
   if (door) {
@@ -3725,6 +4058,7 @@ function spawnFromBuilding(b, type) {
     sy = b.y + Math.sin(a) * (b.r + 16) + (Math.random() - 0.5) * 10;
   }
   const u = makeUnit(type, b.team, clamp(sx, 20, W - 20), clamp(sy, 20, H - 20));
+  if (UNIT[type].waterOnly) u.faceA = Math.atan2(rally.y - sy, rally.x - sx);
   if (b.team === 1) stats.built++;
   const c = nearestCrystalTo(rally.x, rally.y, 60);
   if (type === 'harvester' && c) u.order = { type: 'harvest', target: c };
@@ -3996,7 +4330,7 @@ function damage(e, d, src) {
     if (e.team === 1 && e.kind === 'unit') stats.lost++;
     // veterancy credit: the killer remembers, and might rank up (no ranks
     // farmed off allied casualties)
-    if (src && src.kind === 'unit' && src.hp > 0 && !isAllied(src.team, e.team)) {
+    if (src && src.kind === 'unit' && src.hp > 0 && !src.carrierSortie && !isAllied(src.team, e.team)) {
       const before = rankOf(src);
       src.kills++;
       const after = rankOf(src);
@@ -4014,11 +4348,12 @@ function damage(e, d, src) {
 function kill(e) {
   e.hp = 0;
   if (nukeTargeting === e) { nukeTargeting = null; setCursor(); }   // no launching from rubble
+  if (carrierStrikeTargeting === e) { carrierStrikeTargeting = null; setCursor(); }
   if (e.kind === 'unit' && e.cargo && e.cargo.length) {
     if (e.team === 1) stats.lost += e.cargo.length;   // passengers are lost too
     e.cargo = [];
   }
-  // units with sliced death frames fall over and leave a body — a soft ring
+  // units with authored death frames fall over and leave a body — a soft ring
   // instead of the full fireball (vehicles and buildings still explode)
   const corpse = e.kind === 'unit' ? animFrames(e.type, 'death', e.team, 4) : [];
   if (e.drowned) {
@@ -4031,11 +4366,11 @@ function kill(e) {
     // Vehicles caught burning still fireball below — fuel does what fuel does.
     fxs.push({ kind: 'corpse', x: e.x, y: e.y, a: e.faceA, frames: corpse, charred: true,
                t: 0, max: corpse.length * 9 + 300,
-               size: IS_DINO[e.type] ? dinoBox(e.type, e.r) * 2 : e.r * 2.7 });
+               size: IS_DINO[e.type] ? dinoBox(e.type, e.r) * 2 : unitArtBox(e.type, e.r) });
   } else if (corpse.length) {
     fxs.push({ kind: 'corpse', x: e.x, y: e.y, a: e.faceA, frames: corpse,
                t: 0, max: corpse.length * 9 + 170,
-               size: e.kind === 'unit' && IS_DINO[e.type] ? dinoBox(e.type, e.r) * 2 : e.r * 2.7 });
+               size: e.kind === 'unit' && IS_DINO[e.type] ? dinoBox(e.type, e.r) * 2 : unitArtBox(e.type, e.r) });
     fxs.push({ kind: 'boom', x: e.x, y: e.y, t: 0, max: 16, size: (e.r || 16) * 0.9 });
   } else if (e.kind === 'unit' && IS_DINO[e.type]) {
     fxs.push({ kind: 'boom', x: e.x, y: e.y, t: 0, max: 18, size: (e.r || 16) * 0.9 });   // animals don't fireball
@@ -4066,8 +4401,33 @@ function kill(e) {
 // ---------------- Unit update ----------------
 function moveToward(u, tx, ty) {
   const d = dist(u.x, u.y, tx, ty);
-  if (d < 5) return true;
+  if (d < 5 && !UNIT[u.type].waterOnly) return true;
   let a = Math.atan2(ty - u.y, tx - u.x);
+  if (UNIT[u.type].waterOnly) {
+    // Ships have throttle and momentum rather than infantry-style instant speed.
+    // They slow before the waypoint and lose turn authority as the hull gathers
+    // speed, so a carrier carves an arc instead of skating sideways.
+    let da = a - u.faceA;
+    while (da > Math.PI) da -= Math.PI * 2;
+    while (da < -Math.PI) da += Math.PI * 2;
+    const maxSpeed = effSpeed(u);
+    const desired = Math.min(maxSpeed, Math.max(0, d - 5) * 0.045);
+    u.navSpeed += clamp(desired - u.navSpeed, -0.020, 0.012);
+    const speedFrac = clamp(u.navSpeed / Math.max(0.01, maxSpeed), 0, 1);
+    const turnRate = 0.032 - speedFrac * 0.014;
+    u.faceA += clamp(da, -turnRate, turnRate);
+    const headingDrive = clamp(Math.cos(Math.abs(da)), 0.12, 1);
+    const step = Math.min(u.navSpeed * headingDrive, d);
+    let nx = u.x + Math.cos(u.faceA) * step, ny = u.y + Math.sin(u.faceA) * step;
+    if (navalHullFits(u, nx, ny, u.faceA)) {
+      u.x = nx; u.y = ny; u.walkT += step; u.moving = step > 0.05;
+    } else {
+      // A bow or beam has met the shallows: shed speed and keep turning without
+      // teleporting the heading. A later frame can nose back into deep water.
+      u.navSpeed *= 0.72;
+    }
+    return d < 8 && u.navSpeed < 0.10;
+  }
   if (u.fly) {   // flyers go straight over everything
     u.faceA = a;
     const step = Math.min(effSpeed(u), d);
@@ -4078,7 +4438,7 @@ function moveToward(u, tx, ty) {
   // ground units path around terrain: straight line when clear, cached A* when not
   const foot = !!(IS_INF[u.type] || IS_DINO[u.type]);   // dam walkways: infantry + dinos only
   let gx = tx, gy = ty;
-  if (rocks.length && !losClear(u.x, u.y, tx, ty, foot)) {
+  if (!losClear(u.x, u.y, tx, ty, foot)) {
     const o = u.order;
     if (!o._path || !o._path.length || Math.abs(tx - o._pgx) + Math.abs(ty - o._pgy) > 56) {
       o._path = findPath(u.x, u.y, tx, ty, foot) || [];
@@ -4108,7 +4468,9 @@ function moveToward(u, tx, ty) {
   const lx = u.x + Math.cos(a) * look, ly = u.y + Math.sin(a) * look;
   const o2 = u.order;
   let sliding = false;
-  if (!u.ghostT) for (const b of buildings) {
+  // Foot units may briefly ghost out of a crush. Vehicles never phase through
+  // structures: even a rock-recovery ghost still respects every building wall.
+  if (!(u.ghostT && foot)) for (const b of buildings) {
     if (b.sunk) continue;   // lowered depots/plants are drive-over ground
     if (b.type === 'hydro' && foot) continue;   // the dam IS the footbridge
     if (Math.abs(lx - b.x) >= b.w / 2 + u.r || Math.abs(ly - b.y) >= b.h / 2 + u.r) continue;
@@ -4134,19 +4496,17 @@ function moveToward(u, tx, ty) {
     sliding = true;
   }
   if (sliding) {
-    // wedged on the same wall too long (concave corner, crowd) — ghost past the
-    // lip instead of orbiting it. Mirrors the A* watchdog, which never fires
-    // for building bumps because buildings aren't in the path grid.
+    // Wedged on the same wall too long: infantry can squeeze out of a crush;
+    // vehicles throw away the stale route and try the other side of the wall.
     o2._slideT = (o2._slideT || 0) + 1;
-    if (o2._slideT > 45) { u.ghostT = 40; o2._slideT = 0; o2._slideB = null; }
+    if (o2._slideT > 45) {
+      if (foot) u.ghostT = 40;
+      else { o2._path = null; o2._pgx = null; o2._slideS = -(o2._slideS || 1); }
+      o2._slideT = 0; o2._slideB = null;
+    }
   } else { o2._slideT = 0; o2._slideB = null; }
-  // building-pocket watchdog: on rock-free ground there is no A* path, so the
-  // progress watchdog in updateUnit never runs — and inside a roomy pocket
-  // between buildings the unit gets enough open ticks between wall bumps that
-  // _slideT keeps resetting. Track raw distance-to-goal here instead: no new
-  // best for 3s while trying to move = orbiting a building cluster. Ghost out.
-  // (Playtest, M2: a convoy harvester circled Survey Post Beta's three
-  // buildings forever without either escape ever firing.)
+  // Building-pocket watchdog. Infantry can squeeze out; vehicles must re-route
+  // because their collision is deliberately never disabled around buildings.
   if (!u.fly) {
     // new goal, or a gap in movement (unit stood mining/firing) — start fresh,
     // else the stale timer would fire a ghost on the first step after any pause
@@ -4156,7 +4516,11 @@ function moveToward(u, tx, ty) {
     o2._gTick = tick;
     const dg = dist2(u.x, u.y, tx, ty);
     if (dg < o2._gBest - 400) { o2._gBest = dg; o2._gT = tick; }
-    else if (tick - o2._gT > 180) { u.ghostT = 60; o2._gT = tick; }
+    else if (tick - o2._gT > 180) {
+      if (foot) u.ghostT = 60;
+      else { o2._path = null; o2._pgx = null; }
+      o2._gT = tick;
+    }
   }
   // vehicles steer, they don't teleport-rotate: cap the hull turn rate so a
   // wall bump reads as a swerve, not a spin (infantry and dinos still snap)
@@ -4185,6 +4549,16 @@ function moveToward(u, tx, ty) {
   return d - step < 5;
 }
 
+function coastNaval(u) {
+  if (!UNIT[u.type].waterOnly || u.navSpeed <= 0.001) return;
+  u.navSpeed = Math.max(0, u.navSpeed - 0.018);
+  const nx = u.x + Math.cos(u.faceA) * u.navSpeed;
+  const ny = u.y + Math.sin(u.faceA) * u.navSpeed;
+  if (u.navSpeed > 0.02 && navalHullFits(u, nx, ny, u.faceA)) {
+    u.x = nx; u.y = ny; u.walkT += u.navSpeed; u.moving = true;
+  } else if (!navalHullFits(u, nx, ny, u.faceA)) u.navSpeed = 0;
+}
+
 function updateUnit(u) {
   if (u.hp <= 0) return;   // killed earlier this tick (splash, capture) — the dead don't act
   // first contact: the moment any wild dino stands in player vision AWAY from
@@ -4193,6 +4567,7 @@ function updateUnit(u) {
   if (!wildSeen && u.team === 3 && (tick + u.id) % 30 === 0 &&
       isVisibleAt(u.x, u.y) && !nearestPlayerBld(u.x, u.y, 480)) wildSeen = true;
   if (u.cool > 0) u.cool--;
+  if (u.strikeCool > 0) u.strikeCool--;
   // a ghost never re-solidifies while inside a building footprint — expiring
   // mid-building lets separation() eject it to the nearest face, which can be
   // right back into the pocket it was escaping
@@ -4235,6 +4610,7 @@ function updateUnit(u) {
 
   switch (o.type) {
     case 'idle': {
+      coastNaval(u);
       // undelivered cargo always resumes its run — a move/stop order mid-haul
       // must never strand a specimen or egg (soft-locked the tutorial once)
       if (u.captive) { u.order = { type: 'returnCaptive' }; break; }
@@ -4457,6 +4833,27 @@ function updateUnit(u) {
       }
       break;
     }
+    case 'boardSkiff': {
+      const boat = o.target;
+      const evac = ms && ms.objectives.find(q => q.type === 'board' && q.boat === 'skiff');
+      if (!boat || boat.hp <= 0 || !buildings.includes(boat) || !boat.passengers
+          || !evac || !evac.active || evac.done || boat.passengers.length >= evac.count) {
+        u.order = { type: 'idle' };
+        break;
+      }
+      // Land-side ramp: troops never have to path into the sea to board.
+      const bx = boat.x - boat.w * 0.47, by = boat.y;
+      if (dist(u.x, u.y, bx, by) > u.r + 12) moveToward(u, bx, by);
+      else {
+        boat.passengers.push(u);
+        units = units.filter(x => x !== u);       // aboard — preserved, not killed
+        selection = selection.filter(s => s !== u);
+        const n = boat.passengers.length;
+        toast(`⚓ ${n}/${evac.count} troops aboard`);
+        beep(440 + n * 18, 0.07, 'triangle', 0.045);
+      }
+      break;
+    }
     case 'strike': {
       // bomb run: fly at the target, one devastating hit, then home to rearm.
       // `resume` (set by A-move sorties) chains back to the attackmove after —
@@ -4470,21 +4867,29 @@ function updateUnit(u) {
       if (!moveToward(u, t.x, t.y) && dist(u.x, u.y, t.x, t.y) > 30) break;
       // bombs away
       u.armed = false;
-      const D = UNIT.harrier;
-      for (const e of units.slice()) {
-        if (isAllied(e.team, u.team) || e.hp <= 0) continue;
-        if (e.specimen && u.team === 1) continue;   // protected specimens shrug off player splash
-        if (dist(t.x, t.y, e.x, e.y) <= D.bombSplash + e.r) damage(e, D.bomb * weaponMult(u), u);
-      }
-      for (const b of buildings.slice()) {
-        if (isAllied(b.team, u.team) || b.hp <= 0) continue;
-        if (dist(t.x, t.y, b.x, b.y) <= D.bombSplash + b.r) damage(b, D.bomb * D.bombBldBonus * weaponMult(u), u);
-      }
-      fxs.push({ kind: 'boom', x: t.x, y: t.y, t: 0, max: 20, size: D.bombSplash });
-      fxExplosion(t.x, t.y, 26, true);
-      addShake(t.x, t.y, 8);
-      snd.boom();
+      dropAirstrikeBomb(u, t.x, t.y);
       u.order = { type: 'rearm', resume: o.resume };
+      break;
+    }
+    case 'carrierStrike': {
+      if (!u.armed) { u.order = { type: 'carrierReturn' }; break; }
+      if (!moveToward(u, o.x, o.y) && dist(u.x, u.y, o.x, o.y) > 28) break;
+      u.armed = false;
+      dropAirstrikeBomb(u, o.x, o.y);
+      u.order = { type: 'carrierReturn' };
+      break;
+    }
+    case 'carrierReturn': {
+      const carrier = units.find(v => v.id === u.homeCarrier && v.hp > 0 && v.type === 'carrier');
+      if (!carrier) {
+        // Command ship lost: surviving aircraft exit toward open sea rather
+        // than circling forever without an Airpad rearm contract.
+        const ex = groundM && groundM.rivers ? W + 180 : u.x + 800;
+        if (u.x > W + 120 || moveToward(u, ex, u.y)) u.hp = 0;
+        break;
+      }
+      if (dist(u.x, u.y, carrier.x, carrier.y) > carrier.r * 0.75) moveToward(u, carrier.x, carrier.y);
+      else u.hp = 0;   // recovered aboard: silent removal, not a casualty
       break;
     }
     case 'rearm': {
@@ -4680,7 +5085,7 @@ const PLANK_HUG = 7;      // how far off the centerline a crosser may drift —
                           // under one unit-width, so nobody passes anybody
 function drownSweep() {
   for (const u of units) {
-    if (u.hp <= 0 || u.fly) continue;
+    if (u.hp <= 0 || u.fly || UNIT[u.type].waterOnly) continue;
     let wet = false;
     for (const rk of rocks) {
       if (!rk.water) continue;
@@ -4739,6 +5144,7 @@ function separation() {
     }
     const aFoot = !!(IS_INF[a.type] || IS_DINO[a.type]);
     if (!a.fly) for (const rk of rocks) {
+      if (UNIT[a.type].waterOnly && rk.water) continue;
       // Shorelines still shove foot units back onto dry land, so nobody walks
       // into a river — but once a body is a full radius INSIDE the channel it
       // is swimming, not standing, and the drown sweep owns it. That is what
@@ -4756,9 +5162,10 @@ function separation() {
       a.x += (dx / d) * push; a.y += (dy / d) * push;
     }
     for (const bl of buildings) {
-      if (a.fly || a.ghostT > 0) break;    // flyers hover; ghosting units slip out of pockets
+      if (a.fly || (a.ghostT > 0 && aFoot)) break;   // vehicles never phase through structures
       if (bl.sunk) continue;               // lowered depots/plants are drive-over ground
       if (bl.type === 'hydro' && aFoot) continue;   // crossing the dam's walkway
+      if (BLD[bl.type].navIgnore) continue;          // the skiff's ramp is intentionally boardable
       const cxp = clamp(a.x, bl.x - bl.w / 2, bl.x + bl.w / 2);
       const cyp = clamp(a.y, bl.y - bl.h / 2, bl.y + bl.h / 2);
       const dx = a.x - cxp, dy = a.y - cyp;
@@ -4776,6 +5183,12 @@ function separation() {
 // ---------------- Buildings ----------------
 function updateBuilding(b) {
   if (b.hp <= 0) return;   // dead this tick — no healing, firing, or spawning from the grave
+  if (b.type === 'skiff') {
+    if (b.departing) {
+      b.x += 1.35;
+    }
+    return;
+  }
   if (b.built < 1) {
     // Some structures don't raise themselves: a Hydro Dam is poured by hand and
     // an engineer has to be standing at the site the whole time (Bronson
@@ -5161,6 +5574,15 @@ function waveUpdate() {
 }
 
 // ---------------- End condition ----------------
+function embarkedPlayerCount() {
+  let n = 0;
+  for (const b of buildings) if (b.passengers)
+    n += b.passengers.filter(u => u.team === 1 && u.hp > 0).length;
+  return n;
+}
+function playerSurvivorCount() {
+  return units.filter(u => u.team === 1 && u.hp > 0).length + embarkedPlayerCount();
+}
 // the verdict overlay is delayed so the HQ explosion can play out — but the
 // pending timeout must die with the world, or it fires over the menu / next game
 let overlayTimer = null;
@@ -5189,7 +5611,7 @@ function checkEnd() {
     // — except on commando missions, where there IS no HQ and the squad is the
     // mission: you lose when the last of them falls.
     if (mission.noBase || (ms && ms.noBase)) {
-      if (tick > 120 && !units.some(u => u.team === 1 && u.hp > 0)) missionEnd(false);
+      if (tick > 120 && playerSurvivorCount() === 0) missionEnd(false);
       return;
     }
     if (!pAlive) missionEnd(false);
@@ -5223,7 +5645,7 @@ const groups = {};
 const keys = {};
 
 function setCursor() {
-  cv.style.cursor = (attackMoveMode || placing || nukeTargeting) ? 'crosshair' : 'default';
+  cv.style.cursor = (attackMoveMode || placing || nukeTargeting || carrierStrikeTargeting) ? 'crosshair' : 'default';
 }
 function pruneSelection() {
   selection = selection.filter(e => e.hp > 0 && (e.kind !== 'unit' || units.includes(e)));
@@ -5274,6 +5696,10 @@ cv.addEventListener('mousedown', (e) => {
   if (e.button !== 0) return;
   if (skipOutro()) return;   // debrief running: click through to the scoreboard
   const wx = mouse.sx + cam.x, wy = mouse.sy + cam.y;
+  if (carrierStrikeTargeting) {
+    launchCarrierStrike(carrierStrikeTargeting, wx, wy);
+    return;
+  }
   if (nukeTargeting) {
     if (nukeTargeting.warhead && launchNuke(nukeTargeting, wx, wy)) { nukeTargeting = null; setCursor(); }
     return;
@@ -5303,7 +5729,8 @@ window.addEventListener('mouseup', (e) => {
       toast(`Allied Rubicon ${what} — Krauss commands it; you command the blue expedition forces`);
     }
   } else {
-    const picked = units.filter(u => u.team === 1 && u.x >= x0 && u.x <= x1 && u.y >= y0 && u.y <= y1);
+    const picked = units.filter(u => u.team === 1 && !u.carrierSortie
+      && u.x >= x0 && u.x <= x1 && u.y >= y0 && u.y <= y1);
     if (picked.length) selection = picked;
     else {
       const b = buildings.find(b => b.team === 1 && b.x >= x0 && b.x <= x1 && b.y >= y0 && b.y <= y1);
@@ -5316,19 +5743,39 @@ cv.addEventListener('contextmenu', (e) => {
   e.preventDefault();
   audioInit();
   const wx = mouse.sx + cam.x, wy = mouse.sy + cam.y;
-  if (placing || attackMoveMode || nukeTargeting) { placing = null; attackMoveMode = false; nukeTargeting = null; setCursor(); return; }
+  if (placing || attackMoveMode || nukeTargeting || carrierStrikeTargeting) {
+    placing = null; attackMoveMode = false; nukeTargeting = null; carrierStrikeTargeting = null;
+    setCursor(); lastCardSig = ''; return;
+  }
   pruneSelection();
   if (!selection.length) return;
 
   const hasUnits = selection.some(s => s.kind === 'unit');
   if (!hasUnits) {
     // building(s) selected → set rally
-    for (const b of selection) if (b.rally) b.rally = { x: wx, y: wy };
+    for (const b of selection) if (b.rally) {
+      if (b.type === 'shipyard') {
+        const safe = nearestWaterPoint(wx, wy, UNIT.carrier.r * 1.35);
+        if (!safe) { toast('No navigable water near that rally point'); snd.error(); continue; }
+        b.rally = { x: safe.x, y: safe.y };
+      } else b.rally = { x: wx, y: wy };
+      refreshRallyRoute(b);
+    }
     fxs.push({ kind: 'ping', x: wx, y: wy, t: 0, max: 22, color: '#8fd8cf' });
     return;
   }
   const t = thingAtPoint(wx, wy);
   if (t && t.kind === 'crystal') commandHarvest(selection, t);
+  else if (t && t.kind === 'building' && t.type === 'skiff'
+           && selection.some(s => s.kind === 'unit' && IS_INF[s.type])) {
+    const evac = ms && ms.objectives.find(o => o.type === 'board' && o.boat === 'skiff');
+    if (!evac || !evac.active || evac.done) toast('The skiff is holding for the final evacuation order');
+    else {
+      for (const s of selection) if (s.kind === 'unit' && IS_INF[s.type])
+        s.order = { type: 'boardSkiff', target: t };
+      fxs.push({ kind: 'ping', x: t.x - t.w * 0.45, y: t.y, t: 0, max: 22, color: '#8fd8cf' });
+    }
+  }
   else if (t && t.kind === 'unit' && t.team === 1 && t.type === 'apc'
            && selection.some(s => s.kind === 'unit' && IS_INF[s.type] && s !== t)) {
     for (const s of selection) {
@@ -5420,7 +5867,8 @@ window.addEventListener('keydown', (e) => {
 
   if (e.code === 'Escape') {
     if (!elHelp.classList.contains('hidden')) { setHelp(false); return; }
-    attackMoveMode = false; placing = null; nukeTargeting = null; selection = []; setCursor(); return;
+    attackMoveMode = false; placing = null; nukeTargeting = null; carrierStrikeTargeting = null;
+    selection = []; setCursor(); return;
   }
   if (e.code === 'KeyM') { muted = !muted; btnMute.textContent = muted ? '🔇' : '🔊'; if (muted) stopVoice(); return; }
   if (e.code === 'KeyP') { togglePause(); return; }
@@ -5442,7 +5890,13 @@ window.addEventListener('keydown', (e) => {
   if (skipOutro()) return;   // debrief running: any key jumps to the scoreboard
 
   pruneSelection();
-  if (e.code === KEY_AMOVE() && selection.some(s => s.kind === 'unit' && isCombat(s))) { attackMoveMode = true; placing = null; nukeTargeting = null; setCursor(); return; }
+  const carrier = selection.length === 1 && selection[0].kind === 'unit'
+    && selection[0].type === 'carrier' ? selection[0] : null;
+  if (carrier && e.code === 'KeyB') { beginCarrierStrike(carrier); return; }
+  if (e.code === KEY_AMOVE() && selection.some(s => s.kind === 'unit' && isCombat(s))) {
+    attackMoveMode = true; placing = null; nukeTargeting = null; carrierStrikeTargeting = null;
+    setCursor(); return;
+  }
   if (e.code === KEY_STOP()) { for (const s of selection) if (s.kind === 'unit') s.order = { type: 'idle' }; return; }
   // H = home: snap the camera to base (Bronson 2026-07-27 — hunker moved to D).
   // With no HQ (commando missions) it centres on whatever you still have.
@@ -5591,7 +6045,7 @@ function startPlacing(type) {
     snd.error();
     return;
   }
-  placing = type; attackMoveMode = false; nukeTargeting = null; setCursor(); lastCardSig = '';
+  placing = type; attackMoveMode = false; nukeTargeting = null; carrierStrikeTargeting = null; setCursor(); lastCardSig = '';
 }
 function canPlaceBuilding(type, wx, wy) {
   const d = BLD[type];
@@ -5626,11 +6080,19 @@ function canPlaceBuilding(type, wx, wy) {
   // Water never blocks them; everything else still does; dry buildings still
   // reject water like any rock.
   for (const rk of rocks) {
-    if (rk.water && d.water) continue;
+    if (rk.water && (d.water || d.shore)) continue;
     if (Math.abs(wx - rk.x) < d.w / 2 + rk.r && Math.abs(wy - rk.y) < d.h / 2 + rk.r) return false;
   }
   if (d.water) {
     return rocks.some(rk => rk.water && dist2(wx, wy, rk.x, rk.y) < rk.r * rk.r);
+  }
+  if (d.shore) {
+    if (!hasOcean()) return false;
+    const samples = [[-d.w * 0.44, 0], [d.w * 0.44, 0], [0, -d.h * 0.44], [0, d.h * 0.44]];
+    const wet = samples.map(([ox, oy]) => waterAt(wx + ox, wy + oy));
+    if (!wet.some(Boolean) || !wet.some(v => !v)) return false;
+    // There must also be enough depth next to the slipway for the produced hull.
+    return !!shipyardLaunchPoint({ x: wx, y: wy });
   }
   if (type === 'refinery') {
     return crystals.some(c => c.amount > 0 && dist2(wx, wy, c.x, c.y) < REFINERY_NEAR_CRYSTAL ** 2);
@@ -5651,6 +6113,7 @@ function tryPlaceBuilding(type, wx, wy) {
     else if (d.needsEngineer && !units.some(u => u.hp > 0 && u.team === 1 && u.type === 'engineer'))
       toast(`${d.label} is built by hand — train an Engineer first (HQ)`);
     else if (BLD[type].water) toast('The dam needs moving water — place it on a river channel');
+    else if (BLD[type].shore) toast('The shipyard must straddle a scouted ocean shoreline, with clear deep water beside it');
     else if (mission && mission.noBuild
              && wx > mission.noBuild.rect[0] && wy > mission.noBuild.rect[1]
              && wx < mission.noBuild.rect[2] && wy < mission.noBuild.rect[3])
@@ -5810,9 +6273,10 @@ function cardSig() {
     (placing || '') + (attackMoveMode ? 'A' : '') + '|' +
     BUILD_MENU.map(([t]) => (grantActive(t) ? 'g' : 'h') + (missionAllows('bld', t) ? '' : 'x') + (teams[1].crystals >= BLD[t].cost ? 'y' : 'n') + (hasTech(1, t) ? 'u' : 'l')).join('') + '|' +
     Object.values(teams[1].up).join('') + '.' + Math.floor(teams[1].crystals / 25) + '.' + teams[1].eggs +
-    '.' + units.reduce((s, u) => s + (u.team === 1 && (u.type === 'spitter' || u.type === 'harrier') ? 1 : 0), 0) +
+    '.' + units.reduce((s, u) => s + (u.team === 1 && (u.type === 'spitter' || u.type === 'carrier' || (u.type === 'harrier' && !u.carrierSortie)) ? 1 : 0), 0) +
     '.' + selection.map(e => (e.warhead || '') + (e.cargo ? e.cargo.length : '') + (e.sunk ? 's' : '')).join('') +
-    (nukeTargeting ? 'N' : '') + (sellArmId || '');
+    '.' + selection.map(e => e.type === 'carrier' ? Math.ceil(e.strikeCool / 60) : '').join('') +
+    (nukeTargeting ? 'N' : '') + (carrierStrikeTargeting ? 'C' : '') + (sellArmId || '');
 }
 function refreshCard() {
   const sig = cardSig();
@@ -5835,6 +6299,7 @@ function refreshCard() {
       if (!missionAllows('bld', t)) continue;
       if (!hasTech(1, t)) continue;   // progressive disclosure — locked buildings stay hidden
       if (BLD[t].water && !(groundM && groundM.rivers)) continue;   // no dams on dry maps
+      if (BLD[t].shore && !hasOcean()) continue;                    // no shipyards without an ocean coast
       const d = BLD[t];
       const dim = teams[1].crystals < d.cost ? ' class="dim"' : '';
       buildRow += `<button data-act="build:${t}"${dim}>${d.label} · ${d.cost} ⬡ ${k ? `<small>[${k}]</small>` : ''}</button>`;
@@ -5845,7 +6310,9 @@ function refreshCard() {
   if (placing) {
     const hint = placing === 'refinery'
       ? 'Click open ground next to a crystal patch — harvesters will drop off there. Comes with a free harvester.'
-      : 'Click open ground near your base. Right-click or Esc to cancel.';
+      : placing === 'shipyard'
+        ? 'Click a scouted ocean shoreline so the workshop sits on land and its slipway reaches deep water.'
+        : 'Click open ground near your base. Right-click or Esc to cancel.';
     html = `<h3>Placing ${BLD[placing].label.toLowerCase()}</h3><div class="sub">${hint}</div>`;
   } else if (attackMoveMode) {
     html = '<h3>Attack-move</h3><div class="sub">Click a location — your troops will fight anything on the way.</div>';
@@ -5860,10 +6327,15 @@ function refreshCard() {
         const ud = UNIT[a.t];
         let label = `${ud.label} · ${ud.cost} ⬡`, capped = false;
         if (a.t === 'harrier') {
-          const fleet = units.filter(u => u.team === 1 && u.type === 'harrier').length
+          const fleet = units.filter(u => u.team === 1 && u.type === 'harrier' && !u.carrierSortie).length
             + buildings.reduce((s, x) => s + (x.team === 1 ? x.queue.filter(q => q === 'harrier').length : 0), 0);
           label = `${ud.label} · ${ud.cost} ⬡ (${fleet}/${HARRIER_CAP})`;
           capped = fleet >= HARRIER_CAP;
+        } else if (a.t === 'carrier') {
+          const fleet = units.filter(u => u.team === 1 && u.type === 'carrier').length
+            + buildings.reduce((s, x) => s + (x.team === 1 ? x.queue.filter(q => q === 'carrier').length : 0), 0);
+          label = `${ud.label} · ${ud.cost} ⬡ (${fleet}/${CARRIER_CAP})`;
+          capped = fleet >= CARRIER_CAP;
         }
         const dim = (teams[1].crystals < ud.cost || capped) ? ' class="dim"' : '';
         rowTrain += `<button data-act="train:${a.t}"${dim}>${label} <small>[${key}]</small></button>`;
@@ -5883,7 +6355,7 @@ function refreshCard() {
         }
       }
     });
-    html = `<h3>${d.label}</h3><div class="sub">Right-click the map to set the rally point.</div>`;
+    html = `<h3>${d.label}</h3><div class="sub">${b.type === 'shipyard' ? 'Constructs capital ships. Right-click navigable water to set the launch rally.' : 'Right-click the map to set the rally point.'}</div>`;
     html += '<div class="row">' + rowTrain + '</div>';
     if (b.type === 'hq') { html += buildRow; buildRowPlaced = true; }   // the HQ is the construction yard
     if (rowOther) html += '<div class="row">' + rowOther + '</div>';
@@ -5914,6 +6386,14 @@ function refreshCard() {
         ? '<button data-act="sink" class="wide">⬆ Raise structure <small>[Q]</small></button>'
         : '<button data-act="sink" class="wide">⬇ Lower into ground <small>[Q]</small></button>') + '</div>';
     }
+  } else if (selection.length === 1 && selection[0].kind === 'unit' && selection[0].type === 'carrier') {
+    const carrier = selection[0];
+    const ready = carrier.strikeCool <= 0;
+    html = '<h3>Expedition Carrier</h3><div class="sub">Water-only command ship. Right-click water to sail; launch a three-aircraft strike against the beach.</div><div class="row">';
+    html += ready
+      ? '<button data-act="carrier:strike" class="wide">✈ Launch beach strike <small>[B]</small></button>'
+      : `<button class="wide dim">✈ Strike wing rearming · ${Math.ceil(carrier.strikeCool / 60)}s</button>`;
+    html += '<button data-act="stop">Stop <small>[S]</small></button></div>';
   } else if (selection.length) {
     const counts = {};
     for (const u of selection) counts[u.type] = (counts[u.type] || 0) + 1;
@@ -6019,6 +6499,11 @@ elDock.addEventListener('pointerdown', (e) => {
   } else if (act === 'unload') {
     for (const s of selection) if (s.kind === 'unit' && s.cargo && s.cargo.length) unloadAPC(s);
     lastCardSig = '';
+  } else if (act === 'carrier:strike') {
+    const carrier = selection.length === 1 && selection[0].kind === 'unit'
+      && selection[0].type === 'carrier' ? selection[0] : null;
+    if (carrier) beginCarrierStrike(carrier);
+    lastCardSig = '';
   } else if (act === 'hatch') {
     const b = selection.find(s => s.kind === 'building' && s.type === 'hq');
     if (b) hatchSpitter(b);
@@ -6047,13 +6532,17 @@ elDock.addEventListener('pointerdown', (e) => {
   }
   else if (act === 'stop') { for (const s of selection) if (s.kind === 'unit') s.order = { type: 'idle' }; }
   else if (act === 'hunker') { toggleHunker(); }
-  else if (act === 'amove') { attackMoveMode = true; placing = null; nukeTargeting = null; setCursor(); lastCardSig = ''; }
+  else if (act === 'amove') {
+    attackMoveMode = true; placing = null; nukeTargeting = null; carrierStrikeTargeting = null;
+    setCursor(); lastCardSig = '';
+  }
 });
 
 let wasLowPower = false;
 let lastAvail = null;   // build-menu availability — announces newly unlocked buildings
 function refreshTopbar() {
-  const avail = BUILD_MENU.filter(([t]) => grantActive(t) && missionAllows('bld', t) && hasTech(1, t) && !(BLD[t].water && !(groundM && groundM.rivers))).map(([t]) => t);
+  const avail = BUILD_MENU.filter(([t]) => grantActive(t) && missionAllows('bld', t) && hasTech(1, t)
+    && !(BLD[t].water && !(groundM && groundM.rivers)) && !(BLD[t].shore && !hasOcean())).map(([t]) => t);
   if (lastAvail) {
     const fresh = avail.filter(t => !lastAvail.includes(t));
     if (fresh.length) {
@@ -6669,40 +7158,18 @@ function paintGround(M) {
   }
   for (const seg of ((M && M.rivers) || [])) {
     const pts = riverPath(seg, M.rivers);
-    const bankPoly = (scale, wobble) => {
-      g.beginPath();
-      const cap = (p, ang, w2, flip) => {   // rounded mouth, swept around the tip
-        for (let k = 1; k < 14; k++) {
-          const ca = ang + (flip ? -1 : 1) * Math.PI / 2 - (k / 14) * Math.PI;
-          g.lineTo(p.x + Math.cos(ca) * w2, p.y + Math.sin(ca) * w2);
-        }
-      };
-      const wAt = (p, wobble2, right) => p.r * scale + (wobble2 ? Math.sin(p.d * (right ? 0.09 : 0.07) + (right ? p.y : p.x)) * 3.5 : 0);
-      for (let i = 0; i < pts.length; i++) {
-        const p = pts[i], q = pts[Math.min(i + 1, pts.length - 1)], o = pts[Math.max(i - 1, 0)];
-        const ang = Math.atan2(q.y - o.y, q.x - o.x);
-        const w2 = wAt(p, wobble, false);
-        const px = p.x - Math.sin(ang) * w2, py = p.y + Math.cos(ang) * w2;
-        i ? g.lineTo(px, py) : g.moveTo(px, py);
-        if (i === pts.length - 1) cap(p, ang, w2, false);
-      }
-      for (let i = pts.length - 1; i >= 0; i--) {
-        const p = pts[i], q = pts[Math.min(i + 1, pts.length - 1)], o = pts[Math.max(i - 1, 0)];
-        const ang = Math.atan2(q.y - o.y, q.x - o.x);
-        const w2 = wAt(p, wobble, true);
-        g.lineTo(p.x + Math.sin(ang) * w2, p.y - Math.cos(ang) * w2);
-        if (i === 0) cap(p, ang, w2, true);
-      }
-      g.closePath();
-    };
-    g.fillStyle = 'rgba(0,0,0,0.30)'; bankPoly(1.18, true); g.fill();      // wet dark earth shore
+    // River banks can scale with a narrow channel; an ocean cannot. At coast
+    // width, 18% became a ~90px black moat around the water. Keep that rim to
+    // roughly twenty pixels while preserving the existing river treatment.
+    const shoreScale = seg[5] === 'coast-east' ? 1.04 : 1.18;
+    g.fillStyle = 'rgba(0,0,0,0.30)';
+    g.fill(waterShapePath(seg, pts, shoreScale, true));
     // depth as a smooth ramp: many narrow bands from teal shallows to the
     // dark heart (three visible steps read as terraces, not depth)
     const DEPTH = [[1.0, '#1c4a4e'], [0.88, '#184247'], [0.76, '#143a3f'], [0.64, '#113338'], [0.52, '#0e2c31'], [0.42, '#0c272c'], [0.32, '#0a2226']];
     for (let di = 0; di < DEPTH.length; di++) {
       g.fillStyle = DEPTH[di][1];
-      bankPoly(DEPTH[di][0], di < 4);
-    g.fill();
+      g.fill(waterShapePath(seg, pts, DEPTH[di][0], di < 4));
     }
   }
   // raised ground: soft-shouldered hills, not stamped discs (playtest: the
@@ -6847,6 +7314,27 @@ function drawEgg(e) {
   cx.restore();
 }
 
+function drawMountedBuildingGun(b) {
+  const slot = b.type === 'flak' ? 'flak_gun' : 'turret_gun';
+  const gunCW = optCW(slot, b.team);
+  const gunNeutral = opt(slot);
+  const legacyReady = BODY.turret_gun.complete && BODY.turret_gun.naturalWidth;
+  cx.save();
+  cx.translate(b.x, b.y);
+  cx.rotate(b.faceA + Math.PI / 2);       // authored mount art points up
+  if (b.recoil) cx.translate(0, b.recoil);
+  if (gunCW) cx.drawImage(gunCW, -14, -19, 28, 28);
+  else if (gunNeutral) cx.drawImage(bldSprite(gunNeutral, b.team), -14, -19, 28, 28);
+  else if (legacyReady && b.type === 'flak') {
+    // Last-resort legacy AA fallback remains visually twin-barrel.
+    cx.drawImage(BODY.turret_gun, -18, -18, 24, 24);
+    cx.drawImage(BODY.turret_gun, -6, -18, 24, 24);
+  } else if (legacyReady) {
+    cx.drawImage(bldSprite(BODY.turret_gun, b.team), -14, -19, 28, 28);
+  }
+  cx.restore();
+}
+
 // sprite bodies for buildings; keeps the shared selection/hp/queue drawing in drawBuilding
 function drawBuildingSprite(b, x, y) {
   const C = COLORS[b.team];
@@ -6862,15 +7350,7 @@ function drawBuildingSprite(b, x, y) {
       cx.setLineDash([]);
     }
     cx.drawImage(pre ? whole : bldSprite(whole, b.team), x, y, b.w, b.h);
-    if (b.type === 'turret' || b.type === 'flak') {   // rotating gun stays game-drawn
-      cx.save();
-      cx.translate(b.x, b.y);
-      cx.rotate(b.faceA + Math.PI / 2);
-      if (b.recoil) cx.translate(0, b.recoil);        // gun art points up: recoil = slide back
-      const gunCW = optCW('turret_gun', b.team);
-      cx.drawImage(gunCW || bldSprite(BODY.turret_gun, b.team), -14, -19, 28, 28);
-      cx.restore();
-    }
+    if (b.type === 'turret' || b.type === 'flak') drawMountedBuildingGun(b);
     if (b.type === 'silo' && b.warhead) {
       cx.fillStyle = '#e0564a';
       cx.beginPath(); cx.ellipse(b.x, b.y, 5, 11, 0, 0, Math.PI * 2); cx.fill();
@@ -6912,6 +7392,25 @@ function drawBuildingSprite(b, x, y) {
     cx.drawImage(BODY.bld_vent_b, x + b.w - 32, b.y - 14, 24, 24);
     cx.fillStyle = C.dark;
     cx.fillRect(b.x - 17, y + b.h - 20, 34, 20);   // vehicle bay door
+  } else if (b.type === 'shipyard') {
+    // Land-side fabrication hall feeding two water-side launch rails. The open
+    // slip makes the production function legible even without bespoke art.
+    cx.fillStyle = '#202a29';
+    rr(cx, x, y + 5, b.w * 0.58, b.h - 10, 7); cx.fill();
+    cx.strokeStyle = C.main; cx.lineWidth = 2;
+    rr(cx, x, y + 5, b.w * 0.58, b.h - 10, 7); cx.stroke();
+    cx.fillStyle = C.dark;
+    rr(cx, x + 12, y + 17, b.w * 0.38, b.h - 34, 5); cx.fill();
+    cx.fillStyle = '#354849';
+    cx.fillRect(x + b.w * 0.55, y + 9, b.w * 0.43, 13);
+    cx.fillRect(x + b.w * 0.55, y + b.h - 22, b.w * 0.43, 13);
+    cx.strokeStyle = C.light; cx.lineWidth = 2;
+    cx.setLineDash([6, 5]);
+    cx.beginPath(); cx.moveTo(x + b.w * 0.50, b.y); cx.lineTo(x + b.w - 5, b.y); cx.stroke();
+    cx.setLineDash([]);
+    drawHazardBand(x + b.w * 0.50, y + 9, 6, b.h - 18);
+    cx.fillStyle = C.accent;
+    cx.beginPath(); cx.arc(x + b.w - 7, y + 15, 3, 0, Math.PI * 2); cx.fill();
   } else if (b.type === 'supply') {
     cx.drawImage(bldSprite(BODY.bld_plate, b.team), x, y, b.w, b.h);
     cx.drawImage(BODY.crate, b.x - 18, b.y - 14, 16, 16);
@@ -6963,21 +7462,12 @@ function drawBuildingSprite(b, x, y) {
     }
   } else if (b.type === 'flak') {
     cx.drawImage(bldSprite(BODY.bld_plate, b.team), b.x - 22, b.y - 22, 44, 44);
-    cx.save();
-    cx.translate(b.x, b.y);
-    cx.rotate(b.faceA + Math.PI / 2);   // twin AA guns, splayed
-    cx.drawImage(BODY.turret_gun, -18, -18, 24, 24);
-    cx.drawImage(BODY.turret_gun, -6, -18, 24, 24);
-    cx.restore();
+    drawMountedBuildingGun(b);
     cx.fillStyle = C.light;             // sky-watch radar dot
     cx.beginPath(); cx.arc(b.x, b.y - 14, 2.5 + Math.sin(tick * 0.15) * 1, 0, Math.PI * 2); cx.fill();
   } else { // turret
     cx.drawImage(bldSprite(BODY.bld_plate, b.team), b.x - 22, b.y - 22, 44, 44);
-    cx.save();
-    cx.translate(b.x, b.y);
-    cx.rotate(b.faceA + Math.PI / 2);   // gun art points up
-    cx.drawImage(BODY.turret_gun, -14, -19, 28, 28);
-    cx.restore();
+    drawMountedBuildingGun(b);
   }
   if (b.built < 1) {
     cx.globalAlpha = 1;
@@ -7189,28 +7679,44 @@ function drawHydroDam(b, sel) {
   cx.translate(b.x, b.y);
   cx.rotate(a);
   if (b.built < 1) cx.globalAlpha = 0.75;
+  const artCW = optCW('bld_hydro', b.team);
+  const art = artCW || opt('bld_hydro');
+  const waterEdge = art ? 12 : thick / 2;
   // upstream shadow water pooling against the wall
   cx.fillStyle = 'rgba(4,10,12,0.55)';
-  cx.fillRect(-len / 2 + 10, -thick / 2 - 12, len - 20, 12);
-  // abutments biting into each bank
-  cx.fillStyle = '#232a25';
-  rr(cx, -len / 2, -thick / 2 - 4, 26, thick + 8, 5); cx.fill();
-  rr(cx, len / 2 - 26, -thick / 2 - 4, 26, thick + 8, 5); cx.fill();
-  // the wall
-  cx.fillStyle = '#1b2321';
-  rr(cx, -len / 2 + 22, -thick / 2, len - 44, thick, 6); cx.fill();
-  cx.strokeStyle = b.built < 1 ? 'rgba(200,220,210,0.5)' : (C.bld || C.main);
-  cx.lineWidth = 2;
-  if (b.built < 1) cx.setLineDash([6, 5]);
-  rr(cx, -len / 2 + 22, -thick / 2, len - 44, thick, 6); cx.stroke();
-  cx.setLineDash([]);
-  // turbine housings along the wall
-  cx.fillStyle = C.bld || C.main;
-  for (const hx of [-38, 0, 38]) {
-    rr(cx, hx - 11, -9, 22, 18, 3); cx.fill();
-    cx.fillStyle = '#0d1413';
-    cx.fillRect(hx - 7, -3, 14, 6);
+  cx.fillRect(-len / 2 + 10, -waterEdge - 12, len - 20, 12);
+  if (art) {
+    // The authored dam is horizontal in source space.  A 192x30 draw box
+    // preserves its long bridge-like footprint without changing collision or
+    // river navigation; b.a still turns the complete assembly across the flow.
+    const painted = artCW ? art : bldSprite(art, b.team);
+    cx.drawImage(painted, -96, -15, 192, 30);
+    if (b.built < 1) {
+      cx.strokeStyle = 'rgba(200,220,210,0.5)';
+      cx.lineWidth = 2;
+      cx.setLineDash([6, 5]);
+      rr(cx, -96, -15, 192, 30, 6); cx.stroke();
+      cx.setLineDash([]);
+    }
+  } else {
+    // Cold-load/procedural fallback: abutments, wall and turbine housings.
+    cx.fillStyle = '#232a25';
+    rr(cx, -len / 2, -thick / 2 - 4, 26, thick + 8, 5); cx.fill();
+    rr(cx, len / 2 - 26, -thick / 2 - 4, 26, thick + 8, 5); cx.fill();
+    cx.fillStyle = '#1b2321';
+    rr(cx, -len / 2 + 22, -thick / 2, len - 44, thick, 6); cx.fill();
+    cx.strokeStyle = b.built < 1 ? 'rgba(200,220,210,0.5)' : (C.bld || C.main);
+    cx.lineWidth = 2;
+    if (b.built < 1) cx.setLineDash([6, 5]);
+    rr(cx, -len / 2 + 22, -thick / 2, len - 44, thick, 6); cx.stroke();
+    cx.setLineDash([]);
     cx.fillStyle = C.bld || C.main;
+    for (const hx of [-38, 0, 38]) {
+      rr(cx, hx - 11, -9, 22, 18, 3); cx.fill();
+      cx.fillStyle = '#0d1413';
+      cx.fillRect(hx - 7, -3, 14, 6);
+      cx.fillStyle = C.bld || C.main;
+    }
   }
   // spillway churn on the downstream side — animated white water
   if (b.built >= 1) {
@@ -7220,8 +7726,8 @@ function drawHydroDam(b, sel) {
         cx.strokeStyle = 'rgba(210,240,235,' + (0.35 - ph * 0.012) + ')';
         cx.lineWidth = 2.2;
         cx.beginPath();
-        cx.moveTo(hx - 8, thick / 2 + 2 + ph);
-        cx.lineTo(hx + 8, thick / 2 + 2 + ph);
+        cx.moveTo(hx - 8, waterEdge + 2 + ph);
+        cx.lineTo(hx + 8, waterEdge + 2 + ph);
         cx.stroke();
       }
     }
@@ -7246,14 +7752,173 @@ function drawHydroDam(b, sel) {
     cx.stroke();
   }
 }
+function drawBoatWake(x, y, a, length, width, strength = 1) {
+  strength = clamp(strength, 0, 1);
+  cx.save();
+  cx.translate(x, y);
+  cx.rotate(a);
+  // A broad translucent churn sits under broken foam. There are deliberately
+  // no long outline strokes here: at gameplay scale those read as targeting
+  // rays, while small overlapping lobes read as disturbed water.
+  const wash = cx.createLinearGradient(-length * 0.18, 0, -length, 0);
+  wash.addColorStop(0, `rgba(225,249,244,${0.26 * strength})`);
+  wash.addColorStop(0.55, `rgba(175,226,224,${0.13 * strength})`);
+  wash.addColorStop(1, 'rgba(135,205,207,0)');
+  cx.fillStyle = wash;
+  cx.beginPath();
+  cx.moveTo(-length * 0.18, -width * 0.18);
+  cx.quadraticCurveTo(-length * 0.55, -width * 0.40, -length, -width * 0.86);
+  cx.quadraticCurveTo(-length * 0.82, 0, -length, width * 0.86);
+  cx.quadraticCurveTo(-length * 0.62, width * 0.42, -length * 0.18, width * 0.18);
+  cx.closePath(); cx.fill();
+  for (const side of [-1, 1]) for (let i = 0; i < 9; i++) {
+    const phase = ((i + 1) / 10 + tick * (0.0018 + (i % 3) * 0.0003)) % 1;
+    const px = -length * (0.20 + phase * 0.76);
+    const spread = width * (0.14 + phase * 0.70);
+    const py = side * spread + Math.sin(tick * 0.055 + i * 1.7 + side) * 2.2;
+    const fade = (1 - phase) * strength;
+    cx.fillStyle = `rgba(235,252,248,${0.48 * fade})`;
+    cx.beginPath();
+    cx.ellipse(px, py, 7.5 - phase * 3.0, 3.2 - phase * 1.0,
+      side * (0.25 + phase * 0.35), 0, Math.PI * 2);
+    cx.fill();
+  }
+  // Denser prop wash stays close to the stern and dissolves before the V opens.
+  for (let i = 0; i < 6; i++) {
+    const phase = ((i + 1) / 7 + tick * 0.003) % 1;
+    const px = -length * (0.20 + phase * 0.43);
+    const py = Math.sin(i * 2.4 + tick * 0.07) * width * 0.11;
+    cx.fillStyle = `rgba(242,255,251,${0.38 * (1 - phase) * strength})`;
+    cx.beginPath(); cx.ellipse(px, py, 6 + (i % 2) * 2, 2.6, i, 0, Math.PI * 2); cx.fill();
+  }
+  cx.restore();
+}
+function drawSkiff(b) {
+  const bob = Math.sin((tick + b.id * 13) * 0.045) * 1.5;
+  const x = b.x - b.w / 2, y = b.y - b.h / 2 + bob;
+  if (b.departing) drawBoatWake(b.x, b.y + bob, 0, 72, 24, 0.85);
+  const img = opt('bld_skiff');
+  if (img) cx.drawImage(img, x, y, b.w, b.h);
+  else {
+    // Cold-load fallback: the generated art replaces this as soon as it lands.
+    cx.save(); cx.translate(b.x, b.y + bob);
+    cx.fillStyle = '#777468'; cx.strokeStyle = '#242a29'; cx.lineWidth = 3;
+    cx.beginPath();
+    cx.moveTo(-b.w * 0.48, -b.h * 0.38); cx.lineTo(b.w * 0.30, -b.h * 0.38);
+    cx.lineTo(b.w * 0.49, 0); cx.lineTo(b.w * 0.30, b.h * 0.38);
+    cx.lineTo(-b.w * 0.48, b.h * 0.38); cx.closePath(); cx.fill(); cx.stroke();
+    cx.fillStyle = '#252b2a';
+    rr(cx, -b.w * 0.16, -b.h * 0.25, b.w * 0.46, b.h * 0.5, 5); cx.fill();
+    cx.restore();
+  }
+
+  // Aboard troops remain visible as teal helmets on the open deck. The unit
+  // objects are preserved in the manifest, so boarding is evacuation, not death.
+  const aboard = b.passengers || [];
+  for (let i = 0; i < aboard.length; i++) {
+    const col = i % 4, row = (i / 4) | 0;
+    const px = b.x - 18 + col * 17, py = b.y - 10 + row * 20 + bob;
+    cx.fillStyle = '#102a2a';
+    cx.beginPath(); cx.arc(px, py + 2, 5, 0, Math.PI * 2); cx.fill();
+    cx.fillStyle = COLORS[1].light;
+    cx.beginPath(); cx.arc(px, py, 3.6, Math.PI, Math.PI * 2); cx.fill();
+  }
+
+  const evac = ms && ms.objectives.find(o => o.type === 'board' && o.boat === 'skiff');
+  if (evac && evac.active && !evac.done) {
+    const rx = b.x - b.w * 0.47, pulse = 13 + Math.sin(tick * 0.1) * 3;
+    cx.strokeStyle = 'rgba(111,227,208,0.85)'; cx.lineWidth = 2;
+    cx.setLineDash([5, 5]);
+    cx.beginPath(); cx.arc(rx, b.y, pulse, 0, Math.PI * 2); cx.stroke();
+    cx.setLineDash([]);
+    const label = `RIGHT-CLICK TO BOARD · ${aboard.length}/${evac.count}`;
+    cx.font = '700 10px -apple-system, BlinkMacSystemFont, sans-serif';
+    cx.textAlign = 'center';
+    const lw = cx.measureText(label).width + 14, ly = y - 13;
+    cx.fillStyle = 'rgba(8,18,17,0.9)'; rr(cx, b.x - lw / 2, ly - 11, lw, 18, 6); cx.fill();
+    cx.strokeStyle = 'rgba(111,227,208,0.7)'; rr(cx, b.x - lw / 2, ly - 11, lw, 18, 6); cx.stroke();
+    cx.fillStyle = '#9fe8df'; cx.fillText(label, b.x, ly + 2);
+  }
+}
+
+function drawCarrier(u) {
+  const bob = Math.sin((tick + u.id * 17) * 0.035) * 1.2;
+  const wake = clamp((u.navSpeed || 0) / Math.max(0.01, u.speed), 0, 1);
+  if (wake > 0.05) drawBoatWake(u.x, u.y + bob, u.faceA, 76 + 90 * wake, 24 + 24 * wake, 0.28 + wake * 0.72);
+  cx.save();
+  cx.translate(u.x, u.y + bob);
+  cx.rotate(u.faceA);
+  const art = optCW('unit_carrier', u.team) || opt('unit_carrier');
+  if (art) {
+    cx.rotate(Math.PI / 2);
+    cx.drawImage(art, -CARRIER_ART_BOX / 2, -CARRIER_ART_BOX / 2, CARRIER_ART_BOX, CARRIER_ART_BOX);
+    cx.restore();
+    return;
+  }
+  const C = COLORS[u.team];
+  // Deep hull and pointed bow: a strong silhouette that reads at minimap scale.
+  cx.fillStyle = '#152526';
+  cx.strokeStyle = '#071112';
+  cx.lineWidth = 3;
+  cx.beginPath();
+  cx.moveTo(64, 0);
+  cx.lineTo(47, -25); cx.lineTo(-50, -25);
+  cx.lineTo(-61, -17); cx.lineTo(-61, 17);
+  cx.lineTo(-50, 25); cx.lineTo(47, 25);
+  cx.closePath(); cx.fill(); cx.stroke();
+  // Flight deck.
+  cx.fillStyle = '#556667';
+  cx.strokeStyle = C.main;
+  cx.lineWidth = 2;
+  cx.beginPath();
+  cx.moveTo(55, 0);
+  cx.lineTo(42, -20); cx.lineTo(-52, -20);
+  cx.lineTo(-56, 17); cx.lineTo(39, 17);
+  cx.closePath(); cx.fill(); cx.stroke();
+  cx.strokeStyle = 'rgba(232,228,216,0.72)';
+  cx.lineWidth = 1.4;
+  cx.setLineDash([9, 7]);
+  cx.beginPath(); cx.moveTo(-47, 7); cx.lineTo(45, 7); cx.stroke();
+  cx.setLineDash([]);
+  // Offset island and sensor mast leave the launch lane clear.
+  cx.fillStyle = C.main;
+  cx.strokeStyle = '#203638';
+  cx.lineWidth = 1.5;
+  rr(cx, -12, -20, 33, 12, 3); cx.fill(); cx.stroke();
+  cx.fillStyle = C.trim;
+  rr(cx, -4, -18, 14, 8, 2); cx.fill();
+  cx.strokeStyle = C.accent;
+  cx.beginPath(); cx.moveTo(3, -18); cx.lineTo(3, -28); cx.stroke();
+  cx.beginPath(); cx.arc(3, -29, 2.5, 0, Math.PI * 2); cx.stroke();
+  // Stern elevator and launch chevrons.
+  cx.strokeStyle = 'rgba(232,228,216,0.58)';
+  cx.strokeRect(-48, -13, 24, 14);
+  cx.strokeStyle = HAZARD_YELLOW;
+  for (let i = 0; i < 3; i++) {
+    const lx = -15 + i * 18;
+    cx.beginPath(); cx.moveTo(lx - 5, 3); cx.lineTo(lx, 7); cx.lineTo(lx - 5, 11); cx.stroke();
+  }
+  const ready = u.strikeCool <= 0;
+  cx.fillStyle = ready ? C.accent : '#334344';
+  for (let i = 0; i < 4; i++) {
+    cx.beginPath(); cx.arc(-34 + i * 18, -15, 1.5, 0, Math.PI * 2); cx.fill();
+  }
+  cx.restore();
+}
+
 function drawBuilding(b) {
   const C = COLORS[b.team];
   const x = b.x - b.w / 2, y = b.y - b.h / 2;
   const sel = selection.includes(b);
 
+  if (b.type === 'skiff') {
+    drawSkiff(b);
+    return;
+  }
+
   if (b.type === 'nest') {
     drawNest(b);
-    if (b.hp < b.maxHp) drawHpBar(b.x, y - 10, b.w * 0.8, b.hp, b.maxHp);
+    if (sel || b.hp < b.maxHp) drawHpBar(b.x, y - 10, b.w * 0.8, b.hp, b.maxHp);
     return;
   }
   if (b.type === 'den') {
@@ -7262,15 +7927,30 @@ function drawBuilding(b) {
     return;
   }
   if (b.type === 'sensor') {
-    // Lin's array: plated base, lattice mast, spinning dish + a slow radar
-    // sweep once online. Deliberately reads scientific, not military.
-    cx.fillStyle = '#1d2622';
-    rr(cx, x + 4, y + 4, b.w - 8, b.h - 8, 8); cx.fill();
-    cx.strokeStyle = C.bld || C.main; cx.lineWidth = 2;
-    rr(cx, x + 4, y + 4, b.w - 8, b.h - 8, 8); cx.stroke();
-    for (const [lx, ly] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
-      cx.fillStyle = '#39453f';
-      cx.fillRect(b.x + lx * b.w * 0.30 - 4, b.y + ly * b.h * 0.30 - 4, 8, 8);
+    // Lin's array: authored scientific base, game-driven spinning dish and
+    // radar sweep.  The moving overlays remain independent of faction art.
+    const pre = optCW('bld_sensor', b.team);
+    const base = pre || opt('bld_sensor');
+    if (base) {
+      if (b.built < 1) cx.globalAlpha = 0.55;
+      cx.drawImage(pre ? base : bldSprite(base, b.team), x, y, b.w, b.h);
+      cx.globalAlpha = 1;
+      if (b.built < 1) {
+        cx.strokeStyle = 'rgba(200,220,210,0.5)';
+        cx.lineWidth = 2;
+        cx.setLineDash([6, 5]);
+        rr(cx, x, y, b.w, b.h, 8); cx.stroke();
+        cx.setLineDash([]);
+      }
+    } else {
+      cx.fillStyle = '#1d2622';
+      rr(cx, x + 4, y + 4, b.w - 8, b.h - 8, 8); cx.fill();
+      cx.strokeStyle = C.bld || C.main; cx.lineWidth = 2;
+      rr(cx, x + 4, y + 4, b.w - 8, b.h - 8, 8); cx.stroke();
+      for (const [lx, ly] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
+        cx.fillStyle = '#39453f';
+        cx.fillRect(b.x + lx * b.w * 0.30 - 4, b.y + ly * b.h * 0.30 - 4, 8, 8);
+      }
     }
     if (b.built >= 1) {
       const a = tick * 0.02;
@@ -7292,7 +7972,13 @@ function drawBuilding(b) {
       cx.fillStyle = '#cfe8db'; cx.font = '11px system-ui'; cx.textAlign = 'center';
       cx.fillText(Math.floor(b.built * 100) + '%', b.x, b.y - b.h / 2 - 8);
     }
-    if (b.hp < b.maxHp) drawHpBar(b.x, y - 10, b.w * 0.8, b.hp, b.maxHp);
+    if (b.built >= 1 && tick % 50 < 30 && lowPower(b.team)) {
+      cx.fillStyle = '#f0c86a';
+      cx.font = 'bold 14px -apple-system, sans-serif';
+      cx.textAlign = 'center';
+      cx.fillText('⚡', b.x, y - 16);
+    }
+    if (sel || b.hp < b.maxHp) drawHpBar(b.x, y - 10, b.w * 0.8, b.hp, b.maxHp);
     return;
   }
   if (b.type === 'roost') {
@@ -7319,7 +8005,10 @@ function drawBuilding(b) {
     cx.translate(-b.x, -b.y);
     cx.globalAlpha *= 0.85;
   }
-  if (bodiesReady) {
+  // Whole-building sprites are independent production assets.  A missing
+  // legacy BODY component must not suppress a successfully loaded colorway.
+  const wholeBuildingArt = optCW('bld_' + b.type, b.team) || opt('bld_' + b.type);
+  if (wholeBuildingArt || bodiesReady) {
     drawBuildingSprite(b, x, y);
   } else {
   cx.fillStyle = '#232a25';
@@ -7450,9 +8139,15 @@ function drawBuilding(b) {
     cx.stroke();
     // rally line
     if (b.rally && BLD[b.type].trains) {
+      const route = b.rally._routeTick != null && tick - b.rally._routeTick < 120
+        ? (b.rally._route || []) : refreshRallyRoute(b);
+      const door = SPAWN_DOOR[b.type];
+      const start = door ? door(b) : { x: b.x, y: b.y };
       cx.strokeStyle = 'rgba(143,216,207,0.5)';
       cx.setLineDash([5, 6]);
-      cx.beginPath(); cx.moveTo(b.x, b.y); cx.lineTo(b.rally.x, b.rally.y); cx.stroke();
+      cx.beginPath(); cx.moveTo(b.x, b.y); cx.lineTo(start.x, start.y);
+      for (const p of route) cx.lineTo(p.x, p.y);
+      cx.stroke();
       cx.setLineDash([]);
       cx.fillStyle = '#8fd8cf';
       cx.beginPath(); cx.arc(b.rally.x, b.rally.y, 4, 0, Math.PI * 2); cx.fill();
@@ -7480,29 +8175,29 @@ function drawBuilding(b) {
   }
 }
 
-// called inside a translate(u.x,u.y)+rotate(u.faceA) transform, so +x is forward.
-// Infantry art faces right (no extra rotation); vehicle art points up (rotate +90°).
+// Called inside a translate(u.x,u.y)+rotate(u.faceA) transform, so +x is
+// forward. Authored whole-unit art points north/up and rotates +90° into that
+// local facing axis.
 function drawUnitSprite(u) {
-  // Boone wears marine art until his own sprite lands (ART-WANTED) — his own
-  // slots win the moment they exist; the rank chevrons in drawUnitDecor are
-  // what marks him out meanwhile. Walk frames alias too.
+  // Boone can still borrow Marine art if his dedicated family is absent; his
+  // own authored slots win as one complete family whenever installed.
   const ty = (u.type === 'commando' && !optCW('unit_commando', u.team) && !opt('unit_commando')) ? 'marine' : u.type;
-  // walk cycle: real frames sliced from an AI walk video (slice_walk.py).
-  // Frame advances with DISTANCE (walkT), not time, so feet read planted.
-  // (A 2026-07-12 spritesheet walk attempt was reverted — too few frames,
-  // wrong cadence; this 8-frame video slice is the do-over, 2026-07-20.)
+  // Frame advances with DISTANCE (walkT), not time, so authored gait phases
+  // stay planted instead of treadmill-sliding when movement speed changes.
   let walk = null;
   if (u.moving && u.order.type !== 'hunker') {
     const wf = animFrames(ty, 'walk', u.team, 8);
     if (wf.length) walk = wf[Math.floor(u.walkT / (strideOf(ty) / wf.length)) % wf.length];
   }
-  // pre-colored colorway art wins outright — drawn as-is, no tint
-  const pre = walk
-    || (u.order.type === 'hunker' && optCW('unit_' + ty + '_hunker', u.team))
-    || optCW('unit_' + ty, u.team);
+  // Resolve the requested pose before the standing colorway.  In particular,
+  // a neutral hunker pose must beat a loaded team-colored standing sprite.
+  const hunkering = u.order.type === 'hunker';
+  const hunkerCW = hunkering && optCW('unit_' + ty + '_hunker', u.team);
+  const hunkerNeutral = hunkering && opt('unit_' + ty + '_hunker');
+  const pre = walk || hunkerCW || (!hunkerNeutral && optCW('unit_' + ty, u.team));
   if (pre) {
     cx.rotate(Math.PI / 2);              // generated art faces up
-    const s = u.r * 2.7;
+    const s = unitArtBox(ty, u.r);
     cx.drawImage(pre, -s / 2, -s / 2, s, s);
     if (u.type === 'rig' && u.captive) drawRigGlow(s);
     return;
@@ -7510,10 +8205,10 @@ function drawUnitSprite(u) {
   // dug-in units swap to their hunker pose; a missing standing sprite falls
   // back to the hunker art so partial art sets never break
   const hk = opt('unit_' + ty + '_hunker');
-  const whole = (u.order.type === 'hunker' && hk) || opt('unit_' + ty) || hk;
+  const whole = (hunkering && hk) || opt('unit_' + ty) || hk;
   if (whole) {
     cx.rotate(Math.PI / 2);              // generated art faces up
-    const s = u.r * 2.7;
+    const s = unitArtBox(ty, u.r);
     cx.drawImage(teamSprite(whole, u.team), -s / 2, -s / 2, s, s);
     // real rig art includes the cage, but the game still owes the "specimen
     // aboard" signal — the glow draws OVER the art's bed (rear = +y here)
@@ -7865,10 +8560,11 @@ function drawDen(b) {
 
 // gunship — drawn inside translate+rotate, +x forward. Procedural (no air art yet).
 function drawGunship(u) {
-  const img = opt('unit_gunship') || opt('gunship');
+  const pre = optCW('unit_gunship', u.team);
+  const img = pre || opt('unit_gunship') || opt('gunship');
   if (img) {
     cx.rotate(Math.PI / 2);   // art faces up
-    cx.drawImage(teamSprite(img, u.team), -17, -17, 34, 34);
+    cx.drawImage(pre ? img : teamSprite(img, u.team), -17, -17, 34, 34);
     cx.rotate(-Math.PI / 2);
     const ra = tick * 0.55 + u.id;   // keep the spinning rotor over the art
     cx.strokeStyle = 'rgba(220,235,230,0.55)';
@@ -7911,10 +8607,11 @@ function drawGunship(u) {
 // delta-wing strike jet — +x forward. Red belly light = bomb still aboard.
 function drawJet(u) {
   const C = COLORS[u.team];
-  const img = opt('unit_harrier') || opt('harrier');
+  const pre = optCW('unit_harrier', u.team);
+  const img = pre || opt('unit_harrier') || opt('harrier');
   if (img) {
     cx.rotate(Math.PI / 2);
-    cx.drawImage(teamSprite(img, u.team), -16, -16, 32, 32);
+    cx.drawImage(pre ? img : teamSprite(img, u.team), -16, -16, 32, 32);
     cx.rotate(-Math.PI / 2);
   } else {
     cx.fillStyle = C.dark;                        // delta wing
@@ -7943,10 +8640,23 @@ function drawCargoPips(u) {
 function drawUnit(u) {
   const C = COLORS[u.team];
   const sel = selection.includes(u);
-  if (sel) {
+  if (sel && u.type !== 'carrier') {
+    const ringRadius = HUMAN_ART_BOX[u.type] ? HUMAN_ART_BOX[u.type] / 2 + 1 : u.r + 5;
     cx.strokeStyle = 'rgba(143,216,207,0.9)';
     cx.lineWidth = 1.5;
-    cx.beginPath(); cx.arc(u.x, u.y, u.r + 5, 0, Math.PI * 2); cx.stroke();
+    cx.beginPath(); cx.arc(u.x, u.y, ringRadius, 0, Math.PI * 2); cx.stroke();
+  }
+  if (u.type === 'carrier') {
+    if (sel) {
+      cx.save(); cx.translate(u.x, u.y); cx.rotate(u.faceA);
+      cx.strokeStyle = 'rgba(143,216,207,0.9)';
+      cx.lineWidth = 1.5;
+      cx.beginPath(); cx.ellipse(0, 0, CARRIER_SELECT_HALF_LENGTH, CARRIER_SELECT_HALF_BEAM, 0, 0, Math.PI * 2); cx.stroke();
+      cx.restore();
+    }
+    drawCarrier(u);
+    if (sel || u.hp < u.maxHp) drawHpBar(u.x, u.y - CARRIER_ART_BOX / 2 - 10, 160, u.hp, u.maxHp);
+    return;
   }
   if (u.type === 'gunship' || u.type === 'harrier') {
     cx.fillStyle = 'rgba(0,0,0,0.3)';   // ground shadow sells the altitude
@@ -7993,10 +8703,11 @@ function drawUnit(u) {
   }
   if (u.order.type === 'hunker') {
     // sandbag ring so dug-in marines read at a glance
+    const ringRadius = Math.max(u.r + 3, unitArtBox(u.type, u.r) / 2 - 1);
     cx.strokeStyle = 'rgba(232,196,106,0.85)';
     cx.lineWidth = 3;
     cx.setLineDash([5, 4]);
-    cx.beginPath(); cx.arc(u.x, u.y, u.r + 3, 0, Math.PI * 2); cx.stroke();
+    cx.beginPath(); cx.arc(u.x, u.y, ringRadius, 0, Math.PI * 2); cx.stroke();
     cx.setLineDash([]);
   }
   cx.save();
@@ -8004,11 +8715,17 @@ function drawUnit(u) {
   cx.rotate(u.faceA);
   if (u.recoil) cx.translate(-u.recoil, 0);                       // gun kick
   // infantry with walk frames animate via the frame cycle (drawUnitSprite);
-  // the rest keep the original subtle sway until their walk video lands.
+  // the rest keep the original subtle sway until authored walk frames load.
   // (A translate weight-shift was tried 2026-07-20 and read worse — don't.)
   if ((IS_INF[u.type]) && u.moving && !animFrames(u.type, 'walk', u.team, 8).length)
     cx.rotate(Math.sin(u.walkT * 0.4) * 0.07);
-  if (bodiesReady) {
+  // Optional whole-unit/colorway art should not depend on the legacy BODY
+  // bundle settling as one all-or-nothing group.
+  const authoredUnitArt = optCW('unit_' + u.type, u.team)
+    || opt('unit_' + u.type)
+    || (u.order.type === 'hunker' && (optCW('unit_' + u.type + '_hunker', u.team) || opt('unit_' + u.type + '_hunker')))
+    || (u.moving && animFrames(u.type, 'walk', u.team, 8).length);
+  if (authoredUnitArt || bodiesReady) {
     drawUnitSprite(u);
     cx.restore();
     drawUnitDecor(u);
@@ -8138,16 +8855,21 @@ function drawUnit(u) {
 // works over sprite AND procedural bodies. Local frame: +x = facing.
 function drawUnitDecor(u) {
   const C = COLORS[u.team];
+  const authored = optCW('unit_' + u.type, u.team)
+    || opt('unit_' + u.type)
+    || (u.order.type === 'hunker' && (optCW('unit_' + u.type + '_hunker', u.team) || opt('unit_' + u.type + '_hunker')));
   cx.save();
   cx.translate(u.x, u.y);
   cx.rotate(u.faceA);
   switch (u.type) {
     case 'marine':      // accent visor strip across the helmet
+      if (authored) break;
       cx.strokeStyle = C.accent;
       cx.lineWidth = 2;
       cx.beginPath(); cx.arc(1, 0, 4.5, -0.65, 0.65); cx.stroke();
       break;
     case 'commando':    // Boone: marine visor + gold master-sergeant chevrons
+      if (authored) break;
       cx.strokeStyle = C.accent;
       cx.lineWidth = 2;
       cx.beginPath(); cx.arc(1, 0, 4.5, -0.65, 0.65); cx.stroke();
@@ -8163,20 +8885,27 @@ function drawUnitDecor(u) {
       break;
     case 'sniper':      // scope glint — steady, not blinking (playtest 2026-07-20:
       // the blink read as unexplained muzzle flash)
+      if (authored) break;
       cx.fillStyle = C.accent;
       cx.beginPath(); cx.arc(7, -2, 1.4, 0, Math.PI * 2); cx.fill();
       break;
     case 'rocket':      // red warhead tip peeking from the tube
+      if (authored) break;
       cx.fillStyle = '#e0564a';
       cx.beginPath(); cx.arc(8, -5, 1.8, 0, Math.PI * 2); cx.fill();
       break;
     case 'harvester':
     case 'rig': {       // hazard ticks on the scoop; cargo state readable on any art
-      cx.strokeStyle = HAZARD_YELLOW;
-      cx.lineWidth = 2;
-      cx.beginPath();
-      for (const oy of [-6, -1, 4]) { cx.moveTo(9, oy); cx.lineTo(12, oy + 3); }
-      cx.stroke();
+      // Authored vehicles already carry their own chassis-aligned caution
+      // marks. Keep these only for the procedural fallback; cargo remains a
+      // live state overlay below and must always draw over the empty bed.
+      if (!authored) {
+        cx.strokeStyle = HAZARD_YELLOW;
+        cx.lineWidth = 2;
+        cx.beginPath();
+        for (const oy of [-6, -1, 4]) { cx.moveTo(9, oy); cx.lineTo(12, oy + 3); }
+        cx.stroke();
+      }
       if (u.type === 'harvester') {
         if (u.eggCarry) {
           cx.fillStyle = '#e8e2cc';
@@ -8189,6 +8918,7 @@ function drawUnitDecor(u) {
       break;
     }
     case 'raider':      // racing stripe + headlight
+      if (authored) break;
       cx.strokeStyle = C.trim;
       cx.globalAlpha = 0.85;
       cx.lineWidth = 2;
@@ -8198,11 +8928,13 @@ function drawUnitDecor(u) {
       cx.beginPath(); cx.arc(11, 0, 1.6, 0, Math.PI * 2); cx.fill();
       break;
     case 'tank':        // muzzle band
+      if (authored) break;
       cx.strokeStyle = C.accent;
       cx.lineWidth = 2;
       cx.beginPath(); cx.moveTo(14, -2.2); cx.lineTo(14, 2.2); cx.stroke();
       break;
     case 'apc':         // hazard chevrons on the rear ramp
+      if (authored) break;
       cx.strokeStyle = HAZARD_YELLOW;
       cx.lineWidth = 1.8;
       cx.beginPath();
@@ -8211,6 +8943,7 @@ function drawUnitDecor(u) {
       cx.stroke();
       break;
     case 'artillery':   // bands ringing the long barrel
+      if (authored) break;
       cx.strokeStyle = C.accent;
       cx.lineWidth = 1.8;
       cx.beginPath();
@@ -8219,10 +8952,12 @@ function drawUnitDecor(u) {
       cx.stroke();
       break;
     case 'gunship':     // nose sensor ball
+      if (authored) break;
       cx.fillStyle = C.accent;
       cx.beginPath(); cx.arc(9, 0, 1.8, 0, Math.PI * 2); cx.fill();
       break;
     case 'harrier':     // engine intake glow
+      if (authored) break;
       cx.fillStyle = C.accent;
       cx.globalAlpha = 0.9;
       cx.beginPath();
@@ -8345,7 +9080,7 @@ function drawFx(f) {
     cx.beginPath(); cx.arc(f.x, f.y, 16 * (1 - k) + 3, 0, Math.PI * 2); cx.stroke();
     cx.globalAlpha = 1;
   } else if (f.kind === 'corpse') {
-    // sliced death animation: play the fall, then the body lingers and fades.
+    // authored death animation: play the fall, then the body lingers and fades.
     // charred corpses (death by fire) burn through the fall, then cool to a
     // charred skeleton for the linger instead of the last frame.
     const fi = Math.floor(f.t / 9);
@@ -8482,41 +9217,10 @@ function drawRivers(vx, vy, vw, vh) {
   const rivers = (groundM && groundM.rivers) || [];
   if (!rivers.length) return;
   if (!groundM._rp) groundM._rp = rivers.map(seg => riverPath(seg, rivers));
-  // band outlines cached as Path2D for the per-frame texture pass
+  // Exact ground-paint outlines cached for the per-frame texture pass. The
+  // old duplicate tracer drifted out of sync whenever shoreline math changed.
   if (!groundM._wpaths) {
-    groundM._wpaths = groundM._rp.map(pts => {
-      const path = new Path2D();
-      const angAt = (i2) => {
-        const q = pts[Math.min(i2 + 1, pts.length - 1)], o = pts[Math.max(i2 - 1, 0)];
-        return Math.atan2(q.y - o.y, q.x - o.x);
-      };
-      const edge = (i2, scale, sign) => {
-        const p = pts[i2], ang = angAt(i2);
-        // mirror the painted band's wobble EXACTLY (left/right differ) —
-        // mismatched wobble made the texture bleed past the shoreline
-        const w2 = p.r * scale + Math.sin(p.d * (sign > 0 ? 0.07 : 0.09) + (sign > 0 ? p.x : p.y)) * 3.5;
-        return [p.x - Math.sin(ang) * w2 * sign, p.y + Math.cos(ang) * w2 * sign];
-      };
-      const cap2 = (i2, flip) => {   // same rounded mouths as the painted band
-        const p = pts[i2], ang = angAt(i2), w2 = p.r * 0.96;
-        for (let k = 1; k < 14; k++) {
-          const ca = ang + (flip ? -1 : 1) * Math.PI / 2 - (k / 14) * Math.PI;
-          path.lineTo(p.x + Math.cos(ca) * w2, p.y + Math.sin(ca) * w2);
-        }
-      };
-      for (let i2 = 0; i2 < pts.length; i2++) {
-        const [px, py] = edge(i2, 0.96, 1);
-        i2 ? path.lineTo(px, py) : path.moveTo(px, py);
-        if (i2 === pts.length - 1) cap2(i2, false);
-      }
-      for (let i2 = pts.length - 1; i2 >= 0; i2--) {
-        const [px, py] = edge(i2, 0.96, -1);
-        path.lineTo(px, py);
-        if (i2 === 0) cap2(i2, true);
-      }
-      path.closePath();
-      return path;
-    });
+    groundM._wpaths = groundM._rp.map((pts, i) => waterShapePath(rivers[i], pts, 0.96, true));
   }
   // layered surface (Bronson 2026-07-26): water4 (the converted rapids
   // texture) is the STATIC BASE — the body of the water — while the three
@@ -8699,6 +9403,29 @@ function render() {
       cx.fillText('too close to an HQ', mouse.wx, mouse.wy - spec.radius - 8);
     }
   }
+  // Carrier strike targeting: the large ring is aircraft range, the small
+  // ring is the center bomb's blast. Wingmen land parallel impacts beside it.
+  if (carrierStrikeTargeting && mouse.overCanvas) {
+    const carrier = carrierStrikeTargeting;
+    const inRange = dist(carrier.x, carrier.y, mouse.wx, mouse.wy) <= CARRIER_STRIKE_RANGE;
+    const scouted = isShownAt(mouse.wx, mouse.wy);
+    const good = inRange && scouted;
+    cx.strokeStyle = 'rgba(159,232,239,0.28)';
+    cx.lineWidth = 1.5;
+    cx.setLineDash([10, 8]);
+    cx.beginPath(); cx.arc(carrier.x, carrier.y, CARRIER_STRIKE_RANGE, 0, Math.PI * 2); cx.stroke();
+    cx.strokeStyle = good ? 'rgba(240,200,106,0.9)' : 'rgba(255,75,55,0.9)';
+    cx.lineWidth = 2;
+    cx.beginPath(); cx.arc(mouse.wx, mouse.wy, UNIT.harrier.bombSplash, 0, Math.PI * 2); cx.stroke();
+    cx.setLineDash([]);
+    if (!good) {
+      cx.font = 'bold 14px -apple-system, sans-serif';
+      cx.textAlign = 'center';
+      cx.fillStyle = 'rgba(255,90,70,0.96)';
+      cx.fillText(inRange ? 'target not scouted' : 'outside strike range',
+        mouse.wx, mouse.wy - UNIT.harrier.bombSplash - 9);
+    }
+  }
 
   // drag select rect
   if (dragging && dragStart) {
@@ -8792,7 +9519,13 @@ function renderMinimap() {
   for (const u of units) {
     if (u.team !== 1 && !isVisibleAt(u.x, u.y)) continue;
     mcx.fillStyle = COLORS[u.team].main;
-    mcx.fillRect(u.x * sx - 1, u.y * sy - 1, 2, 2);
+    const sz = u.type === 'carrier' ? 4 : 2;
+    mcx.fillRect(u.x * sx - sz / 2, u.y * sy - sz / 2, sz, sz);
+    if (u.type === 'carrier' && u.strikeCool <= 0 && tick % 50 < 34) {
+      mcx.strokeStyle = COLORS[u.team].accent;
+      mcx.lineWidth = 1;
+      mcx.beginPath(); mcx.arc(u.x * sx, u.y * sy, 4, 0, Math.PI * 2); mcx.stroke();
+    }
   }
   mcx.drawImage(fogCv, 0, 0, mini.width, mini.height);
   for (const n of nukes) {
@@ -9229,6 +9962,10 @@ function objProgress(o) {
   if (!o.count) return null;
   if (o.type === 'groupReach')
     return (o.arrived ? reachPool(o).filter(u => o.arrived[u.id]).length : 0) + '/' + o.count;
+  if (o.type === 'board') {
+    const boat = objectiveBoat(o);
+    return Math.min(o.count, boat && boat.passengers ? boat.passengers.length : 0) + '/' + o.count;
+  }
   if (o.type === 'unitCount')
     return Math.min(o.count, units.filter(u => u.team === 1 && u.hp > 0 && u.type === o.unit).length) + '/' + o.count;
   if (o.type === 'built')
@@ -9266,7 +10003,8 @@ function refreshObjectives() {
 function reachPool(o) {
   // `any` widens the pool to EVERY living player unit, mixed types — M10's
   // evacuation counts whoever makes it out, not a tagged squad or one type
-  let g = o.any ? units.filter(u => u.team === 1 && u.hp > 0)
+  let g = o.infantry ? units.filter(u => u.team === 1 && u.hp > 0 && IS_INF[u.type])
+        : o.any ? units.filter(u => u.team === 1 && u.hp > 0)
         : o.unit ? units.filter(u => u.team === 1 && u.hp > 0 && u.type === o.unit)
                  : (groupAlive(o.group) || []);
   if (o.after) {
@@ -9274,6 +10012,9 @@ function reachPool(o) {
     g = g.filter(u => prev && prev.arrived && prev.arrived[u.id]);
   }
   return g;
+}
+function objectiveBoat(o) {
+  return (groupAlive(o.boat) || []).find(x => x.kind === 'building' && x.type === 'skiff') || null;
 }
 // Arrival is recorded for every ACTIVE groupReach — including completed ones,
 // so a later leg chaining off it still sees fresh visits. Only active ones, or
@@ -9303,6 +10044,10 @@ function objMet(o) {
     // arrivals scatter to mine before the stragglers reach the post. Once a unit
     // has touched the circle it counts as delivered for as long as it lives.
     case 'groupReach': return reachPool(o).filter(u => o.arrived && o.arrived[u.id]).length >= o.count;
+    case 'board': {
+      const boat = objectiveBoat(o);
+      return !!boat && boat.passengers && boat.passengers.length >= o.count;
+    }
     // no living hostile building of this type left near the mark (nest cracks).
     // It must have been THERE first: a target the mission spawns on a trigger
     // doesn't exist at tick 0, and without `seen` the objective completes
@@ -9355,7 +10100,7 @@ function condMet(w) {
   // mixed-unit survival quota — the loss-side twin of groupReach `any`.
   // M13's final retreat cannot hang forever if fewer troops remain than the
   // extraction objective can possibly accept.
-  if (w.anyBelow != null && units.filter(u => u.team === 1 && u.hp > 0).length >= w.anyBelow) return false;
+  if (w.anyBelow != null && playerSurvivorCount() >= w.anyBelow) return false;
   // too few of a group left alive (convoy attrition → mission failure)
   if (w.groupBelow) {
     const g = groupAlive(w.groupBelow[0]);
@@ -9614,6 +10359,10 @@ function missionUpdate() {
     }
     if (!objMet(o)) continue;
     o.done = true;
+    if (o.type === 'board') {
+      const boat = objectiveBoat(o);
+      if (boat) boat.departing = true;
+    }
     toast('✔ ' + o.text); snd.ready();
   }
   for (const t of ms.triggers) {
@@ -9983,7 +10732,7 @@ document.getElementById('btn-deploy').addEventListener('click', () => {
 function resetWorld() {
   simSpeed = 1;   // a leftover ×8 must never leak into the next game
   units = []; buildings = []; crystals = []; bullets = []; fxs = []; eggs = []; alerts = []; rocks = [];
-  nukes = []; nukeTargeting = null;
+  nukes = []; nukeTargeting = null; carrierStrikeTargeting = null;
   plotDeaths = {}; plotCaps = {}; vents = [];
   blocked.fill(0);
   lastAlert = -1e9;
@@ -9994,7 +10743,7 @@ function resetWorld() {
   teams[2] = { crystals: 180, eggs: 0, captives: 0, mined: 0, up: newUp() };
   teams[3] = { crystals: 0, eggs: 0, captives: 0, mined: 0, up: newUp() };
   tick = 0; gameOver = null; waveNum = 0; shakeAmp = 0;
-  placing = null; attackMoveMode = false; setCursor();
+  placing = null; attackMoveMode = false; carrierStrikeTargeting = null; setCursor();
   camFocus = null;
   explored.fill(0); visible.fill(0);
   elOverlay.classList.add('hidden');
@@ -10029,7 +10778,9 @@ function startGame(mapKey, diffKey, missionIdx) {
     for (const [who, line] of (mission.intro || [])) say(who, line);
     refreshObjectives();
   } else {
-    toast('Your harvesters are mining. Select the Barracks and press Q to train Marines!');
+    toast(mapKey === 'coast'
+      ? '⚓ Naval Shipyard online on the east coast — its first carrier is already on the ways'
+      : 'Your harvesters are mining. Select the Barracks and press Q to train Marines!');
   }
 }
 function startMission(idx) {

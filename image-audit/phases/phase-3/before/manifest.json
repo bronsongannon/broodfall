@@ -1,0 +1,1499 @@
+{
+  "schema_version": 1,
+  "scope": "phase",
+  "phase": 3,
+  "state": "before",
+  "git_ref": "HEAD",
+  "slots": 147,
+  "present": 145,
+  "missing": [
+    "assets/sprites/unit_marine_hunker_teal.png",
+    "assets/sprites/unit_marine_hunker_red.png"
+  ],
+  "contact_sheets": [
+    "source-1.png",
+    "source-2.png",
+    "source-3.png",
+    "source-4.png",
+    "source-5.png",
+    "gameplay-1.png",
+    "gameplay-2.png",
+    "gameplay-3.png",
+    "gameplay-4.png",
+    "gameplay-5.png",
+    "gameplay-6.png",
+    "gameplay-7.png"
+  ],
+  "assets": [
+    {
+      "path": "assets/sprites/unit_marine_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "95336b62791cdc3b857fd7aed37b9978cfe52a9de9ac4e3528ff43de56a21237"
+    },
+    {
+      "path": "assets/sprites/unit_marine_walk1_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "5f1b913d8a3dd14cc5fe81a5f68eb100f01b361d45caba72f239e37bcadde07e"
+    },
+    {
+      "path": "assets/sprites/unit_marine_walk2_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "01ec1911bde45f38372bdb973d38508e9492c11eee68e9e1a58069dfd7951647"
+    },
+    {
+      "path": "assets/sprites/unit_marine_walk3_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "e24e6b92a71bc7c8010a27a5a105a712e373277eb2bb67023567045f6948bb78"
+    },
+    {
+      "path": "assets/sprites/unit_marine_walk4_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "68c2e52b354edaf74846f65c52ab42c09c0af90406c11b3cb80d7d7f697d7e38"
+    },
+    {
+      "path": "assets/sprites/unit_marine_walk5_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "1c26cef849b6ffec06c503a14827b6dc77a6df49ca74e6223fc3cf5fc570165c"
+    },
+    {
+      "path": "assets/sprites/unit_marine_walk6_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "b4aa6c1787001846ec6bf6fe82a31d191434a5750a37c437178fccf47b0056d4"
+    },
+    {
+      "path": "assets/sprites/unit_marine_walk7_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "560a7dac15abefc7a7501a074ffe7f394a87ef0e16acec59ecf3ba21e2193dba"
+    },
+    {
+      "path": "assets/sprites/unit_marine_walk8_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "89dcc41d129b414f19e7faaa1f0843c8376f6c5fa0f4aae39e74be60eb91bfbe"
+    },
+    {
+      "path": "assets/sprites/unit_marine_death1_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "29cfc51056a995cd8ab99103279d96a761b3d3725d974d995f15bb9455b77f73"
+    },
+    {
+      "path": "assets/sprites/unit_marine_death2_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "ab2f874d68b74e127630b1e288a1a99cce6a79d67a3cc13547d818c8165111ca"
+    },
+    {
+      "path": "assets/sprites/unit_marine_death3_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "bd6a3156dc6a4547bd1866eddcb453e1c2d35e2642b818fa95a3cc5de9b18589"
+    },
+    {
+      "path": "assets/sprites/unit_marine_death4_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "9d710068225abc7c9c5b665b508ac263a03e52a9d8f353b4b7c5e79fde31a769"
+    },
+    {
+      "path": "assets/sprites/unit_marine_hunker_teal.png",
+      "role": "target",
+      "present": false,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": null
+    },
+    {
+      "path": "assets/sprites/unit_marine_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "490da0677d4899e22a36973bf81e60ed9a315db826821940542b9310c7d435d3"
+    },
+    {
+      "path": "assets/sprites/unit_marine_walk1_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "04f4469d1d6f1408df044bb9135f7078314e6b0c7f17039a974d6a42eb7deeac"
+    },
+    {
+      "path": "assets/sprites/unit_marine_walk2_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "f4d4cb21eb0205dccf4542e4772f5f04c049cfd3dee1a53e92a25247039360c2"
+    },
+    {
+      "path": "assets/sprites/unit_marine_walk3_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "37bcf084f1f5b30f282555f7c6cb966cd9e431a369a76cd20670c144dcd9060d"
+    },
+    {
+      "path": "assets/sprites/unit_marine_walk4_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "b120e412d246daeaf13c7bb65ccd0006c0b77b56b4a29e85f5adfa8468e32779"
+    },
+    {
+      "path": "assets/sprites/unit_marine_walk5_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "93c91593ee8efff6a8c0d39c8950e1a1a24ec3fa30b5577037945631e5414ca4"
+    },
+    {
+      "path": "assets/sprites/unit_marine_walk6_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "63f7f711ad0a844fc065d76fd561e8f417be7124d90940f070c9d66a3f087ec2"
+    },
+    {
+      "path": "assets/sprites/unit_marine_walk7_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "1cf3547722f029667154fc7fc961da6986c71d0adb8d82559462a7922229cf4a"
+    },
+    {
+      "path": "assets/sprites/unit_marine_walk8_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "8b9a4696815c46c8076b01bd958826e3d754166c1ad680aefd8e286a9ca1b192"
+    },
+    {
+      "path": "assets/sprites/unit_marine_death1_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "834d9c4c06e8ec9fdb6027a920510cd3696d194a134bc4a1c45bbb2e659f977f"
+    },
+    {
+      "path": "assets/sprites/unit_marine_death2_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "2211a77fb7f63cfe8433d8a3858781c07e87c345fbef7340c4fedfaad5ba62d0"
+    },
+    {
+      "path": "assets/sprites/unit_marine_death3_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "b8febe392e10cc2edeb92482bf43440614166bf1c9dd683bffc1c4a47afafdca"
+    },
+    {
+      "path": "assets/sprites/unit_marine_death4_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "3898f9706250431689d947a98381af30528ace62e4329ff5d69768f6e3d41b96"
+    },
+    {
+      "path": "assets/sprites/unit_marine_hunker_red.png",
+      "role": "target",
+      "present": false,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": null
+    },
+    {
+      "path": "assets/sprites/unit_engineer_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "c9d7043ae7cfe56a879c932aec36e491b55d915babb0f9e67ffcd28917f254a4"
+    },
+    {
+      "path": "assets/sprites/unit_engineer_walk1_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "64a8bcf82d7e3659a3661bbba6208b62cb2f2c15a0874754c9d8da060d079e29"
+    },
+    {
+      "path": "assets/sprites/unit_engineer_walk2_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "1aa61e4222c4eff3647c8b9271efd5ba9310722be615df39a215b9473e5f9fb6"
+    },
+    {
+      "path": "assets/sprites/unit_engineer_walk3_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "ebe74a0842b8e67b59e3a5dff203943eaf53ce088fa4d0b20a380555930eb2dd"
+    },
+    {
+      "path": "assets/sprites/unit_engineer_walk4_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "ce6855c3da3d4e286d60cbc4b399e9d65cf66155f6deae6b1942feaa9cc74526"
+    },
+    {
+      "path": "assets/sprites/unit_engineer_walk5_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "c92fa4089524a26b392100f39ac9e779f10a5824e516b805174f3902fada8d86"
+    },
+    {
+      "path": "assets/sprites/unit_engineer_walk6_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "af310ae9777764eac6771fa4f0d60479fb34b0d4c8ede874216faf0daf86d386"
+    },
+    {
+      "path": "assets/sprites/unit_engineer_walk7_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "8117e85817615bfa180d381d6fa57a8a5f73f9add637fdace4d7e3e261283893"
+    },
+    {
+      "path": "assets/sprites/unit_engineer_walk8_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "f1c77c0c82ff6c35e99c6fe0f311cca56024b5e856ff4b04feba509048745cf6"
+    },
+    {
+      "path": "assets/sprites/unit_engineer_death1_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "2faacf15d412a0f82fbd47b7c887ff3e79df8eee16e74c6f94eeb45b6da64616"
+    },
+    {
+      "path": "assets/sprites/unit_engineer_death2_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "183901fbde6d8e73ad9a48a944c4c0cead4d34b3fe21808971d786eb8d4e0186"
+    },
+    {
+      "path": "assets/sprites/unit_engineer_death3_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "5cf9ee8bf6b6bc17a4642ca14e4b4958e98f57ae2f36549bf9e89ede1304ca34"
+    },
+    {
+      "path": "assets/sprites/unit_engineer_death4_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "40a3bc49f278015195c78fe20b63ae79bfeafb7fde1588156fd85b8c8ae2f505"
+    },
+    {
+      "path": "assets/sprites/unit_engineer_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "a468f9da7bb05037e93653d88de8025c69e80b228901642c2d4c67f48340f20c"
+    },
+    {
+      "path": "assets/sprites/unit_engineer_walk1_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "048d1195885590623e6c806872bc790563f0becee4a9019dc137f9348d2439dc"
+    },
+    {
+      "path": "assets/sprites/unit_engineer_walk2_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "8f16df0b8597f8e7e627e63ab31c5460bc2742f022a688ba9241b2ca3b135776"
+    },
+    {
+      "path": "assets/sprites/unit_engineer_walk3_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "47bfcb4d0320c4584c426827ea210c1d6bc8389d16936ababeea7fb5f26038ba"
+    },
+    {
+      "path": "assets/sprites/unit_engineer_walk4_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "76bdcdf7711a174d9f66f2bb9b69ecc00f8f7955283fe6832794f366e7b5712d"
+    },
+    {
+      "path": "assets/sprites/unit_engineer_walk5_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "7b11825070d04e6ed62fc65f6c46e17ce4bd2353f71cc722acbadb7673cec4a9"
+    },
+    {
+      "path": "assets/sprites/unit_engineer_walk6_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "58b855aa61578d6547cf62b3982f59d63e974b96e1a2d707a841af928944c918"
+    },
+    {
+      "path": "assets/sprites/unit_engineer_walk7_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "ccd10b58d6f11455d9e930f0562aa9eb20193677bfc2ff694979bb77639e16af"
+    },
+    {
+      "path": "assets/sprites/unit_engineer_walk8_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "17cc3a4a503724fb379ede5eeffd411a155d77519945f565b1509173fa114bbd"
+    },
+    {
+      "path": "assets/sprites/unit_engineer_death1_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "a5bab570534e6cd9b6d8a8d43fb1f130a44936cb4dac06959686ede31a047fb3"
+    },
+    {
+      "path": "assets/sprites/unit_engineer_death2_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "7b5e66b15ccc05a09d769646cc211eb10eee3c5817a6e96f1b2b8f5328a5d8c1"
+    },
+    {
+      "path": "assets/sprites/unit_engineer_death3_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "2f3eafff7efa63bd184503a87010aff806cf64210595cee27685b28a4c7e6da4"
+    },
+    {
+      "path": "assets/sprites/unit_engineer_death4_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "3900ddd2bdf09026bc886fc6dd0addf133dc2534bbcfb7f683b824ec4d7a9285"
+    },
+    {
+      "path": "assets/sprites/unit_sniper_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        22,
+        22
+      ],
+      "file_sha256": "3dd782575e691761ba859a905a69085c7fb942cffb8f0045e7b385e25fe7aaed"
+    },
+    {
+      "path": "assets/sprites/unit_sniper_walk1_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        22,
+        22
+      ],
+      "file_sha256": "fc46b94cdd37d746c07c71b20d31d3317856ebe07cbef914265ed2f41454793f"
+    },
+    {
+      "path": "assets/sprites/unit_sniper_walk2_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        22,
+        22
+      ],
+      "file_sha256": "962005555eb2b8ed855d4d7ac040aa18201bb73f116ecd0711f645570bb45f1b"
+    },
+    {
+      "path": "assets/sprites/unit_sniper_walk3_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        22,
+        22
+      ],
+      "file_sha256": "1bd92c7c2e357677e526c560d25ed11553e8c03d32873c7d3ef4e2e02110bf73"
+    },
+    {
+      "path": "assets/sprites/unit_sniper_walk4_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        22,
+        22
+      ],
+      "file_sha256": "2d1570f651d078ee41dd99e64628aa5edda700455e7526cd71b21ebaa152c0f5"
+    },
+    {
+      "path": "assets/sprites/unit_sniper_walk5_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        22,
+        22
+      ],
+      "file_sha256": "4b409b83b57535d49e35282d875395a5c39572825638dff1bc47002d7f8acd3c"
+    },
+    {
+      "path": "assets/sprites/unit_sniper_walk6_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        22,
+        22
+      ],
+      "file_sha256": "233d04b7ac06b562db99f57a3b2f6b3775cbcd2839a30698314c5849f447b229"
+    },
+    {
+      "path": "assets/sprites/unit_sniper_walk7_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        22,
+        22
+      ],
+      "file_sha256": "f65e686cdb261ae0b366f997ba2bea183e99b1da717f8b21718d6c61121792ca"
+    },
+    {
+      "path": "assets/sprites/unit_sniper_walk8_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        22,
+        22
+      ],
+      "file_sha256": "0210254353d01b6239adcdf0fa528776594f71f35bfc09ee0d8e2798e7a72677"
+    },
+    {
+      "path": "assets/sprites/unit_sniper_death1_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        22,
+        22
+      ],
+      "file_sha256": "16554fcb36b7ca21aafc5afbae0278ca2c1509d64fb69765faef3050e08167ee"
+    },
+    {
+      "path": "assets/sprites/unit_sniper_death2_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        22,
+        22
+      ],
+      "file_sha256": "95f5b7dd3535e0cc7563830987e95262b20f1569e7a7908b798a4fa65975c5a5"
+    },
+    {
+      "path": "assets/sprites/unit_sniper_death3_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        22,
+        22
+      ],
+      "file_sha256": "41eba4a41ef8b436e2790677c4b37a0de251519ad137f95074852171e5fd3020"
+    },
+    {
+      "path": "assets/sprites/unit_sniper_death4_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        22,
+        22
+      ],
+      "file_sha256": "01b7810946cc03981a0a9e4563154ec81bb7a4fee949e0b394814627bafa4344"
+    },
+    {
+      "path": "assets/sprites/unit_sniper_hunker_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        22,
+        22
+      ],
+      "file_sha256": "faa0a3e7a3f295c04cd316b1d5222bb287f0b1e1f0cbdf55fa6b0a05dc45c0ba"
+    },
+    {
+      "path": "assets/sprites/unit_sniper_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        22,
+        22
+      ],
+      "file_sha256": "796bf009e9af8ab5d1a511d33ef32ab6a30130a9a4d9d78d59396fa305cf8c48"
+    },
+    {
+      "path": "assets/sprites/unit_sniper_walk1_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        22,
+        22
+      ],
+      "file_sha256": "823aed4cec5aa7b3cf7c98bb03c6c088e11d80f9a70f423daa29de85e5f0c145"
+    },
+    {
+      "path": "assets/sprites/unit_sniper_walk2_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        22,
+        22
+      ],
+      "file_sha256": "abb333c313b6eb106fa72423fe5b93f2cde4edd1349383ef3e7a9e1038209ee1"
+    },
+    {
+      "path": "assets/sprites/unit_sniper_walk3_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        22,
+        22
+      ],
+      "file_sha256": "5a58da013a3f8c56bb95291024a0c7c0337d08ef9fd0610797643285895b0b04"
+    },
+    {
+      "path": "assets/sprites/unit_sniper_walk4_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        22,
+        22
+      ],
+      "file_sha256": "2da1dbd2e499aa6db4cd1af5ef1f07ece6dd2a8466a69978e0536ebe9932a8f3"
+    },
+    {
+      "path": "assets/sprites/unit_sniper_walk5_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        22,
+        22
+      ],
+      "file_sha256": "b7ed3c49422fa02d89fd28c3b14ac826d621717b426a2e3c948b3acc7e5559e9"
+    },
+    {
+      "path": "assets/sprites/unit_sniper_walk6_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        22,
+        22
+      ],
+      "file_sha256": "50aa7dcfae3bf5a36159e775601b73e6dadc82272a9ff73ce559bf25c435d0f2"
+    },
+    {
+      "path": "assets/sprites/unit_sniper_walk7_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        22,
+        22
+      ],
+      "file_sha256": "812e4a41697710139cf28bae1d9a2ce2a5f65b657def532db627593e813652a2"
+    },
+    {
+      "path": "assets/sprites/unit_sniper_walk8_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        22,
+        22
+      ],
+      "file_sha256": "05d867c1042970f1a40f12aa885c475fc681469673211ea00b75e230590dab41"
+    },
+    {
+      "path": "assets/sprites/unit_sniper_death1_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        22,
+        22
+      ],
+      "file_sha256": "5cd767b9e7ce5bc4b17faa8b7df943d9af2205e6699501b197d7a0f6cbc67df6"
+    },
+    {
+      "path": "assets/sprites/unit_sniper_death2_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        22,
+        22
+      ],
+      "file_sha256": "b22be9baf3655e1aa795bbd9231f07b1adc3a3f1b36a8fc544d5b324ddf07223"
+    },
+    {
+      "path": "assets/sprites/unit_sniper_death3_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        22,
+        22
+      ],
+      "file_sha256": "b373ac6959a66a14e0532189df1bb524592c57b50282ebe157866c7603be276c"
+    },
+    {
+      "path": "assets/sprites/unit_sniper_death4_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        22,
+        22
+      ],
+      "file_sha256": "d94d104f714f3b8134429257c98288410203c741cebe6cf449cadfde7895c4cb"
+    },
+    {
+      "path": "assets/sprites/unit_sniper_hunker_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        22,
+        22
+      ],
+      "file_sha256": "e39b1cc61fa95fb90d3e29b025f99dc12481e9e69f2ae27fef8f5f2e39cc5166"
+    },
+    {
+      "path": "assets/sprites/unit_medic_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "2110ce6a46d7a58df29af7ec410537734c704e535cce159db3f935663e21282c"
+    },
+    {
+      "path": "assets/sprites/unit_medic_walk1_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "4fbda1c3ccd3b7a09c2356693089f02ed1937842174b8f117494f49418c646fd"
+    },
+    {
+      "path": "assets/sprites/unit_medic_walk2_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "165728008e8575c9a073a2c8e1b78c1698c5504ee1c4532ab4acb340f9d85805"
+    },
+    {
+      "path": "assets/sprites/unit_medic_walk3_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "7705166cdea44b6fa3f4f910e071c3f46c187d8a47857d4d313bc2a04d62103c"
+    },
+    {
+      "path": "assets/sprites/unit_medic_walk4_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "c06a37a0d2b070ba19bfab33715588c9c779f2b2cf49b0e5ae046fbaccf9e346"
+    },
+    {
+      "path": "assets/sprites/unit_medic_walk5_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "423f0ebf07fa2fa208c87bf036fd5d625a1fa99046cd5f31f7755cb74a030363"
+    },
+    {
+      "path": "assets/sprites/unit_medic_walk6_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "77ad8d6a377362c8f080b1f8fcf7c6a0bc290d6b36c72f6514bb4eaa86809b14"
+    },
+    {
+      "path": "assets/sprites/unit_medic_walk7_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "8d90818c1a5a7d8fddad8ebcddf4063b689aab1e0e0ff352cdb37a789850f667"
+    },
+    {
+      "path": "assets/sprites/unit_medic_walk8_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "c0476c3d62516c4c9f8cc52c48b9e2b46aa34613eff2e0c4ac4e534c00c33f46"
+    },
+    {
+      "path": "assets/sprites/unit_medic_death1_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "156952902da649b8dfdd93d0afb636e4d4ccff5770520ee1ec08376a27f105a7"
+    },
+    {
+      "path": "assets/sprites/unit_medic_death2_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "e3a637bfab8124053d78f0c08b373dbcfe36a47c6605ab8d0803c7f982dd8c27"
+    },
+    {
+      "path": "assets/sprites/unit_medic_death3_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "790c4c195433253913d082d550ac6ce5af74b8809fa9d5f5b33d9d7f4c771f14"
+    },
+    {
+      "path": "assets/sprites/unit_medic_death4_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "7f811385883c6bb5bfe4ad260f501fd35ed7a640dc6c5ee76691bc04fea44f85"
+    },
+    {
+      "path": "assets/sprites/unit_medic_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "d20ffe775b0e028f65b8b4f47a789c4b452da7611a58a152b81da0952d023368"
+    },
+    {
+      "path": "assets/sprites/unit_medic_walk1_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "3159e263cec86a81faa3891a8d415ba1c2522816107a79dbce1ba99235993505"
+    },
+    {
+      "path": "assets/sprites/unit_medic_walk2_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "5fdb9c8abc10c3dbd7076eefd219cf89b1b3abc9ce661f47eca99542e35954bf"
+    },
+    {
+      "path": "assets/sprites/unit_medic_walk3_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "f9e131a500118a66f343114d0cad9ec508c3cc8bbdc5d5b1a819da65e2e64d65"
+    },
+    {
+      "path": "assets/sprites/unit_medic_walk4_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "06f946daafe1d7a540437feb50d92effbcb09793935a2ac30e134d2f1166d22c"
+    },
+    {
+      "path": "assets/sprites/unit_medic_walk5_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "e06dc6ed96c7f95e80df7c3b46d9103fb7a09c6d48b6da2679cd3402d77acec0"
+    },
+    {
+      "path": "assets/sprites/unit_medic_walk6_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "31ed18dba90df7becf75627d7cd965549ff16adb72f8c0220e37263bb57896de"
+    },
+    {
+      "path": "assets/sprites/unit_medic_walk7_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "9a4fdb39a10e79c4d9dffc888740b912b3a0b42f70d94a92aae1ae22baa5d0fc"
+    },
+    {
+      "path": "assets/sprites/unit_medic_walk8_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "ee64b699dc1e33cea2545aa49c1ba00b5b14ef7fce4b4c14d24876d31645183e"
+    },
+    {
+      "path": "assets/sprites/unit_medic_death1_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "f7683041333e7fb5e6c0ee99b2cecb41cf5d39e03752cd8e9a71a599e3b96d1b"
+    },
+    {
+      "path": "assets/sprites/unit_medic_death2_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "ea6c014b9889cd9a6f04c8f1c5fdb5452f220343183d61bbe73fb8e4a0afd074"
+    },
+    {
+      "path": "assets/sprites/unit_medic_death3_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "11e054db2aff0ea1943d1220a80017f7bb5076f91f43db960bb81fec0308afdf"
+    },
+    {
+      "path": "assets/sprites/unit_medic_death4_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "90a67f18276553faf41391313801abab15c6e47e2f46302e9997f961139b40bf"
+    },
+    {
+      "path": "assets/sprites/unit_rocket_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "10531f3b10e6e4f5c3cf1ccb5c22c47ee737a08497cf2db664eeacc53573ff1d"
+    },
+    {
+      "path": "assets/sprites/unit_rocket_walk1_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "822c4468e8725524f68a11f6a84d66d6a02c159173263dfebc02ae39d75b8aa0"
+    },
+    {
+      "path": "assets/sprites/unit_rocket_walk2_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "aa2130e5ccabe90e531b982e56abab334f5ab6fd53557366fcde295e682c0f91"
+    },
+    {
+      "path": "assets/sprites/unit_rocket_walk3_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "ba1e4368d728e0e8f0c2e4ea08ae19dd37c82e8f9337b396f8e3e9ba773df9a0"
+    },
+    {
+      "path": "assets/sprites/unit_rocket_walk4_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "6a073d815de0ab0ba1848c6668364f90d7e9d58beb64ea176c0a226942278dc4"
+    },
+    {
+      "path": "assets/sprites/unit_rocket_walk5_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "be2a44ca869dcd717015485c25ab465bc8d97a9225ea6f3a41acf93572c3507d"
+    },
+    {
+      "path": "assets/sprites/unit_rocket_walk6_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "2668aa3c5594b165eec8b5de87921d933e0640f2eef9e50ded555b3c8d237c40"
+    },
+    {
+      "path": "assets/sprites/unit_rocket_walk7_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "3dd6bfd9eae9b9f7306b8d860055cb4778e7962646f67a38d3d1779f613b04ba"
+    },
+    {
+      "path": "assets/sprites/unit_rocket_walk8_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "0d7a6f86e8551fdd87c765895730196b36c61851afd22cffdb3b1075f01b84bb"
+    },
+    {
+      "path": "assets/sprites/unit_rocket_death1_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "5afca28ca59ac517e0fc30d4a8c53530b6eacaf0ea66cbcc59bec81d42b69085"
+    },
+    {
+      "path": "assets/sprites/unit_rocket_death2_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "725e9f03a54f03dcce5ad630711e5499c447b8ddee457d8d6b877560249c33de"
+    },
+    {
+      "path": "assets/sprites/unit_rocket_death3_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "f674d022241eee06627142ed48cfdf8143076e46fd0adb2381af6a02e8b0222b"
+    },
+    {
+      "path": "assets/sprites/unit_rocket_death4_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "ac70d5ba91e7ffc88435bb001e37d9edabe3e8b333b0a3ecbeab4f313d1db51b"
+    },
+    {
+      "path": "assets/sprites/unit_rocket_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "49b5251c2e5bc4de4655499327b3a6d025bbd35b57d34af4a831d4f67944485b"
+    },
+    {
+      "path": "assets/sprites/unit_rocket_walk1_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "784ddb1b65b026306de068cf108744b179bf62849afea1aa20a10790ddc61b4d"
+    },
+    {
+      "path": "assets/sprites/unit_rocket_walk2_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "7b96bc71a043b76ec4fb36b956c1b9997404af0aa09e64d507e825f279886edd"
+    },
+    {
+      "path": "assets/sprites/unit_rocket_walk3_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "b735d3665e49a9ebcc16177b67e3dc2923c5c945fa0674392604987ad19e169e"
+    },
+    {
+      "path": "assets/sprites/unit_rocket_walk4_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "80b6ac7c2b2d95d97d5404663abe42f0ec24d8959ccb54d8b5168da903303512"
+    },
+    {
+      "path": "assets/sprites/unit_rocket_walk5_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "3dd0464c19976a253d51010e2d81f804c69fb119912c6465bbf34b6cd916b6a6"
+    },
+    {
+      "path": "assets/sprites/unit_rocket_walk6_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "e264660970e847550ccc0aa3bc951c9a4fc9ef04405a1bc7c05aae7e0aa7e843"
+    },
+    {
+      "path": "assets/sprites/unit_rocket_walk7_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "8034d5e0724a777516ad0b1e3bc8e49885fe911a32320ca620134dbedfc220c6"
+    },
+    {
+      "path": "assets/sprites/unit_rocket_walk8_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "b6981dab6375638282ca33efcb214820a878b35cae5ff9f1423c05e171a9a7fa"
+    },
+    {
+      "path": "assets/sprites/unit_rocket_death1_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "217db9fe7485061d08b6eacbaf9b239905446cc1b5fd7132a33bb3aaa74826b5"
+    },
+    {
+      "path": "assets/sprites/unit_rocket_death2_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "c634a88ea52c76c06718fa784ad3e490dfe5e0b81d56ae73c026bf4a1cd1adc8"
+    },
+    {
+      "path": "assets/sprites/unit_rocket_death3_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "9a82855ab1008b709b1dae7d00c1ffe4e41ffc57b4a07163950c44ad3a6c7ad0"
+    },
+    {
+      "path": "assets/sprites/unit_rocket_death4_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "b7ad900bc5b5c57615cb7e6690fba161c3e4700d998296451208584996f41d1a"
+    },
+    {
+      "path": "assets/sprites/unit_commando_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "1b6b4aed44a7ce280fb1a351e6740d407ab17c6e172204163aa17e860169d5f4"
+    },
+    {
+      "path": "assets/sprites/unit_commando_walk1_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "561122e2a5a66460da9470474867271d8cb32f00f000eb272cee8fc046626438"
+    },
+    {
+      "path": "assets/sprites/unit_commando_walk2_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "8e0f96adf26db6b807d481179e806df3246578b0c082655847282d4f653298e6"
+    },
+    {
+      "path": "assets/sprites/unit_commando_walk3_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "0c797b7cc75ab8dafdc3032d05cda3c463bb27ac093b9b63d476660357d84c5a"
+    },
+    {
+      "path": "assets/sprites/unit_commando_walk4_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "1ba929281e2efd53fdd6926c7b58ac94687531d2a56086ace0b06aa99577ebeb"
+    },
+    {
+      "path": "assets/sprites/unit_commando_walk5_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "bef9283ad9019569f31bb6d6ec7a9f4d388b9db675aeac7f6d14494bbf575a8b"
+    },
+    {
+      "path": "assets/sprites/unit_commando_walk6_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "3ab20de8f9a78cee9723c2479d0a7cf3bc506a661b199e418a36623ebcb872ff"
+    },
+    {
+      "path": "assets/sprites/unit_commando_walk7_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "844dcefc65e7e3c03070e67bf81f5f84bfe8f99c14df2f6afb37cad21734ccbc"
+    },
+    {
+      "path": "assets/sprites/unit_commando_walk8_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "47f98b7b93c058070dc76bae85f91c983cd216648a8676b3b142e6c09fb0eb2b"
+    },
+    {
+      "path": "assets/sprites/unit_commando_death1_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "904ae965ae12111cb1329925c17871764fcff89a1c0a0e50d3287ba0f85f1c7c"
+    },
+    {
+      "path": "assets/sprites/unit_commando_death2_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "886eff5f35be4865ff9717484aaaf8589f7dc7d679557b966831206d94ac1111"
+    },
+    {
+      "path": "assets/sprites/unit_commando_death3_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "87f79dd93942b02d0f4c2fc2f5be91b7e2f08910039bf346ec7a1b6900152176"
+    },
+    {
+      "path": "assets/sprites/unit_commando_death4_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        24,
+        24
+      ],
+      "file_sha256": "ab6ae3f40cd0f1b007cc346840985b93599f3662d5eef119a96a91323c8306ca"
+    }
+  ]
+}

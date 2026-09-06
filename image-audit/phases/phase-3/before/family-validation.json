@@ -1,0 +1,3844 @@
+{
+  "marine": {
+    "family": "marine",
+    "expected_files": 28,
+    "present_files": 26,
+    "teal_red_alpha_iou": {
+      "static": 0.9988,
+      "walk1": 1.0,
+      "walk2": 1.0,
+      "walk3": 1.0,
+      "walk4": 1.0,
+      "walk5": 1.0,
+      "walk6": 1.0,
+      "walk7": 1.0,
+      "walk8": 1.0,
+      "death1": 0.97201,
+      "death2": 0.96028,
+      "death3": 0.96821,
+      "death4": 0.90986
+    },
+    "gait_stability": {
+      "teal": {
+        "centroid_x_range": [
+          126.056,
+          130.995
+        ],
+        "centroid_y_range": [
+          130.587,
+          146.11
+        ],
+        "max_centroid_span_px": 15.523,
+        "occupied_area_cv": 0.16396
+      },
+      "red": {
+        "centroid_x_range": [
+          126.056,
+          130.995
+        ],
+        "centroid_y_range": [
+          130.587,
+          146.128
+        ],
+        "max_centroid_span_px": 15.541,
+        "occupied_area_cv": 0.16366
+      }
+    },
+    "errors": [
+      "unit_marine_teal.png: alpha touches canvas edge (5)",
+      "unit_marine_death1_teal.png: alpha touches canvas edge (255)",
+      "unit_marine_death2_teal.png: alpha touches canvas edge (255)",
+      "unit_marine_death3_teal.png: alpha touches canvas edge (255)",
+      "missing unit_marine_hunker_teal.png",
+      "unit_marine_red.png: alpha touches canvas edge (5)",
+      "unit_marine_death1_red.png: alpha touches canvas edge (255)",
+      "unit_marine_death3_red.png: alpha touches canvas edge (255)",
+      "missing unit_marine_hunker_red.png"
+    ],
+    "warnings": [
+      "teal gait centroid spans 15.52px on source canvas",
+      "red gait centroid spans 15.54px on source canvas"
+    ],
+    "files": {
+      "static_teal": {
+        "path": "assets/sprites/unit_marine_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          34,
+          0,
+          222,
+          256
+        ],
+        "border_alpha_max": 5,
+        "centroid": [
+          129.493,
+          146.11
+        ],
+        "occupied_pixels": 24236
+      },
+      "walk1_teal": {
+        "path": "assets/sprites/unit_marine_walk1_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          49,
+          12,
+          204,
+          230
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          127.176,
+          131.614
+        ],
+        "occupied_pixels": 15781
+      },
+      "walk2_teal": {
+        "path": "assets/sprites/unit_marine_walk2_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          50,
+          13,
+          205,
+          244
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          126.056,
+          134.277
+        ],
+        "occupied_pixels": 15949
+      },
+      "walk3_teal": {
+        "path": "assets/sprites/unit_marine_walk3_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          50,
+          14,
+          206,
+          238
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          126.273,
+          132.617
+        ],
+        "occupied_pixels": 15447
+      },
+      "walk4_teal": {
+        "path": "assets/sprites/unit_marine_walk4_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          51,
+          12,
+          207,
+          223
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          129.251,
+          130.587
+        ],
+        "occupied_pixels": 15389
+      },
+      "walk5_teal": {
+        "path": "assets/sprites/unit_marine_walk5_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          51,
+          12,
+          207,
+          231
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          130.064,
+          131.087
+        ],
+        "occupied_pixels": 15487
+      },
+      "walk6_teal": {
+        "path": "assets/sprites/unit_marine_walk6_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          51,
+          13,
+          206,
+          244
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          130.995,
+          133.636
+        ],
+        "occupied_pixels": 15550
+      },
+      "walk7_teal": {
+        "path": "assets/sprites/unit_marine_walk7_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          50,
+          14,
+          205,
+          236
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          130.953,
+          133.238
+        ],
+        "occupied_pixels": 15600
+      },
+      "walk8_teal": {
+        "path": "assets/sprites/unit_marine_walk8_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          49,
+          12,
+          205,
+          220
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          128.086,
+          131.171
+        ],
+        "occupied_pixels": 15663
+      },
+      "death1_teal": {
+        "path": "assets/sprites/unit_marine_death1_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          35,
+          0,
+          220,
+          256
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          129.164,
+          143.243
+        ],
+        "occupied_pixels": 24439
+      },
+      "death2_teal": {
+        "path": "assets/sprites/unit_marine_death2_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          30,
+          0,
+          226,
+          256
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          123.9,
+          139.634
+        ],
+        "occupied_pixels": 25075
+      },
+      "death3_teal": {
+        "path": "assets/sprites/unit_marine_death3_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          12,
+          0,
+          244,
+          256
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          124.546,
+          128.796
+        ],
+        "occupied_pixels": 22643
+      },
+      "death4_teal": {
+        "path": "assets/sprites/unit_marine_death4_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          16,
+          15,
+          239,
+          241
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          124.01,
+          122.088
+        ],
+        "occupied_pixels": 25346
+      },
+      "static_red": {
+        "path": "assets/sprites/unit_marine_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          34,
+          0,
+          222,
+          256
+        ],
+        "border_alpha_max": 5,
+        "centroid": [
+          129.482,
+          146.128
+        ],
+        "occupied_pixels": 24219
+      },
+      "walk1_red": {
+        "path": "assets/sprites/unit_marine_walk1_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          49,
+          12,
+          204,
+          230
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          127.176,
+          131.614
+        ],
+        "occupied_pixels": 15781
+      },
+      "walk2_red": {
+        "path": "assets/sprites/unit_marine_walk2_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          50,
+          13,
+          205,
+          244
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          126.056,
+          134.277
+        ],
+        "occupied_pixels": 15949
+      },
+      "walk3_red": {
+        "path": "assets/sprites/unit_marine_walk3_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          50,
+          14,
+          206,
+          238
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          126.273,
+          132.617
+        ],
+        "occupied_pixels": 15447
+      },
+      "walk4_red": {
+        "path": "assets/sprites/unit_marine_walk4_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          51,
+          12,
+          207,
+          223
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          129.251,
+          130.587
+        ],
+        "occupied_pixels": 15389
+      },
+      "walk5_red": {
+        "path": "assets/sprites/unit_marine_walk5_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          51,
+          12,
+          207,
+          231
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          130.064,
+          131.087
+        ],
+        "occupied_pixels": 15487
+      },
+      "walk6_red": {
+        "path": "assets/sprites/unit_marine_walk6_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          51,
+          13,
+          206,
+          244
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          130.995,
+          133.636
+        ],
+        "occupied_pixels": 15550
+      },
+      "walk7_red": {
+        "path": "assets/sprites/unit_marine_walk7_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          50,
+          14,
+          205,
+          236
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          130.953,
+          133.238
+        ],
+        "occupied_pixels": 15600
+      },
+      "walk8_red": {
+        "path": "assets/sprites/unit_marine_walk8_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          49,
+          12,
+          205,
+          220
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          128.086,
+          131.171
+        ],
+        "occupied_pixels": 15663
+      },
+      "death1_red": {
+        "path": "assets/sprites/unit_marine_death1_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          36,
+          0,
+          220,
+          256
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          129.256,
+          143.449
+        ],
+        "occupied_pixels": 24660
+      },
+      "death2_red": {
+        "path": "assets/sprites/unit_marine_death2_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          31,
+          1,
+          225,
+          254
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          123.821,
+          139.543
+        ],
+        "occupied_pixels": 24818
+      },
+      "death3_red": {
+        "path": "assets/sprites/unit_marine_death3_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          11,
+          0,
+          244,
+          256
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          123.97,
+          128.662
+        ],
+        "occupied_pixels": 22988
+      },
+      "death4_red": {
+        "path": "assets/sprites/unit_marine_death4_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          18,
+          17,
+          238,
+          238
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          125.704,
+          120.572
+        ],
+        "occupied_pixels": 24954
+      }
+    }
+  },
+  "engineer": {
+    "family": "engineer",
+    "expected_files": 26,
+    "present_files": 26,
+    "teal_red_alpha_iou": {
+      "static": 0.99215,
+      "walk1": 1.0,
+      "walk2": 1.0,
+      "walk3": 1.0,
+      "walk4": 1.0,
+      "walk5": 1.0,
+      "walk6": 1.0,
+      "walk7": 1.0,
+      "walk8": 1.0,
+      "death1": 0.97513,
+      "death2": 0.98527,
+      "death3": 0.98492,
+      "death4": 0.96047
+    },
+    "gait_stability": {
+      "teal": {
+        "centroid_x_range": [
+          127.448,
+          131.422
+        ],
+        "centroid_y_range": [
+          118.15,
+          132.905
+        ],
+        "max_centroid_span_px": 14.755,
+        "occupied_area_cv": 0.11047
+      },
+      "red": {
+        "centroid_x_range": [
+          127.664,
+          131.422
+        ],
+        "centroid_y_range": [
+          118.15,
+          132.905
+        ],
+        "max_centroid_span_px": 14.755,
+        "occupied_area_cv": 0.11168
+      }
+    },
+    "errors": [
+      "unit_engineer_teal.png: alpha touches canvas edge (5)",
+      "unit_engineer_death2_teal.png: alpha touches canvas edge (255)",
+      "unit_engineer_death3_teal.png: alpha touches canvas edge (255)",
+      "unit_engineer_death4_teal.png: alpha touches canvas edge (255)",
+      "unit_engineer_red.png: alpha touches canvas edge (5)",
+      "unit_engineer_death2_red.png: alpha touches canvas edge (255)",
+      "unit_engineer_death3_red.png: alpha touches canvas edge (255)",
+      "unit_engineer_death4_red.png: alpha touches canvas edge (255)"
+    ],
+    "warnings": [
+      "teal gait centroid spans 14.75px on source canvas",
+      "red gait centroid spans 14.75px on source canvas"
+    ],
+    "files": {
+      "static_teal": {
+        "path": "assets/sprites/unit_engineer_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          35,
+          0,
+          221,
+          256
+        ],
+        "border_alpha_max": 5,
+        "centroid": [
+          127.448,
+          131.696
+        ],
+        "occupied_pixels": 27755
+      },
+      "walk1_teal": {
+        "path": "assets/sprites/unit_engineer_walk1_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          50,
+          11,
+          207,
+          249
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          129.227,
+          123.986
+        ],
+        "occupied_pixels": 20558
+      },
+      "walk2_teal": {
+        "path": "assets/sprites/unit_engineer_walk2_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          56,
+          7,
+          209,
+          248
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          128.814,
+          119.583
+        ],
+        "occupied_pixels": 20296
+      },
+      "walk3_teal": {
+        "path": "assets/sprites/unit_engineer_walk3_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          48,
+          8,
+          210,
+          248
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          129.188,
+          121.04
+        ],
+        "occupied_pixels": 20276
+      },
+      "walk4_teal": {
+        "path": "assets/sprites/unit_engineer_walk4_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          44,
+          12,
+          212,
+          248
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          130.426,
+          125.115
+        ],
+        "occupied_pixels": 20602
+      },
+      "walk5_teal": {
+        "path": "assets/sprites/unit_engineer_walk5_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          49,
+          7,
+          210,
+          248
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          131.422,
+          119.493
+        ],
+        "occupied_pixels": 20424
+      },
+      "walk6_teal": {
+        "path": "assets/sprites/unit_engineer_walk6_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          55,
+          7,
+          208,
+          247
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          130.141,
+          132.905
+        ],
+        "occupied_pixels": 23127
+      },
+      "walk7_teal": {
+        "path": "assets/sprites/unit_engineer_walk7_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          55,
+          11,
+          206,
+          247
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          130.057,
+          123.732
+        ],
+        "occupied_pixels": 20482
+      },
+      "walk8_teal": {
+        "path": "assets/sprites/unit_engineer_walk8_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          53,
+          7,
+          208,
+          225
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          128.759,
+          118.15
+        ],
+        "occupied_pixels": 20022
+      },
+      "death1_teal": {
+        "path": "assets/sprites/unit_engineer_death1_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          3,
+          13,
+          252,
+          242
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          145.149,
+          123.025
+        ],
+        "occupied_pixels": 28705
+      },
+      "death2_teal": {
+        "path": "assets/sprites/unit_engineer_death2_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          0,
+          29,
+          256,
+          227
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          148.473,
+          114.478
+        ],
+        "occupied_pixels": 19333
+      },
+      "death3_teal": {
+        "path": "assets/sprites/unit_engineer_death3_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          31,
+          0,
+          225,
+          256
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          139.448,
+          140.773
+        ],
+        "occupied_pixels": 25367
+      },
+      "death4_teal": {
+        "path": "assets/sprites/unit_engineer_death4_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          0,
+          18,
+          256,
+          237
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          133.491,
+          128.79
+        ],
+        "occupied_pixels": 23250
+      },
+      "static_red": {
+        "path": "assets/sprites/unit_engineer_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          35,
+          0,
+          221,
+          256
+        ],
+        "border_alpha_max": 5,
+        "centroid": [
+          127.664,
+          131.748
+        ],
+        "occupied_pixels": 27848
+      },
+      "walk1_red": {
+        "path": "assets/sprites/unit_engineer_walk1_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          50,
+          11,
+          207,
+          249
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          129.227,
+          123.986
+        ],
+        "occupied_pixels": 20558
+      },
+      "walk2_red": {
+        "path": "assets/sprites/unit_engineer_walk2_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          56,
+          7,
+          209,
+          248
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          128.814,
+          119.583
+        ],
+        "occupied_pixels": 20296
+      },
+      "walk3_red": {
+        "path": "assets/sprites/unit_engineer_walk3_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          48,
+          8,
+          210,
+          248
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          129.188,
+          121.04
+        ],
+        "occupied_pixels": 20276
+      },
+      "walk4_red": {
+        "path": "assets/sprites/unit_engineer_walk4_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          44,
+          12,
+          212,
+          248
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          130.426,
+          125.115
+        ],
+        "occupied_pixels": 20602
+      },
+      "walk5_red": {
+        "path": "assets/sprites/unit_engineer_walk5_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          49,
+          7,
+          210,
+          248
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          131.422,
+          119.493
+        ],
+        "occupied_pixels": 20424
+      },
+      "walk6_red": {
+        "path": "assets/sprites/unit_engineer_walk6_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          55,
+          7,
+          208,
+          247
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          130.141,
+          132.905
+        ],
+        "occupied_pixels": 23127
+      },
+      "walk7_red": {
+        "path": "assets/sprites/unit_engineer_walk7_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          55,
+          11,
+          206,
+          247
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          130.057,
+          123.732
+        ],
+        "occupied_pixels": 20482
+      },
+      "walk8_red": {
+        "path": "assets/sprites/unit_engineer_walk8_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          53,
+          7,
+          208,
+          225
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          128.759,
+          118.15
+        ],
+        "occupied_pixels": 20022
+      },
+      "death1_red": {
+        "path": "assets/sprites/unit_engineer_death1_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          4,
+          14,
+          252,
+          242
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          145.64,
+          123.701
+        ],
+        "occupied_pixels": 28556
+      },
+      "death2_red": {
+        "path": "assets/sprites/unit_engineer_death2_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          0,
+          29,
+          256,
+          227
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          148.86,
+          114.648
+        ],
+        "occupied_pixels": 19481
+      },
+      "death3_red": {
+        "path": "assets/sprites/unit_engineer_death3_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          31,
+          0,
+          225,
+          256
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          139.403,
+          139.735
+        ],
+        "occupied_pixels": 25584
+      },
+      "death4_red": {
+        "path": "assets/sprites/unit_engineer_death4_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          0,
+          19,
+          256,
+          237
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          133.225,
+          127.949
+        ],
+        "occupied_pixels": 23323
+      }
+    }
+  },
+  "sniper": {
+    "family": "sniper",
+    "expected_files": 28,
+    "present_files": 28,
+    "teal_red_alpha_iou": {
+      "static": 0.98624,
+      "walk1": 1.0,
+      "walk2": 1.0,
+      "walk3": 1.0,
+      "walk4": 1.0,
+      "walk5": 1.0,
+      "walk6": 1.0,
+      "walk7": 1.0,
+      "walk8": 1.0,
+      "death1": 0.93721,
+      "death2": 0.85696,
+      "death3": 0.90289,
+      "death4": 0.9643,
+      "hunker": 0.99863
+    },
+    "gait_stability": {
+      "teal": {
+        "centroid_x_range": [
+          124.902,
+          130.302
+        ],
+        "centroid_y_range": [
+          174.238,
+          181.893
+        ],
+        "max_centroid_span_px": 7.655,
+        "occupied_area_cv": 0.01634
+      },
+      "red": {
+        "centroid_x_range": [
+          124.902,
+          130.302
+        ],
+        "centroid_y_range": [
+          174.213,
+          181.893
+        ],
+        "max_centroid_span_px": 7.68,
+        "occupied_area_cv": 0.01629
+      }
+    },
+    "errors": [
+      "unit_sniper_teal.png: alpha touches canvas edge (4)",
+      "unit_sniper_walk1_teal.png: alpha touches canvas edge (255)",
+      "unit_sniper_walk2_teal.png: alpha touches canvas edge (238)",
+      "unit_sniper_walk3_teal.png: alpha touches canvas edge (255)",
+      "unit_sniper_walk4_teal.png: alpha touches canvas edge (4)",
+      "unit_sniper_walk5_teal.png: alpha touches canvas edge (255)",
+      "unit_sniper_walk6_teal.png: alpha touches canvas edge (255)",
+      "unit_sniper_walk7_teal.png: alpha touches canvas edge (255)",
+      "unit_sniper_walk8_teal.png: alpha touches canvas edge (4)",
+      "unit_sniper_hunker_teal.png: alpha touches canvas edge (4)",
+      "unit_sniper_red.png: alpha touches canvas edge (5)",
+      "unit_sniper_walk1_red.png: alpha touches canvas edge (255)",
+      "unit_sniper_walk2_red.png: alpha touches canvas edge (238)",
+      "unit_sniper_walk3_red.png: alpha touches canvas edge (255)",
+      "unit_sniper_walk4_red.png: alpha touches canvas edge (4)",
+      "unit_sniper_walk5_red.png: alpha touches canvas edge (255)",
+      "unit_sniper_walk6_red.png: alpha touches canvas edge (255)",
+      "unit_sniper_walk7_red.png: alpha touches canvas edge (255)",
+      "unit_sniper_walk8_red.png: alpha touches canvas edge (4)",
+      "unit_sniper_hunker_red.png: alpha touches canvas edge (4)"
+    ],
+    "warnings": [],
+    "files": {
+      "static_teal": {
+        "path": "assets/sprites/unit_sniper_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          67,
+          0,
+          189,
+          256
+        ],
+        "border_alpha_max": 4,
+        "centroid": [
+          128.117,
+          174.238
+        ],
+        "occupied_pixels": 11980
+      },
+      "walk1_teal": {
+        "path": "assets/sprites/unit_sniper_walk1_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          62,
+          0,
+          191,
+          256
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          124.902,
+          178.99
+        ],
+        "occupied_pixels": 12628
+      },
+      "walk2_teal": {
+        "path": "assets/sprites/unit_sniper_walk2_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          61,
+          0,
+          188,
+          256
+        ],
+        "border_alpha_max": 238,
+        "centroid": [
+          125.683,
+          181.675
+        ],
+        "occupied_pixels": 12575
+      },
+      "walk3_teal": {
+        "path": "assets/sprites/unit_sniper_walk3_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          65,
+          0,
+          194,
+          255
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          130.302,
+          178.63
+        ],
+        "occupied_pixels": 12666
+      },
+      "walk4_teal": {
+        "path": "assets/sprites/unit_sniper_walk4_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          67,
+          0,
+          196,
+          256
+        ],
+        "border_alpha_max": 4,
+        "centroid": [
+          129.705,
+          181.26
+        ],
+        "occupied_pixels": 12594
+      },
+      "walk5_teal": {
+        "path": "assets/sprites/unit_sniper_walk5_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          62,
+          0,
+          191,
+          256
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          125.093,
+          178.775
+        ],
+        "occupied_pixels": 12624
+      },
+      "walk6_teal": {
+        "path": "assets/sprites/unit_sniper_walk6_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          60,
+          0,
+          189,
+          256
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          125.338,
+          181.893
+        ],
+        "occupied_pixels": 12598
+      },
+      "walk7_teal": {
+        "path": "assets/sprites/unit_sniper_walk7_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          64,
+          0,
+          193,
+          256
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          129.765,
+          179.168
+        ],
+        "occupied_pixels": 12679
+      },
+      "walk8_teal": {
+        "path": "assets/sprites/unit_sniper_walk8_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          67,
+          0,
+          196,
+          256
+        ],
+        "border_alpha_max": 4,
+        "centroid": [
+          130.067,
+          181.053
+        ],
+        "occupied_pixels": 12636
+      },
+      "death1_teal": {
+        "path": "assets/sprites/unit_sniper_death1_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          51,
+          41,
+          204,
+          215
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          136.234,
+          121.287
+        ],
+        "occupied_pixels": 12352
+      },
+      "death2_teal": {
+        "path": "assets/sprites/unit_sniper_death2_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          46,
+          25,
+          209,
+          231
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          118.328,
+          100.598
+        ],
+        "occupied_pixels": 11990
+      },
+      "death3_teal": {
+        "path": "assets/sprites/unit_sniper_death3_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          47,
+          32,
+          209,
+          224
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          123.441,
+          115.544
+        ],
+        "occupied_pixels": 12421
+      },
+      "death4_teal": {
+        "path": "assets/sprites/unit_sniper_death4_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          52,
+          52,
+          203,
+          204
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          128.728,
+          127.113
+        ],
+        "occupied_pixels": 12436
+      },
+      "hunker_teal": {
+        "path": "assets/sprites/unit_sniper_hunker_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          54,
+          0,
+          202,
+          256
+        ],
+        "border_alpha_max": 4,
+        "centroid": [
+          128.576,
+          165.177
+        ],
+        "occupied_pixels": 13832
+      },
+      "static_red": {
+        "path": "assets/sprites/unit_sniper_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          67,
+          0,
+          189,
+          256
+        ],
+        "border_alpha_max": 5,
+        "centroid": [
+          127.824,
+          174.213
+        ],
+        "occupied_pixels": 11982
+      },
+      "walk1_red": {
+        "path": "assets/sprites/unit_sniper_walk1_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          62,
+          0,
+          191,
+          256
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          124.902,
+          178.99
+        ],
+        "occupied_pixels": 12628
+      },
+      "walk2_red": {
+        "path": "assets/sprites/unit_sniper_walk2_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          61,
+          0,
+          188,
+          256
+        ],
+        "border_alpha_max": 238,
+        "centroid": [
+          125.683,
+          181.675
+        ],
+        "occupied_pixels": 12575
+      },
+      "walk3_red": {
+        "path": "assets/sprites/unit_sniper_walk3_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          65,
+          0,
+          194,
+          255
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          130.302,
+          178.63
+        ],
+        "occupied_pixels": 12666
+      },
+      "walk4_red": {
+        "path": "assets/sprites/unit_sniper_walk4_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          67,
+          0,
+          196,
+          256
+        ],
+        "border_alpha_max": 4,
+        "centroid": [
+          129.705,
+          181.26
+        ],
+        "occupied_pixels": 12594
+      },
+      "walk5_red": {
+        "path": "assets/sprites/unit_sniper_walk5_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          62,
+          0,
+          191,
+          256
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          125.093,
+          178.775
+        ],
+        "occupied_pixels": 12624
+      },
+      "walk6_red": {
+        "path": "assets/sprites/unit_sniper_walk6_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          60,
+          0,
+          189,
+          256
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          125.338,
+          181.893
+        ],
+        "occupied_pixels": 12598
+      },
+      "walk7_red": {
+        "path": "assets/sprites/unit_sniper_walk7_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          64,
+          0,
+          193,
+          256
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          129.765,
+          179.168
+        ],
+        "occupied_pixels": 12679
+      },
+      "walk8_red": {
+        "path": "assets/sprites/unit_sniper_walk8_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          67,
+          0,
+          196,
+          256
+        ],
+        "border_alpha_max": 4,
+        "centroid": [
+          130.067,
+          181.053
+        ],
+        "occupied_pixels": 12636
+      },
+      "death1_red": {
+        "path": "assets/sprites/unit_sniper_death1_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          53,
+          41,
+          202,
+          214
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          133.708,
+          121.11
+        ],
+        "occupied_pixels": 12452
+      },
+      "death2_red": {
+        "path": "assets/sprites/unit_sniper_death2_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          46,
+          25,
+          209,
+          230
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          116.971,
+          100.886
+        ],
+        "occupied_pixels": 12455
+      },
+      "death3_red": {
+        "path": "assets/sprites/unit_sniper_death3_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          46,
+          32,
+          209,
+          224
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          123.559,
+          116.623
+        ],
+        "occupied_pixels": 12505
+      },
+      "death4_red": {
+        "path": "assets/sprites/unit_sniper_death4_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          52,
+          51,
+          204,
+          204
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          129.079,
+          125.824
+        ],
+        "occupied_pixels": 12489
+      },
+      "hunker_red": {
+        "path": "assets/sprites/unit_sniper_hunker_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          54,
+          0,
+          202,
+          256
+        ],
+        "border_alpha_max": 4,
+        "centroid": [
+          128.575,
+          165.145
+        ],
+        "occupied_pixels": 13823
+      }
+    }
+  },
+  "medic": {
+    "family": "medic",
+    "expected_files": 26,
+    "present_files": 26,
+    "teal_red_alpha_iou": {
+      "static": 0.99937,
+      "walk1": 1.0,
+      "walk2": 1.0,
+      "walk3": 1.0,
+      "walk4": 1.0,
+      "walk5": 1.0,
+      "walk6": 1.0,
+      "walk7": 1.0,
+      "walk8": 1.0,
+      "death1": 0.92066,
+      "death2": 0.91105,
+      "death3": 0.92843,
+      "death4": 0.95309
+    },
+    "gait_stability": {
+      "teal": {
+        "centroid_x_range": [
+          122.078,
+          123.737
+        ],
+        "centroid_y_range": [
+          140.053,
+          142.51
+        ],
+        "max_centroid_span_px": 2.457,
+        "occupied_area_cv": 0.01258
+      },
+      "red": {
+        "centroid_x_range": [
+          122.078,
+          123.737
+        ],
+        "centroid_y_range": [
+          140.053,
+          142.513
+        ],
+        "max_centroid_span_px": 2.46,
+        "occupied_area_cv": 0.01264
+      }
+    },
+    "errors": [
+      "unit_medic_teal.png: alpha touches canvas edge (4)",
+      "unit_medic_walk1_teal.png: alpha touches canvas edge (4)",
+      "unit_medic_walk2_teal.png: alpha touches canvas edge (4)",
+      "unit_medic_walk3_teal.png: alpha touches canvas edge (4)",
+      "unit_medic_walk4_teal.png: alpha touches canvas edge (4)",
+      "unit_medic_walk5_teal.png: alpha touches canvas edge (4)",
+      "unit_medic_walk6_teal.png: alpha touches canvas edge (4)",
+      "unit_medic_walk8_teal.png: alpha touches canvas edge (4)",
+      "unit_medic_death1_teal.png: alpha touches canvas edge (255)",
+      "unit_medic_death2_teal.png: alpha touches canvas edge (255)",
+      "unit_medic_death3_teal.png: alpha touches canvas edge (255)",
+      "unit_medic_death4_teal.png: alpha touches canvas edge (255)",
+      "unit_medic_red.png: alpha touches canvas edge (4)",
+      "unit_medic_walk1_red.png: alpha touches canvas edge (4)",
+      "unit_medic_walk2_red.png: alpha touches canvas edge (4)",
+      "unit_medic_walk3_red.png: alpha touches canvas edge (4)",
+      "unit_medic_walk4_red.png: alpha touches canvas edge (4)",
+      "unit_medic_walk5_red.png: alpha touches canvas edge (4)",
+      "unit_medic_walk6_red.png: alpha touches canvas edge (4)",
+      "unit_medic_walk8_red.png: alpha touches canvas edge (4)",
+      "unit_medic_death1_red.png: alpha touches canvas edge (255)",
+      "unit_medic_death2_red.png: alpha touches canvas edge (255)",
+      "unit_medic_death3_red.png: alpha touches canvas edge (255)",
+      "unit_medic_death4_red.png: alpha touches canvas edge (255)"
+    ],
+    "warnings": [],
+    "files": {
+      "static_teal": {
+        "path": "assets/sprites/unit_medic_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          22,
+          0,
+          234,
+          256
+        ],
+        "border_alpha_max": 4,
+        "centroid": [
+          123.439,
+          142.51
+        ],
+        "occupied_pixels": 35089
+      },
+      "walk1_teal": {
+        "path": "assets/sprites/unit_medic_walk1_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          23,
+          0,
+          233,
+          256
+        ],
+        "border_alpha_max": 4,
+        "centroid": [
+          123.702,
+          140.241
+        ],
+        "occupied_pixels": 33800
+      },
+      "walk2_teal": {
+        "path": "assets/sprites/unit_medic_walk2_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          23,
+          0,
+          233,
+          256
+        ],
+        "border_alpha_max": 4,
+        "centroid": [
+          122.698,
+          141.055
+        ],
+        "occupied_pixels": 34217
+      },
+      "walk3_teal": {
+        "path": "assets/sprites/unit_medic_walk3_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          23,
+          0,
+          232,
+          256
+        ],
+        "border_alpha_max": 4,
+        "centroid": [
+          122.114,
+          140.473
+        ],
+        "occupied_pixels": 33690
+      },
+      "walk4_teal": {
+        "path": "assets/sprites/unit_medic_walk4_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          23,
+          0,
+          233,
+          256
+        ],
+        "border_alpha_max": 4,
+        "centroid": [
+          123.144,
+          141.154
+        ],
+        "occupied_pixels": 34182
+      },
+      "walk5_teal": {
+        "path": "assets/sprites/unit_medic_walk5_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          23,
+          0,
+          233,
+          256
+        ],
+        "border_alpha_max": 4,
+        "centroid": [
+          123.737,
+          140.409
+        ],
+        "occupied_pixels": 33779
+      },
+      "walk6_teal": {
+        "path": "assets/sprites/unit_medic_walk6_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          23,
+          0,
+          233,
+          256
+        ],
+        "border_alpha_max": 4,
+        "centroid": [
+          123.352,
+          140.053
+        ],
+        "occupied_pixels": 34001
+      },
+      "walk7_teal": {
+        "path": "assets/sprites/unit_medic_walk7_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          23,
+          1,
+          233,
+          255
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          122.078,
+          140.474
+        ],
+        "occupied_pixels": 33688
+      },
+      "walk8_teal": {
+        "path": "assets/sprites/unit_medic_walk8_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          23,
+          0,
+          233,
+          256
+        ],
+        "border_alpha_max": 4,
+        "centroid": [
+          123.08,
+          140.909
+        ],
+        "occupied_pixels": 34443
+      },
+      "death1_teal": {
+        "path": "assets/sprites/unit_medic_death1_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          20,
+          0,
+          236,
+          256
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          114.168,
+          123.569
+        ],
+        "occupied_pixels": 30853
+      },
+      "death2_teal": {
+        "path": "assets/sprites/unit_medic_death2_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          21,
+          0,
+          234,
+          256
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          112.644,
+          120.071
+        ],
+        "occupied_pixels": 28593
+      },
+      "death3_teal": {
+        "path": "assets/sprites/unit_medic_death3_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          0,
+          9,
+          256,
+          247
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          121.695,
+          127.902
+        ],
+        "occupied_pixels": 29481
+      },
+      "death4_teal": {
+        "path": "assets/sprites/unit_medic_death4_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          2,
+          0,
+          253,
+          256
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          120.956,
+          128.551
+        ],
+        "occupied_pixels": 31543
+      },
+      "static_red": {
+        "path": "assets/sprites/unit_medic_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          22,
+          0,
+          234,
+          256
+        ],
+        "border_alpha_max": 4,
+        "centroid": [
+          123.438,
+          142.513
+        ],
+        "occupied_pixels": 35097
+      },
+      "walk1_red": {
+        "path": "assets/sprites/unit_medic_walk1_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          23,
+          0,
+          233,
+          256
+        ],
+        "border_alpha_max": 4,
+        "centroid": [
+          123.702,
+          140.241
+        ],
+        "occupied_pixels": 33800
+      },
+      "walk2_red": {
+        "path": "assets/sprites/unit_medic_walk2_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          23,
+          0,
+          233,
+          256
+        ],
+        "border_alpha_max": 4,
+        "centroid": [
+          122.698,
+          141.055
+        ],
+        "occupied_pixels": 34217
+      },
+      "walk3_red": {
+        "path": "assets/sprites/unit_medic_walk3_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          23,
+          0,
+          232,
+          256
+        ],
+        "border_alpha_max": 4,
+        "centroid": [
+          122.114,
+          140.473
+        ],
+        "occupied_pixels": 33690
+      },
+      "walk4_red": {
+        "path": "assets/sprites/unit_medic_walk4_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          23,
+          0,
+          233,
+          256
+        ],
+        "border_alpha_max": 4,
+        "centroid": [
+          123.144,
+          141.154
+        ],
+        "occupied_pixels": 34182
+      },
+      "walk5_red": {
+        "path": "assets/sprites/unit_medic_walk5_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          23,
+          0,
+          233,
+          256
+        ],
+        "border_alpha_max": 4,
+        "centroid": [
+          123.737,
+          140.409
+        ],
+        "occupied_pixels": 33779
+      },
+      "walk6_red": {
+        "path": "assets/sprites/unit_medic_walk6_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          23,
+          0,
+          233,
+          256
+        ],
+        "border_alpha_max": 4,
+        "centroid": [
+          123.352,
+          140.053
+        ],
+        "occupied_pixels": 34001
+      },
+      "walk7_red": {
+        "path": "assets/sprites/unit_medic_walk7_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          23,
+          1,
+          233,
+          255
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          122.078,
+          140.474
+        ],
+        "occupied_pixels": 33688
+      },
+      "walk8_red": {
+        "path": "assets/sprites/unit_medic_walk8_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          23,
+          0,
+          233,
+          256
+        ],
+        "border_alpha_max": 4,
+        "centroid": [
+          123.08,
+          140.909
+        ],
+        "occupied_pixels": 34443
+      },
+      "death1_red": {
+        "path": "assets/sprites/unit_medic_death1_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          19,
+          0,
+          236,
+          256
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          113.993,
+          123.059
+        ],
+        "occupied_pixels": 30276
+      },
+      "death2_red": {
+        "path": "assets/sprites/unit_medic_death2_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          22,
+          0,
+          233,
+          256
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          113.452,
+          121.651
+        ],
+        "occupied_pixels": 27953
+      },
+      "death3_red": {
+        "path": "assets/sprites/unit_medic_death3_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          0,
+          10,
+          256,
+          246
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          121.399,
+          127.342
+        ],
+        "occupied_pixels": 29257
+      },
+      "death4_red": {
+        "path": "assets/sprites/unit_medic_death4_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          2,
+          0,
+          253,
+          256
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          120.895,
+          128.267
+        ],
+        "occupied_pixels": 31497
+      }
+    }
+  },
+  "rocket": {
+    "family": "rocket",
+    "expected_files": 26,
+    "present_files": 26,
+    "teal_red_alpha_iou": {
+      "static": 0.9989,
+      "walk1": 1.0,
+      "walk2": 1.0,
+      "walk3": 1.0,
+      "walk4": 1.0,
+      "walk5": 1.0,
+      "walk6": 1.0,
+      "walk7": 1.0,
+      "walk8": 1.0,
+      "death1": 0.91908,
+      "death2": 0.91017,
+      "death3": 0.94424,
+      "death4": 0.92009
+    },
+    "gait_stability": {
+      "teal": {
+        "centroid_x_range": [
+          129.49,
+          132.955
+        ],
+        "centroid_y_range": [
+          132.06,
+          136.913
+        ],
+        "max_centroid_span_px": 4.853,
+        "occupied_area_cv": 0.05911
+      },
+      "red": {
+        "centroid_x_range": [
+          129.49,
+          132.955
+        ],
+        "centroid_y_range": [
+          132.06,
+          136.912
+        ],
+        "max_centroid_span_px": 4.852,
+        "occupied_area_cv": 0.05899
+      }
+    },
+    "errors": [
+      "unit_rocket_teal.png: alpha touches canvas edge (4)",
+      "unit_rocket_death1_teal.png: alpha touches canvas edge (255)",
+      "unit_rocket_death2_teal.png: alpha touches canvas edge (255)",
+      "unit_rocket_death3_teal.png: alpha touches canvas edge (255)",
+      "unit_rocket_death4_teal.png: alpha touches canvas edge (255)",
+      "unit_rocket_red.png: alpha touches canvas edge (4)",
+      "unit_rocket_death1_red.png: alpha touches canvas edge (255)",
+      "unit_rocket_death2_red.png: alpha touches canvas edge (255)",
+      "unit_rocket_death3_red.png: alpha touches canvas edge (255)",
+      "unit_rocket_death4_red.png: alpha touches canvas edge (255)"
+    ],
+    "warnings": [],
+    "files": {
+      "static_teal": {
+        "path": "assets/sprites/unit_rocket_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          16,
+          0,
+          240,
+          256
+        ],
+        "border_alpha_max": 4,
+        "centroid": [
+          132.349,
+          136.913
+        ],
+        "occupied_pixels": 31806
+      },
+      "walk1_teal": {
+        "path": "assets/sprites/unit_rocket_walk1_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          25,
+          10,
+          226,
+          246
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          129.49,
+          135.366
+        ],
+        "occupied_pixels": 26112
+      },
+      "walk2_teal": {
+        "path": "assets/sprites/unit_rocket_walk2_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          26,
+          11,
+          229,
+          253
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          131.786,
+          136.38
+        ],
+        "occupied_pixels": 26500
+      },
+      "walk3_teal": {
+        "path": "assets/sprites/unit_rocket_walk3_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          27,
+          8,
+          231,
+          248
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          132.735,
+          133.796
+        ],
+        "occupied_pixels": 26927
+      },
+      "walk4_teal": {
+        "path": "assets/sprites/unit_rocket_walk4_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          25,
+          8,
+          229,
+          252
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          130.527,
+          136.224
+        ],
+        "occupied_pixels": 27084
+      },
+      "walk5_teal": {
+        "path": "assets/sprites/unit_rocket_walk5_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          22,
+          2,
+          230,
+          250
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          129.726,
+          132.06
+        ],
+        "occupied_pixels": 27656
+      },
+      "walk6_teal": {
+        "path": "assets/sprites/unit_rocket_walk6_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          24,
+          5,
+          232,
+          253
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          131.857,
+          134.341
+        ],
+        "occupied_pixels": 27944
+      },
+      "walk7_teal": {
+        "path": "assets/sprites/unit_rocket_walk7_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          24,
+          2,
+          234,
+          250
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          132.955,
+          132.153
+        ],
+        "occupied_pixels": 28628
+      },
+      "walk8_teal": {
+        "path": "assets/sprites/unit_rocket_walk8_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          22,
+          3,
+          231,
+          253
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          130.924,
+          136.472
+        ],
+        "occupied_pixels": 29359
+      },
+      "death1_teal": {
+        "path": "assets/sprites/unit_rocket_death1_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          13,
+          0,
+          243,
+          256
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          132.391,
+          114.948
+        ],
+        "occupied_pixels": 29429
+      },
+      "death2_teal": {
+        "path": "assets/sprites/unit_rocket_death2_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          0,
+          15,
+          256,
+          241
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          124.988,
+          113.387
+        ],
+        "occupied_pixels": 29076
+      },
+      "death3_teal": {
+        "path": "assets/sprites/unit_rocket_death3_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          0,
+          41,
+          256,
+          214
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          123.085,
+          129.219
+        ],
+        "occupied_pixels": 24629
+      },
+      "death4_teal": {
+        "path": "assets/sprites/unit_rocket_death4_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          0,
+          52,
+          256,
+          204
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          125.662,
+          131.27
+        ],
+        "occupied_pixels": 21445
+      },
+      "static_red": {
+        "path": "assets/sprites/unit_rocket_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          16,
+          0,
+          240,
+          256
+        ],
+        "border_alpha_max": 4,
+        "centroid": [
+          132.356,
+          136.912
+        ],
+        "occupied_pixels": 31793
+      },
+      "walk1_red": {
+        "path": "assets/sprites/unit_rocket_walk1_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          25,
+          10,
+          226,
+          246
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          129.49,
+          135.366
+        ],
+        "occupied_pixels": 26112
+      },
+      "walk2_red": {
+        "path": "assets/sprites/unit_rocket_walk2_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          26,
+          11,
+          229,
+          253
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          131.786,
+          136.38
+        ],
+        "occupied_pixels": 26500
+      },
+      "walk3_red": {
+        "path": "assets/sprites/unit_rocket_walk3_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          27,
+          8,
+          231,
+          248
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          132.735,
+          133.796
+        ],
+        "occupied_pixels": 26927
+      },
+      "walk4_red": {
+        "path": "assets/sprites/unit_rocket_walk4_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          25,
+          8,
+          229,
+          252
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          130.527,
+          136.224
+        ],
+        "occupied_pixels": 27084
+      },
+      "walk5_red": {
+        "path": "assets/sprites/unit_rocket_walk5_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          22,
+          2,
+          230,
+          250
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          129.726,
+          132.06
+        ],
+        "occupied_pixels": 27656
+      },
+      "walk6_red": {
+        "path": "assets/sprites/unit_rocket_walk6_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          24,
+          5,
+          232,
+          253
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          131.857,
+          134.341
+        ],
+        "occupied_pixels": 27944
+      },
+      "walk7_red": {
+        "path": "assets/sprites/unit_rocket_walk7_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          24,
+          2,
+          234,
+          250
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          132.955,
+          132.153
+        ],
+        "occupied_pixels": 28628
+      },
+      "walk8_red": {
+        "path": "assets/sprites/unit_rocket_walk8_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          22,
+          3,
+          231,
+          253
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          130.924,
+          136.472
+        ],
+        "occupied_pixels": 29359
+      },
+      "death1_red": {
+        "path": "assets/sprites/unit_rocket_death1_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          15,
+          0,
+          241,
+          256
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          134.337,
+          115.375
+        ],
+        "occupied_pixels": 29930
+      },
+      "death2_red": {
+        "path": "assets/sprites/unit_rocket_death2_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          0,
+          14,
+          256,
+          241
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          125.024,
+          114.687
+        ],
+        "occupied_pixels": 31232
+      },
+      "death3_red": {
+        "path": "assets/sprites/unit_rocket_death3_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          0,
+          42,
+          256,
+          214
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          123.844,
+          129.744
+        ],
+        "occupied_pixels": 25410
+      },
+      "death4_red": {
+        "path": "assets/sprites/unit_rocket_death4_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          0,
+          52,
+          256,
+          204
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          127.324,
+          132.853
+        ],
+        "occupied_pixels": 22168
+      }
+    }
+  },
+  "commando": {
+    "family": "commando",
+    "expected_files": 13,
+    "present_files": 13,
+    "teal_red_alpha_iou": {},
+    "gait_stability": {
+      "teal": {
+        "centroid_x_range": [
+          126.711,
+          129.073
+        ],
+        "centroid_y_range": [
+          142.928,
+          147.378
+        ],
+        "max_centroid_span_px": 4.45,
+        "occupied_area_cv": 0.01853
+      }
+    },
+    "errors": [
+      "unit_commando_teal.png: alpha touches canvas edge (4)",
+      "unit_commando_walk2_teal.png: alpha touches canvas edge (2)",
+      "unit_commando_walk3_teal.png: alpha touches canvas edge (4)",
+      "unit_commando_death3_teal.png: alpha touches canvas edge (255)"
+    ],
+    "warnings": [],
+    "files": {
+      "static_teal": {
+        "path": "assets/sprites/unit_commando_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          45,
+          0,
+          211,
+          256
+        ],
+        "border_alpha_max": 4,
+        "centroid": [
+          128.441,
+          147.378
+        ],
+        "occupied_pixels": 23302
+      },
+      "walk1_teal": {
+        "path": "assets/sprites/unit_commando_walk1_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          47,
+          2,
+          207,
+          250
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          127.079,
+          144.08
+        ],
+        "occupied_pixels": 21918
+      },
+      "walk2_teal": {
+        "path": "assets/sprites/unit_commando_walk2_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          47,
+          2,
+          207,
+          256
+        ],
+        "border_alpha_max": 2,
+        "centroid": [
+          126.711,
+          143.972
+        ],
+        "occupied_pixels": 22036
+      },
+      "walk3_teal": {
+        "path": "assets/sprites/unit_commando_walk3_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          47,
+          0,
+          208,
+          252
+        ],
+        "border_alpha_max": 4,
+        "centroid": [
+          127.204,
+          142.928
+        ],
+        "occupied_pixels": 22104
+      },
+      "walk4_teal": {
+        "path": "assets/sprites/unit_commando_walk4_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          47,
+          2,
+          208,
+          247
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          127.968,
+          143.326
+        ],
+        "occupied_pixels": 21934
+      },
+      "walk5_teal": {
+        "path": "assets/sprites/unit_commando_walk5_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          48,
+          2,
+          209,
+          251
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          128.674,
+          143.978
+        ],
+        "occupied_pixels": 21969
+      },
+      "walk6_teal": {
+        "path": "assets/sprites/unit_commando_walk6_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          48,
+          2,
+          209,
+          255
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          129.073,
+          143.753
+        ],
+        "occupied_pixels": 22090
+      },
+      "walk7_teal": {
+        "path": "assets/sprites/unit_commando_walk7_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          47,
+          1,
+          209,
+          254
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          128.827,
+          143.075
+        ],
+        "occupied_pixels": 22092
+      },
+      "walk8_teal": {
+        "path": "assets/sprites/unit_commando_walk8_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          47,
+          2,
+          208,
+          252
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          128.482,
+          143.311
+        ],
+        "occupied_pixels": 21963
+      },
+      "death1_teal": {
+        "path": "assets/sprites/unit_commando_death1_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          46,
+          3,
+          209,
+          253
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          125.399,
+          143.669
+        ],
+        "occupied_pixels": 23763
+      },
+      "death2_teal": {
+        "path": "assets/sprites/unit_commando_death2_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          38,
+          2,
+          217,
+          254
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          120.973,
+          140.46
+        ],
+        "occupied_pixels": 23817
+      },
+      "death3_teal": {
+        "path": "assets/sprites/unit_commando_death3_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          11,
+          0,
+          244,
+          256
+        ],
+        "border_alpha_max": 255,
+        "centroid": [
+          123.557,
+          128.191
+        ],
+        "occupied_pixels": 23210
+      },
+      "death4_teal": {
+        "path": "assets/sprites/unit_commando_death4_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          23,
+          24,
+          233,
+          232
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          126.501,
+          119.853
+        ],
+        "occupied_pixels": 23793
+      }
+    }
+  }
+}

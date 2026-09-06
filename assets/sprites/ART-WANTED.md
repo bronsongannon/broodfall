@@ -1,17 +1,55 @@
 # Art drop-in guide
 
-Every sprite in this folder is **hot-swappable**: replace a PNG (same filename)
-and the game uses it on next reload. No code changes, ever. If a file is
-missing or fails to load, the game falls back to its built-in drawing.
+Every registered production slot in this folder is **hot-swappable**: replace a PNG with the same filename and the game uses it on next reload. If a file is missing or fails to load, the game falls back to neutral component art or its built-in drawing. A genuinely new filename still requires loader registration.
 
-## WHICH TOOL TO USE (doctrine locked 2026-08-13, after the head-to-head)
+## Human technology overhaul status
 
-ChatGPT beat the incumbents on spec-adherence, identity-hold (verified through
-expression + full-body pose changes), and true top-down orthographic sprites
-(the axis Gemini kept failing). The standing routing — when a NEW asset is
-needed, this table names the tool:
+**Phase 1 — human buildings is complete (2026-09-05; teal reference refinement 2026-09-06):** 28 production assets cover the complete teal/red HQ, barracks, factory, supply, power, refinery, airpad, silo, turret base, flak base, hydro dam, Overwatch Array base, anti-ground mount, and twin-barrel flak mount families. All 14 Expedition/teal families now use the user-approved aqua-dominant, lighter, weathered Barracks reference. All 14 installed Rubicon/red counterparts remain based on superseded teal and require regeneration from their current teal counterparts plus separate preview approval. The three approved naval references are `bld_skiff.png`, `unit_carrier_teal.png`, and `bld_shipyard_teal.png`.
 
-| Asset needed | Tool | Notes |
+This overhaul uses a strict 90-degree overhead camera; grounded semi-realistic weathered metal; visible aqua/red faction identity; dirty warm taupe/off-white technical accents; crisp dark seams; warm amber lights; true alpha and safe padding; and no baked ground, shadows, scenery, people, text, logos, or perspective. Rubicon assets must be precise image-to-image colorway edits of the applicable current approved Expedition source, never independent redraws. All 14 installed Phase 1 red files predate their current teal counterparts and therefore remain pending separate preview and approval. Building geometry, pivots, runtime size, and game-driven overlays stay fixed.
+
+Source dimensions and runtime draw boxes are recorded in [`README.md`](README.md#human-technology-phase-1--buildings). Exact, verbatim teal-generation and red-edit prompts are recorded per family:
+
+- [`bld_hq`](../../image-audit/prompts/bld_hq.md), [`bld_barracks`](../../image-audit/prompts/bld_barracks.md), [`bld_factory`](../../image-audit/prompts/bld_factory.md), [`bld_supply`](../../image-audit/prompts/bld_supply.md), [`bld_power`](../../image-audit/prompts/bld_power.md), [`bld_refinery`](../../image-audit/prompts/bld_refinery.md), and [`bld_airpad`](../../image-audit/prompts/bld_airpad.md)
+- [`bld_silo`](../../image-audit/prompts/bld_silo.md), [`bld_turret`](../../image-audit/prompts/bld_turret.md), [`bld_flak`](../../image-audit/prompts/bld_flak.md), [`bld_hydro`](../../image-audit/prompts/bld_hydro.md), and [`bld_sensor`](../../image-audit/prompts/bld_sensor.md)
+- [`turret_gun`](../../image-audit/prompts/turret_gun.md) and the new distinct [`flak_gun`](../../image-audit/prompts/flak_gun.md)
+
+Frozen coverage evidence is in [`../../image-audit/phases/phase-1/`](../../image-audit/phases/phase-1/): the before manifest records 25/31 present and the hydro/sensor/flak-gun pairs missing; the after manifest records 31/31 present with no missing slot. The built Debug app passed byte-for-byte verification for all 33 scoped Phase 1 files.
+
+**Phase 2 — human vehicles and aircraft is complete (2026-09-05):** 18 matched target assets cover nine teal/red pairs or poses: APC, mobile artillery, deployed artillery hunker, gunship, Harrier, harvester, raider, capture rig, and tank. The existing Expedition carrier is the nineteenth audited slot and remains an approved benchmark rather than a replacement target. Every target is a north-facing 256×256 RGBA sprite with alpha 0–255, safe padding, and no canvas contact.
+
+Exact generation, refinement, recolor, and QA records are:
+
+- [`unit_apc`](../../image-audit/prompts/unit_apc.md), [`unit_artillery`](../../image-audit/prompts/unit_artillery.md) for both mobile and hunker poses, [`unit_gunship`](../../image-audit/prompts/unit_gunship.md), and [`unit_harrier`](../../image-audit/prompts/unit_harrier.md)
+- [`unit_harvester`](../../image-audit/prompts/unit_harvester.md), [`unit_raider`](../../image-audit/prompts/unit_raider.md), [`unit_rig`](../../image-audit/prompts/unit_rig.md), and [`unit_tank`](../../image-audit/prompts/unit_tank.md)
+
+Frozen Phase 2 evidence is in [`../../image-audit/phases/phase-2/`](../../image-audit/phases/phase-2/): the before manifest records 17/19 slots present and the artillery hunker pair absent; the after manifest records 19/19 present. The gunship and Harrier now use authored colorways; artillery hunker takes priority over standing art; authored artillery, Harvester, and Rig avoid only their duplicate legacy decoration while retaining dynamic rotor, payload, cargo/load, captive-glow, and capture-ring state. Raider, tank, and artillery muzzle-FX anchors were aligned to the authored silhouettes. The carrier draws at 200×200 instead of 136×136 with matching oriented selection/hit geometry, while its navigation radius, shoreline fit, and wake origin are unchanged.
+
+Source/gameplay contact sheets and live side-by-side Expedition/Rubicon vehicle rendering plus selection/health behavior passed browser inspection with an empty warning/error console. `node --check game.js` and `git diff --check` passed. The native Debug build succeeded, and all 21 scoped Phase 2 files in the rebuilt app byte-match the workspace.
+
+**Phase 3 — human soldiers is complete (2026-09-05):** all 147 scoped production files were replaced and installed as complete families: Marine 28 (paired static, walk 1–8, death 1–4, and hunker), Engineer 26, Sniper 28 (including paired hunker), Medic 26, Rocket 26, and player-only Boone/Commando 13 in teal. Every selected result is a north-facing 256×256 RGBA sprite with transparent padding and no canvas-edge contact.
+
+Built-in ImageGen produced one distinct asset per call. Every selected generation or edit includes all three approved human-technology references—`bld_skiff.png`, `unit_carrier_teal.png`, and `bld_shipyard_teal.png`; derived poses additionally include the normalized family master used to lock identity. Teal families were authored first, and red frames were image-to-image colorway edits of their corresponding normalized teal frames. Installations were atomic at family scope; isolated animation or faction-frame replacement remains prohibited.
+
+Exact Phase 3 prompt and provenance ledgers are:
+
+- [`unit_marine_family`](../../image-audit/prompts/unit_marine_family.md), [`unit_engineer_family`](../../image-audit/prompts/unit_engineer_family.md), and [`unit_sniper_family`](../../image-audit/prompts/unit_sniper_family.md)
+- [`unit_medic_family`](../../image-audit/prompts/unit_medic_family.md), [`unit_rocket_family`](../../image-audit/prompts/unit_rocket_family.md), and [`unit_commando_family`](../../image-audit/prompts/unit_commando_family.md)
+
+The soldier draw boxes are Marine 30×30, Engineer 29×29, Sniper 32×32, Medic 30×30, Rocket 32×32, and Commando 32×32, independent of collision geometry. Runtime playback uses an eight-frame distance-driven walk cadence, gives authored Marine/Sniper hunker poses priority, sizes corpses and human selection/hunker rings from the authored footprint, and suppresses duplicate Marine/Sniper/Rocket/Commando decoration. Marine, Sniper, Rocket, and Commando muzzle anchors are 14 px. The production cache revision is `human-tech-20260906c5`.
+
+Frozen Phase 3 evidence is in [`../../image-audit/phases/phase-3/`](../../image-audit/phases/phase-3/): coverage moves from 145/147 before, with the Marine hunker pair absent and 73 legacy alpha masks contacting a canvas edge (including 38 manually identified as visibly clipped), to 147/147 after with zero edge contact. Both older issues are resolved, not outstanding art requests.
+
+Final verification is complete: 147/147 sprites pass the hardened validator with zero errors; 14 review-only overlap advisories were visually cleared. Source/gameplay sheets, four-palette motion QA, browser console, code/diff checks, macOS Debug build, and all 149 bundled Phase 3 payload byte comparisons pass.
+
+## Legacy asset routing notes (superseded for human technology)
+
+This table preserves the pre-overhaul 2026-08-13 workflow for historical and
+non-human fallback work only. It is not production direction for Phase 3 and
+must not override the built-in ImageGen, three-benchmark, one-call-per-asset,
+teal-first workflow or the exact family ledgers above.
+
+| Historical asset need | Former tool | Historical notes |
 |---|---|---|
 | New character portrait | **ChatGPT** | PORTRAITS.md style block; generate once, approve, then anchor |
 | More shots of an existing generated character | **ChatGPT** | attach the approved frame: "same person, …" — lock wardrobe/patch positions in the prompt |
@@ -21,13 +59,11 @@ needed, this table names the tool:
 | Recolor of EXISTING Gemini art | **Gemini image-to-image** | recolor, never regenerate (standing rule — keeps sprites identical) |
 | Marketing / store key art | **DaVinci** (documentary register) or **ChatGPT** (cinematic film-still register) | big canvases are where quality differences actually show |
 
-**Do NOT re-make the existing approved set.** Statics are load-bearing for
-their walk/death frames (mass-normalized against them) — replacing one means
-replacing its whole animation family. Upgrades are single-file and
-annoyance-driven only: a sprite bugs Bronson in a playtest, that one file gets
-a ChatGPT replacement (style-anchored on its neighbors), done.
+Do not replace one member of an animation or faction pair in isolation. Statics are load-bearing for their walk/death frames (mass-normalized against them), and teal/red geometry must match. Replace and validate a complete family together; approved completed families are then locked unless that entire family is deliberately reopened.
 
-## Global rules (apply to every image)
+## Legacy neutral/tinted sprite rules
+
+These rules remain for the older neutral fallback and non-overhaul workflow. They do **not** override the human-technology production lock above or its exact prompt records.
 
 - **Top-down orthographic** view (straight down, like the existing Kenney art)
 - **PNG with transparent background**, subject centered, filling ~85–90% of the canvas
@@ -36,13 +72,15 @@ a ChatGPT replacement (style-anchored on its neighbors), done.
 - Cartoonish/clean, chunky silhouettes — think Kenney.nl style, readable at 30 px.
   Keep violence-free: no gore, kid-friendly
 
-### Team tinting — IMPORTANT
+### Legacy team tinting
 Units and buildings are recolored in-game by multiplying the image with the
 team color (teal / red / dino-green). So paint them in **neutral desaturated
 sand/khaki/light-gray**. Anything painted dark stays dark; anything colorful
 will tint weirdly. (Exceptions below say "natural colors".)
 
-## New art wanted (currently procedurally drawn — biggest wins)
+## Legacy backlog and completion log
+
+Historical notes below predate the human-technology replacement. The Phase 1, Phase 2, and Phase 3 statuses above are authoritative.
 
 | filename | what | notes |
 |---|---|---|
@@ -58,6 +96,8 @@ will tint weirdly. (Exceptions below say "natural colors".)
 | ~~`bld_power.png`~~ | DONE — lives as the `bld_power_teal/_red` colorway pair | |
 | ~~`dino_roost.png`~~ | DONE 2026-08-24 (ChatGPT) — installed + verified on M9's mounds | **the wanted list is now EMPTY**: every registered sprite slot in the game has art. New rows appear here only when design creates new things |
 | ~~`unit_rig.png`~~ | **DONE 2026-08-24 — the first ChatGPT sprite** (true top-down on the first try) | installed + verified in-game; the loaded-cage glow now draws OVER real art (drawRigGlow) |
+| ~~`unit_carrier_teal.png`~~ | **DONE 2026-09-05 — ChatGPT, skiff-anchored** | accurate bow-up carrier: angled deck, starboard island, elevators, catapults, arresting wires, parked air wing; installed + verified underway on Evac Coast |
+| ~~`bld_shipyard_teal.png`~~ | **DONE 2026-09-05 — ChatGPT, skiff/carrier-anchored** | shoreline dry dock: land-side workshop, gantry crane, open launch slip and twin ocean piers; expedition colorway |
 
 ## Existing art you can replace anytime (same filenames)
 
@@ -71,7 +111,7 @@ Effects (in `../fx/`): explosion0-8, smoke0-7, puff0-5, shot_large, shot_thin
 
 All neutral-toned for tinting except the fx, which are natural.
 
-## How to generate with AI
+## Legacy fallback generation prompt
 
 Prompt skeleton that works well:
 
@@ -133,10 +173,13 @@ sprite material).
   shading, no shore/edges/objects, no strong highlights (the game animates
   sheen on top). Pattern-fills every river channel when present.
 
-## unit_commando (Boone) — prompt of record (2026-08-04; teal static DELIVERED same day)
-Boone is player-only: teal colorway only, no red derivation. Attach the
-approved `unit_marine_teal` (or the delivered commando static) as style anchor.
-Use this prompt for any future variant (hunker pose, DLC operators):
+## Legacy unit_commando (Boone) brief — superseded by Phase 3
+
+This 2026-08-04 teal-static brief is retained as design history only. Boone is
+still player-only, but his complete static/walk/death production family and its
+authoritative generation record now live in
+[`unit_commando_family.md`](../../image-audit/prompts/unit_commando_family.md).
+Do not use the older cartoon-style prompt below to revise Phase 3 assets.
 
 > top-down orthographic 2D video game sprite, viewed directly from above,
 > single character centered on a plain solid light-gray background, cartoonish

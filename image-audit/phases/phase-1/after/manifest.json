@@ -1,0 +1,327 @@
+{
+  "schema_version": 1,
+  "scope": "phase",
+  "phase": 1,
+  "state": "after",
+  "git_ref": null,
+  "slots": 31,
+  "present": 31,
+  "missing": [],
+  "contact_sheets": [
+    "source-1.png",
+    "gameplay-1.png",
+    "gameplay-2.png"
+  ],
+  "assets": [
+    {
+      "path": "assets/sprites/bld_hq_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        96,
+        96
+      ],
+      "file_sha256": "0c05c94da7c8ef3f1cc432886c9d3ea385f18b1fc344bfc95d2c6cd10d85bfa9"
+    },
+    {
+      "path": "assets/sprites/bld_hq_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        96,
+        96
+      ],
+      "file_sha256": "b5e9bf27f783ba750a8eba721364305c05ff4b571cacbd878e456e2889ac2a74"
+    },
+    {
+      "path": "assets/sprites/bld_barracks_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        78,
+        78
+      ],
+      "file_sha256": "e6587cccfaa5fac9d23a10089211811841256a8797f07969e7c0fb1d6f0c61dd"
+    },
+    {
+      "path": "assets/sprites/bld_barracks_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        78,
+        78
+      ],
+      "file_sha256": "1834e5a603813252c7f51c629d9e5263c3fdc71f330ec4574b5c0788c2f1f6e8"
+    },
+    {
+      "path": "assets/sprites/bld_factory_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        88,
+        72
+      ],
+      "file_sha256": "8a75e9880115088955dc8f7560f0a400a85a9eecca5fd95cc8711455cfb1a7fe"
+    },
+    {
+      "path": "assets/sprites/bld_factory_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        88,
+        72
+      ],
+      "file_sha256": "e3ad262f95fd3f788f365857c03d258818bf8ee2ddd819293cdb4bf5ed1f781a"
+    },
+    {
+      "path": "assets/sprites/bld_supply_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        56,
+        56
+      ],
+      "file_sha256": "4da1fa8a4eb2f7d4f83869d7db33dcce65215f91f245f215eafa7dc1ed6a9031"
+    },
+    {
+      "path": "assets/sprites/bld_supply_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        56,
+        56
+      ],
+      "file_sha256": "d81b03a900bb6eaa552ed843afe48f14b1eeb54a6062897386ab2825c1210bc2"
+    },
+    {
+      "path": "assets/sprites/bld_power_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        60,
+        60
+      ],
+      "file_sha256": "7481ab124a626c5e01f13a16505a3b73b6debb5131e8eb749869c157257e4a9b"
+    },
+    {
+      "path": "assets/sprites/bld_power_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        60,
+        60
+      ],
+      "file_sha256": "b3377d93a17de84304d8cab92fc9e217b068118b2cb64ab983e4508243641e3e"
+    },
+    {
+      "path": "assets/sprites/bld_refinery_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        70,
+        70
+      ],
+      "file_sha256": "202f57be39e270a903c2433ea063c3d1474d4351212a2de434cb7dd98025e849"
+    },
+    {
+      "path": "assets/sprites/bld_refinery_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        70,
+        70
+      ],
+      "file_sha256": "898988552e03928b49b7236f5c8e44fc13b9a2da6fa0e34ba393e10aead7ca5d"
+    },
+    {
+      "path": "assets/sprites/bld_airpad_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        62,
+        62
+      ],
+      "file_sha256": "e08f14d13e595d240454893ea3ccd915800367c29a2387fc4e6a21d185a2416f"
+    },
+    {
+      "path": "assets/sprites/bld_airpad_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        62,
+        62
+      ],
+      "file_sha256": "f535d212f2d04fbc7ee3009089617f0eeaca1d96f314398411e4f58e2d09f46e"
+    },
+    {
+      "path": "assets/sprites/bld_silo_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        70,
+        70
+      ],
+      "file_sha256": "c1478d174b39ba4512a0263f5a17d7e9e4bfd97bfcd29e2d01bd0adccca66e8b"
+    },
+    {
+      "path": "assets/sprites/bld_silo_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        70,
+        70
+      ],
+      "file_sha256": "69ecb93d74035636631056799fe9d4ef03a0b807ac1ee5abefd93ff1a8cd1916"
+    },
+    {
+      "path": "assets/sprites/bld_turret_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        40,
+        40
+      ],
+      "file_sha256": "6a8e275f8cdca56312d2a480bc742570846b69fa7f6c3c1198fa7bda2f963f99"
+    },
+    {
+      "path": "assets/sprites/bld_turret_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        40,
+        40
+      ],
+      "file_sha256": "a11e791cc6bfcaad7a115317d6be5f555c2827b4a8fb796d519850ee10f1d948"
+    },
+    {
+      "path": "assets/sprites/bld_flak_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        40,
+        40
+      ],
+      "file_sha256": "724cccea262b319329e7f213d58e42a35cbd8da4de5bc1f2ddb713b978a5038b"
+    },
+    {
+      "path": "assets/sprites/bld_flak_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        40,
+        40
+      ],
+      "file_sha256": "f82b9fcff3c7cb0b254b0cec692a8130e3921a5f4a93667c5ab4d3c2fa7060fe"
+    },
+    {
+      "path": "assets/sprites/bld_hydro_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        192,
+        30
+      ],
+      "file_sha256": "73ffdde9337bf65c4711b43891a5431f3acb195a7278d958744bd0937733780b"
+    },
+    {
+      "path": "assets/sprites/bld_hydro_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        192,
+        30
+      ],
+      "file_sha256": "d525a95e0b75671e94f0dce372275186b8e71f3b2a39d441882a6dc82eb4a7e6"
+    },
+    {
+      "path": "assets/sprites/bld_sensor_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        60,
+        60
+      ],
+      "file_sha256": "c1d52f0751687750f4d3fbaad2f181d8d8827b1c7182191e3d71e287dce490c6"
+    },
+    {
+      "path": "assets/sprites/bld_sensor_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        60,
+        60
+      ],
+      "file_sha256": "9e945b164e581e972bf5207e62bcceed48e3623d5fc32d590882be64a8d5ec93"
+    },
+    {
+      "path": "assets/sprites/turret_gun_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        28,
+        28
+      ],
+      "file_sha256": "2c4c40ee206791aada72f46817d44f0a32b5968e9418c456f530c92fb81e3d61"
+    },
+    {
+      "path": "assets/sprites/turret_gun_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        28,
+        28
+      ],
+      "file_sha256": "10b328bbbe6010bff97c78391a537607c1bea3a873b12aabf7e2600614cfb91d"
+    },
+    {
+      "path": "assets/sprites/flak_gun_teal.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        28,
+        28
+      ],
+      "file_sha256": "8d396d34d3df425d075eda7cc925aea4d54a89ab90f08b45b67cc6cb3f5b1898"
+    },
+    {
+      "path": "assets/sprites/flak_gun_red.png",
+      "role": "target",
+      "present": true,
+      "draw_size": [
+        28,
+        28
+      ],
+      "file_sha256": "cb78fbccdcb48a6faef87906f1c87a6e5830c0d3806b4e7d97026a6dd7e75c85"
+    },
+    {
+      "path": "assets/sprites/bld_shipyard_teal.png",
+      "role": "approved benchmark",
+      "present": true,
+      "draw_size": [
+        128,
+        90
+      ],
+      "file_sha256": "e90afa4dbe8e3dc8ba314f86900b3c19c76010822ef7ffaf9e4e883f19c411e3"
+    },
+    {
+      "path": "assets/sprites/bld_skiff.png",
+      "role": "approved benchmark",
+      "present": true,
+      "draw_size": [
+        170,
+        92
+      ],
+      "file_sha256": "8c84a866aa27288ff96986bc2703e34e9588e61ee43e9ad90545bfb16292609a"
+    },
+    {
+      "path": "assets/sprites/unit_carrier_teal.png",
+      "role": "approved benchmark",
+      "present": true,
+      "draw_size": [
+        200,
+        200
+      ],
+      "file_sha256": "173b0714e5979276e64e430a49805eaca5feae23ec3d986108a0a3ed60187efb"
+    }
+  ]
+}

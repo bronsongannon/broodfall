@@ -1,0 +1,896 @@
+{
+  "rocket": {
+    "family": "rocket",
+    "expected_files": 26,
+    "present_files": 26,
+    "teal_red_alpha_iou": {
+      "static": 0.98137,
+      "walk1": 0.95898,
+      "walk2": 0.95991,
+      "walk3": 0.97056,
+      "walk4": 0.97524,
+      "walk5": 0.98208,
+      "walk6": 0.97418,
+      "walk7": 0.969,
+      "walk8": 0.96954,
+      "death1": 0.9663,
+      "death2": 0.9737,
+      "death3": 0.9515,
+      "death4": 0.95303
+    },
+    "teal_red_exterior_silhouette_iou": {
+      "static": 0.98137,
+      "walk1": 0.95898,
+      "walk2": 0.95972,
+      "walk3": 0.97076,
+      "walk4": 0.97531,
+      "walk5": 0.98195,
+      "walk6": 0.97418,
+      "walk7": 0.96958,
+      "walk8": 0.9714,
+      "death1": 0.9663,
+      "death2": 0.96778,
+      "death3": 0.95157,
+      "death4": 0.95313
+    },
+    "gait_stability": {
+      "teal": {
+        "centroid_x_range": [
+          123.814,
+          126.07
+        ],
+        "centroid_y_range": [
+          132.863,
+          146.086
+        ],
+        "max_alpha_centroid_span_px": 13.223,
+        "bbox_center_x_range": [
+          127.0,
+          127.5
+        ],
+        "bbox_center_y_range": [
+          127.5,
+          127.5
+        ],
+        "max_bbox_center_span_px": 0.5,
+        "occupied_area_cv": 0.05378
+      },
+      "red": {
+        "centroid_x_range": [
+          123.827,
+          125.969
+        ],
+        "centroid_y_range": [
+          133.18,
+          145.879
+        ],
+        "max_alpha_centroid_span_px": 12.699,
+        "bbox_center_x_range": [
+          127.0,
+          127.5
+        ],
+        "bbox_center_y_range": [
+          127.5,
+          127.5
+        ],
+        "max_bbox_center_span_px": 0.5,
+        "occupied_area_cv": 0.04901
+      }
+    },
+    "errors": [],
+    "warnings": [
+      "walk1: teal/red exterior-silhouette IoU 0.95898 is below the 0.96 review target",
+      "walk2: teal/red exterior-silhouette IoU 0.95972 is below the 0.96 review target",
+      "death3: teal/red exterior-silhouette IoU 0.95157 is below the 0.96 review target",
+      "death4: teal/red exterior-silhouette IoU 0.95313 is below the 0.96 review target"
+    ],
+    "files": {
+      "static_teal": {
+        "path": "/tmp/broodfall-phase3-rocket/finals/unit_rocket_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          60,
+          14,
+          195,
+          242
+        ],
+        "bbox_center": [
+          127.0,
+          127.5
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          124.724,
+          146.086
+        ],
+        "occupied_pixels": 16099,
+        "nonzero_pixels": 16682,
+        "opaque_pixels": 15317,
+        "opaque_fraction_of_nonzero": 0.91818
+      },
+      "walk1_teal": {
+        "path": "/tmp/broodfall-phase3-rocket/finals/unit_rocket_walk1_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          65,
+          14,
+          191,
+          242
+        ],
+        "bbox_center": [
+          127.5,
+          127.5
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          124.21,
+          134.276
+        ],
+        "occupied_pixels": 14131,
+        "nonzero_pixels": 14651,
+        "opaque_pixels": 13415,
+        "opaque_fraction_of_nonzero": 0.91564
+      },
+      "walk2_teal": {
+        "path": "/tmp/broodfall-phase3-rocket/finals/unit_rocket_walk2_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          65,
+          14,
+          190,
+          242
+        ],
+        "bbox_center": [
+          127.0,
+          127.5
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          124.118,
+          136.892
+        ],
+        "occupied_pixels": 14530,
+        "nonzero_pixels": 15104,
+        "opaque_pixels": 13802,
+        "opaque_fraction_of_nonzero": 0.9138
+      },
+      "walk3_teal": {
+        "path": "/tmp/broodfall-phase3-rocket/finals/unit_rocket_walk3_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          65,
+          14,
+          190,
+          242
+        ],
+        "bbox_center": [
+          127.0,
+          127.5
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          124.333,
+          138.151
+        ],
+        "occupied_pixels": 14228,
+        "nonzero_pixels": 14814,
+        "opaque_pixels": 13534,
+        "opaque_fraction_of_nonzero": 0.9136
+      },
+      "walk4_teal": {
+        "path": "/tmp/broodfall-phase3-rocket/finals/unit_rocket_walk4_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          68,
+          14,
+          188,
+          242
+        ],
+        "bbox_center": [
+          127.5,
+          127.5
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          124.174,
+          132.863
+        ],
+        "occupied_pixels": 13426,
+        "nonzero_pixels": 13980,
+        "opaque_pixels": 12691,
+        "opaque_fraction_of_nonzero": 0.9078
+      },
+      "walk5_teal": {
+        "path": "/tmp/broodfall-phase3-rocket/finals/unit_rocket_walk5_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          62,
+          14,
+          194,
+          242
+        ],
+        "bbox_center": [
+          127.5,
+          127.5
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          125.882,
+          137.841
+        ],
+        "occupied_pixels": 15047,
+        "nonzero_pixels": 15600,
+        "opaque_pixels": 14274,
+        "opaque_fraction_of_nonzero": 0.915
+      },
+      "walk6_teal": {
+        "path": "/tmp/broodfall-phase3-rocket/finals/unit_rocket_walk6_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          61,
+          14,
+          195,
+          242
+        ],
+        "bbox_center": [
+          127.5,
+          127.5
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          123.814,
+          144.071
+        ],
+        "occupied_pixels": 15766,
+        "nonzero_pixels": 16293,
+        "opaque_pixels": 15010,
+        "opaque_fraction_of_nonzero": 0.92125
+      },
+      "walk7_teal": {
+        "path": "/tmp/broodfall-phase3-rocket/finals/unit_rocket_walk7_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          60,
+          14,
+          195,
+          242
+        ],
+        "bbox_center": [
+          127.0,
+          127.5
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          125.344,
+          141.187
+        ],
+        "occupied_pixels": 15327,
+        "nonzero_pixels": 15861,
+        "opaque_pixels": 14619,
+        "opaque_fraction_of_nonzero": 0.92169
+      },
+      "walk8_teal": {
+        "path": "/tmp/broodfall-phase3-rocket/finals/unit_rocket_walk8_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          62,
+          14,
+          194,
+          242
+        ],
+        "bbox_center": [
+          127.5,
+          127.5
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          126.07,
+          140.222
+        ],
+        "occupied_pixels": 14697,
+        "nonzero_pixels": 15223,
+        "opaque_pixels": 13919,
+        "opaque_fraction_of_nonzero": 0.91434
+      },
+      "death1_teal": {
+        "path": "/tmp/broodfall-phase3-rocket/finals/unit_rocket_death1_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          66,
+          14,
+          190,
+          242
+        ],
+        "bbox_center": [
+          127.5,
+          127.5
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          124.243,
+          132.626
+        ],
+        "occupied_pixels": 15338,
+        "nonzero_pixels": 15879,
+        "opaque_pixels": 14602,
+        "opaque_fraction_of_nonzero": 0.91958
+      },
+      "death2_teal": {
+        "path": "/tmp/broodfall-phase3-rocket/finals/unit_rocket_death2_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          60,
+          14,
+          196,
+          242
+        ],
+        "bbox_center": [
+          127.5,
+          127.5
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          126.962,
+          150.63
+        ],
+        "occupied_pixels": 17837,
+        "nonzero_pixels": 18520,
+        "opaque_pixels": 16881,
+        "opaque_fraction_of_nonzero": 0.9115
+      },
+      "death3_teal": {
+        "path": "/tmp/broodfall-phase3-rocket/finals/unit_rocket_death3_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          14,
+          38,
+          242,
+          218
+        ],
+        "bbox_center": [
+          127.5,
+          127.5
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          142.889,
+          136.61
+        ],
+        "occupied_pixels": 15355,
+        "nonzero_pixels": 16117,
+        "opaque_pixels": 14265,
+        "opaque_fraction_of_nonzero": 0.88509
+      },
+      "death4_teal": {
+        "path": "/tmp/broodfall-phase3-rocket/finals/unit_rocket_death4_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          14,
+          67,
+          242,
+          189
+        ],
+        "bbox_center": [
+          127.5,
+          127.5
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          125.643,
+          124.935
+        ],
+        "occupied_pixels": 10070,
+        "nonzero_pixels": 10657,
+        "opaque_pixels": 9283,
+        "opaque_fraction_of_nonzero": 0.87107
+      },
+      "static_red": {
+        "path": "/tmp/broodfall-phase3-rocket/finals/unit_rocket_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          61,
+          14,
+          195,
+          242
+        ],
+        "bbox_center": [
+          127.5,
+          127.5
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          124.954,
+          145.879
+        ],
+        "occupied_pixels": 16225,
+        "nonzero_pixels": 16798,
+        "opaque_pixels": 15482,
+        "opaque_fraction_of_nonzero": 0.92166
+      },
+      "walk1_red": {
+        "path": "/tmp/broodfall-phase3-rocket/finals/unit_rocket_walk1_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          64,
+          14,
+          192,
+          242
+        ],
+        "bbox_center": [
+          127.5,
+          127.5
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          124.107,
+          134.751
+        ],
+        "occupied_pixels": 14717,
+        "nonzero_pixels": 15258,
+        "opaque_pixels": 13992,
+        "opaque_fraction_of_nonzero": 0.91703
+      },
+      "walk2_red": {
+        "path": "/tmp/broodfall-phase3-rocket/finals/unit_rocket_walk2_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          64,
+          14,
+          191,
+          242
+        ],
+        "bbox_center": [
+          127.0,
+          127.5
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          124.099,
+          136.422
+        ],
+        "occupied_pixels": 15098,
+        "nonzero_pixels": 15606,
+        "opaque_pixels": 14040,
+        "opaque_fraction_of_nonzero": 0.89965
+      },
+      "walk3_red": {
+        "path": "/tmp/broodfall-phase3-rocket/finals/unit_rocket_walk3_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          65,
+          14,
+          190,
+          242
+        ],
+        "bbox_center": [
+          127.0,
+          127.5
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          124.348,
+          138.22
+        ],
+        "occupied_pixels": 14552,
+        "nonzero_pixels": 15069,
+        "opaque_pixels": 13835,
+        "opaque_fraction_of_nonzero": 0.91811
+      },
+      "walk4_red": {
+        "path": "/tmp/broodfall-phase3-rocket/finals/unit_rocket_walk4_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          68,
+          14,
+          188,
+          242
+        ],
+        "bbox_center": [
+          127.5,
+          127.5
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          123.882,
+          133.18
+        ],
+        "occupied_pixels": 13617,
+        "nonzero_pixels": 14162,
+        "opaque_pixels": 12919,
+        "opaque_fraction_of_nonzero": 0.91223
+      },
+      "walk5_red": {
+        "path": "/tmp/broodfall-phase3-rocket/finals/unit_rocket_walk5_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          62,
+          14,
+          194,
+          242
+        ],
+        "bbox_center": [
+          127.5,
+          127.5
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          125.969,
+          137.843
+        ],
+        "occupied_pixels": 15257,
+        "nonzero_pixels": 15813,
+        "opaque_pixels": 14521,
+        "opaque_fraction_of_nonzero": 0.9183
+      },
+      "walk6_red": {
+        "path": "/tmp/broodfall-phase3-rocket/finals/unit_rocket_walk6_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          61,
+          14,
+          195,
+          242
+        ],
+        "bbox_center": [
+          127.5,
+          127.5
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          123.827,
+          144.058
+        ],
+        "occupied_pixels": 16046,
+        "nonzero_pixels": 16629,
+        "opaque_pixels": 15313,
+        "opaque_fraction_of_nonzero": 0.92086
+      },
+      "walk7_red": {
+        "path": "/tmp/broodfall-phase3-rocket/finals/unit_rocket_walk7_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          61,
+          14,
+          195,
+          242
+        ],
+        "bbox_center": [
+          127.5,
+          127.5
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          125.711,
+          141.051
+        ],
+        "occupied_pixels": 15419,
+        "nonzero_pixels": 15954,
+        "opaque_pixels": 14687,
+        "opaque_fraction_of_nonzero": 0.92058
+      },
+      "walk8_red": {
+        "path": "/tmp/broodfall-phase3-rocket/finals/unit_rocket_walk8_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          62,
+          14,
+          193,
+          242
+        ],
+        "bbox_center": [
+          127.0,
+          127.5
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          125.76,
+          139.792
+        ],
+        "occupied_pixels": 15049,
+        "nonzero_pixels": 15563,
+        "opaque_pixels": 14370,
+        "opaque_fraction_of_nonzero": 0.92334
+      },
+      "death1_red": {
+        "path": "/tmp/broodfall-phase3-rocket/finals/unit_rocket_death1_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          65,
+          14,
+          191,
+          242
+        ],
+        "bbox_center": [
+          127.5,
+          127.5
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          123.954,
+          133.463
+        ],
+        "occupied_pixels": 15763,
+        "nonzero_pixels": 16271,
+        "opaque_pixels": 14757,
+        "opaque_fraction_of_nonzero": 0.90695
+      },
+      "death2_red": {
+        "path": "/tmp/broodfall-phase3-rocket/finals/unit_rocket_death2_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          60,
+          14,
+          196,
+          242
+        ],
+        "bbox_center": [
+          127.5,
+          127.5
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          127.134,
+          150.554
+        ],
+        "occupied_pixels": 18262,
+        "nonzero_pixels": 18920,
+        "opaque_pixels": 17341,
+        "opaque_fraction_of_nonzero": 0.91654
+      },
+      "death3_red": {
+        "path": "/tmp/broodfall-phase3-rocket/finals/unit_rocket_death3_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          14,
+          38,
+          242,
+          218
+        ],
+        "bbox_center": [
+          127.5,
+          127.5
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          143.464,
+          136.673
+        ],
+        "occupied_pixels": 15871,
+        "nonzero_pixels": 16577,
+        "opaque_pixels": 14374,
+        "opaque_fraction_of_nonzero": 0.86711
+      },
+      "death4_red": {
+        "path": "/tmp/broodfall-phase3-rocket/finals/unit_rocket_death4_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          14,
+          66,
+          242,
+          190
+        ],
+        "bbox_center": [
+          127.5,
+          127.5
+        ],
+        "border_alpha_max": 0,
+        "centroid": [
+          126.043,
+          125.637
+        ],
+        "occupied_pixels": 10472,
+        "nonzero_pixels": 11030,
+        "opaque_pixels": 9587,
+        "opaque_fraction_of_nonzero": 0.86917
+      }
+    }
+  }
+}

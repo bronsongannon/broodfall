@@ -1,0 +1,392 @@
+{
+  "summary": {
+    "source": "assets/sprites production files",
+    "expected": 13,
+    "present": 13,
+    "all_staging_hashes_match": true,
+    "walk_static_center_x_range": [
+      127.5,
+      128.0
+    ],
+    "walk_static_center_y_range": [
+      128.0,
+      128.0
+    ],
+    "walk_static_height_range": [
+      228,
+      228
+    ],
+    "walk_static_width_range": [
+      95,
+      107
+    ],
+    "all_edge_alpha_max": 0,
+    "min_largest_component_share_gt16": 1.0
+  },
+  "items": [
+    {
+      "file": "unit_commando_teal.png",
+      "sha256": "57c2ec92df05fede0f6bdad56b80116d89136286dbc8ef5d2c6da2920fadd9f0",
+      "staging_match": true,
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bbox_gt16": [
+        74,
+        14,
+        181,
+        242
+      ],
+      "center_gt16": [
+        127.5,
+        128.0
+      ],
+      "opaque_area_gt16": 14218,
+      "edge_alpha_max": 0,
+      "components_gt16": 1,
+      "largest_component_share_gt16": 1.0
+    },
+    {
+      "file": "unit_commando_walk1_teal.png",
+      "sha256": "1b920e52d562a9375b589c771147e6375cd8c184648b9943fd8aff02f9eef6c6",
+      "staging_match": true,
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bbox_gt16": [
+        78,
+        14,
+        178,
+        242
+      ],
+      "center_gt16": [
+        128.0,
+        128.0
+      ],
+      "opaque_area_gt16": 12630,
+      "edge_alpha_max": 0,
+      "components_gt16": 1,
+      "largest_component_share_gt16": 1.0
+    },
+    {
+      "file": "unit_commando_walk2_teal.png",
+      "sha256": "a2f3743dab09b2574be6dc38bd85ceb8c3459893f96bf94c939519c51916cd90",
+      "staging_match": true,
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bbox_gt16": [
+        79,
+        14,
+        176,
+        242
+      ],
+      "center_gt16": [
+        127.5,
+        128.0
+      ],
+      "opaque_area_gt16": 12415,
+      "edge_alpha_max": 0,
+      "components_gt16": 1,
+      "largest_component_share_gt16": 1.0
+    },
+    {
+      "file": "unit_commando_walk3_teal.png",
+      "sha256": "5c5b930830d99f617f114ab4630bead3895475680a7c642043d7fcdb082cb963",
+      "staging_match": true,
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bbox_gt16": [
+        79,
+        14,
+        177,
+        242
+      ],
+      "center_gt16": [
+        128.0,
+        128.0
+      ],
+      "opaque_area_gt16": 12353,
+      "edge_alpha_max": 0,
+      "components_gt16": 1,
+      "largest_component_share_gt16": 1.0
+    },
+    {
+      "file": "unit_commando_walk4_teal.png",
+      "sha256": "abbcb22abae5e7543e32cce9b6497489fe75b49a9f1ed4cd18e34b76582be830",
+      "staging_match": true,
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bbox_gt16": [
+        79,
+        14,
+        176,
+        242
+      ],
+      "center_gt16": [
+        127.5,
+        128.0
+      ],
+      "opaque_area_gt16": 12369,
+      "edge_alpha_max": 0,
+      "components_gt16": 1,
+      "largest_component_share_gt16": 1.0
+    },
+    {
+      "file": "unit_commando_walk5_teal.png",
+      "sha256": "907f8c6fe326437cafdad267a6bcbd66d5ef45955e79a354c4cd94eeb557b093",
+      "staging_match": true,
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bbox_gt16": [
+        76,
+        14,
+        179,
+        242
+      ],
+      "center_gt16": [
+        127.5,
+        128.0
+      ],
+      "opaque_area_gt16": 12531,
+      "edge_alpha_max": 0,
+      "components_gt16": 1,
+      "largest_component_share_gt16": 1.0
+    },
+    {
+      "file": "unit_commando_walk6_teal.png",
+      "sha256": "a992e9c3ef9009a7c6738b6267ba322d90d3d7a44bc71c47a53a4ef626570fdc",
+      "staging_match": true,
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bbox_gt16": [
+        79,
+        14,
+        177,
+        242
+      ],
+      "center_gt16": [
+        128.0,
+        128.0
+      ],
+      "opaque_area_gt16": 12260,
+      "edge_alpha_max": 0,
+      "components_gt16": 1,
+      "largest_component_share_gt16": 1.0
+    },
+    {
+      "file": "unit_commando_walk7_teal.png",
+      "sha256": "c4de0c0fd76cd8c022c862d2aba7044407fe8bba877a7b4c34bc4b5815ffbb2b",
+      "staging_match": true,
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bbox_gt16": [
+        80,
+        14,
+        175,
+        242
+      ],
+      "center_gt16": [
+        127.5,
+        128.0
+      ],
+      "opaque_area_gt16": 11713,
+      "edge_alpha_max": 0,
+      "components_gt16": 1,
+      "largest_component_share_gt16": 1.0
+    },
+    {
+      "file": "unit_commando_walk8_teal.png",
+      "sha256": "d1cc0ae6c988f68888364065f7b035ca5e1542cd70f7411fbb6a5cef2c25caa2",
+      "staging_match": true,
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bbox_gt16": [
+        77,
+        14,
+        179,
+        242
+      ],
+      "center_gt16": [
+        128.0,
+        128.0
+      ],
+      "opaque_area_gt16": 12845,
+      "edge_alpha_max": 0,
+      "components_gt16": 1,
+      "largest_component_share_gt16": 1.0
+    },
+    {
+      "file": "unit_commando_death1_teal.png",
+      "sha256": "e79eec9d4bcfa0953e57a2149b7fb2891c141c63051f5874e2774e6455e45cd7",
+      "staging_match": true,
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bbox_gt16": [
+        66,
+        14,
+        189,
+        242
+      ],
+      "center_gt16": [
+        127.5,
+        128.0
+      ],
+      "opaque_area_gt16": 15323,
+      "edge_alpha_max": 0,
+      "components_gt16": 1,
+      "largest_component_share_gt16": 1.0
+    },
+    {
+      "file": "unit_commando_death2_teal.png",
+      "sha256": "921bdaf1e1e17fa87708e6a7ce83fcef7183d113b52161eec273448db35d702d",
+      "staging_match": true,
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bbox_gt16": [
+        66,
+        14,
+        190,
+        242
+      ],
+      "center_gt16": [
+        128.0,
+        128.0
+      ],
+      "opaque_area_gt16": 15596,
+      "edge_alpha_max": 0,
+      "components_gt16": 1,
+      "largest_component_share_gt16": 1.0
+    },
+    {
+      "file": "unit_commando_death3_teal.png",
+      "sha256": "28d89274d8f7a37146969e536ddc11f6311d3cd9452b6967eb697a7b6f0beee8",
+      "staging_match": true,
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bbox_gt16": [
+        14,
+        25,
+        242,
+        231
+      ],
+      "center_gt16": [
+        128.0,
+        128.0
+      ],
+      "opaque_area_gt16": 24574,
+      "edge_alpha_max": 0,
+      "components_gt16": 1,
+      "largest_component_share_gt16": 1.0
+    },
+    {
+      "file": "unit_commando_death4_teal.png",
+      "sha256": "d38fdac86fd684437a4457ce61f47f5f7c46a14e6b08750b542542281b77f11d",
+      "staging_match": true,
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bbox_gt16": [
+        14,
+        74,
+        242,
+        182
+      ],
+      "center_gt16": [
+        128.0,
+        128.0
+      ],
+      "opaque_area_gt16": 11941,
+      "edge_alpha_max": 0,
+      "components_gt16": 1,
+      "largest_component_share_gt16": 1.0
+    }
+  ]
+}

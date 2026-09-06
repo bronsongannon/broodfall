@@ -1,0 +1,141 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Broodfall Human Animation QA</title>
+<style>
+  :root { color-scheme: dark; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #071312; color: #dce8e2; }
+  header { position: sticky; top: 0; z-index: 2; display: flex; gap: 18px; align-items: center;
+    padding: 14px 20px; background: rgba(7,19,18,.96); border-bottom: 1px solid #26423e; }
+  h1 { margin: 0 auto 0 0; font-size: 18px; color: #48d3c9; letter-spacing: .05em; }
+  button { border: 1px solid #42645f; border-radius: 5px; padding: 7px 11px; color: #dce8e2;
+    background: #122725; cursor: pointer; }
+  button[aria-pressed="true"] { border-color: #48d3c9; color: #48d3c9; }
+  select { border: 1px solid #42645f; border-radius: 5px; padding: 7px 9px; color: #dce8e2;
+    background: #122725; }
+  #status { color: #91aaa3; font-size: 12px; min-width: 150px; text-align: right; }
+  main { display: grid; grid-template-columns: repeat(auto-fit,minmax(390px,1fr)); gap: 14px; padding: 16px; }
+  article { border: 1px solid #25423e; border-radius: 8px; overflow: hidden; background: #0e211f; }
+  h2 { margin: 0; padding: 10px 13px; border-bottom: 1px solid #25423e; font-size: 14px; text-transform: uppercase;
+    letter-spacing: .08em; color: #b8cbc5; }
+  canvas { display: block; width: 100%; height: 260px; background: #303e33; image-rendering: auto; }
+  .note { display: flex; justify-content: space-between; padding: 8px 12px; color: #91aaa3; font-size: 11px; }
+</style>
+<header>
+  <h1>PHASE 3 · HUMAN ANIMATION QA</h1>
+  <button data-mode="walk" aria-pressed="true">Walk loop</button>
+  <button data-mode="death" aria-pressed="false">Death sequence</button>
+  <button data-mode="static" aria-pressed="false">Static / hunker</button>
+  <button id="pause">Pause</button>
+  <select id="terrain" aria-label="Representative map terrain">
+    <option value="valley">Fossil Valley · moss</option>
+    <option value="boneyard">Boneyard · ash</option>
+    <option value="silo">Silo Fields · snow</option>
+    <option value="trade">Trade Road · steppe</option>
+  </select>
+  <span id="status">loading…</span>
+</header>
+<main id="grid"></main>
+<script>
+  const families = [
+    { type: 'marine', label: 'Marine', size: 30, colors: ['teal','red'], hunker: true },
+    { type: 'engineer', label: 'Engineer', size: 29, colors: ['teal','red'] },
+    { type: 'sniper', label: 'Sniper', size: 32, colors: ['teal','red'], hunker: true },
+    { type: 'medic', label: 'Medic', size: 30, colors: ['teal','red'] },
+    { type: 'rocket', label: 'Rocket Trooper', size: 32, colors: ['teal','red'] },
+    { type: 'commando', label: 'Commando / Boone', size: 32, colors: ['teal'] },
+  ];
+  const cache = new Map();
+  const terrains = {
+    valley: ['#121a0e', '#182213'],
+    boneyard: ['#1b1b1e', '#23232a'],
+    silo: ['#343b42', '#3d464e'],
+    trade: ['#201b10', '#292314'],
+  };
+  const qaRevision = new URLSearchParams(location.search).get('rev') || 'human-tech-phase3';
+  let loaded = 0, failed = 0, mode = 'walk', terrain = 'valley', paused = false, started = performance.now();
+  const status = document.getElementById('status');
+  const grid = document.getElementById('grid');
+
+  function pathFor(type, color, pose, frame) {
+    const suffix = pose === 'static' ? '' : pose === 'hunker' ? '_hunker' : `_${pose}${frame}`;
+    return `../assets/sprites/unit_${type}${suffix}_${color}.png`;
+  }
+  function imageFor(path) {
+    if (cache.has(path)) return cache.get(path);
+    const image = new Image();
+    image.onload = () => { loaded++; updateStatus(); };
+    image.onerror = () => { failed++; updateStatus(); };
+    image.src = `${path}?qa=${encodeURIComponent(qaRevision)}`;
+    cache.set(path, image);
+    return image;
+  }
+  function updateStatus() { status.textContent = `${loaded} loaded${failed ? ` · ${failed} missing` : ''}`; }
+  for (const family of families) {
+    const article = document.createElement('article');
+    article.innerHTML = `<h2>${family.label}</h2><canvas width="620" height="260"></canvas>` +
+      `<div class="note"><span>actual draw ${family.size}×${family.size}px + 4× inspection</span><span class="frame"></span></div>`;
+    grid.appendChild(article);
+    family.canvas = article.querySelector('canvas');
+    family.frameLabel = article.querySelector('.frame');
+    for (const color of family.colors) {
+      imageFor(pathFor(family.type, color, 'static'));
+      for (let frame = 1; frame <= 8; frame++) imageFor(pathFor(family.type, color, 'walk', frame));
+      for (let frame = 1; frame <= 4; frame++) imageFor(pathFor(family.type, color, 'death', frame));
+      if (family.hunker) imageFor(pathFor(family.type, color, 'hunker'));
+    }
+  }
+
+  document.querySelectorAll('[data-mode]').forEach(button => button.addEventListener('click', () => {
+    mode = button.dataset.mode; started = performance.now();
+    document.querySelectorAll('[data-mode]').forEach(other => other.setAttribute('aria-pressed', String(other === button)));
+  }));
+  document.getElementById('pause').addEventListener('click', event => {
+    paused = !paused; event.currentTarget.textContent = paused ? 'Resume' : 'Pause';
+  });
+  document.getElementById('terrain').addEventListener('change', event => { terrain = event.currentTarget.value; });
+
+  function ground(context, width, height) {
+    const colors = terrains[terrain];
+    context.fillStyle = colors[0]; context.fillRect(0, 0, width, height);
+    context.fillStyle = colors[1];
+    for (let y = 0; y < height; y += 20) for (let x = (y / 20) % 2 * 20; x < width; x += 40) context.fillRect(x, y, 20, 20);
+  }
+  function crosshair(context, x, y) {
+    context.strokeStyle = 'rgba(232,196,106,.35)'; context.lineWidth = 1;
+    context.beginPath(); context.moveTo(x - 20, y); context.lineTo(x + 20, y); context.moveTo(x, y - 20); context.lineTo(x, y + 20); context.stroke();
+  }
+  function drawSprite(context, image, x, y, size, scale) {
+    const box = size * scale;
+    if (image.complete && image.naturalWidth) context.drawImage(image, x - box / 2, y - box / 2, box, box);
+    else { context.strokeStyle = '#a6423d'; context.strokeRect(x - box / 2, y - box / 2, box, box); }
+  }
+  function render(now) {
+    if (!paused) {
+      const elapsed = Math.max(0, now - started);
+      for (const family of families) {
+        const context = family.canvas.getContext('2d');
+        ground(context, family.canvas.width, family.canvas.height);
+        let pose = mode, frame = 0;
+        if (mode === 'walk') frame = Math.floor(elapsed / 115) % 8 + 1;
+        else if (mode === 'death') frame = Math.min(4, Math.floor(elapsed / 320) % 7 + 1);
+        else if (family.hunker && Math.floor(elapsed / 1200) % 2) pose = 'hunker';
+        else pose = 'static';
+        family.frameLabel.textContent = `${pose}${frame || ''}`;
+        const positions = family.colors.length === 2 ? [175,445] : [310];
+        family.colors.forEach((color, index) => {
+          const x = positions[index], y = 92;
+          const path = pathFor(family.type, color, pose, frame || undefined);
+          const image = imageFor(path);
+          crosshair(context, x, y); drawSprite(context, image, x, y, family.size, 1);
+          crosshair(context, x, 185); drawSprite(context, image, x, 185, family.size, 4);
+          context.fillStyle = color === 'teal' ? '#62d9d0' : '#ed766d'; context.font = '11px sans-serif'; context.textAlign = 'center';
+          context.fillText(color.toUpperCase(), x, 20);
+        });
+      }
+    }
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
+</script>

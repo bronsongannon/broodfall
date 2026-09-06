@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "scope": "full",
+  "canonical_images": 516,
+  "contact_sheets": [
+    "01-buildings-1.png",
+    "01-buildings-2.png",
+    "02-units-static-1.png",
+    "02-units-static-2.png",
+    "03-human-animation-1.png",
+    "03-human-animation-2.png",
+    "03-human-animation-3.png",
+    "03-human-animation-4.png",
+    "03-human-animation-5.png",
+    "04-dino-animation-1.png",
+    "04-dino-animation-2.png",
+    "04-dino-animation-3.png",
+    "05-terrain-components-1.png",
+    "06-effects-1.png",
+    "07-map-thumbnails-1.png",
+    "08-portraits-store-1.png",
+    "09-source-archive-1.png",
+    "09-source-archive-2.png",
+    "09-source-archive-3.png",
+    "09-source-archive-4.png",
+    "10-portrait-sources-1.png",
+    "11-app-icons-1.png",
+    "12-border-risk.png"
+  ]
+}

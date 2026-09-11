@@ -1,0 +1,36 @@
+{
+  "tool": "built-in imagegen",
+  "purpose": "preview-only, targeted leg phase retries",
+  "approved_identity": "/private/tmp/broodfall-medic-teal-preview-v3.png",
+  "frames": [
+    {
+      "frame": 6,
+      "prompt": "Use case: precise-object-edit. Edit ONLY the lower legs and boots of this top-down north-facing Medic walk sprite. Preserve the exact head, face direction, shoulder armor, white backpack with red plus, torso, arms, screen-right medical case, proportions, palette, texture and light. This is frame6 near-passing of gait: reverse the existing feet offset and bring boots almost level, with SCREEN-RIGHT boot tip only 5 pixels lower (toward bottom) than screen-left boot at 256px sprite scale. Screen-left knee gently advancing north, screen-right knee passing beneath. Both legs remain narrow and north-facing; two distinct boots with clear gap. No symmetrical static stance: small real walking offset. Do not recolor or change upper body or equipment. Maintain full-body centered with transparent background, true alpha; uniform interiors opaque. No text, ground, or shadow.",
+      "edit_target": "/private/tmp/broodfall-medic-walk6-teal-preview-v1.png",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07eff-47a6-7761-8a90-29b1f85abdf3/exec-859abc14-2752-4c93-9978-6d23685c9c6d.png",
+      "selected": "/private/tmp/broodfall-medic-walk6-teal-preview-v2.png",
+      "padding": 14,
+      "qa": "256 RGBA; zero edge alpha; upper body preserved; 27/32 px inspected"
+    },
+    {
+      "frame": 7,
+      "prompt": "Use case: precise-object-edit. Edit ONLY legs and boots of this north-facing top-down Medic walking sprite; keep exact head, shoulders, backpack, torso, arms, medical case, colors and materials unchanged. Reverse the stepping leg phase. SCREEN-RIGHT leg must extend down toward bottom, its boot tip 25 pixels lower than screen-left boot tip when rendered at 256px. SCREEN-LEFT leg is bent and tucked upward, boot approximately opposite the lower shin of extended right leg. Thus the existing lower left boot becomes HIGHER than the right boot. This is a moderate stride, right foot trailing south and left advancing north, entire body still looking due north. Both boots point north, no turned sideways feet, no mirrored upper body, do not change case from screen-right. Preserve exact medical-white and aqua backpack/clothes, brightness, proportions, framing. Single sprite with transparent background, opaque dark interiors, no ground shadow or text.",
+      "edit_target": "/private/tmp/broodfall-medic-walk7-teal-preview-v1.png",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07eff-47a6-7761-8a90-29b1f85abdf3/exec-599f737e-e954-4dde-adf9-e753705e2545.png",
+      "selected": "/private/tmp/broodfall-medic-walk7-teal-preview-v2.png",
+      "padding": 14,
+      "qa": "256 RGBA; zero edge alpha; upper body preserved; 27/32 px inspected"
+    },
+    {
+      "frame": 8,
+      "prompt": "Use case: precise-object-edit. Edit ONLY legs and boots of this north-facing top-down Medic walking sprite; keep exact head, shoulders, backpack, torso, arms, medical case, colors and materials unchanged. Reverse the stepping leg phase strongly. SCREEN-RIGHT leg must extend straight down toward bottom, its boot tip 45 pixels lower than screen-left boot tip when rendered at 256px. SCREEN-LEFT leg is bent and tucked upward, boot at about calf height of extended right leg. Thus the existing lower left boot becomes HIGHER than the right boot: essentially swap the current legs' walking phase without mirroring the body. This is a strong stride, right foot trailing south and left advancing north, entire body still looking due north. Both boots point north, no turned sideways feet, no mirrored upper body, do not change case from screen-right. Preserve exact medical-white and aqua backpack/clothes, brightness, proportions, framing. Single sprite with transparent background, opaque dark interiors, no ground shadow or text.",
+      "edit_target": "/private/tmp/broodfall-medic-walk8-teal-preview-v1.png",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07eff-47a6-7761-8a90-29b1f85abdf3/exec-8fa72f44-9fc4-4f86-8338-bd7c889d47bf.png",
+      "selected": "/private/tmp/broodfall-medic-walk8-teal-preview-v2.png",
+      "padding": 14,
+      "qa": "256 RGBA; zero edge alpha; upper body preserved; 27/32 px inspected"
+    }
+  ],
+  "contact": "/private/tmp/broodfall-medic-teal-walk6-8-check-v2.png",
+  "notes": "F6 boots nearly aligned (passing); F7/F8 right-extended left-tucked, with stronger offset than requested (~60/70px vs25/45). Both variants retained for root loop selection. One retry per frame complete, no third tries."
+}

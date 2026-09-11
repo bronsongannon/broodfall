@@ -1,0 +1,116 @@
+{
+  "tool": "built-in image_gen",
+  "preview_only": true,
+  "palette_reference_viewed": "/private/tmp/broodfall-medic-red-preview-v1.png",
+  "palette_reference_submitted": false,
+  "frames": [
+    {
+      "frame": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: one RTS soldier animation sprite, preview only. Image 1 is the sole EDIT TARGET, approved Medic walk frame. Change ONLY the AQUA/TEAL painted armor panels on shoulders, backpack trim/top panel and carried medical case trim to dominant BRIGHT WEATHERED RED: warm vivid coral red highlights, red midtones, dark oxblood creases with chipped metal. Preserve the large WHITE backpack center and its red medical plus, WHITE uniform sleeves and shin patches, white case inset and red plus, taupe pants, dark boots/gloves/hair, metal, shading and weathering. Absolutely preserve image 1 exact silhouette, north-facing whole body, head placement, backpack size, shoulders, hands, case and specific legs/feet gait positions. This is ONLY a palette recolor, not a new pose. Keep all highlights equally bright, no darkening overall. Same top-down camera, identity, scale, framing and body pivot. Fully opaque character on genuinely transparent background; no checkerboard, ground, cast shadow, text, labels or extra objects. Output one frame only. Walk original frame 1: keep screen-left leg extended downward with left boot lowest, screen-right leg bent shorter with its boot higher. Keep that exact asymmetry.",
+      "refs": [
+        "/private/tmp/broodfall-medic-walk1-teal-preview-v1.png"
+      ],
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07f0f-baa4-7121-a6f7-ef09090940a1/exec-565ac8ef-19d2-41b8-8b4b-93686e2a8407.png",
+      "output": "/private/tmp/broodfall-medic-walk1-red-preview-v1.png",
+      "padding": 14
+    },
+    {
+      "frame": 2,
+      "prompt": "Use case: precise-object-edit. Asset type: one RTS soldier animation sprite, preview only. Image 1 is the sole EDIT TARGET, approved Medic walk frame. Change ONLY the AQUA/TEAL painted armor panels on shoulders, backpack trim/top panel and carried medical case trim to dominant BRIGHT WEATHERED RED: warm vivid coral red highlights, red midtones, dark oxblood creases with chipped metal. Preserve the large WHITE backpack center and its red medical plus, WHITE uniform sleeves and shin patches, white case inset and red plus, taupe pants, dark boots/gloves/hair, metal, shading and weathering. Absolutely preserve image 1 exact silhouette, north-facing whole body, head placement, backpack size, shoulders, hands, case and specific legs/feet gait positions. This is ONLY a palette recolor, not a new pose. Keep all highlights equally bright, no darkening overall. Same top-down camera, identity, scale, framing and body pivot. Fully opaque character on genuinely transparent background; no checkerboard, ground, cast shadow, text, labels or extra objects. Output one frame only. Walk original frame 2: keep screen-left leg and boot reaching bottom of canvas, screen-right knee tucked and foot higher. Preserve target degree of bend and spacing precisely.",
+      "refs": [
+        "/private/tmp/broodfall-medic-walk2-teal-preview-v1.png"
+      ],
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07f0f-baa4-7121-a6f7-ef09090940a1/exec-7587ab29-4140-4811-8fe5-ae188f28d265.png",
+      "output": "/private/tmp/broodfall-medic-walk2-red-preview-v1.png",
+      "padding": 14
+    },
+    {
+      "frame": 3,
+      "prompt": "Use case: precise-object-edit. Asset type: one RTS soldier animation sprite, preview only. Image 1 is the sole EDIT TARGET, approved Medic walk frame. Change ONLY the AQUA/TEAL painted armor panels on shoulders, backpack trim/top panel and carried medical case trim to dominant BRIGHT WEATHERED RED: warm vivid coral red highlights, red midtones, dark oxblood creases with chipped metal. Preserve the large WHITE backpack center and its red medical plus, WHITE uniform sleeves and shin patches, white case inset and red plus, taupe pants, dark boots/gloves/hair, metal, shading and weathering. Absolutely preserve image 1 exact silhouette, north-facing whole body, head placement, backpack size, shoulders, hands, case and specific legs/feet gait positions. This is ONLY a palette recolor, not a new pose. Keep all highlights equally bright, no darkening overall. Same top-down camera, identity, scale, framing and body pivot. Fully opaque character on genuinely transparent background; no checkerboard, ground, cast shadow, text, labels or extra objects. Output one frame only. Walk original frame 3: keep screen-RIGHT leg and boot extended downward lowest, screen-LEFT leg bent and its boot higher; do not mirror or change gait. Preserve exact left/right asymmetry.",
+      "refs": [
+        "/private/tmp/broodfall-medic-walk3-teal-preview-v1.png"
+      ],
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07f0f-baa4-7121-a6f7-ef09090940a1/exec-b464a815-624c-4ade-8476-47a5f1786ff5.png",
+      "output": "/private/tmp/broodfall-medic-walk3-red-preview-v1.png",
+      "padding": 14
+    },
+    {
+      "frame": 4,
+      "prompt": "Use case: precise-object-edit. Asset type: one RTS soldier animation sprite, preview only. Image 1 is the sole EDIT TARGET, approved Medic walk frame. Change ONLY the AQUA/TEAL painted armor panels on shoulders, backpack trim/top panel and carried medical case trim to dominant BRIGHT WEATHERED RED: warm vivid coral red highlights, red midtones, dark oxblood creases with chipped metal. Preserve the large WHITE backpack center and its red medical plus, WHITE uniform sleeves and shin patches, white case inset and red plus, taupe pants, dark boots/gloves/hair, metal, shading and weathering. Absolutely preserve image 1 exact silhouette, north-facing whole body, head placement, backpack size, shoulders, hands, case and specific legs/feet gait positions. This is ONLY a palette recolor, not a new pose. Keep all highlights equally bright, no darkening overall. Same top-down camera, identity, scale, framing and body pivot. Fully opaque character on genuinely transparent background; no checkerboard, ground, cast shadow, text, labels or extra objects. Output one frame only. Walk original frame 4: compact passing pose with legs and boots nearly adjacent and both soles at almost the same height. Preserve this SHORTER compact pose exactly, no new long stride, no elongating legs. Preserve target helmet/head-to-pack proportion and equipment geometry.",
+      "refs": [
+        "/private/tmp/broodfall-medic-walk4-teal-preview-v3.png"
+      ],
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07f0f-baa4-7121-a6f7-ef09090940a1/exec-ec099db9-e09f-4cbf-8d4c-61065edb4d2e.png",
+      "output": "/private/tmp/broodfall-medic-walk4-red-preview-v1.png",
+      "padding": 21,
+      "alignment": {
+        "method": "alpha bbox top translated to14 after proportional padding21 normalization",
+        "translation": [
+          0,
+          -7
+        ],
+        "final_bbox": [
+          62,
+          14,
+          194,
+          228
+        ],
+        "target_bbox": [
+          61,
+          14,
+          195,
+          228
+        ],
+        "note": "2px width difference accepted; no nonuniform stretch"
+      }
+    }
+  ],
+  "qa": [
+    {
+      "frame": 1,
+      "iou": 0.98515542161951,
+      "area_ratio": 1.0030534452340736,
+      "border_alpha": 0,
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 2,
+      "iou": 0.9693148137385947,
+      "area_ratio": 1.0274234541217553,
+      "border_alpha": 0,
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 3,
+      "iou": 0.9720486308374049,
+      "area_ratio": 1.0223941362493594,
+      "border_alpha": 0,
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 4,
+      "iou": 0.9800592832120723,
+      "area_ratio": 0.9995594728692887,
+      "border_alpha": 0,
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    }
+  ],
+  "visual_check": "/private/tmp/broodfall-medic-red-walk1-4-check-v1.png",
+  "retries": 0
+}

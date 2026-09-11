@@ -1,0 +1,132 @@
+{
+  "playback_order": [
+    1,
+    2,
+    4,
+    3,
+    8,
+    7,
+    6,
+    5
+  ],
+  "frames": [
+    {
+      "path": "/private/tmp/broodfall-medic-teal-preview-v3.png",
+      "bbox": [
+        56,
+        14,
+        199,
+        242
+      ],
+      "area": 21657.925490196078,
+      "edge_alpha": 0,
+      "aqua32": 64,
+      "white32": 18
+    },
+    {
+      "path": "/private/tmp/broodfall-medic-walk1-teal-preview-v1.png",
+      "bbox": [
+        61,
+        14,
+        195,
+        242
+      ],
+      "area": 17749.156862745098,
+      "edge_alpha": 0,
+      "aqua32": 55,
+      "white32": 24
+    },
+    {
+      "path": "/private/tmp/broodfall-medic-walk2-teal-preview-v1.png",
+      "bbox": [
+        64,
+        14,
+        191,
+        242
+      ],
+      "area": 16710.470588235294,
+      "edge_alpha": 0,
+      "aqua32": 47,
+      "white32": 35
+    },
+    {
+      "path": "/private/tmp/broodfall-medic-walk4-teal-preview-v3.png",
+      "bbox": [
+        61,
+        14,
+        195,
+        228
+      ],
+      "area": 18382.61176470588,
+      "edge_alpha": 0,
+      "aqua32": 58,
+      "white32": 28
+    },
+    {
+      "path": "/private/tmp/broodfall-medic-walk3-teal-preview-v1.png",
+      "bbox": [
+        62,
+        14,
+        193,
+        242
+      ],
+      "area": 17155.050980392156,
+      "edge_alpha": 0,
+      "aqua32": 34,
+      "white32": 44
+    },
+    {
+      "path": "/private/tmp/broodfall-medic-walk8-teal-preview-v2.png",
+      "bbox": [
+        65,
+        14,
+        190,
+        242
+      ],
+      "area": 15928.313725490196,
+      "edge_alpha": 0,
+      "aqua32": 33,
+      "white32": 29
+    },
+    {
+      "path": "/private/tmp/broodfall-medic-walk7-teal-preview-v2.png",
+      "bbox": [
+        65,
+        14,
+        191,
+        242
+      ],
+      "area": 16603.49019607843,
+      "edge_alpha": 0,
+      "aqua32": 25,
+      "white32": 20
+    },
+    {
+      "path": "/private/tmp/broodfall-medic-walk6-teal-preview-v2.png",
+      "bbox": [
+        63,
+        14,
+        193,
+        242
+      ],
+      "area": 19178.52549019608,
+      "edge_alpha": 0,
+      "aqua32": 39,
+      "white32": 40
+    },
+    {
+      "path": "/private/tmp/broodfall-medic-walk5-teal-preview-v1.png",
+      "bbox": [
+        65,
+        14,
+        190,
+        242
+      ],
+      "area": 16311.811764705883,
+      "edge_alpha": 0,
+      "aqua32": 30,
+      "white32": 45
+    }
+  ],
+  "walk_area_cv": 0.06008411116384007
+}

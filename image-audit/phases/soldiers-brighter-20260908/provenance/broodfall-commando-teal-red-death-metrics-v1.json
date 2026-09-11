@@ -1,0 +1,137 @@
+[
+  {
+    "name": "STATIC",
+    "teal": {
+      "path": "/private/tmp/broodfall-commando-teal-preview-v2.png",
+      "bbox": [
+        67,
+        14,
+        189,
+        242
+      ],
+      "area": 16623.36470588235,
+      "edge_alpha": 0
+    },
+    "red": {
+      "path": "/private/tmp/broodfall-commando-red-preview-v1.png",
+      "bbox": [
+        66,
+        14,
+        189,
+        242
+      ],
+      "area": 17008.513725490197,
+      "edge_alpha": 0
+    },
+    "red_teal_area_ratio": 1.0231691373210114,
+    "mask_iou": 0.9672564338235294
+  },
+  {
+    "name": "HIT / STAGGER",
+    "teal": {
+      "path": "/private/tmp/broodfall-commando-death1-teal-preview-v2.png",
+      "bbox": [
+        68,
+        14,
+        188,
+        242
+      ],
+      "area": 16098.654901960785,
+      "edge_alpha": 0
+    },
+    "red": {
+      "path": "/private/tmp/broodfall-commando-death1-red-preview-v1.png",
+      "bbox": [
+        67,
+        14,
+        188,
+        242
+      ],
+      "area": 16376.592156862745,
+      "edge_alpha": 0
+    },
+    "red_teal_area_ratio": 1.0172646259326987,
+    "mask_iou": 0.9743696727662872
+  },
+  {
+    "name": "KNEES BUCKLE",
+    "teal": {
+      "path": "/private/tmp/broodfall-commando-death2-teal-preview-v1.png",
+      "bbox": [
+        69,
+        25,
+        186,
+        231
+      ],
+      "area": 13433.29411764706,
+      "edge_alpha": 0
+    },
+    "red": {
+      "path": "/private/tmp/broodfall-commando-death2-red-preview-v1.png",
+      "bbox": [
+        69,
+        25,
+        186,
+        231
+      ],
+      "area": 13494.125490196078,
+      "edge_alpha": 0
+    },
+    "red_teal_area_ratio": 1.0045284032357416,
+    "mask_iou": 0.9792969592408886
+  },
+  {
+    "name": "SIDE FALL",
+    "teal": {
+      "path": "/private/tmp/broodfall-commando-death3-teal-preview-v1.png",
+      "bbox": [
+        40,
+        14,
+        215,
+        242
+      ],
+      "area": 16036.976470588235,
+      "edge_alpha": 0
+    },
+    "red": {
+      "path": "/private/tmp/broodfall-commando-death3-red-preview-v2.png",
+      "bbox": [
+        40,
+        14,
+        216,
+        242
+      ],
+      "area": 16511.92156862745,
+      "edge_alpha": 0
+    },
+    "red_teal_area_ratio": 1.029615626044614,
+    "mask_iou": 0.9631287548592296
+  },
+  {
+    "name": "SETTLED",
+    "teal": {
+      "path": "/private/tmp/broodfall-commando-death4-teal-preview-v1.png",
+      "bbox": [
+        37,
+        14,
+        218,
+        242
+      ],
+      "area": 15224.243137254902,
+      "edge_alpha": 0
+    },
+    "red": {
+      "path": "/private/tmp/broodfall-commando-death4-red-preview-v1.png",
+      "bbox": [
+        36,
+        14,
+        219,
+        242
+      ],
+      "area": 15916.733333333334,
+      "edge_alpha": 0
+    },
+    "red_teal_area_ratio": 1.0454860179146677,
+    "mask_iou": 0.9594496302582132
+  }
+]

@@ -1,0 +1,42 @@
+{
+  "mode": "built-in ImageGen",
+  "preview_only": true,
+  "frames": [
+    {
+      "original_index": 1,
+      "prompt": "Use case: precise-object-edit. Asset: single Broodfall Commando RED walk frame, preview only.\nImage1 is the EXACT APPROVED AQUA WALK POSE EDIT TARGET. Image2 approved RED STATIC is a COLOR REFERENCE ONLY: do not copy its static pose.\nRecolor only aqua armor plates, aqua helmet stripe, small aqua equipment inserts to bright weathered red matching image2. Keep gold chevrons GOLD, amber lights amber, neutral metal rifle, khaki belt/pouches, olive dark clothing and black boots unchanged.\nPreserve exactly image1's walking leg positions, knee bends, foot heights, all equipment, north-facing back view, silhouette, footprint, body mass, rifle/head scale, lighting and texture. Both arms and SAME narrow rifle remain north above the head. Do not turn the face/chest towards camera. Do not reset feet to static. No new gear or details.\nGenuine alpha requested. If not supported, use a perfectly plain PURE WHITE #FFFFFF background, no pattern or checkerboard, no black background, no shadow. Every part of the soldier fully opaque, including dark boots, rifle and clothing. One centered whole soldier, safe margins, no labels.\nThis is original walk frame1; retain exactly its specific leg pose.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a074b5-e49a-77a3-a02b-be55b3fb8d8b/exec-b9292caa-8ee3-4129-8603-6d9be95f79f3.png",
+      "target": "/private/tmp/broodfall-commando-walk1-teal-preview-v3.png",
+      "palette": "/private/tmp/broodfall-commando-red-preview-v1.png",
+      "selected": "/private/tmp/broodfall-commando-walk1-red-preview-v1.png",
+      "normalization": "256RGBA padding14"
+    },
+    {
+      "original_index": 2,
+      "prompt": "Use case: precise-object-edit. Asset: single Broodfall Commando RED walk frame, preview only.\nImage1 is the EXACT APPROVED AQUA WALK POSE EDIT TARGET. Image2 approved RED STATIC is a COLOR REFERENCE ONLY: do not copy its static pose.\nRecolor only aqua armor plates, aqua helmet stripe, small aqua equipment inserts to bright weathered red matching image2. Keep gold chevrons GOLD, amber lights amber, neutral metal rifle, khaki belt/pouches, olive dark clothing and black boots unchanged.\nPreserve exactly image1's walking leg positions, knee bends, foot heights, all equipment, north-facing back view, silhouette, footprint, body mass, rifle/head scale, lighting and texture. Both arms and SAME narrow rifle remain north above the head. Do not turn the face/chest towards camera. Do not reset feet to static. No new gear or details.\nGenuine alpha requested. If not supported, use a perfectly plain PURE WHITE #FFFFFF background, no pattern or checkerboard, no black background, no shadow. Every part of the soldier fully opaque, including dark boots, rifle and clothing. One centered whole soldier, safe margins, no labels.\nThis is original walk frame2; retain exactly its specific leg pose.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a074b5-e49a-77a3-a02b-be55b3fb8d8b/exec-9fcfeb58-70e7-4809-b3ec-9ec8083f3e99.png",
+      "target": "/private/tmp/broodfall-commando-walk2-teal-preview-v1.png",
+      "palette": "/private/tmp/broodfall-commando-red-preview-v1.png",
+      "selected": "/private/tmp/broodfall-commando-walk2-red-preview-v1.png",
+      "normalization": "256RGBA padding14"
+    },
+    {
+      "original_index": 3,
+      "prompt": "Use case: precise-object-edit. Asset: single Broodfall Commando RED walk frame, preview only.\nImage1 is the EXACT APPROVED AQUA WALK POSE EDIT TARGET. Image2 approved RED STATIC is a COLOR REFERENCE ONLY: do not copy its static pose.\nRecolor only aqua armor plates, aqua helmet stripe, small aqua equipment inserts to bright weathered red matching image2. Keep gold chevrons GOLD, amber lights amber, neutral metal rifle, khaki belt/pouches, olive dark clothing and black boots unchanged.\nPreserve exactly image1's walking leg positions, knee bends, foot heights, all equipment, north-facing back view, silhouette, footprint, body mass, rifle/head scale, lighting and texture. Both arms and SAME narrow rifle remain north above the head. Do not turn the face/chest towards camera. Do not reset feet to static. No new gear or details.\nGenuine alpha requested. If not supported, use a perfectly plain PURE WHITE #FFFFFF background, no pattern or checkerboard, no black background, no shadow. Every part of the soldier fully opaque, including dark boots, rifle and clothing. One centered whole soldier, safe margins, no labels.\nThis is original walk frame3; retain exactly its specific leg pose.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a074b5-e49a-77a3-a02b-be55b3fb8d8b/exec-dc5b81db-b70a-4631-ba05-71dce6d52acf.png",
+      "target": "/private/tmp/broodfall-commando-walk3-teal-preview-v1.png",
+      "palette": "/private/tmp/broodfall-commando-red-preview-v1.png",
+      "selected": "/private/tmp/broodfall-commando-walk3-red-preview-v1.png",
+      "normalization": "256RGBA padding14"
+    },
+    {
+      "original_index": 4,
+      "prompt": "Use case: precise-object-edit. Asset: single Broodfall Commando RED walk frame, preview only.\nImage1 is the EXACT APPROVED AQUA WALK POSE EDIT TARGET. Image2 approved RED STATIC is a COLOR REFERENCE ONLY: do not copy its static pose.\nRecolor only aqua armor plates, aqua helmet stripe, small aqua equipment inserts to bright weathered red matching image2. Keep gold chevrons GOLD, amber lights amber, neutral metal rifle, khaki belt/pouches, olive dark clothing and black boots unchanged.\nPreserve exactly image1's walking leg positions, knee bends, foot heights, all equipment, north-facing back view, silhouette, footprint, body mass, rifle/head scale, lighting and texture. Both arms and SAME narrow rifle remain north above the head. Do not turn the face/chest towards camera. Do not reset feet to static. No new gear or details.\nGenuine alpha requested. If not supported, use a perfectly plain PURE WHITE #FFFFFF background, no pattern or checkerboard, no black background, no shadow. Every part of the soldier fully opaque, including dark boots, rifle and clothing. One centered whole soldier, safe margins, no labels.\nThis is original walk frame4; retain exactly its specific leg pose.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a074b5-e49a-77a3-a02b-be55b3fb8d8b/exec-bec1a063-fb82-48b2-aea7-c3f1f77f8c4e.png",
+      "target": "/private/tmp/broodfall-commando-walk4-teal-preview-v1.png",
+      "palette": "/private/tmp/broodfall-commando-red-preview-v1.png",
+      "selected": "/private/tmp/broodfall-commando-walk4-red-preview-v1.png",
+      "normalization": "256RGBA padding14"
+    }
+  ]
+}

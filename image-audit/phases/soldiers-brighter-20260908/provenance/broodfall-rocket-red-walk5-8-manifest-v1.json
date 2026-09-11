@@ -1,0 +1,71 @@
+{
+  "mode": "builtin imagegen",
+  "previewOnly": true,
+  "normalization": "process_generated_sprite.py canvas256RGBA padding14",
+  "entries": [
+    {
+      "frame": 5,
+      "selected": "/private/tmp/broodfall-rocket-walk5-red-preview-v1.png",
+      "references": [
+        "/private/tmp/broodfall-rocket-walk5-teal-preview-v2.png"
+      ],
+      "attempts": [
+        {
+          "prompt": "Use case: precise-object-edit. Asset: Broodfall top-down Rocket Trooper red team walk original frame5 sprite. Image1 is the sole edit target. Recolor only the aqua painted armor regions to bright saturated weathered vermilion red, with pale warm red highlights and deep crimson recesses, keeping original metallic scratches. All non-aqua regions unchanged: dark suit, taupe/gunmetal launcher, pale bands and existing red missile tip. CRITICAL: preserve exact silhouette and pixel-relative geometry, gait, separated legs/feet, helmet and backpack sizes/placement, raised arms, hands and launcher. The entire body faces north/up exactly as shown. Do not change stance, scale, framing, perspective or equipment. Keep opaque material surfaces fully opaque; genuine transparent background only, no checkerboard painted into surfaces, no shadows/scenery/text.",
+          "raw": "Generated images are saved to /Users/bronsongannon/.codex/generated_images/01a07f2c-e2ca-72a1-b281-0721349ef747 as /Users/bronsongannon/.codex/generated_images/01a07f2c-e2ca-72a1-b281-0721349ef747/exec-c198d033-a097-4975-8138-e92f4163edd3.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+        }
+      ]
+    },
+    {
+      "frame": 6,
+      "selected": "/private/tmp/broodfall-rocket-walk6-red-preview-v2.png",
+      "references": [
+        "/private/tmp/broodfall-rocket-walk6-teal-preview-v2.png"
+      ],
+      "attempts": [
+        {
+          "prompt": "Use case: precise-object-edit. Asset: Broodfall top-down Rocket Trooper red team walk original frame6 sprite. Image1 is the sole edit target. Recolor only the aqua painted armor regions to bright saturated weathered vermilion red, with pale warm red highlights and deep crimson recesses, keeping original metallic scratches. All non-aqua regions unchanged: dark suit, taupe/gunmetal launcher, pale bands and existing red missile tip. CRITICAL: preserve exact silhouette and pixel-relative geometry, gait, separated legs/feet, helmet and backpack sizes/placement, raised arms, hands and launcher. The entire body faces north/up exactly as shown. Do not change stance, scale, framing, perspective or equipment. Keep opaque material surfaces fully opaque; genuine transparent background only, no checkerboard painted into surfaces, no shadows/scenery/text.",
+          "raw": "Generated images are saved to /Users/bronsongannon/.codex/generated_images/01a07f2c-e2ca-72a1-b281-0721349ef747 as /Users/bronsongannon/.codex/generated_images/01a07f2c-e2ca-72a1-b281-0721349ef747/exec-c2041d0f-006c-480e-8597-14d2eec0bf76.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+        },
+        {
+          "prompt": "Use case: precise-object-edit. Asset: Broodfall top-down Rocket Trooper red team walk original frame6 sprite. Image1 is the sole edit target. Recolor only the aqua painted armor regions to bright saturated weathered vermilion red, with pale warm red highlights and deep crimson recesses, keeping original metallic scratches. All non-aqua regions unchanged: dark suit, taupe/gunmetal launcher, pale bands and existing red missile tip. CRITICAL: preserve exact silhouette and pixel-relative geometry, gait, separated legs/feet, helmet and backpack sizes/placement, raised arms, hands and launcher. The entire body faces north/up exactly as shown. Do not change stance, scale, framing, perspective or equipment. Keep opaque material surfaces fully opaque; genuine transparent background only, no checkerboard painted into surfaces, no shadows/scenery/text. Single correction to extraction: Render on a PURE SOLID WHITE background instead of transparency for this output, with NO drop shadow. Every boot, strap, dark suit region and all metallic weapon regions must be completely opaque dark material, never cut out. Redo exact image1 pose recoloring, not a new pose. Remove any aqua-colored edge fringe.",
+          "raw": "Generated images are saved to /Users/bronsongannon/.codex/generated_images/01a07f2c-e2ca-72a1-b281-0721349ef747 as /Users/bronsongannon/.codex/generated_images/01a07f2c-e2ca-72a1-b281-0721349ef747/exec-d364ad02-ceec-4b4f-acfd-62d17ac6f912.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+        }
+      ]
+    },
+    {
+      "frame": 7,
+      "selected": "/private/tmp/broodfall-rocket-walk7-red-preview-v2.png",
+      "references": [
+        "/private/tmp/broodfall-rocket-walk7-teal-preview-v2.png"
+      ],
+      "attempts": [
+        {
+          "prompt": "Use case: precise-object-edit. Asset: Broodfall top-down Rocket Trooper red team walk original frame7 sprite. Image1 is the sole edit target. Recolor only the aqua painted armor regions to bright saturated weathered vermilion red, with pale warm red highlights and deep crimson recesses, keeping original metallic scratches. All non-aqua regions unchanged: dark suit, taupe/gunmetal launcher, pale bands and existing red missile tip. CRITICAL: preserve exact silhouette and pixel-relative geometry, gait, separated legs/feet, helmet and backpack sizes/placement, raised arms, hands and launcher. The entire body faces north/up exactly as shown. Do not change stance, scale, framing, perspective or equipment. Keep opaque material surfaces fully opaque; genuine transparent background only, no checkerboard painted into surfaces, no shadows/scenery/text.",
+          "raw": "Generated images are saved to /Users/bronsongannon/.codex/generated_images/01a07f2c-e2ca-72a1-b281-0721349ef747 as /Users/bronsongannon/.codex/generated_images/01a07f2c-e2ca-72a1-b281-0721349ef747/exec-7303c9a6-b3e4-468a-b023-d5db4899a761.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+        },
+        {
+          "prompt": "Use case: precise-object-edit. Asset: Broodfall top-down Rocket Trooper red team walk original frame7 sprite. Image1 is the sole edit target. Recolor only the aqua painted armor regions to bright saturated weathered vermilion red, with pale warm red highlights and deep crimson recesses, keeping original metallic scratches. All non-aqua regions unchanged: dark suit, taupe/gunmetal launcher, pale bands and existing red missile tip. CRITICAL: preserve exact silhouette and pixel-relative geometry, gait, separated legs/feet, helmet and backpack sizes/placement, raised arms, hands and launcher. The entire body faces north/up exactly as shown. Do not change stance, scale, framing, perspective or equipment. Keep opaque material surfaces fully opaque; genuine transparent background only, no checkerboard painted into surfaces, no shadows/scenery/text. Extraction correction: Render on a PURE SOLID WHITE background instead of transparency for this output, with NO drop shadow. Every boot, strap, dark suit region and all metallic weapon regions must be completely opaque dark material, never cut out. Redo exact image1 pose recoloring, not a new pose. Remove any aqua-colored edge fringe.",
+          "raw": "Generated images are saved to /Users/bronsongannon/.codex/generated_images/01a07f2c-e2ca-72a1-b281-0721349ef747 as /Users/bronsongannon/.codex/generated_images/01a07f2c-e2ca-72a1-b281-0721349ef747/exec-3372834e-7c41-4fde-b518-66467eae05b3.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+        }
+      ]
+    },
+    {
+      "frame": 8,
+      "selected": "/private/tmp/broodfall-rocket-walk8-red-preview-v2.png",
+      "references": [
+        "/private/tmp/broodfall-rocket-walk8-teal-preview-v2.png"
+      ],
+      "attempts": [
+        {
+          "prompt": "Use case: precise-object-edit. Asset: Broodfall top-down Rocket Trooper red team walk original frame8 sprite. Image1 is the sole edit target. Recolor only the aqua painted armor regions to bright saturated weathered vermilion red, with pale warm red highlights and deep crimson recesses, keeping original metallic scratches. All non-aqua regions unchanged: dark suit, taupe/gunmetal launcher, pale bands and existing red missile tip. CRITICAL: preserve exact silhouette and pixel-relative geometry, gait, separated legs/feet, helmet and backpack sizes/placement, raised arms, hands and launcher. The entire body faces north/up exactly as shown. Do not change stance, scale, framing, perspective or equipment. Keep opaque material surfaces fully opaque; genuine transparent background only, no checkerboard painted into surfaces, no shadows/scenery/text.",
+          "raw": "Generated images are saved to /Users/bronsongannon/.codex/generated_images/01a07f2c-e2ca-72a1-b281-0721349ef747 as /Users/bronsongannon/.codex/generated_images/01a07f2c-e2ca-72a1-b281-0721349ef747/exec-2bb027bf-4f37-423d-91f9-4f4ecaede768.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+        },
+        {
+          "prompt": "Use case: precise-object-edit. Asset: Broodfall top-down Rocket Trooper red team walk original frame8 sprite. Image1 is the sole edit target. Recolor only the aqua painted armor regions to bright saturated weathered vermilion red, with pale warm red highlights and deep crimson recesses, keeping original metallic scratches. All non-aqua regions unchanged: dark suit, taupe/gunmetal launcher, pale bands and existing red missile tip. CRITICAL: preserve exact silhouette and pixel-relative geometry, gait, separated legs/feet, helmet and backpack sizes/placement, raised arms, hands and launcher. The entire body faces north/up exactly as shown. Do not change stance, scale, framing, perspective or equipment. Keep opaque material surfaces fully opaque; genuine transparent background only, no checkerboard painted into surfaces, no shadows/scenery/text. Extraction correction: Render on a PURE SOLID WHITE background instead of transparency for this output, with NO drop shadow. Every boot, strap, dark suit region and all metallic weapon regions must be completely opaque dark material, never cut out. Redo exact image1 pose recoloring, not a new pose. Remove any aqua-colored edge fringe.",
+          "raw": "Generated images are saved to /Users/bronsongannon/.codex/generated_images/01a07f2c-e2ca-72a1-b281-0721349ef747 as /Users/bronsongannon/.codex/generated_images/01a07f2c-e2ca-72a1-b281-0721349ef747/exec-8f6db875-74e7-4255-9a0b-b81efee63f15.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+        }
+      ]
+    }
+  ]
+}

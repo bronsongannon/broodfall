@@ -1,0 +1,301 @@
+{
+  "playback_original_indices": [
+    1,
+    2,
+    4,
+    3,
+    8,
+    7,
+    6,
+    5
+  ],
+  "frames": [
+    {
+      "name": "STATIC",
+      "red_path": "/private/tmp/broodfall-medic-red-preview-v1.png",
+      "teal_path": "/private/tmp/broodfall-medic-teal-preview-v3.png",
+      "red_bbox": [
+        55,
+        14,
+        200,
+        242
+      ],
+      "teal_bbox": [
+        56,
+        14,
+        199,
+        242
+      ],
+      "red_area": 22026.06274509804,
+      "area_ratio": 1.0169978078033655,
+      "mask_iou": 0.9813238243815466,
+      "edge_alpha": 0,
+      "red30": 87
+    },
+    {
+      "name": "WALK 1",
+      "red_path": "/private/tmp/broodfall-medic-walk1-red-preview-v1.png",
+      "teal_path": "/private/tmp/broodfall-medic-walk1-teal-preview-v1.png",
+      "red_bbox": [
+        61,
+        14,
+        195,
+        242
+      ],
+      "teal_bbox": [
+        61,
+        14,
+        195,
+        242
+      ],
+      "red_area": 17803.352941176472,
+      "area_ratio": 1.0030534452340736,
+      "mask_iou": 0.9865922399168172,
+      "edge_alpha": 0,
+      "red30": 74
+    },
+    {
+      "name": "WALK 2",
+      "red_path": "/private/tmp/broodfall-medic-walk2-red-preview-v1.png",
+      "teal_path": "/private/tmp/broodfall-medic-walk2-teal-preview-v1.png",
+      "red_bbox": [
+        64,
+        14,
+        192,
+        242
+      ],
+      "teal_bbox": [
+        64,
+        14,
+        191,
+        242
+      ],
+      "red_area": 17168.729411764707,
+      "area_ratio": 1.0274234541217553,
+      "mask_iou": 0.9701907790143084,
+      "edge_alpha": 0,
+      "red30": 83
+    },
+    {
+      "name": "WALK 3",
+      "red_path": "/private/tmp/broodfall-medic-walk4-red-preview-v1.png",
+      "teal_path": "/private/tmp/broodfall-medic-walk4-teal-preview-v3.png",
+      "red_bbox": [
+        62,
+        14,
+        194,
+        228
+      ],
+      "teal_bbox": [
+        61,
+        14,
+        195,
+        228
+      ],
+      "red_area": 18374.513725490197,
+      "area_ratio": 0.9995594728692887,
+      "mask_iou": 0.9787189100702329,
+      "edge_alpha": 0,
+      "red30": 71
+    },
+    {
+      "name": "WALK 4",
+      "red_path": "/private/tmp/broodfall-medic-walk3-red-preview-v1.png",
+      "teal_path": "/private/tmp/broodfall-medic-walk3-teal-preview-v1.png",
+      "red_bbox": [
+        62,
+        14,
+        193,
+        242
+      ],
+      "teal_bbox": [
+        62,
+        14,
+        193,
+        242
+      ],
+      "red_area": 17539.223529411764,
+      "area_ratio": 1.0223941362493594,
+      "mask_iou": 0.9698601243339254,
+      "edge_alpha": 0,
+      "red30": 96
+    },
+    {
+      "name": "WALK 5",
+      "red_path": "/private/tmp/broodfall-medic-walk8-red-preview-v1.png",
+      "teal_path": "/private/tmp/broodfall-medic-walk8-teal-preview-v2.png",
+      "red_bbox": [
+        65,
+        14,
+        190,
+        242
+      ],
+      "teal_bbox": [
+        65,
+        14,
+        190,
+        242
+      ],
+      "red_area": 16133.011764705883,
+      "area_ratio": 1.0128512058930699,
+      "mask_iou": 0.9801596902976046,
+      "edge_alpha": 0,
+      "red30": 82
+    },
+    {
+      "name": "WALK 6",
+      "red_path": "/private/tmp/broodfall-medic-walk7-red-preview-v1.png",
+      "teal_path": "/private/tmp/broodfall-medic-walk7-teal-preview-v2.png",
+      "red_bbox": [
+        63,
+        14,
+        192,
+        242
+      ],
+      "teal_bbox": [
+        65,
+        14,
+        191,
+        242
+      ],
+      "red_area": 16584.6,
+      "area_ratio": 0.9988622755905325,
+      "mask_iou": 0.9673361034164358,
+      "edge_alpha": 0,
+      "red30": 77
+    },
+    {
+      "name": "WALK 7",
+      "red_path": "/private/tmp/broodfall-medic-walk6-red-preview-v1.png",
+      "teal_path": "/private/tmp/broodfall-medic-walk6-teal-preview-v2.png",
+      "red_bbox": [
+        63,
+        14,
+        193,
+        242
+      ],
+      "teal_bbox": [
+        63,
+        14,
+        193,
+        242
+      ],
+      "red_area": 19417.949019607844,
+      "area_ratio": 1.0124839383264452,
+      "mask_iou": 0.9806279561235786,
+      "edge_alpha": 0,
+      "red30": 65
+    },
+    {
+      "name": "WALK 8",
+      "red_path": "/private/tmp/broodfall-medic-walk5-red-preview-v1.png",
+      "teal_path": "/private/tmp/broodfall-medic-walk5-teal-preview-v1.png",
+      "red_bbox": [
+        63,
+        14,
+        193,
+        242
+      ],
+      "teal_bbox": [
+        65,
+        14,
+        190,
+        242
+      ],
+      "red_area": 16742.039215686276,
+      "area_ratio": 1.0263752093995642,
+      "mask_iou": 0.9501175391319305,
+      "edge_alpha": 0,
+      "red30": 70
+    },
+    {
+      "name": "DEATH 1",
+      "red_path": "/private/tmp/broodfall-medic-death1-red-preview-v2.png",
+      "teal_path": "/private/tmp/broodfall-medic-death1-teal-preview-v1.png",
+      "red_bbox": [
+        56,
+        14,
+        200,
+        242
+      ],
+      "teal_bbox": [
+        56,
+        14,
+        200,
+        242
+      ],
+      "red_area": 22080.972549019607,
+      "area_ratio": 1.0107863443580738,
+      "mask_iou": 0.9864018130915878,
+      "edge_alpha": 0,
+      "red30": 82
+    },
+    {
+      "name": "DEATH 2",
+      "red_path": "/private/tmp/broodfall-medic-death2-red-preview-v1.png",
+      "teal_path": "/private/tmp/broodfall-medic-death2-teal-preview-v1.png",
+      "red_bbox": [
+        38,
+        14,
+        217,
+        242
+      ],
+      "teal_bbox": [
+        40,
+        14,
+        216,
+        242
+      ],
+      "red_area": 25494.84705882353,
+      "area_ratio": 1.0432343350835076,
+      "mask_iou": 0.8681105247727939,
+      "edge_alpha": 0,
+      "red30": 83
+    },
+    {
+      "name": "DEATH 3",
+      "red_path": "/private/tmp/broodfall-medic-death3-red-preview-v1.png",
+      "teal_path": "/private/tmp/broodfall-medic-death3-teal-preview-v1.png",
+      "red_bbox": [
+        14,
+        54,
+        242,
+        201
+      ],
+      "teal_bbox": [
+        14,
+        55,
+        242,
+        200
+      ],
+      "red_area": 19292.858823529412,
+      "area_ratio": 1.0439736825073131,
+      "mask_iou": 0.9590773433152916,
+      "edge_alpha": 0,
+      "red30": 76
+    },
+    {
+      "name": "DEATH 4",
+      "red_path": "/private/tmp/broodfall-medic-death4-red-preview-v2.png",
+      "teal_path": "/private/tmp/broodfall-medic-death4-teal-preview-v1.png",
+      "red_bbox": [
+        14,
+        57,
+        242,
+        199
+      ],
+      "teal_bbox": [
+        14,
+        56,
+        242,
+        199
+      ],
+      "red_area": 16295.105882352942,
+      "area_ratio": 0.9396898194005346,
+      "mask_iou": 0.9429118342528995,
+      "edge_alpha": 0,
+      "red30": 58
+    }
+  ],
+  "walk_area_cv": 0.05695527962829201
+}

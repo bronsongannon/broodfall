@@ -1,0 +1,122 @@
+{
+  "frames": [
+    {
+      "path": "/private/tmp/broodfall-sniper-teal-preview-v1.png",
+      "bbox": [
+        87,
+        14,
+        168,
+        242
+      ],
+      "area": 9583,
+      "effective": 9258.039215686274,
+      "border": 0,
+      "aqua32": 18
+    },
+    {
+      "path": "/private/tmp/broodfall-sniper-walk1-teal-preview-v2.png",
+      "bbox": [
+        91,
+        14,
+        164,
+        242
+      ],
+      "area": 8442,
+      "effective": 8123.466666666666,
+      "border": 0,
+      "aqua32": 37
+    },
+    {
+      "path": "/private/tmp/broodfall-sniper-walk7-teal-preview-v1.png",
+      "bbox": [
+        90,
+        14,
+        166,
+        242
+      ],
+      "area": 8686,
+      "effective": 8310.533333333333,
+      "border": 0,
+      "aqua32": 21
+    },
+    {
+      "path": "/private/tmp/broodfall-sniper-walk2-teal-preview-v1.png",
+      "bbox": [
+        88,
+        14,
+        168,
+        242
+      ],
+      "area": 9605,
+      "effective": 9309.4,
+      "border": 0,
+      "aqua32": 22
+    },
+    {
+      "path": "/private/tmp/broodfall-sniper-walk8-teal-preview-v1.png",
+      "bbox": [
+        87,
+        14,
+        168,
+        242
+      ],
+      "area": 9203,
+      "effective": 8762.858823529412,
+      "border": 0,
+      "aqua32": 20
+    },
+    {
+      "path": "/private/tmp/broodfall-sniper-walk4-teal-preview-v2.png",
+      "bbox": [
+        88,
+        14,
+        168,
+        242
+      ],
+      "area": 8815,
+      "effective": 8347.325490196079,
+      "border": 0,
+      "aqua32": 16
+    },
+    {
+      "path": "/private/tmp/broodfall-sniper-walk3-teal-preview-v1.png",
+      "bbox": [
+        90,
+        14,
+        166,
+        242
+      ],
+      "area": 8837,
+      "effective": 8530.192156862746,
+      "border": 0,
+      "aqua32": 24
+    },
+    {
+      "path": "/private/tmp/broodfall-sniper-walk6-teal-preview-v1.png",
+      "bbox": [
+        86,
+        14,
+        169,
+        242
+      ],
+      "area": 10214,
+      "effective": 9883.043137254903,
+      "border": 0,
+      "aqua32": 24
+    },
+    {
+      "path": "/private/tmp/broodfall-sniper-walk5-teal-preview-v1.png",
+      "bbox": [
+        89,
+        14,
+        166,
+        242
+      ],
+      "area": 8809,
+      "effective": 8516.898039215686,
+      "border": 0,
+      "aqua32": 19
+    }
+  ],
+  "area_cv": 0.06333151441575731
+}

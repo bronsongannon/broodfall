@@ -1,0 +1,14 @@
+{
+  "preview_only": true,
+  "mode": "built-in ImageGen",
+  "prompt": "Use case: precise-object-edit. Asset: one Broodfall Commando/Boone red-faction sprite, preview only. Image1 is the EXACT approved aqua Commando edit target; image2 Rocket Trooper is a RED PALETTE REFERENCE ONLY, do NOT copy its equipment, shape, pose or body. Recolor ONLY image1's pale aqua armor plates and aqua helmet stripe to vivid bright weathered red matching image2 red armor. Keep image1's gold back chevrons GOLD, amber lights amber, charcoal back armor dark, khaki pouches neutral, boots and gloves black, rifle neutral metal. Preserve exact same silhouette, overhead north orientation, pose, scale, equipment, anatomy and lighting. Keep both arms holding the same narrow rifle vertically north above helmet. No rocket launcher, no additions. Full opaque character on genuine alpha; if alpha unsupported use plain pure WHITE #FFFFFF with no ground or shadow. Never checkerboard or black backdrop. No text.",
+  "raw": "/Users/bronsongannon/.codex/generated_images/01a074b5-e49a-77a3-a02b-be55b3fb8d8b/exec-b018545e-27e4-4ae6-94b6-7f2cb541cb24.png",
+  "selected": "/private/tmp/broodfall-commando-red-preview-v1.png",
+  "normalization": {
+    "canvas": [
+      256,
+      256
+    ],
+    "padding": 14
+  }
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "path": "/private/tmp/broodfall-sniper-teal-preview-v1.png",
+    "bbox": [
+      87,
+      14,
+      168,
+      242
+    ],
+    "edge_alpha": 0,
+    "effective_area": 9258.039215686274,
+    "aqua32": 18
+  },
+  {
+    "path": "/private/tmp/broodfall-sniper-death1-teal-preview-v1.png",
+    "bbox": [
+      78,
+      14,
+      177,
+      242
+    ],
+    "edge_alpha": 0,
+    "effective_area": 11493.698039215686,
+    "aqua32": 14
+  },
+  {
+    "path": "/private/tmp/broodfall-sniper-death2-teal-preview-v1.png",
+    "bbox": [
+      84,
+      14,
+      172,
+      242
+    ],
+    "edge_alpha": 0,
+    "effective_area": 9844.141176470588,
+    "aqua32": 17
+  },
+  {
+    "path": "/private/tmp/broodfall-sniper-death3-teal-preview-v2.png",
+    "bbox": [
+      52,
+      54,
+      204,
+      201
+    ],
+    "edge_alpha": 0,
+    "effective_area": 10090.419607843138,
+    "aqua32": 2
+  },
+  {
+    "path": "/private/tmp/broodfall-sniper-death4-teal-preview-v1.png",
+    "bbox": [
+      14,
+      87,
+      242,
+      169
+    ],
+    "edge_alpha": 0,
+    "effective_area": 10229.364705882354,
+    "aqua32": 8
+  },
+  {
+    "path": "/private/tmp/broodfall-sniper-hunker-teal-preview-v1.png",
+    "bbox": [
+      83,
+      14,
+      173,
+      242
+    ],
+    "edge_alpha": 0,
+    "effective_area": 11000.760784313725,
+    "aqua32": 15
+  }
+]

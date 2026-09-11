@@ -1,0 +1,36 @@
+{
+  "tool": "built-in imagegen",
+  "purpose": "preview-only",
+  "approved_identity": "/private/tmp/broodfall-medic-teal-preview-v3.png",
+  "frames": [
+    {
+      "frame": 6,
+      "prompt": "Use case: identity-preserve. Asset type: one top-down RTS Medic walk animation sprite, original frame 6.\nImage 1 is the EDIT TARGET and sole source of pose, stance, leg and arm positions. Image 2 is approved PALETTE/EQUIPMENT REFERENCE ONLY.\nEdit image 1 to wear image 2's brighter weathered aqua shoulder armor, oversized white medical backpack with clear red plus, white upper-arm and lower-leg panels, taupe uniform and aqua-white handheld medical case on screen-right. Preserve image 1's exact asymmetric stepping legs: screen-left boot extends lower to bottom, screen-right boot raised and tucked higher; same foot, knee, elbow placement and north-facing body orientation. Do NOT copy image 2's symmetrical static stance. Preserve narrow grounded human proportions and short dark-haired head seen from behind/above, north facing feet/chest/head/arms. Match approved reference's equipment size and brightness.\nSingle centered full-body sprite with entire equipment visible, generous safe padding, straight top-down orthographic camera. Crisp painted game sprite, clear simple material blocks legible at 27 and32 pixels. True transparent background; opaque uniform interiors and dark boots. No ground shadow, no scenery, no text/watermark, no grid, no added objects.",
+      "edit_target": "/Users/bronsongannon/Desktop/broodfall/assets/sprites/unit_medic_walk6_teal.png",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07eff-47a6-7761-8a90-29b1f85abdf3/exec-77d19c8e-8d78-4769-853f-f7f067c27b39.png",
+      "selected": "/private/tmp/broodfall-medic-walk6-teal-preview-v1.png",
+      "padding": 14,
+      "qa": "256 RGBA; zero edge alpha; original asymmetric foot gait preserved; 27/32 px inspected"
+    },
+    {
+      "frame": 7,
+      "prompt": "Use case: identity-preserve. Asset type: one top-down RTS Medic walk animation sprite, original frame 7.\nImage 1 is the EDIT TARGET and sole source of pose, stance, leg and arm positions. Image 2 is approved PALETTE/EQUIPMENT REFERENCE ONLY.\nEdit image 1 to wear image 2's brighter weathered aqua shoulder armor, oversized white medical backpack with clear red plus, white upper-arm and lower-leg panels, taupe uniform and aqua-white handheld medical case on screen-right. Preserve image 1's exact asymmetric stepping legs: screen-left boot extends lower to bottom, screen-right boot raised higher and slightly tucked inward; same foot, knee, elbow placement and north-facing body orientation. Do NOT copy image 2's symmetrical static stance. Preserve narrow grounded human proportions and short dark-haired head seen from behind/above, north facing feet/chest/head/arms. Match approved reference's equipment size and brightness.\nSingle centered full-body sprite with entire equipment visible, generous safe padding, straight top-down orthographic camera. Crisp painted game sprite, clear simple material blocks legible at 27 and32 pixels. True transparent background; opaque uniform interiors and dark boots. No ground shadow, no scenery, no text/watermark, no grid, no added objects.",
+      "edit_target": "/Users/bronsongannon/Desktop/broodfall/assets/sprites/unit_medic_walk7_teal.png",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07eff-47a6-7761-8a90-29b1f85abdf3/exec-4497fa2d-e69a-4ca9-a676-c4fc3b9b3182.png",
+      "selected": "/private/tmp/broodfall-medic-walk7-teal-preview-v1.png",
+      "padding": 14,
+      "qa": "256 RGBA; zero edge alpha; original asymmetric foot gait preserved; 27/32 px inspected"
+    },
+    {
+      "frame": 8,
+      "prompt": "Use case: identity-preserve. Asset type: one top-down RTS Medic walk animation sprite, original frame 8.\nImage 1 is the EDIT TARGET and sole source of pose, stance, leg and arm positions. Image 2 is approved PALETTE/EQUIPMENT REFERENCE ONLY.\nEdit image 1 to wear image 2's brighter weathered aqua shoulder armor, oversized white medical backpack with clear red plus, white upper-arm and lower-leg panels, taupe uniform and aqua-white handheld medical case on screen-right. Preserve image 1's exact very asymmetric stepping legs: screen-left leg extends straight down with boot at bottom, screen-right leg is bent and boot strongly lifted to around lower calf height of opposite leg; same foot, knee, elbow placement and north-facing body orientation. Do NOT copy image 2's symmetrical static stance. Preserve narrow grounded human proportions and short dark-haired head seen from behind/above, north facing feet/chest/head/arms. Match approved reference's equipment size and brightness.\nSingle centered full-body sprite with entire equipment visible, generous safe padding, straight top-down orthographic camera. Crisp painted game sprite, clear simple material blocks legible at 27 and32 pixels. True transparent background; opaque uniform interiors and dark boots. No ground shadow, no scenery, no text/watermark, no grid, no added objects.",
+      "edit_target": "/Users/bronsongannon/Desktop/broodfall/assets/sprites/unit_medic_walk8_teal.png",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07eff-47a6-7761-8a90-29b1f85abdf3/exec-d1b6d5eb-0b07-40af-8e47-aa5775d57605.png",
+      "selected": "/private/tmp/broodfall-medic-walk8-teal-preview-v1.png",
+      "padding": 14,
+      "qa": "256 RGBA; zero edge alpha; original asymmetric foot gait preserved; 27/32 px inspected"
+    }
+  ],
+  "contact": "/private/tmp/broodfall-medic-teal-walk6-8-check.png",
+  "notes": "F7 marginally darker/taupe pack trim; all clear medical-white/aqua block read; no targeted retry required."
+}

@@ -580,7 +580,7 @@ def phase_items(repo: Path, phase: int) -> list[SheetItem]:
         return items
     if phase == 3:
         items = []
-        for unit in ("marine", "engineer", "sniper", "medic", "rocket"):
+        for unit in HUMAN_TYPES:
             for colorway in ("teal", "red"):
                 items.append(_sprite(repo, f"unit_{unit}_{colorway}.png", UNIT_DRAW[unit]))
                 for frame in range(1, 9):
@@ -589,13 +589,6 @@ def phase_items(repo: Path, phase: int) -> list[SheetItem]:
                     items.append(_sprite(repo, f"unit_{unit}_death{frame}_{colorway}.png", UNIT_DRAW[unit]))
                 if unit in {"marine", "sniper"}:
                     items.append(_sprite(repo, f"unit_{unit}_hunker_{colorway}.png", UNIT_DRAW[unit]))
-        unit = "commando"
-        colorway = "teal"
-        items.append(_sprite(repo, f"unit_{unit}_{colorway}.png", UNIT_DRAW[unit]))
-        for frame in range(1, 9):
-            items.append(_sprite(repo, f"unit_{unit}_walk{frame}_{colorway}.png", UNIT_DRAW[unit]))
-        for frame in range(1, 5):
-            items.append(_sprite(repo, f"unit_{unit}_death{frame}_{colorway}.png", UNIT_DRAW[unit]))
         return items
     raise ValueError(f"unsupported phase: {phase}")
 

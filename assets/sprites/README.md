@@ -62,7 +62,29 @@ The carrier's enlarged 200×200 visual footprint has matching oriented selection
 
 Frozen Phase 2 evidence lives in [`../../image-audit/phases/phase-2/`](../../image-audit/phases/phase-2/): coverage moves from 17/19 before to 19/19 after, with source and actual-size gameplay contact sheets plus per-file hashes. Browser inspection and `node --check game.js` / `git diff --check` passed. The native Debug build succeeded, and all 21 scoped Phase 2 files in the rebuilt app byte-match the workspace.
 
-## Human technology Phase 3 — soldiers
+## Current human soldiers — brighter faction revision, 2026-09-08
+
+The user-approved current revision covers **160 production sprites**, installed as six complete aqua/teal and red families. It uses brighter dominant faction armor and weathering, a narrower Engineer, a larger Medic backpack with white uniform accents, and retained gold markings on Boone. The additional 13 red Commando files complete his paired art family without changing campaign team assignments. Standing/walking bodies and weapons face north together; falling poses retain the approved body/weapon alignment. Runtime draw boxes and gameplay mechanics are unchanged.
+
+| Family | Current production coverage | Files | Runtime draw box |
+|---|---|---:|---:|
+| Marine | Teal/red static + walk 1–8 + death 1–4 + hunker | 28 | 30×30 |
+| Engineer | Teal/red static + walk 1–8 + death 1–4 | 26 | 29×29 |
+| Sniper | Teal/red static + walk 1–8 + death 1–4 + hunker | 28 | 32×32 |
+| Medic | Teal/red static + walk 1–8 + death 1–4 | 26 | 30×30 |
+| Rocket Trooper | Teal/red static + walk 1–8 + death 1–4 | 26 | 32×32 |
+| Boone / Commando | `unit_commando_{teal,red}.png`; `unit_commando_walk{1..8}_{teal,red}.png`; `unit_commando_death{1..4}_{teal,red}.png` | 26 | 32×32 |
+| **Total** | **Six complete paired families** | **160** | |
+
+The current art-cache revision is `human-soldiers-20260908a`. Evidence is preserved under [before](../../image-audit/phases/soldiers-brighter-20260908/before/) and [after](../../image-audit/phases/soldiers-brighter-20260908/after/), with the [selected production mapping](../../image-audit/phases/soldiers-brighter-20260908/selection.json) and [surviving provenance](../../image-audit/phases/soldiers-brighter-20260908/provenance/). See the [revision provenance guide](../../image-audit/prompts/soldiers-brighter-20260908.md) for known prompt-record gaps.
+
+**Installed; validation remains open.** All 160 files byte-match the selected approved outputs and have no canvas-edge contact. The [current validator](../../image-audit/phases/soldiers-brighter-20260908/validation.json) reports 36 errors and 22 warnings. [Triage](../../image-audit/phases/soldiers-brighter-20260908/triage.md) identifies priority alpha defects in Marine teal hunker and red deaths 3/4, lesser Marine red walk 7 erosion, and Engineer/Sniper source-pose drift. Medic/Rocket passing-frame pivot flags reflect deliberate 7/8-pixel top-anchored normalizations but are not waived. Do not describe the revision as complete or the validator as clean.
+
+[Integration verification](../../image-audit/phases/soldiers-brighter-20260908/verification.json): macOS Debug build succeeded; `verify-bundle --phase 3` byte-matched all 162 payload files (160 sprites plus `game.js` and `index.html`); JavaScript syntax and diff checks passed. The browser QA harness loaded 160 sprites with zero missing assets and empty warning/error logs, with recorded walk views on moss/ash, deaths on snow, and static/hunker views on steppe. A live Crystal Basin match started and showed the new Marine. This limited smoke check is not comprehensive overlay regression coverage and does not close the art findings.
+
+## Human technology Phase 3 — soldiers (frozen 2026-09-05 record)
+
+The following 147-file coverage table, prompts, cache revision, and validation describe the original Phase 3 installation only. The 160-file revision above supersedes its soldier pixels and current status; its frozen audit evidence remains unchanged.
 
 Phase 3 is complete: 147 north-facing, 256×256 RGBA production sprites replace every scoped human static, walk, death, and hunker slot as six atomic families. Marine and Sniper include teal/red hunker art; Engineer, Medic, and Rocket have complete paired static/walk/death sets; Boone/Commando remains player-only and therefore has a teal family only.
 

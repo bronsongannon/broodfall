@@ -1,0 +1,60 @@
+{
+  "tool": "built-in image_gen",
+  "edit_target": "/private/tmp/broodfall-rocket-teal-preview-v3.png",
+  "status": "preview-only not installed",
+  "normalization": "256 RGBA, padding14, process_generated_sprite.py",
+  "qa": "Selected v2 for all three. Inspected source and30/32px. Zero edge alpha. Effective areas14568.71,14308.73,13856.46 vsstatic14918.73. All north-facing and missile north. F6 right boot lower, F7 narrow passing, F8 left boot lower. F7/F8 white-background retries repaired uniform opacity; compact torso drift modest.",
+  "generations": [
+    {
+      "frame": 6,
+      "version": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: tiny RTS Rocket Trooper walk animation frame. Input image1 is the sole edit target and sole visual reference. Preserve this exact approved character and exact overhead camera: entire body including boots, chest, back of helmet, arms and launcher faces NORTH/up. Keep the missile red tip at top pointing north, launcher upright above right shoulder, same helmet, large bright aqua backpack, bright aqua armor panels, weathered gray/taupe fabric, dark boots, same raised arms gripping launcher. Edit ONLY leg gait below backpack, retaining exact upperbody, palette, weathering, lighting, proportions, scale and position. No character rotation, no side-facing or outward-pointing feet, no launcher direction change, no redesign. Isolated single character in same framing, genuinely transparent alpha background; dark fabric opaque, no checkerboard, floor, shadows, text or other objects. Walk frame6: closing a right-foot-back stride. The SCREEN-RIGHT boot is a little farther toward bottom of image, its sole about y228 on a256canvas; SCREEN-LEFT boot higher about y216, slight knee bend. Make distinct modest asynchronous legs, toes north, not the static symmetric planted stance. Keep all upperbody and weapon geometry locked.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07f1a-4ea9-7740-bca8-4d4d81def2c3/exec-4b7719dc-7d1a-4467-8865-64e993b8d110.png",
+      "selected": false,
+      "reason": "Torso smaller and legs too long.",
+      "normalized": "/private/tmp/broodfall-rocket-walk6-teal-preview-v1.png"
+    },
+    {
+      "frame": 6,
+      "version": 2,
+      "prompt": "Use case: precise-object-edit. Asset type: tiny RTS Rocket Trooper walk animation frame. Input image1 is the sole edit target and sole visual reference. Preserve this exact approved character and exact overhead camera: entire body including boots, chest, back of helmet, arms and launcher faces NORTH/up. Keep the missile red tip at top pointing north, launcher upright above right shoulder, same helmet, large bright aqua backpack, bright aqua armor panels, weathered gray/taupe fabric, dark boots, same raised arms gripping launcher. Edit ONLY leg gait below backpack, retaining exact upperbody, palette, weathering, lighting, proportions, scale and position. No character rotation, no side-facing or outward-pointing feet, no launcher direction change, no redesign. Isolated single character in same framing, genuinely transparent alpha background; dark fabric opaque, no checkerboard, floor, shadows, text or other objects. Walk frame6 closing right-back stride: hold SCREEN-RIGHT boot exactly at its original bottom-most extent, not a pixel lower, and TUCK SCREEN-LEFT boot upward about 10% of boot length by bending knee. This is a compact marching shuffle. Only SCREEN-LEFT shin/boot changes. Copy the full original upperbody and weapon with identical size, position and proportions. CRITICAL legs retain the original SHORT stocky proportions; never lengthen legs or move boots below original static bottom. Do not shrink head, armor, backpack, arms, or launcher to fit a taller figure.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07f1a-4ea9-7740-bca8-4d4d81def2c3/exec-9764d838-8e1f-4f5f-95e9-eca80c836727.png",
+      "selected": true,
+      "normalized": "/private/tmp/broodfall-rocket-walk6-teal-preview-v2.png"
+    },
+    {
+      "frame": 7,
+      "version": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: tiny RTS Rocket Trooper walk animation frame. Input image1 is the sole edit target and sole visual reference. Preserve this exact approved character and exact overhead camera: entire body including boots, chest, back of helmet, arms and launcher faces NORTH/up. Keep the missile red tip at top pointing north, launcher upright above right shoulder, same helmet, large bright aqua backpack, bright aqua armor panels, weathered gray/taupe fabric, dark boots, same raised arms gripping launcher. Edit ONLY leg gait below backpack, retaining exact upperbody, palette, weathering, lighting, proportions, scale and position. No character rotation, no side-facing or outward-pointing feet, no launcher direction change, no redesign. Isolated single character in same framing, genuinely transparent alpha background; dark fabric opaque, no checkerboard, floor, shadows, text or other objects. Walk frame7: narrow passing step, boots nearly aligned beneath body around y225 on a256canvas. Left leg is weight-bearing, right knee bent as right foot passes close beside left; modest knee bend and visibly asynchronous legs, one heel slightly lifted. Both feet point north, no wide planted stance. Keep all upperbody and weapon geometry locked. IMPORTANT: boots must not go BELOW existing original static bottom. Create gait by TUCKING boots upward, not adding leg length or extending a boot past original base. Keep total original character height. Same original short legs, no longer thighs/calves.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07f1a-4ea9-7740-bca8-4d4d81def2c3/exec-1cc45085-196a-4ba9-a7d4-05fcc01a3181.png",
+      "selected": false,
+      "reason": "Dark uniform alpha holes.",
+      "normalized": "/private/tmp/broodfall-rocket-walk7-teal-preview-v1.png"
+    },
+    {
+      "frame": 7,
+      "version": 2,
+      "prompt": "Use case: precise-object-edit. Asset type: tiny RTS Rocket Trooper walk animation frame. Input image1 is the sole edit target and sole visual reference. Preserve this exact approved character and exact overhead camera: entire body including boots, chest, back of helmet, arms and launcher faces NORTH/up. Keep the missile red tip at top pointing north, launcher upright above right shoulder, same helmet, large bright aqua backpack, bright aqua armor panels, weathered gray/taupe fabric, dark boots, same raised arms gripping launcher. Edit ONLY leg gait below backpack, retaining exact upperbody, palette, weathering, lighting, proportions, scale and position. No character rotation, no side-facing or outward-pointing feet, no launcher direction change, no redesign. Isolated single character in same framing, solid pure white background (RGB255255255) for automatic extraction. Every dark fabric/weapon/boot and shadow on the character must be solid opaque surface, not transparent holes. No checkerboard, cast shadow, floor, text or other objects. Walk frame7: narrow passing step, boots nearly aligned beneath body around y225 on a256canvas. Left leg is weight-bearing, right knee bent as right foot passes close beside left; modest knee bend and visibly asynchronous legs, one heel slightly lifted. Both feet point north, no wide planted stance. Keep all upperbody and weapon geometry locked. IMPORTANT: boots must not go BELOW existing original static bottom. Create gait by TUCKING boots upward, not adding leg length or extending a boot past original base. Keep total original character height. Same original short legs, no longer thighs/calves. Output a completely OPAQUE image of the opaque character on clean solid pure white background.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07f1a-4ea9-7740-bca8-4d4d81def2c3/exec-a9930ac1-8643-4306-a3ce-3687c42b70ef.png",
+      "selected": true,
+      "normalized": "/private/tmp/broodfall-rocket-walk7-teal-preview-v2.png"
+    },
+    {
+      "frame": 8,
+      "version": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: tiny RTS Rocket Trooper walk animation frame. Input image1 is the sole edit target and sole visual reference. Preserve this exact approved character and exact overhead camera: entire body including boots, chest, back of helmet, arms and launcher faces NORTH/up. Keep the missile red tip at top pointing north, launcher upright above right shoulder, same helmet, large bright aqua backpack, bright aqua armor panels, weathered gray/taupe fabric, dark boots, same raised arms gripping launcher. Edit ONLY leg gait below backpack, retaining exact upperbody, palette, weathering, lighting, proportions, scale and position. No character rotation, no side-facing or outward-pointing feet, no launcher direction change, no redesign. Isolated single character in same framing, genuinely transparent alpha background; dark fabric opaque, no checkerboard, floor, shadows, text or other objects. Walk frame8: opening left-foot-back stride. SCREEN-LEFT foot lower toward bottom, about y235 on a256canvas. SCREEN-RIGHT boot tucked higher about y216 with bent knee. A distinct left-long/right-short asymmetrical stride, both toes north. Keep all upperbody and weapon geometry locked. IMPORTANT: boots must not go BELOW existing original static bottom. Create gait by TUCKING right boot upward, never adding leg length or extending left boot past original base. Keep total original character height. Same original short legs, no longer thighs/calves.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07f1a-4ea9-7740-bca8-4d4d81def2c3/exec-45e9b7b1-661a-4990-9998-16271fa210a1.png",
+      "selected": false,
+      "reason": "Dark uniform alpha holes.",
+      "normalized": "/private/tmp/broodfall-rocket-walk8-teal-preview-v1.png"
+    },
+    {
+      "frame": 8,
+      "version": 2,
+      "prompt": "Use case: precise-object-edit. Asset type: tiny RTS Rocket Trooper walk animation frame. Input image1 is the sole edit target and sole visual reference. Preserve this exact approved character and exact overhead camera: entire body including boots, chest, back of helmet, arms and launcher faces NORTH/up. Keep the missile red tip at top pointing north, launcher upright above right shoulder, same helmet, large bright aqua backpack, bright aqua armor panels, weathered gray/taupe fabric, dark boots, same raised arms gripping launcher. Edit ONLY leg gait below backpack, retaining exact upperbody, palette, weathering, lighting, proportions, scale and position. No character rotation, no side-facing or outward-pointing feet, no launcher direction change, no redesign. Isolated single character in same framing, solid pure white background (RGB255255255) for automatic extraction. Every dark fabric/weapon/boot and shadow on the character must be solid opaque surface, not transparent holes. No checkerboard, cast shadow, floor, text or other objects. Walk frame8: opening left-foot-back stride. SCREEN-LEFT foot lower toward bottom, about y235 on a256canvas. SCREEN-RIGHT boot tucked higher about y216 with bent knee. A distinct left-long/right-short asymmetrical stride, both toes north. Keep all upperbody and weapon geometry locked. IMPORTANT: boots must not go BELOW existing original static bottom. Create gait by TUCKING right boot upward, never adding leg length or extending left boot past original base. Keep total original character height. Same original short legs, no longer thighs/calves. Output a completely OPAQUE image of the opaque character on clean solid pure white background.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07f1a-4ea9-7740-bca8-4d4d81def2c3/exec-d1dc7872-fe02-463a-9740-aaa8b3784ee0.png",
+      "selected": true,
+      "normalized": "/private/tmp/broodfall-rocket-walk8-teal-preview-v2.png"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "mode": "built-in",
+  "reference": "/private/tmp/broodfall-rocket-teal-preview-v3.png",
+  "entries": [
+    {
+      "frame": 3,
+      "prompt": "Use case: identity-preserve. Asset type: Broodfall overhead RTS soldier death animation frame 3 of 4, single transparent sprite. Image 1 is the sole edit target/design reference. Re-pose this EXACT aqua Rocket Trooper into a coherent falling-on-side pose, body diagonal NE/SW: head and shoulders UPPER-RIGHT, hips middle, bent legs and boots LOWER-LEFT. The soldier has already buckled and is falling, not standing or running. Camera remains directly overhead looking at the BACK/TOP of helmet and rectangular aqua backpack; do not show a front face or front chest plate. Keep the same narrow body, weathered bright aqua helmet, aqua shoulder and limb armor, aqua rectangular pack, dark taupe/gunmetal suit, exact long metallic shoulder-held rocket launcher with small red missile tip. Both arms keep the launcher parallel to the torso on the same anatomical side as reference, with red missile tip aiming UPPER-RIGHT in the same direction as head; rotate ENTIRE soldier and launcher together, no independent flip. Preserve armor identity, wear texture, brightness, weapon proportions, readable silhouette. Whole soldier and weapon visible, centered with generous transparent margin on all sides. True RGBA transparent background and opaque body, no floor, shadow, gore, smoke, effects, ground, checkerboard, text, border, extra objects, or other frame. One sprite only.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07f23-d210-7ba2-90a2-6a93c739373f/exec-5fc75878-52d8-44d9-a37d-3a74fe92c45a.png",
+      "output": "/private/tmp/broodfall-rocket-death3-teal-preview-v1.png",
+      "selected": true,
+      "padding": 14
+    },
+    {
+      "frame": 4,
+      "prompt": "Use case: identity-preserve. Asset type: Broodfall overhead RTS soldier death animation frame 4 of 4, single transparent sprite. Image 1 is the sole edit target/design reference. Re-pose this EXACT aqua Rocket Trooper into a settled dead/prone corpse mostly HORIZONTAL, head and shoulders on RIGHT, hips middle, relaxed slightly bent legs and boots on LEFT. Soldier is lying motionless mostly on belly/side, not standing or running. Camera remains directly overhead seeing BACK/TOP of helmet and rectangular aqua backpack; do NOT show face or front chest. Preserve same narrow anatomy, weathered bright aqua helmet, aqua shoulder/limb armor and rectangular pack, dark taupe/gunmetal suit, exact long metallic shoulder-held launcher and small red missile tip. Launcher rests alongside upper body on the same anatomical side as reference, hands relaxed holding it; launcher points RIGHT parallel to head/gaze/body, red missile tip RIGHT and feet LEFT. Rotate entire soldier and weapon together, never flip weapon/anatomy independently. Preserve armor identity, wear texture, brightness, weapon proportions, clear readable silhouette. Entire body and weapon fully visible and safely padded on a transparent square canvas. Genuinely transparent RGBA background and opaque artwork; no floor, contact shadow, gore, smoke, effects, scenery, checkerboard, text, border, new objects or additional frames. One sprite only.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07f23-d210-7ba2-90a2-6a93c739373f/exec-27c79a7b-2c4e-4335-bb0c-3e0de2668363.png",
+      "output": "/private/tmp/broodfall-rocket-death4-teal-preview-v1.png",
+      "selected": false,
+      "padding": 14,
+      "note": "Launcher shortened too much."
+    },
+    {
+      "frame": 4,
+      "prompt": "Use case: identity-preserve. Asset type: one overhead RTS Rocket Trooper death frame, preview transparent sprite. Image 1 sole character design reference and edit target. Change only pose to a relaxed horizontal fallen corpse lying on his belly/side: head RIGHT, boots LEFT. Direct overhead BACK/TOP view, rectangular aqua backpack and back of helmet visible, not face/chest. CRITICAL: keep the EXACT LONG THIN SHOULDER LAUNCHER in reference, about half the full soldier-plus-launcher silhouette length, WITH its long thin taupe metallic shaft from beside the waist, across beside the helmet, to the small pointed redtip well past the head. Do NOT shorten or enlarge the launcher and do not replace it by a stubby front cannon. Rotate entire reference soldier 90 degrees clockwise then relax knees and arms into the horizontal settled corpse; keep weapon on same anatomical side, parallel to soldier, missile pointed RIGHT beyond the head. Preserve original physical proportions and identical helmet, aqua pack and weathered aqua armor brightness, dark taupe/gunmetal joints. No redesign or new equipment. Whole body and entire LONG weapon visible with ample transparent margins, opaque body on genuine RGBA transparent background. No ground or cast shadow, no gore, no text, checkerboard, smoke, scenery, border or other frame. One sprite only.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07f23-d210-7ba2-90a2-6a93c739373f/exec-8171a4bb-5a92-4639-bbf0-502de5d4c476.png",
+      "output": "/private/tmp/broodfall-rocket-death4-teal-preview-v2.png",
+      "selected": true,
+      "padding": 14,
+      "note": "Longer launcher restored; launcher more centered in front than original shoulder. Horizontal corpse and back/top orientation correct."
+    }
+  ]
+}

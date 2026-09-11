@@ -1,0 +1,40 @@
+{
+  "mode": "built-in-imagegen",
+  "preview_only": true,
+  "frames": [
+    {
+      "frame": 3,
+      "team": "teal",
+      "prompt": "Use case: identity-preserve. Asset type: Broodfall Commando/Boone overhead RTS soldier death-animation frame3, preview only. Image1 is the approved character identity reference. Render the SAME heavy broad soldier now falling onto his side, body diagonal from boots lower-left southwest to head and rifle upper-right northeast. Knees partly bent in collapse. STRICT TOP-DOWN overhead view of his BACK: BOTH pale aqua shoulder plates and gold chevrons on dark BACK plate clearly visible, rear helmet pale aqua stripe, same broad heavy torso, tan neutral belt pouches, olive trousers and black boots. Both arms retain the SAME rifle raised beyond helmet pointed northeast along head/body facing. Do NOT display front chest or face. Keep same mass, armor proportions, weathered bright pale aqua palette and detail style; no slimming. Full isolated body and rifle visible with generous blank margin. Genuine transparent background requested; if transparency unavailable use completely PURE WHITE uniform background. Dark clothing and boots must be opaque, not transparent. No cast shadow, floor, black background, checkerboard, border, gore, extra weapon or gear. Only one soldier one frame. Not a horizontal side view.",
+      "raw": "Generated images are saved to /Users/bronsongannon/.codex/generated_images/01a0817a-5be6-7353-8217-1b37d8d07c15 as /Users/bronsongannon/.codex/generated_images/01a0817a-5be6-7353-8217-1b37d8d07c15/exec-ef2f8ff3-32cf-4056-b5b2-db3cf6723972.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "selected": "/private/tmp/broodfall-commando-death3-teal-preview-v1.png",
+      "padding": 14
+    },
+    {
+      "frame": 4,
+      "team": "teal",
+      "prompt": "Use case: identity-preserve. Asset type: Broodfall Commando/Boone overhead RTS soldier death-animation FINAL frame4, preview only. Image1 is preceding fallen frame3 and primary pose/identity anchor; Image2 is standing identity reference only, DO NOT copy standing pose. Change only pose to settled dead prone: same DIAGONAL axis helmet and rifle upper-right northeast, boots lower-left southwest. Body relaxed against ground, knees now straighter and feet closer together, arms relaxed but both hands retain SAME rifle pointing upper-right beyond helmet aligned with facing. Strict overhead BACK view with same broad two aqua shoulder plates and gold chevrons on dark BACK plate fully visible. Do not show face or chest. Keep same broad heavy torso/shoulder mass, same armor sizes, pale aqua helmet stripe, gold insignia, neutral tan belt pouches, olive legs, black boots and rifle. No redesign, no new equipment. Full isolated body and rifle visible, centered in square generous blank margin. Genuine transparent background requested; if unavailable use uniform PURE WHITE background. Clothing and boots fully opaque. No floor, shadow, checkerboard, black background, labels, gore or other objects. One soldier only. Must read as relaxed collapsed body not standing, but do not turn into horizontal side-on camera.",
+      "raw": "Generated images are saved to /Users/bronsongannon/.codex/generated_images/01a0817a-5be6-7353-8217-1b37d8d07c15 as /Users/bronsongannon/.codex/generated_images/01a0817a-5be6-7353-8217-1b37d8d07c15/exec-2d5e0263-cf25-43bf-b765-9ce0131d6d76.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "selected": "/private/tmp/broodfall-commando-death4-teal-preview-v1.png",
+      "padding": 14
+    },
+    {
+      "frame": 3,
+      "team": "red",
+      "prompt": "Use case: precise-object-edit. Asset type: Broodfall Commando death3 red-team counterpart. Image1 is the EXACT edit target aqua death pose; Image2 is RED COLOR REFERENCE ONLY, not pose. Change ONLY pale aqua painted armor panels and aqua helmet stripe in Image1 to bright weathered RED matching Image2. Preserve Image1's exact diagonal fallen pose, silhouette, body volume, leg spacing, boots, rifle and arms orientation, rear helmet, two broad shoulder plates and dark BACK plate. Keep gold chevrons and little gold marks GOLD, neutral tan belt pouches unchanged, olive trousers, dark boots, metal rifle, weathering and lighting unchanged. Do NOT copy static pose from Image2. Same overhead rear-body view, head/rifle upper-right NE, feet lower-left SW. Full body single sprite. Genuine transparent background requested; if unavailable use entirely uniform PURE WHITE background. ALL clothing, black boot and gun pixels must stay opaque. No black background, checkerboard, shadow, floor, text, extra equipment, gore, or extra character.",
+      "raw": "Generated images are saved to /Users/bronsongannon/.codex/generated_images/01a0817a-5be6-7353-8217-1b37d8d07c15 as /Users/bronsongannon/.codex/generated_images/01a0817a-5be6-7353-8217-1b37d8d07c15/exec-ee2c814a-0a20-40d0-97e2-ff02e1566c51.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "selected": "/private/tmp/broodfall-commando-death3-red-preview-v2.png",
+      "padding": 14,
+      "background_tolerance": 80,
+      "rejected": "v1 default38 left baked checkerboard"
+    },
+    {
+      "frame": 4,
+      "team": "red",
+      "prompt": "Use case: precise-object-edit. Asset type: Broodfall Commando death4 red-team counterpart. Image1 is the EXACT edit target aqua death pose; Image2 is RED COLOR REFERENCE ONLY, not pose. Change ONLY pale aqua painted armor panels and aqua helmet stripe in Image1 to bright weathered RED matching Image2. Preserve Image1's exact diagonal fallen pose, silhouette, body volume, relaxed close leg spacing, boots, rifle and arms orientation, rear helmet, two broad shoulder plates and dark BACK plate. Keep gold chevrons and little gold marks GOLD, neutral tan belt pouches unchanged, olive trousers, dark boots, metal rifle, weathering and lighting unchanged. Do NOT copy static pose from Image2. Same overhead rear-body view, head/rifle upper-right NE, feet lower-left SW. Full body single sprite. Genuine transparent background requested; if unavailable use entirely uniform PURE WHITE background. ALL clothing, black boot and gun pixels must stay opaque. No black background, checkerboard, shadow, floor, text, extra equipment, gore, or extra character.",
+      "raw": "Generated images are saved to /Users/bronsongannon/.codex/generated_images/01a0817a-5be6-7353-8217-1b37d8d07c15 as /Users/bronsongannon/.codex/generated_images/01a0817a-5be6-7353-8217-1b37d8d07c15/exec-43488d72-73d1-4fd0-8dd4-e18cf9f4b312.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "selected": "/private/tmp/broodfall-commando-death4-red-preview-v1.png",
+      "padding": 14
+    }
+  ]
+}

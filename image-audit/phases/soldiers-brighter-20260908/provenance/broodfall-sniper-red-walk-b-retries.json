@@ -1,0 +1,22 @@
+{
+  "frames": [
+    {
+      "index": 7,
+      "prompt": "Use case: precise-object-edit. Recolor ONLY the aqua/teal paint of this exact Sniper walking sprite to strong saturated weathered RED: scarlet highlights, muted rusty red midtones, dark crimson recesses. Edit the supplied image directly with minimal alteration. Preserve every silhouette edge, exact pose, exact helmet size, exact leg/boot positions and cloak shape. Especially preserve the left boot far down below the right boot and the narrow original legs. Do NOT regenerate/repose the person. Keep taupe cloak, gunmetal rifle sections, dark suit and amber optical dot unchanged. Only originally aqua-painted areas become red; no other hue changes. Maintain the north-facing long rifle, feet/head/body north, original canvas proportions and scale. One isolated sprite on genuine transparent alpha background; no checkerboard, text, ground shadow, or extra objects.",
+      "references": [
+        "/private/tmp/broodfall-sniper-walk7-teal-preview-v1.png"
+      ],
+      "rawHint": "Generated images are saved to /Users/bronsongannon/.codex/generated_images/01a07ee6-da34-7771-821e-2d3954fc415c as /Users/bronsongannon/.codex/generated_images/01a07ee6-da34-7771-821e-2d3954fc415c/exec-6b893682-f6b1-43b7-aac2-f54f15a8c3ab.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "output": "/private/tmp/broodfall-sniper-walk7-red-preview-v2.png"
+    },
+    {
+      "index": 8,
+      "prompt": "Use case: precise-object-edit. Recolor ONLY aqua/teal paint in this exact Sniper walk frame to strong saturated weathered RED, scarlet highlights and dark crimson recesses. Treat this as an exact color variant, not a newly posed soldier. Preserve every silhouette edge, same camera, body placement, helmet size and cloak shape. Critical: the screen-RIGHT boot remains far south/down at the image's lowest point, screen-LEFT boot remains lifted significantly north/up around the right shin level. Preserve that exact asymmetric foot spacing and narrow legs. Keep all taupe fabric, dark suit, pale gunmetal and amber optics unchanged. Red helmet, back plates, shoulder/forearm paint and rifle paint only where originally aqua. Whole body, feet, head and long rifle still face north/up. Transparent alpha background including empty gaps between arms and legs, no white fill, checkerboard or ground shadow. One sprite, exact original composition.",
+      "references": [
+        "/private/tmp/broodfall-sniper-walk8-teal-preview-v1.png"
+      ],
+      "rawHint": "Generated images are saved to /Users/bronsongannon/.codex/generated_images/01a07ee6-da34-7771-821e-2d3954fc415c as /Users/bronsongannon/.codex/generated_images/01a07ee6-da34-7771-821e-2d3954fc415c/exec-a478717e-4fb5-4db8-a630-64680adde289.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "output": "/private/tmp/broodfall-sniper-walk8-red-preview-v2.png"
+    }
+  ]
+}

@@ -2,6 +2,18 @@
 
 Baseline audited 2026-09-05. The complete-repository findings below describe the pre-overhaul baseline and exclude generated copies under `mac/build`. Phase-specific records are frozen separately so later art work does not rewrite the evidence for an earlier phase.
 
+## Current soldier revision — brighter faction color, 2026-09-08
+
+The user-approved soldier revision supersedes the Phase 3 soldier pixels below. Its production scope is **160 files across six complete aqua/teal and red families**: Marine 28, Engineer 26, Sniper 28, Medic 26, Rocket Trooper 26, and Boone/Commando 26. The additional 13 red Commando slots provide the newly approved matching colorway; they do not change campaign team assignments. Static poses, eight-frame walks, four-frame deaths, and Marine/Sniper hunker poses move together as complete families.
+
+This revision favors brighter, dominant aqua/red weathered armor for small-screen readability, a narrower Engineer, a larger Medic backpack with white uniform accents, and Boone's retained gold markings. Standing and walking bodies face north as a whole, including feet, torso, arms, head, and carried weapons. Rocket launcher direction follows the soldier throughout each pose, including the approved falling poses. Gameplay draw boxes and mechanics remain unchanged. The art-cache revision is `human-soldiers-20260908a`.
+
+Current evidence lives separately from frozen Phase 3: [before](image-audit/phases/soldiers-brighter-20260908/before/), [after](image-audit/phases/soldiers-brighter-20260908/after/), [selected production mapping](image-audit/phases/soldiers-brighter-20260908/selection.json), and [surviving provenance artifacts](image-audit/phases/soldiers-brighter-20260908/provenance/). The [revision provenance guide](image-audit/prompts/soldiers-brighter-20260908.md) distinguishes recovered exact prompts from missing early records; older Phase 3 prompts are not substitutes for missing revision prompts.
+
+**Installed; validation remains open.** All 160 production files byte-match their approved selected outputs and have no canvas-edge contact. The current [validator report](image-audit/phases/soldiers-brighter-20260908/validation.json) contains **36 errors and 22 warnings** across the six families. The [triage record](image-audit/phases/soldiers-brighter-20260908/triage.md) identifies priority Marine alpha defects in teal hunker and red deaths 3/4, plus lesser red walk 7 erosion. Engineer and Sniper source-pose drift remains open. Medic/Rocket pivot flags correspond to deliberate top-anchored passing-frame normalizations of 7/8 source pixels, respectively; this explanation does not waive the findings. This is not a clean validator pass or a completed revision.
+
+The [verification record](image-audit/phases/soldiers-brighter-20260908/verification.json) records a successful macOS Debug `xcodebuild`, a `verify-bundle --phase 3` byte match for all **162 files** (160 sprites, `game.js`, and `index.html`), and passing JavaScript syntax/diff checks. Browser QA loaded all 160 sprites with zero missing assets and no warning/error logs. Recorded views cover walking on moss/ash, deaths on snow, and static/hunker poses on steppe. A live Crystal Basin match started and displayed the new Marine; this was a smoke check, not a comprehensive gameplay-overlay regression test. These integration checks do not resolve the open art findings above.
+
 ## Status key
 
 - **KEEP** — already fits its job and visual tier.
@@ -84,7 +96,9 @@ The carrier source art is unchanged, but its runtime draw box increased from 136
 - Static code checks passed: `node --check game.js` and `git diff --check`.
 - Native validation passed with `xcodebuild -project mac/Broodfall.xcodeproj -scheme Broodfall -configuration Debug build` (`BUILD SUCCEEDED`). `python3 image-audit/generate.py verify-bundle /Users/bronsongannon/Library/Developer/Xcode/DerivedData/Broodfall-gzzfwjtnumwqfjfxepubshvogyuj/Build/Products/Debug/Broodfall.app --phase 2` then confirmed all 21 scoped files in the built app byte-match the workspace.
 
-## Human technology replacement — Phase 3 complete
+## Human technology replacement — Phase 3 complete (frozen 2026-09-05 record)
+
+This section records the original 147-file Phase 3 installation and its historical verification. The 2026-09-08 revision above is authoritative for current soldier pixels, coverage, cache revision, and verification status; the frozen evidence and original prompt ledgers remain unchanged.
 
 Phase 3 replaces the entire production human-soldier set as **147 authored files**, installed only after each unit's complete static, walk, death, faction, and applicable hunker family was ready. Marine and Sniper each have matched teal/red static, eight-frame walk, four-frame death, and hunker poses; Engineer, Medic, and Rocket each have matched teal/red static, eight-frame walk, and four-frame death sets; Boone/Commando is a player-only teal static, eight-frame walk, and four-frame death set.
 
@@ -117,7 +131,7 @@ The authored draw boxes are independent of collision and pathfinding geometry. W
 | 2 | **PHASES 1–3 COMPLETE** | Human buildings, vehicles, aircraft, and complete soldier families | The human-technology replacement now covers every scoped production family; preserve each family atomically. |
 | 3 | **REPLACE AS FAMILIES** | High-frequency terrain, natural props, and combat FX | These are the largest remaining style breaks after human technology. |
 | 4 | **COMPLETE — PHASE 2** | Aircraft/hunker art selection and carrier scale | Authored aircraft and deployed artillery render correctly; the carrier has a larger matched visual/selection footprint without navigation changes. |
-| 5 | **COMPLETE — PHASE 3** | Infantry clipping, animation continuity, and human hunker coverage | All 147 soldier frames now use padded authored art, full family cadence, and complete Marine/Sniper hunker routing. |
+| 5 | **INSTALLED — VALIDATION OPEN** | Infantry clipping, animation continuity, and human hunker coverage | The current brighter revision installs 160 approved soldier files; its 36 validator errors and 22 warnings remain open for review. Frozen Phase 3 separately records its original 147-file validation. |
 | 6 | **REFRESH LAST** | Map thumbnails and store screenshots | Re-capture only after the in-game art pass is stable. |
 
 ## Family decisions
@@ -135,7 +149,7 @@ The authored draw boxes are independent of collision and pathfinding geometry. W
 | Map thumbnails | **POLISH** | Normalize exposure and framing. Rebuild `coast.jpg` first without transient units or UI. |
 | Red/teal building colorways | **14 TEAL REVISIONS APPROVED; 14 RED REVISIONS PENDING** | All 14 Phase 1 teal families now use the lighter, aqua-dominant, weathered Barracks reference. All 14 installed red counterparts remain based on superseded teal and require new colorway generation from current teal plus separate preview approval. |
 | Red/teal vehicle colorways | **COMPLETE — PHASE 2** | Nine paired travel/deployed families now match the naval benchmark and preserve authored orientation plus dynamic state overlays. |
-| Infantry static/walk/death sets | **COMPLETE — PHASE 3** | All 147 scoped soldier files were replaced as atomic families with normalized pivots, matched teal/red geometry, complete eight-frame walks and four-frame deaths, and applicable hunker poses. |
+| Infantry static/walk/death sets | **INSTALLED — VALIDATION OPEN** | The 2026-09-08 revision installs 160 files, including both Commando colorways, complete eight-frame walks and four-frame deaths, and applicable hunker poses. See the open validator findings above; the original 147-file Phase 3 record is historical. |
 | Spitter teal/wild sets | **REPLACE AS COMPLETE SETS** | Flat cyan and acid-green treatment is the largest wildlife palette break. |
 | Water family | **REPLACE** | The four frames do not read as one animation or a reliably seamless material. |
 | `tree.png`, `tree_dead.png`, `crate.png` | **REPLACE** | High-frequency props in a visibly different illustration language. |

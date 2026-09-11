@@ -1,0 +1,896 @@
+{
+  "schema": "broodfall.sprite-family-qa.v1",
+  "generated_at": "2026-09-07T23:23:52.021392+00:00",
+  "preview_only": true,
+  "family": "engineer-red",
+  "thresholds": {
+    "alpha_mask_threshold": 16,
+    "minimum_red_pixels_at_32": 12,
+    "maximum_walk_area_cv": 0.12,
+    "maximum_walk_placement_center_span_x": 2.0,
+    "maximum_walk_placement_center_span_y": 2.0,
+    "minimum_walk_pair_iou": 0.68,
+    "minimum_death_pair_iou": 0.55,
+    "maximum_pair_centroid_distance": 9.0,
+    "minimum_pair_area_ratio": 0.68,
+    "maximum_pair_area_ratio": 1.47
+  },
+  "validation": {
+    "passed": true,
+    "errors": []
+  },
+  "red_assets": {
+    "broodfall-engineer-red-preview-v1.png": {
+      "path": "/private/tmp/broodfall-engineer-red-preview-v1.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bbox": [
+        46,
+        14,
+        210,
+        242
+      ],
+      "area": 22282,
+      "centroid": [
+        126.725,
+        130.012
+      ],
+      "luma": 62.37,
+      "edge_alpha": {
+        "nonzero_pixels": 0,
+        "maximum_alpha": 0
+      },
+      "at_32px": {
+        "visible": 399,
+        "red": 156,
+        "teal": 2
+      }
+    },
+    "broodfall-engineer-walk1-red-preview-v1.png": {
+      "path": "/private/tmp/broodfall-engineer-walk1-red-preview-v1.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bbox": [
+        58,
+        14,
+        198,
+        242
+      ],
+      "area": 16315,
+      "centroid": [
+        129.985,
+        123.814
+      ],
+      "luma": 56.961,
+      "edge_alpha": {
+        "nonzero_pixels": 0,
+        "maximum_alpha": 0
+      },
+      "at_32px": {
+        "visible": 297,
+        "red": 113,
+        "teal": 0
+      }
+    },
+    "broodfall-engineer-walk2-red-preview-v1.png": {
+      "path": "/private/tmp/broodfall-engineer-walk2-red-preview-v1.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bbox": [
+        51,
+        14,
+        205,
+        242
+      ],
+      "area": 19193,
+      "centroid": [
+        127.739,
+        126.182
+      ],
+      "luma": 52.891,
+      "edge_alpha": {
+        "nonzero_pixels": 0,
+        "maximum_alpha": 0
+      },
+      "at_32px": {
+        "visible": 349,
+        "red": 125,
+        "teal": 0
+      }
+    },
+    "broodfall-engineer-walk3-red-preview-v1.png": {
+      "path": "/private/tmp/broodfall-engineer-walk3-red-preview-v1.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bbox": [
+        50,
+        14,
+        205,
+        242
+      ],
+      "area": 19917,
+      "centroid": [
+        124.904,
+        123.467
+      ],
+      "luma": 58.656,
+      "edge_alpha": {
+        "nonzero_pixels": 0,
+        "maximum_alpha": 0
+      },
+      "at_32px": {
+        "visible": 356,
+        "red": 137,
+        "teal": 0
+      }
+    },
+    "broodfall-engineer-walk4-red-preview-v1.png": {
+      "path": "/private/tmp/broodfall-engineer-walk4-red-preview-v1.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bbox": [
+        50,
+        14,
+        205,
+        242
+      ],
+      "area": 20562,
+      "centroid": [
+        125.384,
+        122.31
+      ],
+      "luma": 57.295,
+      "edge_alpha": {
+        "nonzero_pixels": 0,
+        "maximum_alpha": 0
+      },
+      "at_32px": {
+        "visible": 370,
+        "red": 142,
+        "teal": 0
+      }
+    },
+    "broodfall-engineer-walk5-red-preview-v1.png": {
+      "path": "/private/tmp/broodfall-engineer-walk5-red-preview-v1.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bbox": [
+        58,
+        14,
+        198,
+        242
+      ],
+      "area": 15196,
+      "centroid": [
+        124.593,
+        116.937
+      ],
+      "luma": 59.928,
+      "edge_alpha": {
+        "nonzero_pixels": 0,
+        "maximum_alpha": 0
+      },
+      "at_32px": {
+        "visible": 277,
+        "red": 110,
+        "teal": 2
+      }
+    },
+    "broodfall-engineer-walk6-red-preview-v1.png": {
+      "path": "/private/tmp/broodfall-engineer-walk6-red-preview-v1.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bbox": [
+        51,
+        14,
+        204,
+        242
+      ],
+      "area": 18604,
+      "centroid": [
+        128.162,
+        127.507
+      ],
+      "luma": 55.525,
+      "edge_alpha": {
+        "nonzero_pixels": 0,
+        "maximum_alpha": 0
+      },
+      "at_32px": {
+        "visible": 341,
+        "red": 127,
+        "teal": 1
+      }
+    },
+    "broodfall-engineer-walk7-red-preview-v1.png": {
+      "path": "/private/tmp/broodfall-engineer-walk7-red-preview-v1.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bbox": [
+        57,
+        14,
+        199,
+        242
+      ],
+      "area": 16938,
+      "centroid": [
+        128.165,
+        120.13
+      ],
+      "luma": 58.606,
+      "edge_alpha": {
+        "nonzero_pixels": 0,
+        "maximum_alpha": 0
+      },
+      "at_32px": {
+        "visible": 302,
+        "red": 108,
+        "teal": 0
+      }
+    },
+    "broodfall-engineer-walk8-red-preview-v1.png": {
+      "path": "/private/tmp/broodfall-engineer-walk8-red-preview-v1.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bbox": [
+        57,
+        14,
+        198,
+        242
+      ],
+      "area": 17349,
+      "centroid": [
+        127.946,
+        115.332
+      ],
+      "luma": 57.735,
+      "edge_alpha": {
+        "nonzero_pixels": 0,
+        "maximum_alpha": 0
+      },
+      "at_32px": {
+        "visible": 310,
+        "red": 106,
+        "teal": 0
+      }
+    },
+    "broodfall-engineer-death1-red-preview-v2.png": {
+      "path": "/private/tmp/broodfall-engineer-death1-red-preview-v2.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bbox": [
+        35,
+        14,
+        220,
+        242
+      ],
+      "area": 24063,
+      "centroid": [
+        123.761,
+        128.914
+      ],
+      "luma": 52.402,
+      "edge_alpha": {
+        "nonzero_pixels": 0,
+        "maximum_alpha": 0
+      },
+      "at_32px": {
+        "visible": 430,
+        "red": 152,
+        "teal": 0
+      }
+    },
+    "broodfall-engineer-death2-red-preview-v1.png": {
+      "path": "/private/tmp/broodfall-engineer-death2-red-preview-v1.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bbox": [
+        14,
+        41,
+        242,
+        215
+      ],
+      "area": 20718,
+      "centroid": [
+        137.095,
+        124.836
+      ],
+      "luma": 52.091,
+      "edge_alpha": {
+        "nonzero_pixels": 0,
+        "maximum_alpha": 0
+      },
+      "at_32px": {
+        "visible": 378,
+        "red": 118,
+        "teal": 1
+      }
+    },
+    "broodfall-engineer-death3-red-preview-v1.png": {
+      "path": "/private/tmp/broodfall-engineer-death3-red-preview-v1.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bbox": [
+        14,
+        57,
+        242,
+        198
+      ],
+      "area": 18514,
+      "centroid": [
+        132.148,
+        129.462
+      ],
+      "luma": 56.119,
+      "edge_alpha": {
+        "nonzero_pixels": 0,
+        "maximum_alpha": 0
+      },
+      "at_32px": {
+        "visible": 325,
+        "red": 114,
+        "teal": 0
+      }
+    },
+    "broodfall-engineer-death4-red-preview-v1.png": {
+      "path": "/private/tmp/broodfall-engineer-death4-red-preview-v1.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bbox": [
+        14,
+        57,
+        242,
+        198
+      ],
+      "area": 18374,
+      "centroid": [
+        132.775,
+        130.382
+      ],
+      "luma": 50.728,
+      "edge_alpha": {
+        "nonzero_pixels": 0,
+        "maximum_alpha": 0
+      },
+      "at_32px": {
+        "visible": 321,
+        "red": 101,
+        "teal": 0
+      }
+    }
+  },
+  "teal_reference_assets": {
+    "broodfall-engineer-teal-preview-v2.png": {
+      "path": "/private/tmp/broodfall-engineer-teal-preview-v2.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bbox": [
+        46,
+        14,
+        210,
+        242
+      ],
+      "area": 22282,
+      "centroid": [
+        126.725,
+        130.012
+      ],
+      "luma": 77.265,
+      "edge_alpha": {
+        "nonzero_pixels": 0,
+        "maximum_alpha": 0
+      },
+      "at_32px": {
+        "visible": 399,
+        "red": 22,
+        "teal": 94
+      }
+    },
+    "broodfall-engineer-walk1-teal-preview-v1.png": {
+      "path": "/private/tmp/broodfall-engineer-walk1-teal-preview-v1.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bbox": [
+        57,
+        14,
+        198,
+        242
+      ],
+      "area": 15429,
+      "centroid": [
+        130.649,
+        123.661
+      ],
+      "luma": 75.095,
+      "edge_alpha": {
+        "nonzero_pixels": 0,
+        "maximum_alpha": 0
+      },
+      "at_32px": {
+        "visible": 283,
+        "red": 13,
+        "teal": 67
+      }
+    },
+    "broodfall-engineer-walk2-teal-preview-v3.png": {
+      "path": "/private/tmp/broodfall-engineer-walk2-teal-preview-v3.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bbox": [
+        55,
+        14,
+        201,
+        242
+      ],
+      "area": 16739,
+      "centroid": [
+        129.38,
+        124.208
+      ],
+      "luma": 71.91,
+      "edge_alpha": {
+        "nonzero_pixels": 0,
+        "maximum_alpha": 0
+      },
+      "at_32px": {
+        "visible": 308,
+        "red": 13,
+        "teal": 71
+      }
+    },
+    "broodfall-engineer-walk3-teal-preview-v1.png": {
+      "path": "/private/tmp/broodfall-engineer-walk3-teal-preview-v1.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bbox": [
+        54,
+        14,
+        202,
+        242
+      ],
+      "area": 17518,
+      "centroid": [
+        125.686,
+        119.197
+      ],
+      "luma": 72.806,
+      "edge_alpha": {
+        "nonzero_pixels": 0,
+        "maximum_alpha": 0
+      },
+      "at_32px": {
+        "visible": 324,
+        "red": 13,
+        "teal": 73
+      }
+    },
+    "broodfall-engineer-walk4-teal-preview-v1.png": {
+      "path": "/private/tmp/broodfall-engineer-walk4-teal-preview-v1.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bbox": [
+        54,
+        14,
+        202,
+        242
+      ],
+      "area": 18074,
+      "centroid": [
+        125.946,
+        120.449
+      ],
+      "luma": 78.003,
+      "edge_alpha": {
+        "nonzero_pixels": 0,
+        "maximum_alpha": 0
+      },
+      "at_32px": {
+        "visible": 331,
+        "red": 18,
+        "teal": 85
+      }
+    },
+    "broodfall-engineer-walk5-teal-preview-v1.png": {
+      "path": "/private/tmp/broodfall-engineer-walk5-teal-preview-v1.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bbox": [
+        60,
+        14,
+        196,
+        242
+      ],
+      "area": 14915,
+      "centroid": [
+        124.796,
+        116.375
+      ],
+      "luma": 78.776,
+      "edge_alpha": {
+        "nonzero_pixels": 0,
+        "maximum_alpha": 0
+      },
+      "at_32px": {
+        "visible": 274,
+        "red": 23,
+        "teal": 68
+      }
+    },
+    "broodfall-engineer-walk6-teal-preview-v1.png": {
+      "path": "/private/tmp/broodfall-engineer-walk6-teal-preview-v1.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bbox": [
+        53,
+        14,
+        202,
+        242
+      ],
+      "area": 17945,
+      "centroid": [
+        127.55,
+        128.559
+      ],
+      "luma": 75.945,
+      "edge_alpha": {
+        "nonzero_pixels": 0,
+        "maximum_alpha": 0
+      },
+      "at_32px": {
+        "visible": 334,
+        "red": 18,
+        "teal": 73
+      }
+    },
+    "broodfall-engineer-walk7-teal-preview-v1.png": {
+      "path": "/private/tmp/broodfall-engineer-walk7-teal-preview-v1.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bbox": [
+        58,
+        14,
+        198,
+        242
+      ],
+      "area": 16025,
+      "centroid": [
+        129.369,
+        119.605
+      ],
+      "luma": 74.179,
+      "edge_alpha": {
+        "nonzero_pixels": 0,
+        "maximum_alpha": 0
+      },
+      "at_32px": {
+        "visible": 292,
+        "red": 9,
+        "teal": 73
+      }
+    },
+    "broodfall-engineer-walk8-teal-preview-v1.png": {
+      "path": "/private/tmp/broodfall-engineer-walk8-teal-preview-v1.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bbox": [
+        58,
+        14,
+        198,
+        242
+      ],
+      "area": 16770,
+      "centroid": [
+        128.638,
+        115.482
+      ],
+      "luma": 76.452,
+      "edge_alpha": {
+        "nonzero_pixels": 0,
+        "maximum_alpha": 0
+      },
+      "at_32px": {
+        "visible": 305,
+        "red": 17,
+        "teal": 74
+      }
+    },
+    "broodfall-engineer-death1-teal-preview-v1.png": {
+      "path": "/private/tmp/broodfall-engineer-death1-teal-preview-v1.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bbox": [
+        33,
+        14,
+        222,
+        242
+      ],
+      "area": 24085,
+      "centroid": [
+        124.021,
+        128.354
+      ],
+      "luma": 71.347,
+      "edge_alpha": {
+        "nonzero_pixels": 0,
+        "maximum_alpha": 0
+      },
+      "at_32px": {
+        "visible": 429,
+        "red": 24,
+        "teal": 102
+      }
+    },
+    "broodfall-engineer-death2-teal-preview-v1.png": {
+      "path": "/private/tmp/broodfall-engineer-death2-teal-preview-v1.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bbox": [
+        14,
+        40,
+        242,
+        215
+      ],
+      "area": 20306,
+      "centroid": [
+        137.634,
+        124.898
+      ],
+      "luma": 67.289,
+      "edge_alpha": {
+        "nonzero_pixels": 0,
+        "maximum_alpha": 0
+      },
+      "at_32px": {
+        "visible": 371,
+        "red": 29,
+        "teal": 57
+      }
+    },
+    "broodfall-engineer-death3-teal-preview-v2.png": {
+      "path": "/private/tmp/broodfall-engineer-death3-teal-preview-v2.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bbox": [
+        14,
+        57,
+        242,
+        199
+      ],
+      "area": 18358,
+      "centroid": [
+        132.108,
+        129.855
+      ],
+      "luma": 65.012,
+      "edge_alpha": {
+        "nonzero_pixels": 0,
+        "maximum_alpha": 0
+      },
+      "at_32px": {
+        "visible": 325,
+        "red": 18,
+        "teal": 47
+      }
+    },
+    "broodfall-engineer-death4-teal-preview-v2.png": {
+      "path": "/private/tmp/broodfall-engineer-death4-teal-preview-v2.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bbox": [
+        14,
+        58,
+        242,
+        197
+      ],
+      "area": 17371,
+      "centroid": [
+        133.302,
+        131.221
+      ],
+      "luma": 59.675,
+      "edge_alpha": {
+        "nonzero_pixels": 0,
+        "maximum_alpha": 0
+      },
+      "at_32px": {
+        "visible": 310,
+        "red": 16,
+        "teal": 44
+      }
+    }
+  },
+  "static_pose_pair": {
+    "red": "broodfall-engineer-red-preview-v1.png",
+    "teal": "broodfall-engineer-teal-preview-v2.png",
+    "silhouette_iou": 1.0,
+    "centroid_distance": 0.0,
+    "area_ratio_red_to_teal": 1.0
+  },
+  "walk_sequence": {
+    "area_cv": 0.09673,
+    "bbox_width_cv": 0.04611,
+    "bbox_height_cv": 0.0,
+    "silhouette_centroid_span": [
+      5.392,
+      12.175
+    ],
+    "maximum_consecutive_silhouette_centroid_step": 11.156,
+    "placement_center_span": [
+      0.5,
+      0.0
+    ],
+    "maximum_consecutive_placement_center_step": 0.5
+  },
+  "walk_pose_pairs": [
+    {
+      "red": "broodfall-engineer-walk1-red-preview-v1.png",
+      "teal": "broodfall-engineer-walk1-teal-preview-v1.png",
+      "silhouette_iou": 0.92715,
+      "centroid_distance": 0.681,
+      "area_ratio_red_to_teal": 1.05742
+    },
+    {
+      "red": "broodfall-engineer-walk2-red-preview-v1.png",
+      "teal": "broodfall-engineer-walk2-teal-preview-v3.png",
+      "silhouette_iou": 0.81484,
+      "centroid_distance": 2.567,
+      "area_ratio_red_to_teal": 1.1466
+    },
+    {
+      "red": "broodfall-engineer-walk3-red-preview-v1.png",
+      "teal": "broodfall-engineer-walk3-teal-preview-v1.png",
+      "silhouette_iou": 0.82868,
+      "centroid_distance": 4.341,
+      "area_ratio_red_to_teal": 1.13694
+    },
+    {
+      "red": "broodfall-engineer-walk4-red-preview-v1.png",
+      "teal": "broodfall-engineer-walk4-teal-preview-v1.png",
+      "silhouette_iou": 0.8435,
+      "centroid_distance": 1.944,
+      "area_ratio_red_to_teal": 1.13766
+    },
+    {
+      "red": "broodfall-engineer-walk5-red-preview-v1.png",
+      "teal": "broodfall-engineer-walk5-teal-preview-v1.png",
+      "silhouette_iou": 0.95551,
+      "centroid_distance": 0.598,
+      "area_ratio_red_to_teal": 1.01884
+    },
+    {
+      "red": "broodfall-engineer-walk6-red-preview-v1.png",
+      "teal": "broodfall-engineer-walk6-teal-preview-v1.png",
+      "silhouette_iou": 0.95428,
+      "centroid_distance": 1.217,
+      "area_ratio_red_to_teal": 1.03672
+    },
+    {
+      "red": "broodfall-engineer-walk7-red-preview-v1.png",
+      "teal": "broodfall-engineer-walk7-teal-preview-v1.png",
+      "silhouette_iou": 0.92665,
+      "centroid_distance": 1.313,
+      "area_ratio_red_to_teal": 1.05697
+    },
+    {
+      "red": "broodfall-engineer-walk8-red-preview-v1.png",
+      "teal": "broodfall-engineer-walk8-teal-preview-v1.png",
+      "silhouette_iou": 0.9451,
+      "centroid_distance": 0.708,
+      "area_ratio_red_to_teal": 1.03453
+    }
+  ],
+  "death_pose_pairs": [
+    {
+      "red": "broodfall-engineer-death1-red-preview-v2.png",
+      "teal": "broodfall-engineer-death1-teal-preview-v1.png",
+      "silhouette_iou": 0.94963,
+      "centroid_distance": 0.617,
+      "area_ratio_red_to_teal": 0.99909
+    },
+    {
+      "red": "broodfall-engineer-death2-red-preview-v1.png",
+      "teal": "broodfall-engineer-death2-teal-preview-v1.png",
+      "silhouette_iou": 0.96212,
+      "centroid_distance": 0.543,
+      "area_ratio_red_to_teal": 1.02029
+    },
+    {
+      "red": "broodfall-engineer-death3-red-preview-v1.png",
+      "teal": "broodfall-engineer-death3-teal-preview-v2.png",
+      "silhouette_iou": 0.97504,
+      "centroid_distance": 0.395,
+      "area_ratio_red_to_teal": 1.0085
+    },
+    {
+      "red": "broodfall-engineer-death4-red-preview-v1.png",
+      "teal": "broodfall-engineer-death4-teal-preview-v2.png",
+      "silhouette_iou": 0.91436,
+      "centroid_distance": 0.991,
+      "area_ratio_red_to_teal": 1.05774
+    }
+  ],
+  "outputs": {
+    "contact_sheet": "/private/tmp/broodfall-engineer-red-family-contact-v1.png",
+    "walk_sync_gif": "/private/tmp/broodfall-engineer-teal-red-walk-sync-v1.gif",
+    "death_sync_gif": "/private/tmp/broodfall-engineer-teal-red-death-sync-v1.gif",
+    "metrics": "/private/tmp/broodfall-engineer-red-family-metrics-v1.json"
+  }
+}

@@ -1,0 +1,67 @@
+[
+  {
+    "path": "/private/tmp/broodfall-rocket-teal-preview-v3.png",
+    "bbox": [
+      71,
+      14,
+      185,
+      242
+    ],
+    "area": 14918.725490196079,
+    "edge_alpha": 0,
+    "aqua30": 84,
+    "white30": 12
+  },
+  {
+    "path": "/private/tmp/broodfall-rocket-death1-teal-preview-v1.png",
+    "bbox": [
+      72,
+      14,
+      183,
+      242
+    ],
+    "area": 14610.023529411765,
+    "edge_alpha": 0,
+    "aqua30": 69,
+    "white30": 13
+  },
+  {
+    "path": "/private/tmp/broodfall-rocket-death2-teal-preview-v1.png",
+    "bbox": [
+      59,
+      34,
+      196,
+      222
+    ],
+    "area": 14242.827450980392,
+    "edge_alpha": 0,
+    "aqua30": 74,
+    "white30": 16
+  },
+  {
+    "path": "/private/tmp/broodfall-rocket-death3-teal-preview-v1.png",
+    "bbox": [
+      14,
+      29,
+      242,
+      226
+    ],
+    "area": 14947.776470588235,
+    "edge_alpha": 0,
+    "aqua30": 79,
+    "white30": 9
+  },
+  {
+    "path": "/private/tmp/broodfall-rocket-death4-teal-preview-v3.png",
+    "bbox": [
+      14,
+      31,
+      242,
+      225
+    ],
+    "area": 15363.054901960784,
+    "edge_alpha": 0,
+    "aqua30": 78,
+    "white30": 8
+  }
+]

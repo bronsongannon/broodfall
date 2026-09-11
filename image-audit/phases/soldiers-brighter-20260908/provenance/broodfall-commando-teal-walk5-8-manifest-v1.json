@@ -1,0 +1,59 @@
+{
+  "tool": "built-in imagegen",
+  "status": "preview-only",
+  "reference": "/private/tmp/broodfall-commando-teal-preview-v2.png",
+  "frames": [
+    {
+      "frame": 5,
+      "version": 2,
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a08155-abfd-79e2-82fd-3a87a1bbaaf3/exec-54dedcb7-cabf-40af-b85a-91649c3f4f54.png",
+      "prompt": "Use case: background-extraction. Image 1 is edit target. Replace ONLY the baked gray/white checkerboard background with solid PURE WHITE (#FFFFFF), no texture or shadow. Keep the entire soldier EXACTLY unchanged: identical gait with screen-R foot fully trailing down and screen-L boot tucked up, same north-facing helmet/backpack, pale weathered aqua heavy shoulder armor, same compact north rifle, same scale and all opaque clothing/boots. Do not change or regenerate anatomy or pose, do not draw checkerboards or add anything. Only the flat pure white exterior background.",
+      "input": "/Users/bronsongannon/.codex/generated_images/01a08155-abfd-79e2-82fd-3a87a1bbaaf3/exec-2a6516ce-b08f-45cf-a2f2-3603c80500bd.png",
+      "normalized": "/private/tmp/broodfall-commando-walk5-teal-preview-v2.png",
+      "normalization": "process_generated_sprite.py default 256x256 padding14 tolerance38; proportional"
+    },
+    {
+      "frame": 6,
+      "version": 2,
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a08155-abfd-79e2-82fd-3a87a1bbaaf3/exec-7caf0a96-1d94-42df-8229-9ada4962a01b.png",
+      "prompt": "Use case: background-extraction. Image 1 is edit target. Replace ONLY the baked gray/white checkerboard background with solid PURE WHITE (#FFFFFF), no texture or shadow. Keep the entire soldier EXACTLY unchanged: identical gait with screen-R boot slightly lower and screen-L boot slightly higher, same north-facing helmet/backpack, pale weathered aqua heavy shoulder armor, same compact north rifle, same scale and all opaque clothing/boots. Do not change or regenerate anatomy or pose, do not draw checkerboards or add anything. Only the flat pure white exterior background.",
+      "input": "/Users/bronsongannon/.codex/generated_images/01a08155-abfd-79e2-82fd-3a87a1bbaaf3/exec-825cc8c5-42ad-494e-9b1e-70fd9a32885a.png",
+      "normalized": "/private/tmp/broodfall-commando-walk6-teal-preview-v2.png",
+      "normalization": "process_generated_sprite.py default 256x256 padding14 tolerance38; proportional"
+    },
+    {
+      "frame": 7,
+      "version": 1,
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a08155-abfd-79e2-82fd-3a87a1bbaaf3/exec-d00c0589-03a7-4f7c-9dc0-2dfe6193cbe2.png",
+      "prompt": "Use case: identity-preserve. Asset type: one isolated Broodfall RTS Commando/Boone AQUA walk animation frame, preview-only. Image 1 is the approved static edit target and exact identity/palette/scale reference. Preserve this same north-facing heavy soldier viewed obliquely from above and behind: back of helmet only, massive weathered PALE AQUA shoulder plates, dark backpack with gold chevrons, belt and pouches. Both hands raised holding the SAME compact neutral-metal rifle vertically screen-up/north above helmet. Change ONLY gait/legs with minimal natural belt bob. Preserve torso width, shoulder size, helmet, exact rifle length and two-hand grip, gear positions, pale aqua brightness, dark opaque pants/boots and light direction. Entire feet/chest/head/arms/rifle must face north; no face, visor or front chest. Full body centered, unclipped, generous clear margins, no text, ground, cast shadow, extra equipment or effects. Output genuinely transparent background if supported; otherwise use SOLID PURE WHITE background. NEVER checkerboard, checker pattern, black background or shadows. Solid fully opaque soldier including the darkest clothing; never perforate dark boots or pants. Gait phase: Frame 7, opposite passing stride. Feet near even height below belt with small natural separation, screen-R knee slightly bent/lifted, screen-L more extended, both point north. A natural narrow passing gait with legs a little shorter than full extension; keep upper body and rifle almost exactly unchanged.",
+      "input": "/private/tmp/broodfall-commando-teal-preview-v2.png",
+      "normalized": "/private/tmp/broodfall-commando-walk7-teal-preview-v1.png",
+      "normalization": "process_generated_sprite.py default 256x256 padding14 tolerance38; proportional"
+    },
+    {
+      "frame": 8,
+      "version": 1,
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a08155-abfd-79e2-82fd-3a87a1bbaaf3/exec-916f3316-c902-4460-86de-cb91d191b85e.png",
+      "prompt": "Use case: identity-preserve. Asset type: one isolated Broodfall RTS Commando/Boone AQUA walk animation frame, preview-only. Image 1 is the approved static edit target and exact identity/palette/scale reference. Preserve this same north-facing heavy soldier viewed obliquely from above and behind: back of helmet only, massive weathered PALE AQUA shoulder plates, dark backpack with gold chevrons, belt and pouches. Both hands raised holding the SAME compact neutral-metal rifle vertically screen-up/north above helmet. Change ONLY gait/legs with minimal natural belt bob. Preserve torso width, shoulder size, helmet, exact rifle length and two-hand grip, gear positions, pale aqua brightness, dark opaque pants/boots and light direction. Entire feet/chest/head/arms/rifle must face north; no face, visor or front chest. Full body centered, unclipped, generous clear margins, no text, ground, cast shadow, extra equipment or effects. Output genuinely transparent background if supported; otherwise use SOLID PURE WHITE background. NEVER checkerboard, checker pattern, black background or shadows. Solid fully opaque soldier including the darkest clothing; never perforate dark boots or pants. Gait phase: Frame 8, transitional stride beginning the other half-step. Screen-L leg starts extending down/trailing toward image bottom; screen-R knee is lifting forward so R boot is modestly higher than L. Half-stride, not full extreme. Preserve upper body and rifle almost exactly unchanged.",
+      "input": "/private/tmp/broodfall-commando-teal-preview-v2.png",
+      "normalized": "/private/tmp/broodfall-commando-walk8-teal-preview-v1.png",
+      "normalization": "process_generated_sprite.py default 256x256 padding14 tolerance38; proportional"
+    }
+  ],
+  "rejected": [
+    {
+      "frame": 5,
+      "version": 1,
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a08155-abfd-79e2-82fd-3a87a1bbaaf3/exec-2a6516ce-b08f-45cf-a2f2-3603c80500bd.png",
+      "prompt": "Use case: identity-preserve. Asset type: one isolated Broodfall RTS Commando/Boone AQUA walk animation frame, preview-only. Image 1 is the approved static edit target and exact identity/palette/scale reference. Preserve this same north-facing heavy soldier viewed obliquely from above and behind: back of helmet only, massive weathered PALE AQUA shoulder plates, dark backpack with gold chevrons, belt and pouches. Both hands raised holding the SAME compact neutral-metal rifle vertically screen-up/north above helmet. Change ONLY gait/legs with minimal natural belt bob. Preserve torso width, shoulder size, helmet, exact rifle length and two-hand grip, gear positions, pale aqua brightness, dark opaque pants/boots and light direction. Entire feet/chest/head/arms/rifle must face north; no face, visor or front chest. Full body centered, unclipped, generous clear margins, no text, ground, cast shadow, extra equipment or effects. Output genuinely transparent background and solid fully opaque soldier including the darkest clothing; never perforate dark boots or pants. Gait phase: Frame 5, opposite full stride. Screen-R leg trails long down toward the image bottom; screen-L knee is lifted forward/north so its boot is tucked visibly higher beneath the belt. Make this clearly asymmetrical but natural; keep upper body and rifle almost exactly unchanged.",
+      "reason": "opaque baked checkerboard RGB"
+    },
+    {
+      "frame": 6,
+      "version": 1,
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a08155-abfd-79e2-82fd-3a87a1bbaaf3/exec-825cc8c5-42ad-494e-9b1e-70fd9a32885a.png",
+      "prompt": "Use case: identity-preserve. Asset type: one isolated Broodfall RTS Commando/Boone AQUA walk animation frame, preview-only. Image 1 is the approved static edit target and exact identity/palette/scale reference. Preserve this same north-facing heavy soldier viewed obliquely from above and behind: back of helmet only, massive weathered PALE AQUA shoulder plates, dark backpack with gold chevrons, belt and pouches. Both hands raised holding the SAME compact neutral-metal rifle vertically screen-up/north above helmet. Change ONLY gait/legs with minimal natural belt bob. Preserve torso width, shoulder size, helmet, exact rifle length and two-hand grip, gear positions, pale aqua brightness, dark opaque pants/boots and light direction. Entire feet/chest/head/arms/rifle must face north; no face, visor or front chest. Full body centered, unclipped, generous clear margins, no text, ground, cast shadow, extra equipment or effects. Output genuinely transparent background and solid fully opaque soldier including the darkest clothing; never perforate dark boots or pants. Gait phase: Frame 6, recovering from opposite full stride toward passing. Screen-R foot remains a little lower/trailing, screen-L knee is lowering so its boot extends farther down than the lifted position but stays slightly higher than R. Modest asymmetric leg bend, NOT a giant lunge; keep upper body and rifle almost exactly unchanged.",
+      "reason": "opaque baked checkerboard RGB"
+    }
+  ]
+}

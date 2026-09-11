@@ -1,0 +1,46 @@
+[
+  {
+    "frame": 1,
+    "prompt": "Use case: precise-object-edit\nAsset type: top-down RTS Sniper sprite, RED team walk frame 1, preview.\nInput images: Image 1 is the exact edit target and sole pose/shape authority: teal walk frame 1. Image 2 is approved RED static palette reference ONLY, not pose. Image 3 is teal static for material mapping ONLY.\nPrimary request: Repaint ONLY aqua/teal colored armor paint of Image 1 to the saturated weathered red used in Image 2. All aqua patches on helmet crown, wrists/forearms, shoulders and torso become red. Preserve bright worn metallic edge highlights. Taupe/brown cloak must stay taupe, dark suit stays dark, pale metal stays pale metal, amber optics remain amber.\nCritical invariants: exact same walk frame1 silhouette, posture, north-facing whole body, extended leg arrangement, cloth outline and folds, arm locations, long rifle pointing straight north/up, barrel length, framing and scale. Never substitute static pose from image2 or image3. Treat this as a precise color-only edit of image1.\nOutput a single centered sprite on genuine transparent background. No checkerboard, floor, cast shadow, text, labels, extra objects. Keep all proportions and existing crisp gritty pixel-readable painted rendering.",
+    "references": [
+      "/private/tmp/broodfall-sniper-walk1-teal-preview-v2.png",
+      "/private/tmp/broodfall-sniper-red-preview-v1.png",
+      "/private/tmp/broodfall-sniper-teal-preview-v1.png"
+    ],
+    "raw_hint": "Generated images are saved to /Users/bronsongannon/.codex/generated_images/01a07ee6-71ce-7723-b093-26b5aed2f449 as /Users/bronsongannon/.codex/generated_images/01a07ee6-71ce-7723-b093-26b5aed2f449/exec-7f0ebe01-45f2-48cd-bdaf-a1d126f55e47.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+    "output": "/private/tmp/broodfall-sniper-walk1-red-preview-v1.png"
+  },
+  {
+    "frame": 2,
+    "prompt": "Use case: precise-object-edit\nAsset type: top-down RTS Sniper sprite, RED team walk frame 2, preview.\nInput images: Image 1 is the exact edit target and sole pose/shape authority: teal walk frame 2. Image 2 is approved RED static palette reference ONLY, not pose. Image 3 is teal static for material mapping ONLY.\nPrimary request: Repaint ONLY aqua/teal colored armor paint of Image 1 to the saturated weathered red used in Image 2. All aqua patches on helmet crown, wrists/forearms, shoulders and torso become red. Preserve bright worn metallic edge highlights. Taupe/brown cloak must stay taupe, dark suit stays dark, pale metal stays pale metal, amber optics remain amber.\nCritical invariants: exact same walk frame2 silhouette, posture, north-facing whole body, extended leg arrangement, cloth outline and folds, arm locations, long rifle pointing straight north/up, barrel length, framing and scale. Never substitute static pose from image2 or image3. Treat this as a precise color-only edit of image1.\nOutput a single centered sprite on genuine transparent background. No checkerboard, floor, cast shadow, text, labels, extra objects. Keep all proportions and existing crisp gritty pixel-readable painted rendering.",
+    "references": [
+      "/private/tmp/broodfall-sniper-walk2-teal-preview-v1.png",
+      "/private/tmp/broodfall-sniper-red-preview-v1.png",
+      "/private/tmp/broodfall-sniper-teal-preview-v1.png"
+    ],
+    "raw_hint": "Generated images are saved to /Users/bronsongannon/.codex/generated_images/01a07ee6-71ce-7723-b093-26b5aed2f449 as /Users/bronsongannon/.codex/generated_images/01a07ee6-71ce-7723-b093-26b5aed2f449/exec-29b30c93-cf79-4bf3-bea7-95f5d113f68f.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+    "output": "/private/tmp/broodfall-sniper-walk2-red-preview-v1.png"
+  },
+  {
+    "frame": 3,
+    "prompt": "Use case: precise-object-edit\nAsset type: top-down RTS Sniper sprite, RED team walk frame 3, preview.\nInput images: Image 1 is the exact edit target and sole pose/shape authority: teal walk frame 3. Image 2 is approved RED static palette reference ONLY, not pose. Image 3 is teal static for material mapping ONLY.\nPrimary request: Repaint ONLY aqua/teal colored armor paint of Image 1 to the saturated weathered red used in Image 2. All aqua patches on helmet crown, wrists/forearms, shoulders and torso become red. Preserve bright worn metallic edge highlights. Taupe/brown cloak must stay taupe, dark suit stays dark, pale metal stays pale metal, amber optics remain amber.\nCritical invariants: exact same walk frame3 silhouette, posture, north-facing whole body, extended leg arrangement, cloth outline and folds, arm locations, long rifle pointing straight north/up, barrel length, framing and scale. Never substitute static pose from image2 or image3. Treat this as a precise color-only edit of image1.\nOutput a single centered sprite on genuine transparent background. No checkerboard, floor, cast shadow, text, labels, extra objects. Keep all proportions and existing crisp gritty pixel-readable painted rendering.",
+    "references": [
+      "/private/tmp/broodfall-sniper-walk3-teal-preview-v1.png",
+      "/private/tmp/broodfall-sniper-red-preview-v1.png",
+      "/private/tmp/broodfall-sniper-teal-preview-v1.png"
+    ],
+    "raw_hint": "Generated images are saved to /Users/bronsongannon/.codex/generated_images/01a07ee6-71ce-7723-b093-26b5aed2f449 as /Users/bronsongannon/.codex/generated_images/01a07ee6-71ce-7723-b093-26b5aed2f449/exec-c2474dc0-c780-49d6-9ad6-316826de6b93.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+    "output": "/private/tmp/broodfall-sniper-walk3-red-preview-v1.png"
+  },
+  {
+    "frame": 4,
+    "prompt": "Use case: precise-object-edit\nAsset type: top-down RTS Sniper sprite, RED team walk frame 4, preview.\nInput images: Image 1 is the exact edit target and sole pose/shape authority: teal walk frame 4. Image 2 is approved RED static palette reference ONLY, not pose. Image 3 is teal static for material mapping ONLY.\nPrimary request: Repaint ONLY aqua/teal colored armor paint of Image 1 to the saturated weathered red used in Image 2. All aqua patches on helmet crown, wrists/forearms, shoulders and torso become red. Preserve bright worn metallic edge highlights. Taupe/brown cloak must stay taupe, dark suit stays dark, pale metal stays pale metal, amber optics remain amber.\nCritical invariants: exact same walk frame4 silhouette, posture, north-facing whole body, extended leg arrangement, cloth outline and folds, arm locations, long rifle pointing straight north/up, barrel length, framing and scale. Never substitute static pose from image2 or image3. Treat this as a precise color-only edit of image1.\nOutput a single centered sprite on genuine transparent background. No checkerboard, floor, cast shadow, text, labels, extra objects. Keep all proportions and existing crisp gritty pixel-readable painted rendering.",
+    "references": [
+      "/private/tmp/broodfall-sniper-walk4-teal-preview-v2.png",
+      "/private/tmp/broodfall-sniper-red-preview-v1.png",
+      "/private/tmp/broodfall-sniper-teal-preview-v1.png"
+    ],
+    "raw_hint": "Generated images are saved to /Users/bronsongannon/.codex/generated_images/01a07ee6-71ce-7723-b093-26b5aed2f449 as /Users/bronsongannon/.codex/generated_images/01a07ee6-71ce-7723-b093-26b5aed2f449/exec-73acdc85-5049-42ae-a945-940023e00d4a.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+    "output": "/private/tmp/broodfall-sniper-walk4-red-preview-v1.png"
+  }
+]

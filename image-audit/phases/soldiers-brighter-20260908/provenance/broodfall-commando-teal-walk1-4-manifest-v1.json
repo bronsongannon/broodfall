@@ -1,0 +1,51 @@
+{
+  "mode": "built-in ImageGen",
+  "preview_only": true,
+  "reference": "/private/tmp/broodfall-commando-teal-preview-v2.png",
+  "frames": [
+    {
+      "n": 1,
+      "prompt": "Use case: identity-preserve\nAsset type: Broodfall Commando/Boone single walk-animation sprite, preview only.\nImage 1 is the approved static edit target. Keep EXACT character identity and artwork: bulky pale bright weathered aqua shoulder plates and helmet, charcoal back plate with gold chevrons, belt and pouches, dark olive legs, black boots, BOTH hands steady holding the same compact rifle centered straight north above helmet. Same strictly overhead north-facing back view, no face or front chest. Keep upper body, shoulders, weapon, head, color/lightness, rendering and proportions unchanged. Change ONLY legs and minimal natural hip motion for walking north; do not enlarge helmet, shoulders or rifle.\nFull-body centered cutout with safe margins. Genuine transparent background; solid fully opaque clothing, boots and equipment. No ground, shadow, scenery, text, labels, multiple figures or sheet.\nWalk frame1 pose: Left leg on SCREEN LEFT trails extended toward bottom; screen-right knee lifted/forward with right boot tucked higher, about one boot-length above left boot. Natural modest stride. Upper body unchanged.",
+      "raw": "exec-244d2b22-d657-4ee1-8f9a-5684d04884be.png",
+      "selected": "/private/tmp/broodfall-commando-walk1-teal-preview-v3.png",
+      "padding": 14
+    },
+    {
+      "n": 2,
+      "prompt": "Use case: identity-preserve\nAsset type: Broodfall Commando/Boone single walk-animation sprite, preview only.\nImage 1 is the approved static edit target. Keep EXACT character identity and artwork: bulky pale bright weathered aqua shoulder plates and helmet, charcoal back plate with gold chevrons, belt and pouches, dark olive legs, black boots, BOTH hands steady holding the same compact rifle centered straight north above helmet. Same strictly overhead north-facing back view, no face or front chest. Keep upper body, shoulders, weapon, head, color/lightness, rendering and proportions unchanged. Change ONLY legs and minimal natural hip motion for walking north; do not enlarge helmet, shoulders or rifle.\nFull-body centered cutout with safe margins. Genuine transparent background; solid fully opaque clothing, boots and equipment. No ground, shadow, scenery, text, labels, multiple figures or sheet.\nWalk frame2 pose: Transition after frame1: screen-left foot remains lower but begins lifting while screen-right foot comes down toward it. Offset feet about half a boot-length; modest knee bend. Upper body unchanged.\nUse a plain solid white background for clean extraction if alpha unavailable, absolutely no checkerboard. Avoid any black backdrop.",
+      "raw": "exec-b75d893b-f828-4aa1-9423-d8b397ecf4bc.png",
+      "selected": "/private/tmp/broodfall-commando-walk2-teal-preview-v1.png",
+      "padding": 14
+    },
+    {
+      "n": 3,
+      "prompt": "Use case: identity-preserve\nAsset type: Broodfall Commando/Boone single walk-animation sprite, preview only.\nImage 1 is the approved static edit target. Keep EXACT character identity and artwork: bulky pale bright weathered aqua shoulder plates and helmet, charcoal back plate with gold chevrons, belt and pouches, dark olive legs, black boots, BOTH hands steady holding the same compact rifle centered straight north above helmet. Same strictly overhead north-facing back view, no face or front chest. Keep upper body, shoulders, weapon, head, color/lightness, rendering and proportions unchanged. Change ONLY legs and minimal natural hip motion for walking north; do not enlarge helmet, shoulders or rifle.\nFull-body centered cutout with safe margins. Genuine transparent background; solid fully opaque clothing, boots and equipment. No ground, shadow, scenery, text, labels, multiple figures or sheet.\nWalk frame3 pose: Mid-stride passing: both legs under hips, boots nearly even height with screen-left knee slightly flexed and right leg planted. Keep same physical body/weapon scale; do not stretch legs to maintain total height.\nUse a plain solid white background for clean extraction if alpha unavailable, absolutely no checkerboard. Avoid any black backdrop.",
+      "raw": "exec-04e25f17-741d-4ebb-8ac7-9ca425aeb740.png",
+      "selected": "/private/tmp/broodfall-commando-walk3-teal-preview-v1.png",
+      "padding": 14
+    },
+    {
+      "n": 4,
+      "prompt": "Use case: identity-preserve\nAsset type: Broodfall Commando/Boone single walk-animation sprite, preview only.\nImage 1 is the approved static edit target. Keep EXACT character identity and artwork: bulky pale bright weathered aqua shoulder plates and helmet, charcoal back plate with gold chevrons, belt and pouches, dark olive legs, black boots, BOTH hands steady holding the same compact rifle centered straight north above helmet. Same strictly overhead north-facing back view, no face or front chest. Keep upper body, shoulders, weapon, head, color/lightness, rendering and proportions unchanged. Change ONLY legs and minimal natural hip motion for walking north; do not enlarge helmet, shoulders or rifle.\nFull-body centered cutout with safe margins. Genuine transparent background; solid fully opaque clothing, boots and equipment. No ground, shadow, scenery, text, labels, multiple figures or sheet.\nWalk frame4 pose: Transition toward opposite step: screen-right leg now extends lower and screen-left knee starts lifting; screen-right boot about half a boot-length lower. Upper body unchanged.\nUse a plain solid white background for clean extraction if alpha unavailable, absolutely no checkerboard. Avoid any black backdrop.",
+      "raw": "exec-ca0adee2-1ffa-447a-b323-663e1ff4dc67.png",
+      "selected": "/private/tmp/broodfall-commando-walk4-teal-preview-v1.png",
+      "padding": 14
+    }
+  ],
+  "corrections": [
+    {
+      "frame": 1,
+      "version": 2,
+      "prompt": "Use case: identity-preserve\nAsset type: Broodfall Commando/Boone single walk-animation sprite, preview only.\nImage 1 is the approved static edit target. Keep EXACT character identity and artwork: bulky pale bright weathered aqua shoulder plates and helmet, charcoal back plate with gold chevrons, belt and pouches, dark olive legs, black boots, BOTH hands steady holding the same compact rifle centered straight north above helmet. Same strictly overhead north-facing back view, no face or front chest. Keep upper body, shoulders, weapon, head, color/lightness, rendering and proportions unchanged. Change ONLY legs and minimal natural hip motion for walking north; do not enlarge helmet, shoulders or rifle.\nFull-body centered cutout with safe margins. Genuine transparent background; solid fully opaque clothing, boots and equipment. No ground, shadow, scenery, text, labels, multiple figures or sheet.\nWalk frame1 pose: Left leg on SCREEN LEFT trails extended toward bottom; screen-right knee lifted/forward with right boot tucked higher, about one boot-length above left boot. Natural modest stride. Upper body unchanged.\nBackground correction requirement: NO checkerboard whatsoever. Use a pure solid white #FFFFFF backdrop if real alpha is unavailable. All subject pixels fully opaque, including dark clothing. Keep exact approved design.",
+      "raw": "exec-2cdd1fb6-e019-4a94-a0bc-3e08cb108747.png",
+      "rejected": "body too narrow relative to static"
+    },
+    {
+      "frame": 1,
+      "version": 3,
+      "prompt": "Use case: background-extraction. Image1 is the exact edit target. Change ONLY the baked checkerboard background to clean uniform pure WHITE #FFFFFF, no shadow and no pattern. Preserve the exact Commando sprite pixels/design, pale aqua armor, pose, size, silhouette and every boot, belt pouch, gold chevron and north-pointing rifle. No restyling or movement. The left screen leg remains long and the right boot lifted. Entire soldier remains fully opaque, including dark clothing. White only outside silhouette, including the gap between the legs. One sprite only.",
+      "raw": "exec-7602272a-0486-4494-aa38-ee877a4e7ac7.png",
+      "selected": true
+    }
+  ]
+}

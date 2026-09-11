@@ -1,0 +1,17 @@
+{
+  "prompt": "Use case: precise-object-edit. Image1 is the walk-frame edit target; image2 is the approved character identity. In image1 change ONLY the trailing SCREEN-RIGHT leg: bend its knee a little to shorten the whole visible sprite height by about 6%, keeping the screen-right boot below the left boot but no exaggerated long shin. Do NOT scale or change upper body/rifle/head/shoulders or screen-left leg. Keep the same north-facing overhead heavy Commando, pale weathered aqua armor, gold chevrons and body. The same helmet and rifle point straight up; both arms raised. Keep all clothing opaque. Request true-alpha transparent backdrop; if unsupported use uniform PURE WHITE #FFFFFF, never checkerboard or black. One centered complete soldier only with generous clear margins, no shadows or text.",
+  "raw": "/Users/bronsongannon/.codex/generated_images/01a074b5-e49a-77a3-a02b-be55b3fb8d8b/exec-28717109-df7d-4f15-9bc7-6321caeed437.png",
+  "selected": "/private/tmp/broodfall-commando-walk5-teal-preview-v3.png",
+  "padding": 14,
+  "note": "Output became a near-passing pose with left boot slightly lower; sequenced accordingly.",
+  "playback_original_indices": [
+    1,
+    8,
+    5,
+    2,
+    4,
+    6,
+    3,
+    7
+  ]
+}

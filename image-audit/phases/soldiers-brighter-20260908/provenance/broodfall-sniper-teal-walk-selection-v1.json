@@ -1,0 +1,62 @@
+{
+  "approved_engineer": "Both teal/red static, walk1–8 and death1–4 approved; no install/commit in this turn.",
+  "sniperPreviewOrder": [
+    1,
+    7,
+    2,
+    8,
+    4,
+    3,
+    6,
+    5
+  ],
+  "selectedVersions": {
+    "1": 2,
+    "2": 1,
+    "3": 1,
+    "4": 2,
+    "5": 1,
+    "6": 1,
+    "7": 1,
+    "8": 1
+  },
+  "calls": [
+    {
+      "frame": 1,
+      "version": 1,
+      "prompt": "Use case: precise-object-edit\nAsset: one transparent 256×256 Broodfall Sniper teal walk frame 1/8.\nImage 1 is the EDIT TARGET: existing exact walk 1 pose. Image 2 is the USER APPROVED NEW STATIC: absolute color, brightness, material and class identity authority.\nUpdate Image 1 to look like the approved brighter Image 2 in this exact gait phase. Match Image 2's brighter weathered aqua helmet/cowl, shoulder armor and torso panels; preserve its weathered taupe cloak, charcoal undersuit, pale worn metal highlights and long precision rifle. Do not make cloak aqua or invent markings.\nPreserve Image 1's exact silhouette, leg pose, cloak folds/hem footprint, hands, arms, whole-body north orientation, north-pointing long rifle, weapon length, narrow adult proportions, centered pivot and scale. Change only the corresponding painted surfaces and lighting/material brightness to match Image 2. No gait redesign, no new weapon, no added equipment, no widened figure, no change to rifle direction.\nTrue transparent background, one isolated sprite, crisp antialiased opaque character, full rifle/cloak/boots with at least 14px padding, no ground/shadow/text/checkerboard/specks/ghost limbs. Readable at 27–32px. One frame only.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a074b5-e49a-77a3-a02b-be55b3fb8d8b/exec-5bcdfcbf-453b-4e63-9597-b1101bb3ba1b.png"
+    },
+    {
+      "frame": 2,
+      "version": 1,
+      "prompt": "Use case: precise-object-edit\nAsset: one transparent 256×256 Broodfall Sniper teal walk frame 2/8.\nImage 1 is the EDIT TARGET: existing exact walk 2 pose. Image 2 is the USER APPROVED NEW STATIC: absolute color, brightness, material and class identity authority.\nUpdate Image 1 to look like the approved brighter Image 2 in this exact gait phase. Match Image 2's brighter weathered aqua helmet/cowl, shoulder armor and torso panels; preserve its weathered taupe cloak, charcoal undersuit, pale worn metal highlights and long precision rifle. Do not make cloak aqua or invent markings.\nPreserve Image 1's exact silhouette, leg pose, cloak folds/hem footprint, hands, arms, whole-body north orientation, north-pointing long rifle, weapon length, narrow adult proportions, centered pivot and scale. Change only the corresponding painted surfaces and lighting/material brightness to match Image 2. No gait redesign, no new weapon, no added equipment, no widened figure, no change to rifle direction.\nTrue transparent background, one isolated sprite, crisp antialiased opaque character, full rifle/cloak/boots with at least 14px padding, no ground/shadow/text/checkerboard/specks/ghost limbs. Readable at 27–32px. One frame only.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a074b5-e49a-77a3-a02b-be55b3fb8d8b/exec-7526bf01-181f-44f8-b1d2-8a4250f45516.png"
+    },
+    {
+      "frame": 3,
+      "version": 1,
+      "prompt": "Use case: precise-object-edit\nAsset: one transparent 256×256 Broodfall Sniper teal walk frame 3/8.\nImage 1 is the EDIT TARGET: existing exact walk 3 pose. Image 2 is the USER APPROVED NEW STATIC: absolute color, brightness, material and class identity authority.\nUpdate Image 1 to look like the approved brighter Image 2 in this exact gait phase. Match Image 2's brighter weathered aqua helmet/cowl, shoulder armor and torso panels; preserve its weathered taupe cloak, charcoal undersuit, pale worn metal highlights and long precision rifle. Do not make cloak aqua or invent markings.\nPreserve Image 1's exact silhouette, leg pose, cloak folds/hem footprint, hands, arms, whole-body north orientation, north-pointing long rifle, weapon length, narrow adult proportions, centered pivot and scale. Change only the corresponding painted surfaces and lighting/material brightness to match Image 2. No gait redesign, no new weapon, no added equipment, no widened figure, no change to rifle direction.\nTrue transparent background, one isolated sprite, crisp antialiased opaque character, full rifle/cloak/boots with at least 14px padding, no ground/shadow/text/checkerboard/specks/ghost limbs. Readable at 27–32px. One frame only.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a074b5-e49a-77a3-a02b-be55b3fb8d8b/exec-65366b00-612a-4be0-89e7-793c52716f30.png"
+    },
+    {
+      "frame": 4,
+      "version": 1,
+      "prompt": "Use case: precise-object-edit\nAsset: one transparent 256×256 Broodfall Sniper teal walk frame 4/8.\nImage 1 is the EDIT TARGET: existing exact walk 4 pose. Image 2 is the USER APPROVED NEW STATIC: absolute color, brightness, material and class identity authority.\nUpdate Image 1 to look like the approved brighter Image 2 in this exact gait phase. Match Image 2's brighter weathered aqua helmet/cowl, shoulder armor and torso panels; preserve its weathered taupe cloak, charcoal undersuit, pale worn metal highlights and long precision rifle. Do not make cloak aqua or invent markings.\nPreserve Image 1's exact silhouette, leg pose, cloak folds/hem footprint, hands, arms, whole-body north orientation, north-pointing long rifle, weapon length, narrow adult proportions, centered pivot and scale. Change only the corresponding painted surfaces and lighting/material brightness to match Image 2. No gait redesign, no new weapon, no added equipment, no widened figure, no change to rifle direction.\nTrue transparent background, one isolated sprite, crisp antialiased opaque character, full rifle/cloak/boots with at least 14px padding, no ground/shadow/text/checkerboard/specks/ghost limbs. Readable at 27–32px. One frame only.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a074b5-e49a-77a3-a02b-be55b3fb8d8b/exec-166164d7-a3a9-4031-8425-319ba424141a.png"
+    },
+    {
+      "frame": 1,
+      "version": 2,
+      "prompt": "Precise pose edit, one transparent 256x256 RTS sniper walk frame. Image 1 is the bright aqua sniper edit target and absolute identity/upper-body authority. Image 2 is ONLY the exact leg-pose reference. Fix ONLY the two legs of Image 1: match Image 2's staggered contact stance. SCREEN-LEFT boot extends farther SOUTH/down, its bottom at approximately y240; SCREEN-RIGHT knee bends and boot is higher NORTH/up, bottom at approximately y218. A clearly visible 20–24 pixel vertical separation between boot bottoms is essential. Do not leave both boots at the same height. Keep Image 1 rifle, hands, arms, shoulders, cloak, helmet, bright aqua palette and upper torso exactly unchanged. Rifle straight north, whole body north-facing. Only articulate the legs under cloak, no whole-body scaling or translation. One character, true transparency, clean opaque silhouette, minimum 14px padding. No static stance, no new limbs, no blur, no ground, no specks or checkerboard.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a074b5-e49a-77a3-a02b-be55b3fb8d8b/exec-84ff5df8-15d4-4a65-b1ee-68bceaeee1d8.png"
+    },
+    {
+      "frame": 4,
+      "version": 2,
+      "prompt": "Precise leg-pose edit, single transparent 256x256 RTS Sniper walk frame 4. Image 1 is the bright aqua EDIT TARGET and exact upper-body/material reference. Image 2 is the original walk4 leg-pose reference. Fix only Image 1 legs: SCREEN-RIGHT leg extends south/down, boot bottom about y240; SCREEN-LEFT knee slightly bent, heel raised, boot bottom about y226. Require distinct approximately 14px vertical boot separation. Right leg is later in southward sweep than previous passing frame; no equal-foot standing stance. Keep the long rifle straight north and stable, same cloak, helmet, shoulders, hands, torso, aqua brightness and weathered taupe cloth. Preserve body-part dimensions and centered pivot; do not scale character to make the new pose. True transparency, one clean opaque character, minimum 14px edge padding, no ground/shadow/specks/checkerboard, no duplicates. Whole body faces north.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a074b5-e49a-77a3-a02b-be55b3fb8d8b/exec-0b55171e-8d00-4db3-ae87-c0625a31a748.png"
+    }
+  ],
+  "otherManifest": "/private/tmp/broodfall-sniper-teal-walk5-8-manifest-v1.json"
+}

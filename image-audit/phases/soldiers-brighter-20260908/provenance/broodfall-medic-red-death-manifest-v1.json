@@ -1,0 +1,26 @@
+[
+  {
+    "frame": 1,
+    "prompt": "Use case: precise-object-edit. Broodfall Medic red death frame1. Image1 EDIT TARGET is approved aqua stagger sprite; image2 red STATIC reference is COLOR PALETTE ONLY. Recolor ONLY aqua paint in image1 to bright weathered red matching image2: shoulders, pack trim/top, medkit trim. Keep all white medical backpack panels, white forearm/shin panels, red medical plus, taupe cloth, dark gloves/boots, short dark hair and skin completely unchanged. Preserve EXACT image1 silhouette, leaning pose, head and limbs, backpack size, equipment position, proportions, lighting, wear, alpha footprint. DO NOT copy static pose or change anatomy. Strict overhead, single sprite with genuine transparency and opaque uniform surfaces. No checkerboard, ground, shadow, scenery, text, or watermark.",
+    "raw": "/Users/bronsongannon/.codex/generated_images/01a074b5-e49a-77a3-a02b-be55b3fb8d8b/exec-eb3b3e95-73b1-48dc-9397-60f01b96002a.png",
+    "output": "/private/tmp/broodfall-medic-death1-red-preview-v1.png"
+  },
+  {
+    "frame": 2,
+    "prompt": "Use case: precise-object-edit. Broodfall Medic red death frame2 knees buckle. Image1 EDIT TARGET approved aqua pose; image2 red STATIC reference COLOR ONLY. Change ONLY aqua paint in image1 to bright weathered red as in image2: shoulders, pack trim/top, medkit trim. Preserve white pack panels and red medical plus, white forearm/shin panels, taupe fabric, dark boots/gloves, hair/skin, exact lighting and wear. Keep image1's knees buckled and leaning torso, exact head/body/arm/leg pose, pack size, silhouette, position and scale. Do NOT copy the static stance. Single strict-overhead sprite, genuine transparent background and fully opaque clothing surfaces. No checkerboard, ground, shadows, scenery, text or watermark. Safe transparent padding.",
+    "raw": "/Users/bronsongannon/.codex/generated_images/01a074b5-e49a-77a3-a02b-be55b3fb8d8b/exec-369256d1-a49f-4a73-9f2d-ec8950ce5d8c.png",
+    "output": "/private/tmp/broodfall-medic-death2-red-preview-v1.png"
+  },
+  {
+    "frame": 3,
+    "prompt": "Use case: precise-object-edit. Single Broodfall Medic RED death frame3 side fall. Image1 is approved aqua falling pose EDIT TARGET. Image2 is red static COLOR REFERENCE ONLY. Recolor aqua shoulders and backpack/medkit trim to weathered bright red matching image2; preserve every WHITE panel, red medical plus, taupe fabric, skin, dark hair, gloves and boots. Keep EXACT image1 diagonal falling pose head upper-right legs lower-left, limb angles, hand and bag bottom-right, enlarged pack shape/scale, body mass and all geometry and lighting. Do not stand him upright or reshape. Strict overhead single sprite with true transparent background, fully opaque subject surfaces, safe padding. No ground, shadows, checkerboard, scenery, text, watermark.",
+    "raw": "/Users/bronsongannon/.codex/generated_images/01a074b5-e49a-77a3-a02b-be55b3fb8d8b/exec-366bc2fd-38ab-4e57-a544-b5c9d15cb870.png",
+    "output": "/private/tmp/broodfall-medic-death3-red-preview-v1.png"
+  },
+  {
+    "frame": 4,
+    "prompt": "Use case: precise-object-edit. Broodfall Medic RED death frame4 SETTLED BODY. Image1 approved aqua corpse EDIT TARGET; image2 red static COLOR PALETTE ONLY. Recolor ONLY aqua paint on shoulders, backpack edging and medkit edging to bright weathered red. Preserve white pack/forearm/calf panels, red medical plus, taupe cloth, dark hair, gloves, boot soles, lighting and wear. Match EXACT image1 body silhouette and nearly horizontal diagonal orientation, settled limbs, head upper-right, feet left, bag lower-right, pack proportions/position/scale and transparent footprint. Must not change corpse to sitting or standing. Strict overhead single sprite, true transparency, opaque clothing, safe padding. No floor, shadow, scenery, text, watermark, checkerboard or gore.",
+    "raw": "/Users/bronsongannon/.codex/generated_images/01a074b5-e49a-77a3-a02b-be55b3fb8d8b/exec-03d2149e-ed72-4a1a-8975-e7c5cddfae4c.png",
+    "output": "/private/tmp/broodfall-medic-death4-red-preview-v1.png"
+  }
+]

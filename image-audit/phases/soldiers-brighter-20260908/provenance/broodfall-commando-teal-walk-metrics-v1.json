@@ -1,0 +1,132 @@
+{
+  "playback_order": [
+    1,
+    8,
+    5,
+    2,
+    4,
+    6,
+    3,
+    7
+  ],
+  "frames": [
+    {
+      "path": "/private/tmp/broodfall-commando-teal-preview-v2.png",
+      "bbox": [
+        67,
+        14,
+        189,
+        242
+      ],
+      "area": 16623.36470588235,
+      "edge_alpha": 0,
+      "aqua32": 27,
+      "white32": 25
+    },
+    {
+      "path": "/private/tmp/broodfall-commando-walk1-teal-preview-v3.png",
+      "bbox": [
+        68,
+        14,
+        188,
+        242
+      ],
+      "area": 14525.184313725491,
+      "edge_alpha": 0,
+      "aqua32": 26,
+      "white32": 17
+    },
+    {
+      "path": "/private/tmp/broodfall-commando-walk8-teal-preview-v1.png",
+      "bbox": [
+        69,
+        14,
+        186,
+        242
+      ],
+      "area": 14556.847058823529,
+      "edge_alpha": 0,
+      "aqua32": 21,
+      "white32": 21
+    },
+    {
+      "path": "/private/tmp/broodfall-commando-walk5-teal-preview-v3.png",
+      "bbox": [
+        66,
+        14,
+        189,
+        242
+      ],
+      "area": 15951.388235294118,
+      "edge_alpha": 0,
+      "aqua32": 33,
+      "white32": 18
+    },
+    {
+      "path": "/private/tmp/broodfall-commando-walk2-teal-preview-v1.png",
+      "bbox": [
+        68,
+        14,
+        188,
+        242
+      ],
+      "area": 15327.75294117647,
+      "edge_alpha": 0,
+      "aqua32": 31,
+      "white32": 22
+    },
+    {
+      "path": "/private/tmp/broodfall-commando-walk4-teal-preview-v1.png",
+      "bbox": [
+        69,
+        14,
+        187,
+        242
+      ],
+      "area": 14802.8,
+      "edge_alpha": 0,
+      "aqua32": 15,
+      "white32": 24
+    },
+    {
+      "path": "/private/tmp/broodfall-commando-walk6-teal-preview-v2.png",
+      "bbox": [
+        68,
+        14,
+        188,
+        242
+      ],
+      "area": 15779.427450980393,
+      "edge_alpha": 0,
+      "aqua32": 22,
+      "white32": 14
+    },
+    {
+      "path": "/private/tmp/broodfall-commando-walk3-teal-preview-v1.png",
+      "bbox": [
+        66,
+        14,
+        189,
+        242
+      ],
+      "area": 16289.392156862745,
+      "edge_alpha": 0,
+      "aqua32": 33,
+      "white32": 24
+    },
+    {
+      "path": "/private/tmp/broodfall-commando-walk7-teal-preview-v1.png",
+      "bbox": [
+        69,
+        14,
+        187,
+        242
+      ],
+      "area": 15138.776470588235,
+      "edge_alpha": 0,
+      "aqua32": 21,
+      "white32": 24
+    }
+  ],
+  "walk_area_cv": 0.04042895567068392
+}

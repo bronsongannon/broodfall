@@ -1,0 +1,2568 @@
+{
+  "date": "2026-09-08",
+  "count": 160,
+  "approved": true,
+  "rows": [
+    {
+      "family": "marine",
+      "color": "teal",
+      "pose": "static",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-marine-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_marine_teal.png",
+      "sha256": "eda40cde39b146ffc0c0754140817be7eb04e7b32bf552010143bb9bb4d6abae",
+      "bbox": [
+        67,
+        14,
+        188,
+        242
+      ],
+      "previous_sha256": "c0c3d742a67105a0a87790e9e6a6e8c89e6d6377b26fed2d56b599a9c8e0c194"
+    },
+    {
+      "family": "marine",
+      "color": "teal",
+      "pose": "walk1",
+      "original_frame_index": 1,
+      "source": "/private/tmp/broodfall-marine-walk1-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_marine_walk1_teal.png",
+      "sha256": "95d2ef5dbc5ffafe03b5694973d9806d6947bb98cea817a0f95ef1e4143c975c",
+      "bbox": [
+        71,
+        14,
+        184,
+        242
+      ],
+      "previous_sha256": "238614c077bf92e180310bf73ff401688fd646219eba9c8ba9fae58c4435a370"
+    },
+    {
+      "family": "marine",
+      "color": "teal",
+      "pose": "walk2",
+      "original_frame_index": 2,
+      "source": "/private/tmp/broodfall-marine-walk2-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_marine_walk2_teal.png",
+      "sha256": "9a00643ce077d48e2f2e1e09ee78f2a90e885cfcd48c492b6f93bc20b39111d4",
+      "bbox": [
+        68,
+        14,
+        187,
+        242
+      ],
+      "previous_sha256": "78ae4257cf2a10cbcaa0285d5cecc7b2bf66a6e146744ad72f9fa3360f717843"
+    },
+    {
+      "family": "marine",
+      "color": "teal",
+      "pose": "walk3",
+      "original_frame_index": 3,
+      "source": "/private/tmp/broodfall-marine-walk3-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_marine_walk3_teal.png",
+      "sha256": "f3047e760e40af8a8d211ed8ffa35928970807c2f16d2b32d319ad7042f21935",
+      "bbox": [
+        69,
+        14,
+        186,
+        242
+      ],
+      "previous_sha256": "cd39715528a289acf4f882d094f5b2db8edee6c1f60289b981816e7eb0190cf8"
+    },
+    {
+      "family": "marine",
+      "color": "teal",
+      "pose": "walk4",
+      "original_frame_index": 4,
+      "source": "/private/tmp/broodfall-marine-walk4-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_marine_walk4_teal.png",
+      "sha256": "b53f2f0aa5461b9ab158def4f3271a3af2f1880e6a0ef43869183eae39a5f7dd",
+      "bbox": [
+        73,
+        14,
+        182,
+        242
+      ],
+      "previous_sha256": "0c6637ce7deeeedfd8828233032eae9f332c736d4b87a218bf3f2432bb886f92"
+    },
+    {
+      "family": "marine",
+      "color": "teal",
+      "pose": "walk5",
+      "original_frame_index": 5,
+      "source": "/private/tmp/broodfall-marine-walk5-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_marine_walk5_teal.png",
+      "sha256": "798069f6be03526b32f31db9f3cbbc01d1f003f0bfaefdd66ef94bc3bd17e157",
+      "bbox": [
+        70,
+        14,
+        186,
+        242
+      ],
+      "previous_sha256": "6879c5ea0d6783376720262d62a5577bd00a2b1a008df6655b1103ba26a324ea"
+    },
+    {
+      "family": "marine",
+      "color": "teal",
+      "pose": "walk6",
+      "original_frame_index": 6,
+      "source": "/private/tmp/broodfall-marine-walk6-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_marine_walk6_teal.png",
+      "sha256": "95f1e710e63476c87eb3137385c50dfefed4e982be62f72ffc0a4c6505b5e6af",
+      "bbox": [
+        67,
+        14,
+        189,
+        242
+      ],
+      "previous_sha256": "07a5af736a81dbbea6f084aca60c7b74e224e6c088906dd6e980131a80204576"
+    },
+    {
+      "family": "marine",
+      "color": "teal",
+      "pose": "walk7",
+      "original_frame_index": 7,
+      "source": "/private/tmp/broodfall-marine-walk7-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_marine_walk7_teal.png",
+      "sha256": "a4010961062dc19336d2a2bd736c7e3ac1155831cf6c49d3cf04f66dc551879d",
+      "bbox": [
+        71,
+        14,
+        185,
+        242
+      ],
+      "previous_sha256": "a6e3cb81e4bb92f9219d7e35b3dd693c0b9dcd911d8756c322d1c7deb660f2de"
+    },
+    {
+      "family": "marine",
+      "color": "teal",
+      "pose": "walk8",
+      "original_frame_index": 8,
+      "source": "/private/tmp/broodfall-marine-walk8-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_marine_walk8_teal.png",
+      "sha256": "db56b43065bfb2797f53a4bd793f457485552124732eed406370154b3c363c9e",
+      "bbox": [
+        68,
+        14,
+        188,
+        242
+      ],
+      "previous_sha256": "d15ed742b9df89967659465be8c307e13425df3b4623f5111c7b8aab6d8db0fd"
+    },
+    {
+      "family": "marine",
+      "color": "teal",
+      "pose": "death1",
+      "original_frame_index": 1,
+      "source": "/private/tmp/broodfall-marine-death1-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_marine_death1_teal.png",
+      "sha256": "259f5a01589e64b94ec1f77825ca3f49630ad015608f453c69156a36beba2664",
+      "bbox": [
+        69,
+        14,
+        187,
+        242
+      ],
+      "previous_sha256": "16f55685b7195ba243f8b4770010a21ed709eb02bd776c7bbb8fc0a676bf2577"
+    },
+    {
+      "family": "marine",
+      "color": "teal",
+      "pose": "death2",
+      "original_frame_index": 2,
+      "source": "/private/tmp/broodfall-marine-death2-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_marine_death2_teal.png",
+      "sha256": "ac2f1aadae6d8a86c4fe82ace2327c4444d2ceb2b1354434105f3afe71f5e3ab",
+      "bbox": [
+        53,
+        14,
+        203,
+        242
+      ],
+      "previous_sha256": "d7546070a5c9511c53b9e7255e343f623e517963cbdda552b5114ff7dc93bab6"
+    },
+    {
+      "family": "marine",
+      "color": "teal",
+      "pose": "death3",
+      "original_frame_index": 3,
+      "source": "/private/tmp/broodfall-marine-death3-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_marine_death3_teal.png",
+      "sha256": "be0ecc59579b9b4ac8b52035aa8d7cc50c8be2c71c74ec23b53e5f8092973d4d",
+      "bbox": [
+        14,
+        32,
+        242,
+        224
+      ],
+      "previous_sha256": "651c62da907f4aab7b898cf8ff8b099c30afcfda997d2fd77f0d2d7be991c5e4"
+    },
+    {
+      "family": "marine",
+      "color": "teal",
+      "pose": "death4",
+      "original_frame_index": 4,
+      "source": "/private/tmp/broodfall-marine-death4-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_marine_death4_teal.png",
+      "sha256": "c1d53a9d670e615571313356aae3049a1a9a90096fac47116b5bcc123a4ebf61",
+      "bbox": [
+        14,
+        55,
+        242,
+        201
+      ],
+      "previous_sha256": "d4e7cfa6a769bf7b6b815c04b7806d0d0fad62e24397a9b9a7a4eb10f6d206b4"
+    },
+    {
+      "family": "marine",
+      "color": "teal",
+      "pose": "hunker",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-marine-hunker-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_marine_hunker_teal.png",
+      "sha256": "75033f3396753847ce28ad7474f3e9c2e17e1bee4ee30d12bada1f0f4d52671e",
+      "bbox": [
+        27,
+        14,
+        229,
+        242
+      ],
+      "previous_sha256": "1b8683bc0d36aabc87680b08a3ea2d117fcdb96a2630b2adfaedc1346c2f2b14"
+    },
+    {
+      "family": "marine",
+      "color": "red",
+      "pose": "static",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-marine-red-preview-v1.png",
+      "destination": "assets/sprites/unit_marine_red.png",
+      "sha256": "509b58d59975aa800ad7732b54795b9ab0c6495ed17077eeb9aa036432607b9a",
+      "bbox": [
+        68,
+        14,
+        187,
+        242
+      ],
+      "previous_sha256": "662950038cca88ab53931d362cb53abbb1a4edd88a6b301b5e1fdb733832c407"
+    },
+    {
+      "family": "marine",
+      "color": "red",
+      "pose": "walk1",
+      "original_frame_index": 1,
+      "source": "/private/tmp/broodfall-marine-walk1-red-preview-v1.png",
+      "destination": "assets/sprites/unit_marine_walk1_red.png",
+      "sha256": "90cf197d512db1aeab1788a22fb79f4422dd394915c2dc82838cee0500ea4078",
+      "bbox": [
+        72,
+        14,
+        184,
+        242
+      ],
+      "previous_sha256": "756be71e9c14697c2ac684be1a3aeafbee70259fa2d9b4cba6dd729ba6a05b29"
+    },
+    {
+      "family": "marine",
+      "color": "red",
+      "pose": "walk2",
+      "original_frame_index": 2,
+      "source": "/private/tmp/broodfall-marine-walk2-red-preview-v1.png",
+      "destination": "assets/sprites/unit_marine_walk2_red.png",
+      "sha256": "5f43ae965f1df58f05eefbb49ab6187a5d0a7ea4a70148fe01a72ff656086df3",
+      "bbox": [
+        67,
+        14,
+        188,
+        242
+      ],
+      "previous_sha256": "c925eba0a10b664cca359cb6b49f8ad484b3b37af7f4a800cf8154b4c24c6afc"
+    },
+    {
+      "family": "marine",
+      "color": "red",
+      "pose": "walk3",
+      "original_frame_index": 3,
+      "source": "/private/tmp/broodfall-marine-walk3-red-preview-v1.png",
+      "destination": "assets/sprites/unit_marine_walk3_red.png",
+      "sha256": "34d03cb4921b6d455d19988740e8fd6aee99087faf2a6ef95088b5996674cfa9",
+      "bbox": [
+        70,
+        14,
+        186,
+        242
+      ],
+      "previous_sha256": "9d5fb42a8d8ac13b9aedb5b08de210e98ac499ebe9a0edc0d73bc3576a0e95dd"
+    },
+    {
+      "family": "marine",
+      "color": "red",
+      "pose": "walk4",
+      "original_frame_index": 4,
+      "source": "/private/tmp/broodfall-marine-walk4-red-preview-v1.png",
+      "destination": "assets/sprites/unit_marine_walk4_red.png",
+      "sha256": "db7522d16e539b2f9a0e87747e30706f3b9e02f9aeeb298a761a81b85ed4f117",
+      "bbox": [
+        72,
+        14,
+        183,
+        242
+      ],
+      "previous_sha256": "c89d5420e0c390696495463d9f9382eee050e84cd4492305d29b1e551b7181a4"
+    },
+    {
+      "family": "marine",
+      "color": "red",
+      "pose": "walk5",
+      "original_frame_index": 5,
+      "source": "/private/tmp/broodfall-marine-walk5-red-preview-v1.png",
+      "destination": "assets/sprites/unit_marine_walk5_red.png",
+      "sha256": "b95ccff7928754132802fd154dd119c60ee3339364c0134441ec541e0a4e8b6f",
+      "bbox": [
+        68,
+        14,
+        188,
+        242
+      ],
+      "previous_sha256": "8b1fe16f465fa88f8b0dff0c07a66bbb3b960f64416307c925df8889811a01cf"
+    },
+    {
+      "family": "marine",
+      "color": "red",
+      "pose": "walk6",
+      "original_frame_index": 6,
+      "source": "/private/tmp/broodfall-marine-walk6-red-preview-v1.png",
+      "destination": "assets/sprites/unit_marine_walk6_red.png",
+      "sha256": "37f10073e9f889c10703e57943c3998e979708844dd6feb750b63fe502ad92f7",
+      "bbox": [
+        67,
+        14,
+        188,
+        242
+      ],
+      "previous_sha256": "f2fbbbaad12f70a47a73c7d5d62ba9db9e43a82cc7e12cbab5bbf39afad8623c"
+    },
+    {
+      "family": "marine",
+      "color": "red",
+      "pose": "walk7",
+      "original_frame_index": 7,
+      "source": "/private/tmp/broodfall-marine-walk7-red-preview-v1.png",
+      "destination": "assets/sprites/unit_marine_walk7_red.png",
+      "sha256": "3f2eae37df7de3f0ec872223facd73f4decdd3df338b669e41ef8918a65c0526",
+      "bbox": [
+        71,
+        14,
+        184,
+        242
+      ],
+      "previous_sha256": "40e93211fd7474de94e9336d93ea527e351b3914e352597959029997ea300cfa"
+    },
+    {
+      "family": "marine",
+      "color": "red",
+      "pose": "walk8",
+      "original_frame_index": 8,
+      "source": "/private/tmp/broodfall-marine-walk8-red-preview-v1.png",
+      "destination": "assets/sprites/unit_marine_walk8_red.png",
+      "sha256": "5bf10632cf79069f881062668634ffcb13df8d0cc8d9e071ca1de6db5c4f1b48",
+      "bbox": [
+        68,
+        14,
+        188,
+        242
+      ],
+      "previous_sha256": "2ae55324134adb8f89a264b1507b2bfcffff0498a4c228296079bfad75eb60c0"
+    },
+    {
+      "family": "marine",
+      "color": "red",
+      "pose": "death1",
+      "original_frame_index": 1,
+      "source": "/private/tmp/broodfall-marine-death1-red-preview-v1.png",
+      "destination": "assets/sprites/unit_marine_death1_red.png",
+      "sha256": "02ba7109a982b21babf8435847d9f8742235b4df352b282cd593f8e3d46714a1",
+      "bbox": [
+        68,
+        14,
+        188,
+        242
+      ],
+      "previous_sha256": "78b2f08d573e885dc4bec326f45ff9a0f6cf1983e002340c645bd6bb5fbaee6d"
+    },
+    {
+      "family": "marine",
+      "color": "red",
+      "pose": "death2",
+      "original_frame_index": 2,
+      "source": "/private/tmp/broodfall-marine-death2-red-preview-v1.png",
+      "destination": "assets/sprites/unit_marine_death2_red.png",
+      "sha256": "64e66a000b0bfadf9f72f46a4dd4ebf4eec6fa2f6995af4384525c3219a26ab6",
+      "bbox": [
+        52,
+        14,
+        203,
+        242
+      ],
+      "previous_sha256": "f9166052706d86d9f79dd7e7bcdcba8398796ad7e66eb607e7fe3adb6f35f21f"
+    },
+    {
+      "family": "marine",
+      "color": "red",
+      "pose": "death3",
+      "original_frame_index": 3,
+      "source": "/private/tmp/broodfall-marine-death3-red-preview-v1.png",
+      "destination": "assets/sprites/unit_marine_death3_red.png",
+      "sha256": "e31513af047d7d315388871c052524a6bcf023e4e623cade2e81e243c0ceed34",
+      "bbox": [
+        14,
+        31,
+        242,
+        224
+      ],
+      "previous_sha256": "ae311d5731df618fd29b6176e037688d84c3e23e40848e02b346410e2b3f95ae"
+    },
+    {
+      "family": "marine",
+      "color": "red",
+      "pose": "death4",
+      "original_frame_index": 4,
+      "source": "/private/tmp/broodfall-marine-death4-red-preview-v1.png",
+      "destination": "assets/sprites/unit_marine_death4_red.png",
+      "sha256": "9d8357f99ca4a775122c76fdbf495179656c42cc44165e2c4f0aed82d284c7ed",
+      "bbox": [
+        14,
+        54,
+        242,
+        202
+      ],
+      "previous_sha256": "29c2abdff23564f46f5fc9e45ad059a9e85dfa63c84f864266a5d44a92157ece"
+    },
+    {
+      "family": "marine",
+      "color": "red",
+      "pose": "hunker",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-marine-hunker-red-preview-v1.png",
+      "destination": "assets/sprites/unit_marine_hunker_red.png",
+      "sha256": "48fd4e513743657a44aed445595096ef523021bb1f0e1c80e885454fe30a5af4",
+      "bbox": [
+        28,
+        14,
+        228,
+        242
+      ],
+      "previous_sha256": "a8e12ab82d960ea7d102c70f110167824f2c2a446d57892265cbab03e607cf42"
+    },
+    {
+      "family": "engineer",
+      "color": "teal",
+      "pose": "static",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-engineer-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_engineer_teal.png",
+      "sha256": "2fc5b9c8d05f987d0e3522f8c2656d321a4e9ad45ebcc690410c81fc50b736bc",
+      "bbox": [
+        46,
+        14,
+        210,
+        242
+      ],
+      "previous_sha256": "579d2159027a67cc1cc7bd5ef7df4c317ea2daf9597b1ffd4292d5d82851560d"
+    },
+    {
+      "family": "engineer",
+      "color": "teal",
+      "pose": "walk1",
+      "original_frame_index": 1,
+      "source": "/private/tmp/broodfall-engineer-walk1-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_engineer_walk1_teal.png",
+      "sha256": "742bb486f7f1c08b0ff2033ed3144263abb50d27c67e8bc68bfeda8b2808fa31",
+      "bbox": [
+        57,
+        14,
+        198,
+        242
+      ],
+      "previous_sha256": "c6485dbecfd816b0ddbaf7e4c361da00b6e2d4cadfed42279a35f36498eeaf02"
+    },
+    {
+      "family": "engineer",
+      "color": "teal",
+      "pose": "walk2",
+      "original_frame_index": 2,
+      "source": "/private/tmp/broodfall-engineer-walk2-teal-preview-v3.png",
+      "destination": "assets/sprites/unit_engineer_walk2_teal.png",
+      "sha256": "ede6e066094e0bebfd60d55c2fef1b2bd67599a0d9ccf6e5d992717805032d71",
+      "bbox": [
+        55,
+        14,
+        201,
+        242
+      ],
+      "previous_sha256": "8b4111ee75be3bac6eb53c3754f7dfebe5360f271e9669d98b672533f5dec2ed"
+    },
+    {
+      "family": "engineer",
+      "color": "teal",
+      "pose": "walk3",
+      "original_frame_index": 3,
+      "source": "/private/tmp/broodfall-engineer-walk3-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_engineer_walk3_teal.png",
+      "sha256": "7d0949c77b24832b015faf789e7de2093123d047ca19203603459b26c71e3223",
+      "bbox": [
+        54,
+        14,
+        202,
+        242
+      ],
+      "previous_sha256": "0cde6b1ad3082cd3b0b00b34a20ecbc2a22ac98f58e5028c73adb35015fe3c0f"
+    },
+    {
+      "family": "engineer",
+      "color": "teal",
+      "pose": "walk4",
+      "original_frame_index": 4,
+      "source": "/private/tmp/broodfall-engineer-walk4-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_engineer_walk4_teal.png",
+      "sha256": "e2fece5ccdc19b2d9b833cefbfad7c5743419348ca9c54c71d011f387676d709",
+      "bbox": [
+        54,
+        14,
+        202,
+        242
+      ],
+      "previous_sha256": "8cfa2290732407346e2d4bd35f76a73e9cbca84feb09d22b339424a8263b463f"
+    },
+    {
+      "family": "engineer",
+      "color": "teal",
+      "pose": "walk5",
+      "original_frame_index": 5,
+      "source": "/private/tmp/broodfall-engineer-walk5-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_engineer_walk5_teal.png",
+      "sha256": "6e5ca598851e5b5eb17840192072b50ec84f54cef4f39972d7fb3aeb1688e9e2",
+      "bbox": [
+        60,
+        14,
+        196,
+        242
+      ],
+      "previous_sha256": "87862c8e08867f4e036fa5184d77762e4e67015cdd816f1097c7d930e8c63104"
+    },
+    {
+      "family": "engineer",
+      "color": "teal",
+      "pose": "walk6",
+      "original_frame_index": 6,
+      "source": "/private/tmp/broodfall-engineer-walk6-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_engineer_walk6_teal.png",
+      "sha256": "a704bcd3c34efdd717f0d6d9919b82b491ecaf9c01430a7094741f488278901c",
+      "bbox": [
+        53,
+        14,
+        202,
+        242
+      ],
+      "previous_sha256": "5ae4a2d03056cd2fdeec37554f3c3a17b42482b6fe9729b3c18b829b3ffb73a9"
+    },
+    {
+      "family": "engineer",
+      "color": "teal",
+      "pose": "walk7",
+      "original_frame_index": 7,
+      "source": "/private/tmp/broodfall-engineer-walk7-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_engineer_walk7_teal.png",
+      "sha256": "84f093426d1fa1cfc8f5d82c9555d8cdd4d08366d53a609f1edaec980f373b84",
+      "bbox": [
+        58,
+        14,
+        198,
+        242
+      ],
+      "previous_sha256": "8b2e0bf01f06102dab0748dd4be57f2c5c7e2197fbe3ba5634265e19ccadb269"
+    },
+    {
+      "family": "engineer",
+      "color": "teal",
+      "pose": "walk8",
+      "original_frame_index": 8,
+      "source": "/private/tmp/broodfall-engineer-walk8-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_engineer_walk8_teal.png",
+      "sha256": "280adb16122883c6a08db407f0a620a263bab6261edd6b290e2ddfd33148a173",
+      "bbox": [
+        58,
+        14,
+        198,
+        242
+      ],
+      "previous_sha256": "714537c6ec10d654d6b48761d5ed81cf7d491e035038b3aa3c8d0cd7d3a8a4b5"
+    },
+    {
+      "family": "engineer",
+      "color": "teal",
+      "pose": "death1",
+      "original_frame_index": 1,
+      "source": "/private/tmp/broodfall-engineer-death1-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_engineer_death1_teal.png",
+      "sha256": "7eeefdcead776157fba473f7f58fa33453457c0993e431c30724e9562e9a0489",
+      "bbox": [
+        33,
+        14,
+        222,
+        242
+      ],
+      "previous_sha256": "51745d833c9699f539fa3af10821fdf0184edd615b599679330915d3b8019488"
+    },
+    {
+      "family": "engineer",
+      "color": "teal",
+      "pose": "death2",
+      "original_frame_index": 2,
+      "source": "/private/tmp/broodfall-engineer-death2-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_engineer_death2_teal.png",
+      "sha256": "d94cdb8587b0a358df6c163c181ae2f7ca5baae2f38731fad947fc81fb6de7fa",
+      "bbox": [
+        14,
+        40,
+        242,
+        215
+      ],
+      "previous_sha256": "66b9fc2c0936dce6cd7ef811f7cb03969227288db8be5bb71214ef3ba6a29305"
+    },
+    {
+      "family": "engineer",
+      "color": "teal",
+      "pose": "death3",
+      "original_frame_index": 3,
+      "source": "/private/tmp/broodfall-engineer-death3-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_engineer_death3_teal.png",
+      "sha256": "5daa304ed6f41c959d4e1cb5ce7c60b1b1995febd63f465a0b1d11a204e9cfbb",
+      "bbox": [
+        14,
+        57,
+        242,
+        199
+      ],
+      "previous_sha256": "51e2f3161aa98edcb9a41ee23b9186f96f8291343227084174ac49b37a38cb0b"
+    },
+    {
+      "family": "engineer",
+      "color": "teal",
+      "pose": "death4",
+      "original_frame_index": 4,
+      "source": "/private/tmp/broodfall-engineer-death4-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_engineer_death4_teal.png",
+      "sha256": "75eb70df485019725786d46e31dde40fecee6bbb50a6e5ddf0f41b5f2931b653",
+      "bbox": [
+        14,
+        58,
+        242,
+        197
+      ],
+      "previous_sha256": "5fa7a8efce5deae230239ea859a6776da74cf8faa4ac380b6cf8352890a850a6"
+    },
+    {
+      "family": "engineer",
+      "color": "red",
+      "pose": "static",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-engineer-red-preview-v1.png",
+      "destination": "assets/sprites/unit_engineer_red.png",
+      "sha256": "40534685e753b18c84cd2312a26da1d5677a4ff1a02bc9c32c05b84b6ae21d4f",
+      "bbox": [
+        46,
+        14,
+        210,
+        242
+      ],
+      "previous_sha256": "2691a44e0ca05f08c37e9c1a65e77ec5b75af5da0779bf61f2b6231bda396993"
+    },
+    {
+      "family": "engineer",
+      "color": "red",
+      "pose": "walk1",
+      "original_frame_index": 1,
+      "source": "/private/tmp/broodfall-engineer-walk1-red-preview-v1.png",
+      "destination": "assets/sprites/unit_engineer_walk1_red.png",
+      "sha256": "4d5b1fb6d215959e0e3bce3b170e146805f22417f290d7148e9bd58a6bddc40d",
+      "bbox": [
+        58,
+        14,
+        198,
+        242
+      ],
+      "previous_sha256": "2987bf85ec4f87c4f54c1f255a9177eed9615658ce84ece9cd546302523b01d2"
+    },
+    {
+      "family": "engineer",
+      "color": "red",
+      "pose": "walk2",
+      "original_frame_index": 2,
+      "source": "/private/tmp/broodfall-engineer-walk2-red-preview-v1.png",
+      "destination": "assets/sprites/unit_engineer_walk2_red.png",
+      "sha256": "35272c5da00a653903bc3835eb8714dbc0ec8634af65bfa20185d8ec565b411a",
+      "bbox": [
+        51,
+        14,
+        205,
+        242
+      ],
+      "previous_sha256": "2975e32f84e79bbbb35bfb15a1926eb7d2ae0040e227a62bb4404fdd40dfd444"
+    },
+    {
+      "family": "engineer",
+      "color": "red",
+      "pose": "walk3",
+      "original_frame_index": 3,
+      "source": "/private/tmp/broodfall-engineer-walk3-red-preview-v1.png",
+      "destination": "assets/sprites/unit_engineer_walk3_red.png",
+      "sha256": "069dc86b87b709f913b0490cfd6eb2980cedc274387c7a68e4c6dd87469f320e",
+      "bbox": [
+        50,
+        14,
+        205,
+        242
+      ],
+      "previous_sha256": "8a5c762274f3e2aab44476d125c15b5bf46580e5fb786e967bed245f9ee7c18b"
+    },
+    {
+      "family": "engineer",
+      "color": "red",
+      "pose": "walk4",
+      "original_frame_index": 4,
+      "source": "/private/tmp/broodfall-engineer-walk4-red-preview-v1.png",
+      "destination": "assets/sprites/unit_engineer_walk4_red.png",
+      "sha256": "8375b8972a51121ada17f3312c0ca5d6e1a0718feedd8e5a2fc5d0694cefa034",
+      "bbox": [
+        50,
+        14,
+        205,
+        242
+      ],
+      "previous_sha256": "2d3802057e2b627b806e022f3b2ba97cc7db5b3570543babda5a0fc4b17e336b"
+    },
+    {
+      "family": "engineer",
+      "color": "red",
+      "pose": "walk5",
+      "original_frame_index": 5,
+      "source": "/private/tmp/broodfall-engineer-walk5-red-preview-v1.png",
+      "destination": "assets/sprites/unit_engineer_walk5_red.png",
+      "sha256": "bf6041043e4badaac91174d40f04180f9738270fc42d3e49b42de0615bfffb77",
+      "bbox": [
+        58,
+        14,
+        198,
+        242
+      ],
+      "previous_sha256": "4d122e7c4ba6cfa580c15a399cc33847dafaf07e364fab0a280d27bf995ac418"
+    },
+    {
+      "family": "engineer",
+      "color": "red",
+      "pose": "walk6",
+      "original_frame_index": 6,
+      "source": "/private/tmp/broodfall-engineer-walk6-red-preview-v1.png",
+      "destination": "assets/sprites/unit_engineer_walk6_red.png",
+      "sha256": "e194a45d99718f5fca6f4abb196a50e71f308457fa68be64bb39bafcb308ac1c",
+      "bbox": [
+        51,
+        14,
+        204,
+        242
+      ],
+      "previous_sha256": "dc0e7486ea6d73ab5d02cef19d742a755de9c71bc436cfa36a9ae34bc74b7f86"
+    },
+    {
+      "family": "engineer",
+      "color": "red",
+      "pose": "walk7",
+      "original_frame_index": 7,
+      "source": "/private/tmp/broodfall-engineer-walk7-red-preview-v1.png",
+      "destination": "assets/sprites/unit_engineer_walk7_red.png",
+      "sha256": "e0cae4653657bb8bcfd68b6f425fcf807f9d6ceb34cccacc863490338415ce5d",
+      "bbox": [
+        57,
+        14,
+        199,
+        242
+      ],
+      "previous_sha256": "6ff547ea5d8ee7c33a52726082fa8d2c67219fa81dabf28d60415842264a66b0"
+    },
+    {
+      "family": "engineer",
+      "color": "red",
+      "pose": "walk8",
+      "original_frame_index": 8,
+      "source": "/private/tmp/broodfall-engineer-walk8-red-preview-v1.png",
+      "destination": "assets/sprites/unit_engineer_walk8_red.png",
+      "sha256": "ef6eeea5b02da03feb00df6dde5a4ffc3a8e00ff56468599ecd01ebc61577580",
+      "bbox": [
+        57,
+        14,
+        198,
+        242
+      ],
+      "previous_sha256": "7d86beb25b8260d1a411b077faf766f2a9cc292ece9fda407272cc373915b073"
+    },
+    {
+      "family": "engineer",
+      "color": "red",
+      "pose": "death1",
+      "original_frame_index": 1,
+      "source": "/private/tmp/broodfall-engineer-death1-red-preview-v2.png",
+      "destination": "assets/sprites/unit_engineer_death1_red.png",
+      "sha256": "87c71548e4be1dc49c67df9f1ee1af9424ee4186ac2b96ce1f3999a2b6b045dd",
+      "bbox": [
+        35,
+        14,
+        220,
+        242
+      ],
+      "previous_sha256": "5f9d6c8b5ead121c2821d47b94bb7534cb65e96ebc004359b67d928390d1320d"
+    },
+    {
+      "family": "engineer",
+      "color": "red",
+      "pose": "death2",
+      "original_frame_index": 2,
+      "source": "/private/tmp/broodfall-engineer-death2-red-preview-v1.png",
+      "destination": "assets/sprites/unit_engineer_death2_red.png",
+      "sha256": "3897b9c08fd39f7491cc9507ecead0d016d03b61b90088804e968bb360aac436",
+      "bbox": [
+        14,
+        41,
+        242,
+        215
+      ],
+      "previous_sha256": "a3b239a7ea4cafda3bdde96879f7256c365ebb713e873d974417a4f805490d6e"
+    },
+    {
+      "family": "engineer",
+      "color": "red",
+      "pose": "death3",
+      "original_frame_index": 3,
+      "source": "/private/tmp/broodfall-engineer-death3-red-preview-v1.png",
+      "destination": "assets/sprites/unit_engineer_death3_red.png",
+      "sha256": "9341a316dd62224d3b04b834c2f182b2200323aa39e9d063ebdedfc420b57bcd",
+      "bbox": [
+        14,
+        57,
+        242,
+        198
+      ],
+      "previous_sha256": "d89fd48845fadf3763aa9e4b754c0d72dbcfa39e6a310e6f73d27c9bf339c9cb"
+    },
+    {
+      "family": "engineer",
+      "color": "red",
+      "pose": "death4",
+      "original_frame_index": 4,
+      "source": "/private/tmp/broodfall-engineer-death4-red-preview-v1.png",
+      "destination": "assets/sprites/unit_engineer_death4_red.png",
+      "sha256": "8dd61b8ad77ada09dee19a698340aa1174854ec136b6bcb514a51950c1008267",
+      "bbox": [
+        14,
+        57,
+        242,
+        198
+      ],
+      "previous_sha256": "48be535de164960745f85db276af6f81989bc1de3437985c5e1e7f379ef86f3e"
+    },
+    {
+      "family": "sniper",
+      "color": "teal",
+      "pose": "static",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-sniper-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_sniper_teal.png",
+      "sha256": "0f5a4a9003f44039cf4ac41d876a7d331cf2dac880712be1ae322e492460c6b1",
+      "bbox": [
+        87,
+        14,
+        168,
+        242
+      ],
+      "previous_sha256": "3763f459fe43621561c49661b53748663d21c3806b4c0134c0035de41609530e"
+    },
+    {
+      "family": "sniper",
+      "color": "red",
+      "pose": "static",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-sniper-red-preview-v1.png",
+      "destination": "assets/sprites/unit_sniper_red.png",
+      "sha256": "89ad8636307d6ff3476baff264e8cb4e6988c844299b583f1cac66b69a931569",
+      "bbox": [
+        88,
+        14,
+        168,
+        242
+      ],
+      "previous_sha256": "08d9078c57bf2bdb335ae7e5717b86bb4f3f9197b2ee1fe4e01350aee094dfaa"
+    },
+    {
+      "family": "sniper",
+      "color": "teal",
+      "pose": "walk1",
+      "original_frame_index": 1,
+      "source": "/private/tmp/broodfall-sniper-walk1-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_sniper_walk1_teal.png",
+      "sha256": "7f2684de6b7daf1da74cf2d16d2ec78340dfc23f68743ba22e04e7a2af82415c",
+      "bbox": [
+        91,
+        14,
+        164,
+        242
+      ],
+      "previous_sha256": "064f29e18242b12e2155a94eb20a927676b7cdba59ceb7e20486a9f2172e3376"
+    },
+    {
+      "family": "sniper",
+      "color": "red",
+      "pose": "walk1",
+      "original_frame_index": 1,
+      "source": "/private/tmp/broodfall-sniper-walk1-red-preview-v1.png",
+      "destination": "assets/sprites/unit_sniper_walk1_red.png",
+      "sha256": "b23638037035c716e1affcd4c657ddd4170aed497f27b914e5713be64e62192c",
+      "bbox": [
+        90,
+        14,
+        165,
+        242
+      ],
+      "previous_sha256": "5de8519f04957c7910f49cc421271be5cbff35a472f21627934d8c8a34e2d288"
+    },
+    {
+      "family": "sniper",
+      "color": "teal",
+      "pose": "walk2",
+      "original_frame_index": 7,
+      "source": "/private/tmp/broodfall-sniper-walk7-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_sniper_walk2_teal.png",
+      "sha256": "425f6459469346703d7c89ba7c55ec2aabe1ee4bfcb9636aedaef85bcaede472",
+      "bbox": [
+        90,
+        14,
+        166,
+        242
+      ],
+      "previous_sha256": "e816b316abad09302cbf3b7bc84dfef6d878f25a81dd64b287c9a11813370e76"
+    },
+    {
+      "family": "sniper",
+      "color": "red",
+      "pose": "walk2",
+      "original_frame_index": 7,
+      "source": "/private/tmp/broodfall-sniper-walk7-red-preview-v4.png",
+      "destination": "assets/sprites/unit_sniper_walk2_red.png",
+      "sha256": "f89e6da11bbba83c5731d3f410438061375054993e51017cf1b8076acf92c92d",
+      "bbox": [
+        89,
+        14,
+        166,
+        242
+      ],
+      "previous_sha256": "b304c525efd39958e2006b083f85a89db596c344f5c8e88b90479b4189642e8f"
+    },
+    {
+      "family": "sniper",
+      "color": "teal",
+      "pose": "walk3",
+      "original_frame_index": 2,
+      "source": "/private/tmp/broodfall-sniper-walk2-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_sniper_walk3_teal.png",
+      "sha256": "1ccb8f137f0cd87fecd8b9faf39bc6a165ab4736ad534f01fa3d9255e0c29403",
+      "bbox": [
+        88,
+        14,
+        168,
+        242
+      ],
+      "previous_sha256": "e6399036b4bf56c72624cd9dd73698c0347f0ed309643c2f2c55103c665aa1d2"
+    },
+    {
+      "family": "sniper",
+      "color": "red",
+      "pose": "walk3",
+      "original_frame_index": 2,
+      "source": "/private/tmp/broodfall-sniper-walk2-red-preview-v1.png",
+      "destination": "assets/sprites/unit_sniper_walk3_red.png",
+      "sha256": "d6f627e13b53d17cae16b4ec63ff02a4cc3392a4d2e3b34e49dfd47f556f82bf",
+      "bbox": [
+        86,
+        14,
+        169,
+        242
+      ],
+      "previous_sha256": "3917ce07debdb984309bfa467319bdd4fd4a2382044406bbd9dcb30a46a41639"
+    },
+    {
+      "family": "sniper",
+      "color": "teal",
+      "pose": "walk4",
+      "original_frame_index": 8,
+      "source": "/private/tmp/broodfall-sniper-walk8-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_sniper_walk4_teal.png",
+      "sha256": "49c6897b262a7871307b105c42ffa6e44fc188b052694572ab120f4864670adf",
+      "bbox": [
+        87,
+        14,
+        168,
+        242
+      ],
+      "previous_sha256": "9c7c11de23e5ecf9f68bf3992eb17e7ac5982011be6116f0d9242b8eaeb8733a"
+    },
+    {
+      "family": "sniper",
+      "color": "red",
+      "pose": "walk4",
+      "original_frame_index": 8,
+      "source": "/private/tmp/broodfall-sniper-walk8-red-preview-v2.png",
+      "destination": "assets/sprites/unit_sniper_walk4_red.png",
+      "sha256": "3991dc518009e46406fdf0659a8e0d6bbea7608f88f1a162f6ba866611f31218",
+      "bbox": [
+        86,
+        14,
+        170,
+        242
+      ],
+      "previous_sha256": "b3adc90287caf5affbbe6ea349bd0a55953706d83cd423441640b5037d5780f5"
+    },
+    {
+      "family": "sniper",
+      "color": "teal",
+      "pose": "walk5",
+      "original_frame_index": 4,
+      "source": "/private/tmp/broodfall-sniper-walk4-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_sniper_walk5_teal.png",
+      "sha256": "58a38b141050f64ea4341ca6e067bc0d520923aad90fd70cfdcfb0c56e98d893",
+      "bbox": [
+        88,
+        14,
+        168,
+        242
+      ],
+      "previous_sha256": "66713443c2445e86f4ad94c39f50dc94588a975686f5462072d23e5823fe72ed"
+    },
+    {
+      "family": "sniper",
+      "color": "red",
+      "pose": "walk5",
+      "original_frame_index": 4,
+      "source": "/private/tmp/broodfall-sniper-walk4-red-preview-v1.png",
+      "destination": "assets/sprites/unit_sniper_walk5_red.png",
+      "sha256": "4e7c043abe91eb27aff453b3778e97fc9b6b229cf5c303e89a0b925c47febfae",
+      "bbox": [
+        89,
+        14,
+        167,
+        242
+      ],
+      "previous_sha256": "7a27191a8238bc996703780b0540755d0f2e971bee6a723be5a3fc2e560c4d4a"
+    },
+    {
+      "family": "sniper",
+      "color": "teal",
+      "pose": "walk6",
+      "original_frame_index": 3,
+      "source": "/private/tmp/broodfall-sniper-walk3-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_sniper_walk6_teal.png",
+      "sha256": "d3fd4463b67ffc9ecbdb84157c0c206d9bcad719056cbd507676c1cd1c0b0a5c",
+      "bbox": [
+        90,
+        14,
+        166,
+        242
+      ],
+      "previous_sha256": "84d1aaa6dc1debd25fb18c921caf099deee818292568ee1f617ee1dcc856e941"
+    },
+    {
+      "family": "sniper",
+      "color": "red",
+      "pose": "walk6",
+      "original_frame_index": 3,
+      "source": "/private/tmp/broodfall-sniper-walk3-red-preview-v1.png",
+      "destination": "assets/sprites/unit_sniper_walk6_red.png",
+      "sha256": "051ec67287989ae334faba35edd0f18077533c208e019bd1027534033f6ab0f0",
+      "bbox": [
+        89,
+        14,
+        167,
+        242
+      ],
+      "previous_sha256": "62d1f8fac9714dfb9ddb38431b073fe627ead1d30858f3dd587ed12beff5cfca"
+    },
+    {
+      "family": "sniper",
+      "color": "teal",
+      "pose": "walk7",
+      "original_frame_index": 6,
+      "source": "/private/tmp/broodfall-sniper-walk6-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_sniper_walk7_teal.png",
+      "sha256": "fd7e14a3cf937aaf9ceae8055d669414490bcdbcf5817f66601ed927a57a48d2",
+      "bbox": [
+        86,
+        14,
+        169,
+        242
+      ],
+      "previous_sha256": "828b8622d5c7857dd64bce2622bd341f8318572bfdc3d27bb543e43a5feb97d1"
+    },
+    {
+      "family": "sniper",
+      "color": "red",
+      "pose": "walk7",
+      "original_frame_index": 6,
+      "source": "/private/tmp/broodfall-sniper-walk6-red-preview-v1.png",
+      "destination": "assets/sprites/unit_sniper_walk7_red.png",
+      "sha256": "729a8b223578f80d4cc4a60abf3f2a352c314801cfdb2cabed3d9d16f105db79",
+      "bbox": [
+        86,
+        14,
+        170,
+        242
+      ],
+      "previous_sha256": "2ba3131607bd898c33a452682d8b8b952a91cf367ce4c7044c5e58b69e6f2439"
+    },
+    {
+      "family": "sniper",
+      "color": "teal",
+      "pose": "walk8",
+      "original_frame_index": 5,
+      "source": "/private/tmp/broodfall-sniper-walk5-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_sniper_walk8_teal.png",
+      "sha256": "41f3b4c85fdf44e3f7693f5bad41d05abcae79ccf586c6fe44e9c58f41ced1fd",
+      "bbox": [
+        89,
+        14,
+        166,
+        242
+      ],
+      "previous_sha256": "b1be195d8d16f38d830b9dd0bb2cc2807bd5ad53b4329469675581a951653742"
+    },
+    {
+      "family": "sniper",
+      "color": "red",
+      "pose": "walk8",
+      "original_frame_index": 5,
+      "source": "/private/tmp/broodfall-sniper-walk5-red-preview-v1.png",
+      "destination": "assets/sprites/unit_sniper_walk8_red.png",
+      "sha256": "4c5411ecebb59187a2c0a1eb6b93bdd267027833556c334e60a84f8de782709a",
+      "bbox": [
+        88,
+        14,
+        168,
+        242
+      ],
+      "previous_sha256": "389572b06d30456eb68714abcdeb42a81eb3b2f3daa4dfd7bd8b229bb370b4ef"
+    },
+    {
+      "family": "sniper",
+      "color": "teal",
+      "pose": "death1",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-sniper-death1-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_sniper_death1_teal.png",
+      "sha256": "753e28bb8ca695375a2ca96ebc7438a4025b8573a9dc41d2ea0c5db0309ab47e",
+      "bbox": [
+        78,
+        14,
+        177,
+        242
+      ],
+      "previous_sha256": "e8131e510ee2b8463e35867edcaa371bcab819fde71a0df06874f81bff33224a"
+    },
+    {
+      "family": "sniper",
+      "color": "red",
+      "pose": "death1",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-sniper-death1-red-preview-v1.png",
+      "destination": "assets/sprites/unit_sniper_death1_red.png",
+      "sha256": "767fc3caf5c7f9fb4d26ed9948caebae1152bbef9959819de8b6681a7f1b0835",
+      "bbox": [
+        77,
+        14,
+        178,
+        242
+      ],
+      "previous_sha256": "e7dac3c5c1ead574853b82f407bd8c276e7abb37fa32bc6262292bc806956acd"
+    },
+    {
+      "family": "sniper",
+      "color": "teal",
+      "pose": "death2",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-sniper-death2-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_sniper_death2_teal.png",
+      "sha256": "0561b997b948388b6861fd5f6efc0e9d65c3a8863c94a6371acc8e97a6a3541f",
+      "bbox": [
+        84,
+        14,
+        172,
+        242
+      ],
+      "previous_sha256": "a815b86629bb6de8fac5b904bd407d905528a2779f99f67dba4f999bac735894"
+    },
+    {
+      "family": "sniper",
+      "color": "red",
+      "pose": "death2",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-sniper-death2-red-preview-v1.png",
+      "destination": "assets/sprites/unit_sniper_death2_red.png",
+      "sha256": "6187317dbe9f703d1a0a0926b4f17534885d1b7abb871a072dfb8238f656acf8",
+      "bbox": [
+        83,
+        14,
+        173,
+        242
+      ],
+      "previous_sha256": "df6f4bf9906f4580508d41842f18a4c581b01831a0f8e445844aadd00befec9c"
+    },
+    {
+      "family": "sniper",
+      "color": "teal",
+      "pose": "death3",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-sniper-death3-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_sniper_death3_teal.png",
+      "sha256": "60ddb3f32bd4c5c10d5e2478e0cbceb6353180f86c1b84d1a2f336128a275d70",
+      "bbox": [
+        52,
+        54,
+        204,
+        201
+      ],
+      "previous_sha256": "da446d203f4dcac7e54e693b2afeb325a68b4374869c0c1dcbafd655a58dfe2d"
+    },
+    {
+      "family": "sniper",
+      "color": "red",
+      "pose": "death3",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-sniper-death3-red-preview-v1.png",
+      "destination": "assets/sprites/unit_sniper_death3_red.png",
+      "sha256": "d54eb3a3f1e6e4f5642ebe2415481552c890b7876da6d4d37fc5cce84c3af3ec",
+      "bbox": [
+        52,
+        54,
+        204,
+        201
+      ],
+      "previous_sha256": "ac2c2fab373873a7307a8a96ed62ddd013b546dd08f005af30122e1bf02ed844"
+    },
+    {
+      "family": "sniper",
+      "color": "teal",
+      "pose": "death4",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-sniper-death4-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_sniper_death4_teal.png",
+      "sha256": "21138f179027085e0a9139b97f65fad85c624e8599ce8f1a215f55ff3fc4a8c4",
+      "bbox": [
+        14,
+        87,
+        242,
+        169
+      ],
+      "previous_sha256": "d831f3bd8723c7e68673cb2391cdb9e66280da7cb7ed0d7b9d77c015c5eecf62"
+    },
+    {
+      "family": "sniper",
+      "color": "red",
+      "pose": "death4",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-sniper-death4-red-preview-v1.png",
+      "destination": "assets/sprites/unit_sniper_death4_red.png",
+      "sha256": "67fe75c06828401c26c40f7a79ef2cd7270f73beac23ac81fd18dd67424414ab",
+      "bbox": [
+        14,
+        87,
+        242,
+        168
+      ],
+      "previous_sha256": "1535d48dba572d5eb20aca3c2003dee5fd0c1b15d104429190e8c2f3a3634af3"
+    },
+    {
+      "family": "sniper",
+      "color": "teal",
+      "pose": "hunker",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-sniper-hunker-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_sniper_hunker_teal.png",
+      "sha256": "00f48c14da4e9d67d9b5bb479c0a9e6506dd388e331a24b86e32b32607b12114",
+      "bbox": [
+        83,
+        14,
+        173,
+        242
+      ],
+      "previous_sha256": "892a20361aa101923fd23d030e4da4c61f36ad9ef316023ec2f51ceab65cc061"
+    },
+    {
+      "family": "sniper",
+      "color": "red",
+      "pose": "hunker",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-sniper-hunker-red-preview-v1.png",
+      "destination": "assets/sprites/unit_sniper_hunker_red.png",
+      "sha256": "809f2a735f583c89177c61510e93ba6cc1a968e5c1ad4bd6bf8b8b37623afa5c",
+      "bbox": [
+        83,
+        14,
+        172,
+        242
+      ],
+      "previous_sha256": "3b27f4597f7525405308ac1eba129fc2673ef3f92f2c746a7f490d3022e44e4a"
+    },
+    {
+      "family": "medic",
+      "color": "teal",
+      "pose": "static",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-medic-teal-preview-v3.png",
+      "destination": "assets/sprites/unit_medic_teal.png",
+      "sha256": "d5168c8eb66e0f863d05dd59224cff4f4503bdc3fbc3b11a15549e72cd1b79de",
+      "bbox": [
+        56,
+        14,
+        199,
+        242
+      ],
+      "previous_sha256": "5712cb39f5ce2069c9e3edd8986890c6816b9358ab7444245c521aa58036fad6"
+    },
+    {
+      "family": "medic",
+      "color": "red",
+      "pose": "static",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-medic-red-preview-v1.png",
+      "destination": "assets/sprites/unit_medic_red.png",
+      "sha256": "4541ae9d55b7296e5c08a988d24494b9541a248a493d78f61ecb1f05224f4409",
+      "bbox": [
+        55,
+        14,
+        200,
+        242
+      ],
+      "previous_sha256": "766ef7ba048362dd5c529d18989746ba3aedde1c919729267fffef2c170fdb20"
+    },
+    {
+      "family": "medic",
+      "color": "teal",
+      "pose": "walk1",
+      "original_frame_index": 1,
+      "source": "/private/tmp/broodfall-medic-walk1-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_medic_walk1_teal.png",
+      "sha256": "2ec1805ea23f8f0ef1cc7a52932034b50e1d383ab6cdc1470a822fd7e8b2d74c",
+      "bbox": [
+        61,
+        14,
+        195,
+        242
+      ],
+      "previous_sha256": "77b46846dd5cdfa05248d6741b912258489fc80904c5547ef90956084462a9dd"
+    },
+    {
+      "family": "medic",
+      "color": "red",
+      "pose": "walk1",
+      "original_frame_index": 1,
+      "source": "/private/tmp/broodfall-medic-walk1-red-preview-v1.png",
+      "destination": "assets/sprites/unit_medic_walk1_red.png",
+      "sha256": "6d2f4861ab5e12b3f21b49da91f4749a6b74ca646a35c39e4833ea7a5916d453",
+      "bbox": [
+        61,
+        14,
+        195,
+        242
+      ],
+      "previous_sha256": "2909b8b7793c7cc956db7938c4abdd0ca006093c04189d67e7bb1804ed955b11"
+    },
+    {
+      "family": "medic",
+      "color": "teal",
+      "pose": "walk2",
+      "original_frame_index": 2,
+      "source": "/private/tmp/broodfall-medic-walk2-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_medic_walk2_teal.png",
+      "sha256": "f3ac33c0ec3e8946761ff31114932abf9f4afa750b1b98e18b9103d1597f878d",
+      "bbox": [
+        64,
+        14,
+        191,
+        242
+      ],
+      "previous_sha256": "2c7bdc14eb0e58a9a1c703ad602af2e86f533e378aa939697559c5437cf361ae"
+    },
+    {
+      "family": "medic",
+      "color": "red",
+      "pose": "walk2",
+      "original_frame_index": 2,
+      "source": "/private/tmp/broodfall-medic-walk2-red-preview-v1.png",
+      "destination": "assets/sprites/unit_medic_walk2_red.png",
+      "sha256": "fa218ce49056e65a8d3f1cdb5c20d4cbcd377712aeab5e0278733e2a1c6d052b",
+      "bbox": [
+        64,
+        14,
+        192,
+        242
+      ],
+      "previous_sha256": "4c3d60000842200001e254928a93c842f8863c5b33eed657e186666da22cfabe"
+    },
+    {
+      "family": "medic",
+      "color": "teal",
+      "pose": "walk3",
+      "original_frame_index": 4,
+      "source": "/private/tmp/broodfall-medic-walk4-teal-preview-v3.png",
+      "destination": "assets/sprites/unit_medic_walk3_teal.png",
+      "sha256": "74027c28505a9789aea5b90dac38c6d0fd389b3a676a850bd49ad4d0d61d020a",
+      "bbox": [
+        61,
+        14,
+        195,
+        228
+      ],
+      "previous_sha256": "6416083a5d3fd52b0981c02902253771694236c793cea1f4fbe0077e410f1b5c"
+    },
+    {
+      "family": "medic",
+      "color": "red",
+      "pose": "walk3",
+      "original_frame_index": 4,
+      "source": "/private/tmp/broodfall-medic-walk4-red-preview-v1.png",
+      "destination": "assets/sprites/unit_medic_walk3_red.png",
+      "sha256": "1c94ede05d7b019499227e9e00b87f401a55063ccfa3497e970d6b2d7a683864",
+      "bbox": [
+        62,
+        14,
+        194,
+        228
+      ],
+      "previous_sha256": "3742d7a5f82ddaa1f0069dea0413468c15297ccc6b005eaf828c39afdd21c04c"
+    },
+    {
+      "family": "medic",
+      "color": "teal",
+      "pose": "walk4",
+      "original_frame_index": 3,
+      "source": "/private/tmp/broodfall-medic-walk3-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_medic_walk4_teal.png",
+      "sha256": "97e3161004ca1c24e1fe8d322c21cc2c5a6a0f2aa7ace013dc5ccc4361ce781e",
+      "bbox": [
+        62,
+        14,
+        193,
+        242
+      ],
+      "previous_sha256": "03bec26c375340301154b6f0446e66ac05757626a3922ec2c93a51e12df27241"
+    },
+    {
+      "family": "medic",
+      "color": "red",
+      "pose": "walk4",
+      "original_frame_index": 3,
+      "source": "/private/tmp/broodfall-medic-walk3-red-preview-v1.png",
+      "destination": "assets/sprites/unit_medic_walk4_red.png",
+      "sha256": "842d2840271e838fe9093f00b604c7f6667f453edc05851ffb7f504a1e4de904",
+      "bbox": [
+        62,
+        14,
+        193,
+        242
+      ],
+      "previous_sha256": "03ea8a04ad52f67ce12a98c3539a3baff1366b171deaa37441ce304e56d81551"
+    },
+    {
+      "family": "medic",
+      "color": "teal",
+      "pose": "walk5",
+      "original_frame_index": 8,
+      "source": "/private/tmp/broodfall-medic-walk8-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_medic_walk5_teal.png",
+      "sha256": "9882e0456c95931488c36331e9827a3d1d7848dd041a38f1c754334fc94a3b64",
+      "bbox": [
+        65,
+        14,
+        190,
+        242
+      ],
+      "previous_sha256": "43a7c38433701ed7d4536281865a1fdd41e5cb1df395c78211819952a0b63b3a"
+    },
+    {
+      "family": "medic",
+      "color": "red",
+      "pose": "walk5",
+      "original_frame_index": 8,
+      "source": "/private/tmp/broodfall-medic-walk8-red-preview-v1.png",
+      "destination": "assets/sprites/unit_medic_walk5_red.png",
+      "sha256": "df4574fe2204feb262f0308c0fdb8c242aeac4c956b07b6d1d0f61e4c2438180",
+      "bbox": [
+        65,
+        14,
+        190,
+        242
+      ],
+      "previous_sha256": "d02cd587ce59429eaf4f7b3320c3196c6b36463b68d2319ec6a7b6fc9b238fbb"
+    },
+    {
+      "family": "medic",
+      "color": "teal",
+      "pose": "walk6",
+      "original_frame_index": 7,
+      "source": "/private/tmp/broodfall-medic-walk7-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_medic_walk6_teal.png",
+      "sha256": "7214b48cf57b35c61c83a02c09bb58645c748d4716c0fe39655587e67e6610c6",
+      "bbox": [
+        65,
+        14,
+        191,
+        242
+      ],
+      "previous_sha256": "7731d095e2142ecdccb18371e40f7037c0e48c48855899d3dddd5ac5b6e00d10"
+    },
+    {
+      "family": "medic",
+      "color": "red",
+      "pose": "walk6",
+      "original_frame_index": 7,
+      "source": "/private/tmp/broodfall-medic-walk7-red-preview-v1.png",
+      "destination": "assets/sprites/unit_medic_walk6_red.png",
+      "sha256": "d01c007b57069fbfabb7a106c855a87452d5016f05f16d9568f4340fa853621f",
+      "bbox": [
+        63,
+        14,
+        192,
+        242
+      ],
+      "previous_sha256": "2590c3f75474221d0e711da95ebb665933fad1a97fab5427fdf74beff46cc94c"
+    },
+    {
+      "family": "medic",
+      "color": "teal",
+      "pose": "walk7",
+      "original_frame_index": 6,
+      "source": "/private/tmp/broodfall-medic-walk6-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_medic_walk7_teal.png",
+      "sha256": "e41b06d8527d2071bd1bca5f9c00603ba5035f16a57ee5643b9271b449654fea",
+      "bbox": [
+        63,
+        14,
+        193,
+        242
+      ],
+      "previous_sha256": "bd8fd6e54b12501567ea0556ae43bf42f6f0d811f9548db7488d74c06d862e1d"
+    },
+    {
+      "family": "medic",
+      "color": "red",
+      "pose": "walk7",
+      "original_frame_index": 6,
+      "source": "/private/tmp/broodfall-medic-walk6-red-preview-v1.png",
+      "destination": "assets/sprites/unit_medic_walk7_red.png",
+      "sha256": "0cd3af93426e7818e44967df245725b3af09e9f9b9b47d115e12553cce7acc5a",
+      "bbox": [
+        63,
+        14,
+        193,
+        242
+      ],
+      "previous_sha256": "acffbecfc99b6efb6e3c6702bba421a9756414101aaa3dd41d738011a886347a"
+    },
+    {
+      "family": "medic",
+      "color": "teal",
+      "pose": "walk8",
+      "original_frame_index": 5,
+      "source": "/private/tmp/broodfall-medic-walk5-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_medic_walk8_teal.png",
+      "sha256": "daade6cacb14bafb2dca8565c760ede04bd19287469f340c8ab6ac39867b30ec",
+      "bbox": [
+        65,
+        14,
+        190,
+        242
+      ],
+      "previous_sha256": "552116a4d40ad794d9f5ea6d18e1503816cf01d156ba0f4be5087807cf809c42"
+    },
+    {
+      "family": "medic",
+      "color": "red",
+      "pose": "walk8",
+      "original_frame_index": 5,
+      "source": "/private/tmp/broodfall-medic-walk5-red-preview-v1.png",
+      "destination": "assets/sprites/unit_medic_walk8_red.png",
+      "sha256": "bb815b6c20ab0e91c5ccbf9761615b310898d584d39b1901f5a66027deb14683",
+      "bbox": [
+        63,
+        14,
+        193,
+        242
+      ],
+      "previous_sha256": "7238c5ea66fc85b8f8ffb81643e0d4cd6fed76cf011f639f84e25c45cc066dfb"
+    },
+    {
+      "family": "medic",
+      "color": "teal",
+      "pose": "death1",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-medic-death1-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_medic_death1_teal.png",
+      "sha256": "bf507dc264a98ff46b05871f169241fcc9fa9e45a79cef67533accfa23f637c0",
+      "bbox": [
+        56,
+        14,
+        200,
+        242
+      ],
+      "previous_sha256": "a5fd670dafe96acb076ed1211424b3e40c8f7f6757d09b6c2a9209c67b23b4c9"
+    },
+    {
+      "family": "medic",
+      "color": "red",
+      "pose": "death1",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-medic-death1-red-preview-v2.png",
+      "destination": "assets/sprites/unit_medic_death1_red.png",
+      "sha256": "bf2e648b90525d67afe3d90ee749e1a06a7b07169086849f40f2c0917ec649b5",
+      "bbox": [
+        56,
+        14,
+        200,
+        242
+      ],
+      "previous_sha256": "accc648774c0fdf5ac903d1ac0fbb02e84e975d41d9833a2d7e6e6222a5972c1"
+    },
+    {
+      "family": "medic",
+      "color": "teal",
+      "pose": "death2",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-medic-death2-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_medic_death2_teal.png",
+      "sha256": "a8da82f79df185fbd4e5316c5bbb8fb73e08fa86e5aa938f99414005121cac43",
+      "bbox": [
+        40,
+        14,
+        216,
+        242
+      ],
+      "previous_sha256": "660a18bee795957d6dd61e2cb61b38c8fd22f12d925b2bd3b1f5ba988f0594e2"
+    },
+    {
+      "family": "medic",
+      "color": "red",
+      "pose": "death2",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-medic-death2-red-preview-v1.png",
+      "destination": "assets/sprites/unit_medic_death2_red.png",
+      "sha256": "80ca9c4f03487e17fe891788f1482b5c94b4f6b3d738c6442019d10fa0e34300",
+      "bbox": [
+        38,
+        14,
+        217,
+        242
+      ],
+      "previous_sha256": "3e1d7cc8e4709e090c1c9b37c4b2b6a1aa7b5f89350f2139ad1ee620e77a463d"
+    },
+    {
+      "family": "medic",
+      "color": "teal",
+      "pose": "death3",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-medic-death3-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_medic_death3_teal.png",
+      "sha256": "94bde7db56553e449d4e0ca9108139b5194405975544ed40ee8b3293c4753de3",
+      "bbox": [
+        14,
+        55,
+        242,
+        200
+      ],
+      "previous_sha256": "5cfcd08e94c545378a70d8eabe7da0607df362f984ba55661d8d7c9de52b5133"
+    },
+    {
+      "family": "medic",
+      "color": "red",
+      "pose": "death3",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-medic-death3-red-preview-v1.png",
+      "destination": "assets/sprites/unit_medic_death3_red.png",
+      "sha256": "671544610028e680aa78812be5bd16b429c93067fb4ce4667d921bd5f692adcb",
+      "bbox": [
+        14,
+        54,
+        242,
+        201
+      ],
+      "previous_sha256": "685b5bc1f6bded38e521aefa56bc889b06f17468543633d0c38b7506cd43e7c2"
+    },
+    {
+      "family": "medic",
+      "color": "teal",
+      "pose": "death4",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-medic-death4-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_medic_death4_teal.png",
+      "sha256": "049e0464aded68e41fff6040c6991febc808e3505df2a44ff485ee17ffbad389",
+      "bbox": [
+        14,
+        56,
+        242,
+        199
+      ],
+      "previous_sha256": "18b08ba6b16fd998bf52a59b08ff064adb5140efa9fc5c0a59e6926f96209857"
+    },
+    {
+      "family": "medic",
+      "color": "red",
+      "pose": "death4",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-medic-death4-red-preview-v2.png",
+      "destination": "assets/sprites/unit_medic_death4_red.png",
+      "sha256": "140f55fd66af422d40d5cec39fde694cbd0a7a7ee2afb1e31ad061bd514de264",
+      "bbox": [
+        14,
+        57,
+        242,
+        199
+      ],
+      "previous_sha256": "d92578af679b15d47fae8a5e930991b816c81c3498ed67e0a43569a2c1cf0316"
+    },
+    {
+      "family": "rocket",
+      "color": "teal",
+      "pose": "static",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-rocket-teal-preview-v3.png",
+      "destination": "assets/sprites/unit_rocket_teal.png",
+      "sha256": "9a0058d472e0c3174e1bc6501f9e8275bfc7d73553005949d4f7cdbac5c2bff4",
+      "bbox": [
+        71,
+        14,
+        185,
+        242
+      ],
+      "previous_sha256": "a062f53c835c619a5acc86e9d6294d754a800006479a13894a5a28e9cd5d1c63"
+    },
+    {
+      "family": "rocket",
+      "color": "red",
+      "pose": "static",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-rocket-red-preview-v1.png",
+      "destination": "assets/sprites/unit_rocket_red.png",
+      "sha256": "9c74bd2dfe1448482bad854a5b838c3f371f6a63243ac1ab1afba1000ac16ff7",
+      "bbox": [
+        71,
+        14,
+        185,
+        242
+      ],
+      "previous_sha256": "27386a040a6dce531ae95347f63761faf54fd361d26fad6822408dc743077ff8"
+    },
+    {
+      "family": "rocket",
+      "color": "teal",
+      "pose": "walk1",
+      "original_frame_index": 1,
+      "source": "/private/tmp/broodfall-rocket-walk1-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_rocket_walk1_teal.png",
+      "sha256": "7f160ba5a2c4ce815af97a900c2ec235757409fe82f33295ce48bc7ee5884ed0",
+      "bbox": [
+        72,
+        14,
+        184,
+        242
+      ],
+      "previous_sha256": "71fc1ccd18bd9ba7294fed9f164fcae593ca444005eb15960828cdddffba57d9"
+    },
+    {
+      "family": "rocket",
+      "color": "red",
+      "pose": "walk1",
+      "original_frame_index": 1,
+      "source": "/private/tmp/broodfall-rocket-walk1-red-preview-v1.png",
+      "destination": "assets/sprites/unit_rocket_walk1_red.png",
+      "sha256": "c8c3e0ac6c1c326402c35a5bf468bd08ad0974f0e3310bc67894de6796d95b5e",
+      "bbox": [
+        72,
+        14,
+        184,
+        242
+      ],
+      "previous_sha256": "8d99ec32b17bf52b1134e118f12e213733fcc37848b8663b936d595795afca79"
+    },
+    {
+      "family": "rocket",
+      "color": "teal",
+      "pose": "walk2",
+      "original_frame_index": 2,
+      "source": "/private/tmp/broodfall-rocket-walk2-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_rocket_walk2_teal.png",
+      "sha256": "d3a8363c5641d94c69f3f7c7c2723c1baad52e147b717c67441fc48a78669345",
+      "bbox": [
+        70,
+        14,
+        185,
+        242
+      ],
+      "previous_sha256": "927d61c3ac85cab2d7bc9169de2817268a79dd9ae1dccff4e91b812622910477"
+    },
+    {
+      "family": "rocket",
+      "color": "red",
+      "pose": "walk2",
+      "original_frame_index": 2,
+      "source": "/private/tmp/broodfall-rocket-walk2-red-preview-v1.png",
+      "destination": "assets/sprites/unit_rocket_walk2_red.png",
+      "sha256": "54d67d24ab2e468695f6ffdc969140186420b9cf89e08557bfffafdfe30252f1",
+      "bbox": [
+        70,
+        14,
+        186,
+        242
+      ],
+      "previous_sha256": "c62dc9f8b444b3ead6f8ac87a29a99dfcd2469578d5a932a8e39593ba78464d5"
+    },
+    {
+      "family": "rocket",
+      "color": "teal",
+      "pose": "walk3",
+      "original_frame_index": 3,
+      "source": "/private/tmp/broodfall-rocket-walk3-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_rocket_walk3_teal.png",
+      "sha256": "a924a416b1f6138e5c7d72d88895814055d9f8e2a0bc03704e7b5f4cde7099f0",
+      "bbox": [
+        71,
+        14,
+        185,
+        226
+      ],
+      "previous_sha256": "5baffa24fc80314aacd39362a65f02f84f105fe5be190e320a8589b62f59674f"
+    },
+    {
+      "family": "rocket",
+      "color": "red",
+      "pose": "walk3",
+      "original_frame_index": 3,
+      "source": "/private/tmp/broodfall-rocket-walk3-red-preview-v1.png",
+      "destination": "assets/sprites/unit_rocket_walk3_red.png",
+      "sha256": "efd8f204065708cd6db2fe6e0083078d1e5abeebb40dbb30154cea8c43b9ce7f",
+      "bbox": [
+        71,
+        14,
+        184,
+        226
+      ],
+      "previous_sha256": "01e0a6b9816fde2ff99951f700d0dc6e81d1831efaff64ad7002a7f767cbeda9"
+    },
+    {
+      "family": "rocket",
+      "color": "teal",
+      "pose": "walk4",
+      "original_frame_index": 5,
+      "source": "/private/tmp/broodfall-rocket-walk5-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_rocket_walk4_teal.png",
+      "sha256": "ef57fca81453d86029f9fb4e0d9460d9dc694f47abf77d2d4ec6f49f5b397cc3",
+      "bbox": [
+        71,
+        14,
+        185,
+        242
+      ],
+      "previous_sha256": "ac00556830f1c8b7ba5d514f5f2ef0a19da74610b95c0037a40a1a77e21ddfd7"
+    },
+    {
+      "family": "rocket",
+      "color": "red",
+      "pose": "walk4",
+      "original_frame_index": 5,
+      "source": "/private/tmp/broodfall-rocket-walk5-red-preview-v1.png",
+      "destination": "assets/sprites/unit_rocket_walk4_red.png",
+      "sha256": "5a23eeb8598805beca7ed843a6b232478cb2dc76a1c2c832210474fb8ee69581",
+      "bbox": [
+        70,
+        14,
+        185,
+        242
+      ],
+      "previous_sha256": "d7e27806f67dd6829403f57ba7ac9db086559009db5239cb1ec3b215c9c0b988"
+    },
+    {
+      "family": "rocket",
+      "color": "teal",
+      "pose": "walk5",
+      "original_frame_index": 4,
+      "source": "/private/tmp/broodfall-rocket-walk4-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_rocket_walk5_teal.png",
+      "sha256": "b79ec98d6deea6bdc90c9079b97f22b7cdcf0342d54c60fcef71e58b48c4ef79",
+      "bbox": [
+        72,
+        14,
+        184,
+        242
+      ],
+      "previous_sha256": "46ddd85b55c0b34259527c17f9163eb9fe13ae1869bd4406a3e894d69ac88dbb"
+    },
+    {
+      "family": "rocket",
+      "color": "red",
+      "pose": "walk5",
+      "original_frame_index": 4,
+      "source": "/private/tmp/broodfall-rocket-walk4-red-preview-v1.png",
+      "destination": "assets/sprites/unit_rocket_walk5_red.png",
+      "sha256": "cd211236d814fd99a9ec400d1bcfc05417a091dc067e121ec0a3205806404689",
+      "bbox": [
+        71,
+        14,
+        185,
+        242
+      ],
+      "previous_sha256": "a345a1138f7b817de516e0bce25cde5b4c78d546ede7282f2754c11e01198cd6"
+    },
+    {
+      "family": "rocket",
+      "color": "teal",
+      "pose": "walk6",
+      "original_frame_index": 6,
+      "source": "/private/tmp/broodfall-rocket-walk6-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_rocket_walk6_teal.png",
+      "sha256": "cd7d5fe768f45fc16896a89d6aa51a9e6ff4dafb97ad3c7eb56043ffa0de0a73",
+      "bbox": [
+        69,
+        14,
+        186,
+        242
+      ],
+      "previous_sha256": "ed37a1d422b55a948ea5998f75d59c47e7e897372c6c5523a2a3051dde8bea01"
+    },
+    {
+      "family": "rocket",
+      "color": "red",
+      "pose": "walk6",
+      "original_frame_index": 6,
+      "source": "/private/tmp/broodfall-rocket-walk6-red-preview-v2.png",
+      "destination": "assets/sprites/unit_rocket_walk6_red.png",
+      "sha256": "5e343ef1e4561f4f0fe5afe67900429f4c9e7c56efedc8e98f85ee175b425161",
+      "bbox": [
+        70,
+        14,
+        186,
+        242
+      ],
+      "previous_sha256": "ccca53eef9b41bba35fca0b2d5f9b5e72b4524afe53a649565b9634a028db3d6"
+    },
+    {
+      "family": "rocket",
+      "color": "teal",
+      "pose": "walk7",
+      "original_frame_index": 7,
+      "source": "/private/tmp/broodfall-rocket-walk7-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_rocket_walk7_teal.png",
+      "sha256": "5d3bf966347ca385e0a222a9b3a395e1f92d5032cd40904c7292ac326d21c0f6",
+      "bbox": [
+        72,
+        14,
+        184,
+        242
+      ],
+      "previous_sha256": "abea4d4d20774ae28ac72722171edc628461c1791572ccb43ae128357cfb0261"
+    },
+    {
+      "family": "rocket",
+      "color": "red",
+      "pose": "walk7",
+      "original_frame_index": 7,
+      "source": "/private/tmp/broodfall-rocket-walk7-red-preview-v2.png",
+      "destination": "assets/sprites/unit_rocket_walk7_red.png",
+      "sha256": "03dcd47498a2de58e1204df24ae27a35f3a37a6bdf20e16e771035e6edb57e23",
+      "bbox": [
+        71,
+        14,
+        184,
+        242
+      ],
+      "previous_sha256": "29083d6e5a25139bf78762496fb7f59606fd1a4b012628b53494d7508ed67477"
+    },
+    {
+      "family": "rocket",
+      "color": "teal",
+      "pose": "walk8",
+      "original_frame_index": 8,
+      "source": "/private/tmp/broodfall-rocket-walk8-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_rocket_walk8_teal.png",
+      "sha256": "f5678d92a8f3139383505f84a21c2f6cf811df418c29eb9c981dac24fcc0d592",
+      "bbox": [
+        71,
+        14,
+        184,
+        242
+      ],
+      "previous_sha256": "2dc9d81d8914e425cdc9cd5d0808132d82fa134e5d074a0ec6710197d406b3cf"
+    },
+    {
+      "family": "rocket",
+      "color": "red",
+      "pose": "walk8",
+      "original_frame_index": 8,
+      "source": "/private/tmp/broodfall-rocket-walk8-red-preview-v2.png",
+      "destination": "assets/sprites/unit_rocket_walk8_red.png",
+      "sha256": "10e0f705ac6ee691d611222e527e511c5f88eb285508405712c8a7c88e0f9c19",
+      "bbox": [
+        71,
+        14,
+        184,
+        242
+      ],
+      "previous_sha256": "d46befef1bb06a7e1cf5286c9addad65512307bd6d73ec7c43b2f34cdc4cd9a9"
+    },
+    {
+      "family": "rocket",
+      "color": "teal",
+      "pose": "death1",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-rocket-death1-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_rocket_death1_teal.png",
+      "sha256": "15c957c46d94484a3193af0aad99cae65df7610eec5fcc45165829fbd328ba3d",
+      "bbox": [
+        72,
+        14,
+        183,
+        242
+      ],
+      "previous_sha256": "ca1ab04b35bcb8e6d4c5529ab27538091f28ff340094570740cd58e783956417"
+    },
+    {
+      "family": "rocket",
+      "color": "red",
+      "pose": "death1",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-rocket-death1-red-preview-v2.png",
+      "destination": "assets/sprites/unit_rocket_death1_red.png",
+      "sha256": "8dffb143dc31cad2d6520569ed61781ebf9d4cefccc48c2735d70c87f8cc911d",
+      "bbox": [
+        72,
+        14,
+        184,
+        242
+      ],
+      "previous_sha256": "2ffef659cf18bad464226808e8221d7ed1bd6e35dea1ad73a35504adea66ace9"
+    },
+    {
+      "family": "rocket",
+      "color": "teal",
+      "pose": "death2",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-rocket-death2-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_rocket_death2_teal.png",
+      "sha256": "c65835be15d9682d2607e9bd93f55e5a854c72218d9e7955db2a7b5cdfa30b1d",
+      "bbox": [
+        59,
+        34,
+        196,
+        222
+      ],
+      "previous_sha256": "e69cac87dbbeab72c464efebee6e23afa96fcd85ffd33c14be6607b5b1378a61"
+    },
+    {
+      "family": "rocket",
+      "color": "red",
+      "pose": "death2",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-rocket-death2-red-preview-v1.png",
+      "destination": "assets/sprites/unit_rocket_death2_red.png",
+      "sha256": "881c0b9d39d4b90a0b07b822279b5f5c3e3baf96a8b96a53f584a014aa295295",
+      "bbox": [
+        58,
+        34,
+        197,
+        222
+      ],
+      "previous_sha256": "fbb67b660458d71d7694c0959a63cd0f6f8744c833f2605925dd3e28041a7962"
+    },
+    {
+      "family": "rocket",
+      "color": "teal",
+      "pose": "death3",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-rocket-death3-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_rocket_death3_teal.png",
+      "sha256": "6dd2157b13230a146db1263ca9932d792a3c27c4286445b67a120a16ca085460",
+      "bbox": [
+        14,
+        29,
+        242,
+        226
+      ],
+      "previous_sha256": "7ca9aa913c0a5b522016b6a86f6068397d5de6aa8e26e3e8404a071ae544b257"
+    },
+    {
+      "family": "rocket",
+      "color": "red",
+      "pose": "death3",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-rocket-death3-red-preview-v1.png",
+      "destination": "assets/sprites/unit_rocket_death3_red.png",
+      "sha256": "e34c4af4a3b7119a5cbefebadbae222d69e054003bf204cca15f08ab590c67ce",
+      "bbox": [
+        14,
+        29,
+        242,
+        226
+      ],
+      "previous_sha256": "9f6dc7c7bc37aac03d0936fe729864773c4cf87e0aa8fa4c19c1a772b50c3e8e"
+    },
+    {
+      "family": "rocket",
+      "color": "teal",
+      "pose": "death4",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-rocket-death4-teal-preview-v3.png",
+      "destination": "assets/sprites/unit_rocket_death4_teal.png",
+      "sha256": "957cc042142ee788509b11626ab6dec9d3326a85ae933de47328d80d071bab82",
+      "bbox": [
+        14,
+        31,
+        242,
+        225
+      ],
+      "previous_sha256": "bbf7ab0436f50761adc1dab51a430d571d31fe2fb83cf93cf38e00a698760f89"
+    },
+    {
+      "family": "rocket",
+      "color": "red",
+      "pose": "death4",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-rocket-death4-red-preview-v2.png",
+      "destination": "assets/sprites/unit_rocket_death4_red.png",
+      "sha256": "734a44beccb5cdfad6ccac711bf596645e8c90bd4bc6e41f7d6ef99b664d63b0",
+      "bbox": [
+        14,
+        31,
+        242,
+        224
+      ],
+      "previous_sha256": "e7e3cb6125337a3743bcc0220787f5b0fe6501d661dc8d55b1e980d8729f6e3f"
+    },
+    {
+      "family": "commando",
+      "color": "teal",
+      "pose": "static",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-commando-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_commando_teal.png",
+      "sha256": "acfb40f565ca8cea360ecfc8dc07a42c499a90fb67c5845cb2eed82690d77249",
+      "bbox": [
+        67,
+        14,
+        189,
+        242
+      ],
+      "previous_sha256": "57c2ec92df05fede0f6bdad56b80116d89136286dbc8ef5d2c6da2920fadd9f0"
+    },
+    {
+      "family": "commando",
+      "color": "red",
+      "pose": "static",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-commando-red-preview-v1.png",
+      "destination": "assets/sprites/unit_commando_red.png",
+      "sha256": "01461897aeff4b0fab00cd15748d7f11f7561fb346f5b3bb6b623571928c0258",
+      "bbox": [
+        66,
+        14,
+        189,
+        242
+      ],
+      "previous_sha256": null
+    },
+    {
+      "family": "commando",
+      "color": "teal",
+      "pose": "walk1",
+      "original_frame_index": 1,
+      "source": "/private/tmp/broodfall-commando-walk1-teal-preview-v3.png",
+      "destination": "assets/sprites/unit_commando_walk1_teal.png",
+      "sha256": "9a8ce11fe56c1d25865316b8ca16936f9b8f8ed54d4fd7dc3ffc7931e371be1b",
+      "bbox": [
+        68,
+        14,
+        188,
+        242
+      ],
+      "previous_sha256": "1b920e52d562a9375b589c771147e6375cd8c184648b9943fd8aff02f9eef6c6"
+    },
+    {
+      "family": "commando",
+      "color": "red",
+      "pose": "walk1",
+      "original_frame_index": 1,
+      "source": "/private/tmp/broodfall-commando-walk1-red-preview-v1.png",
+      "destination": "assets/sprites/unit_commando_walk1_red.png",
+      "sha256": "574f7d37c23de34bcdf18b353c4948d6a7bf46f8b85b776f8f1dd14bcec7225b",
+      "bbox": [
+        68,
+        14,
+        188,
+        242
+      ],
+      "previous_sha256": null
+    },
+    {
+      "family": "commando",
+      "color": "teal",
+      "pose": "walk2",
+      "original_frame_index": 8,
+      "source": "/private/tmp/broodfall-commando-walk8-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_commando_walk2_teal.png",
+      "sha256": "d14d9f272044a2bfb636c10c5e8df5156a3f0e4793aafe49e7ba8a807b0e1aab",
+      "bbox": [
+        69,
+        14,
+        186,
+        242
+      ],
+      "previous_sha256": "a2f3743dab09b2574be6dc38bd85ceb8c3459893f96bf94c939519c51916cd90"
+    },
+    {
+      "family": "commando",
+      "color": "red",
+      "pose": "walk2",
+      "original_frame_index": 8,
+      "source": "/private/tmp/broodfall-commando-walk8-red-preview-v1.png",
+      "destination": "assets/sprites/unit_commando_walk2_red.png",
+      "sha256": "fe6331ce1c6345434bc64bc53d597eae4460a7bf9843510911836900b26b2e18",
+      "bbox": [
+        68,
+        14,
+        188,
+        242
+      ],
+      "previous_sha256": null
+    },
+    {
+      "family": "commando",
+      "color": "teal",
+      "pose": "walk3",
+      "original_frame_index": 5,
+      "source": "/private/tmp/broodfall-commando-walk5-teal-preview-v3.png",
+      "destination": "assets/sprites/unit_commando_walk3_teal.png",
+      "sha256": "a0cebc343fec7db8bf85591e4dd278519764a290ee1b059c2e6d5e88e50e24b3",
+      "bbox": [
+        66,
+        14,
+        189,
+        242
+      ],
+      "previous_sha256": "5c5b930830d99f617f114ab4630bead3895475680a7c642043d7fcdb082cb963"
+    },
+    {
+      "family": "commando",
+      "color": "red",
+      "pose": "walk3",
+      "original_frame_index": 5,
+      "source": "/private/tmp/broodfall-commando-walk5-red-preview-v1.png",
+      "destination": "assets/sprites/unit_commando_walk3_red.png",
+      "sha256": "b4d643d0ba0b7f2e109a5deb8dc2b280a269c3f00e6c2500b00a97a2f0135196",
+      "bbox": [
+        66,
+        14,
+        190,
+        242
+      ],
+      "previous_sha256": null
+    },
+    {
+      "family": "commando",
+      "color": "teal",
+      "pose": "walk4",
+      "original_frame_index": 2,
+      "source": "/private/tmp/broodfall-commando-walk2-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_commando_walk4_teal.png",
+      "sha256": "271cbc7d920eb3e5f9ca9c490ecc2dec99c376cbdcf55f5a5a16ac96012bd46e",
+      "bbox": [
+        68,
+        14,
+        188,
+        242
+      ],
+      "previous_sha256": "abbcb22abae5e7543e32cce9b6497489fe75b49a9f1ed4cd18e34b76582be830"
+    },
+    {
+      "family": "commando",
+      "color": "red",
+      "pose": "walk4",
+      "original_frame_index": 2,
+      "source": "/private/tmp/broodfall-commando-walk2-red-preview-v1.png",
+      "destination": "assets/sprites/unit_commando_walk4_red.png",
+      "sha256": "e44d6f8f46a828550bd179e3a049324a953d43b5f48f23c8648283a2d8bdee23",
+      "bbox": [
+        67,
+        14,
+        189,
+        242
+      ],
+      "previous_sha256": null
+    },
+    {
+      "family": "commando",
+      "color": "teal",
+      "pose": "walk5",
+      "original_frame_index": 4,
+      "source": "/private/tmp/broodfall-commando-walk4-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_commando_walk5_teal.png",
+      "sha256": "20989921c6691e9741cc3ca3b561f9266a6f32a8c3661abea10d07dfbfa8426b",
+      "bbox": [
+        69,
+        14,
+        187,
+        242
+      ],
+      "previous_sha256": "907f8c6fe326437cafdad267a6bcbd66d5ef45955e79a354c4cd94eeb557b093"
+    },
+    {
+      "family": "commando",
+      "color": "red",
+      "pose": "walk5",
+      "original_frame_index": 4,
+      "source": "/private/tmp/broodfall-commando-walk4-red-preview-v1.png",
+      "destination": "assets/sprites/unit_commando_walk5_red.png",
+      "sha256": "956e522e1a0c29d7912e54490d65bdb8f6225d08519a31960b15c1723d92e001",
+      "bbox": [
+        67,
+        14,
+        188,
+        242
+      ],
+      "previous_sha256": null
+    },
+    {
+      "family": "commando",
+      "color": "teal",
+      "pose": "walk6",
+      "original_frame_index": 6,
+      "source": "/private/tmp/broodfall-commando-walk6-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_commando_walk6_teal.png",
+      "sha256": "975d305ae70c6a67daa316220f3c47d41fd166ffcd0ed70fb5dc0038d761499f",
+      "bbox": [
+        68,
+        14,
+        188,
+        242
+      ],
+      "previous_sha256": "a992e9c3ef9009a7c6738b6267ba322d90d3d7a44bc71c47a53a4ef626570fdc"
+    },
+    {
+      "family": "commando",
+      "color": "red",
+      "pose": "walk6",
+      "original_frame_index": 6,
+      "source": "/private/tmp/broodfall-commando-walk6-red-preview-v1.png",
+      "destination": "assets/sprites/unit_commando_walk6_red.png",
+      "sha256": "36c81ed885b91d13104fb91b05a101e12625ce199cb3fe8d8869665df3692ce1",
+      "bbox": [
+        66,
+        14,
+        189,
+        242
+      ],
+      "previous_sha256": null
+    },
+    {
+      "family": "commando",
+      "color": "teal",
+      "pose": "walk7",
+      "original_frame_index": 3,
+      "source": "/private/tmp/broodfall-commando-walk3-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_commando_walk7_teal.png",
+      "sha256": "f0c8c045a8bbab8ccfffd11d8a1d7eb38ce60fd0bca1c3181b7ea99b4479d3b2",
+      "bbox": [
+        66,
+        14,
+        189,
+        242
+      ],
+      "previous_sha256": "c4de0c0fd76cd8c022c862d2aba7044407fe8bba877a7b4c34bc4b5815ffbb2b"
+    },
+    {
+      "family": "commando",
+      "color": "red",
+      "pose": "walk7",
+      "original_frame_index": 3,
+      "source": "/private/tmp/broodfall-commando-walk3-red-preview-v1.png",
+      "destination": "assets/sprites/unit_commando_walk7_red.png",
+      "sha256": "f9836fab7f5b2c43f8a4521b387e41bc3deb8d7ca5233324c87d290a0cbbe093",
+      "bbox": [
+        66,
+        14,
+        190,
+        242
+      ],
+      "previous_sha256": null
+    },
+    {
+      "family": "commando",
+      "color": "teal",
+      "pose": "walk8",
+      "original_frame_index": 7,
+      "source": "/private/tmp/broodfall-commando-walk7-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_commando_walk8_teal.png",
+      "sha256": "9f61e74abc02f4ecab914e036342bbba643229e35db885dc0b40a77f9d23f7b7",
+      "bbox": [
+        69,
+        14,
+        187,
+        242
+      ],
+      "previous_sha256": "d1cc0ae6c988f68888364065f7b035ca5e1542cd70f7411fbb6a5cef2c25caa2"
+    },
+    {
+      "family": "commando",
+      "color": "red",
+      "pose": "walk8",
+      "original_frame_index": 7,
+      "source": "/private/tmp/broodfall-commando-walk7-red-preview-v1.png",
+      "destination": "assets/sprites/unit_commando_walk8_red.png",
+      "sha256": "291f5bb4b5c54ebcc561e39df78404c6feca35465fbe9b1c45326e2673b4fdda",
+      "bbox": [
+        70,
+        14,
+        186,
+        242
+      ],
+      "previous_sha256": null
+    },
+    {
+      "family": "commando",
+      "color": "teal",
+      "pose": "death1",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-commando-death1-teal-preview-v2.png",
+      "destination": "assets/sprites/unit_commando_death1_teal.png",
+      "sha256": "684031bbecd0a4c63f85884f72bf141cd8f2dba6595349717585411d289c3e5c",
+      "bbox": [
+        68,
+        14,
+        188,
+        242
+      ],
+      "previous_sha256": "e79eec9d4bcfa0953e57a2149b7fb2891c141c63051f5874e2774e6455e45cd7"
+    },
+    {
+      "family": "commando",
+      "color": "red",
+      "pose": "death1",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-commando-death1-red-preview-v1.png",
+      "destination": "assets/sprites/unit_commando_death1_red.png",
+      "sha256": "6f2c349277eb62c2fdff08bdf8f90f210179cc6aaf3cca6232378eb4c8f4aeee",
+      "bbox": [
+        67,
+        14,
+        188,
+        242
+      ],
+      "previous_sha256": null
+    },
+    {
+      "family": "commando",
+      "color": "teal",
+      "pose": "death2",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-commando-death2-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_commando_death2_teal.png",
+      "sha256": "9af6ff68266d820b15fde89deb679b1a86c99389671d59c69f22328f4ff30bd5",
+      "bbox": [
+        69,
+        25,
+        186,
+        231
+      ],
+      "previous_sha256": "921bdaf1e1e17fa87708e6a7ce83fcef7183d113b52161eec273448db35d702d"
+    },
+    {
+      "family": "commando",
+      "color": "red",
+      "pose": "death2",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-commando-death2-red-preview-v1.png",
+      "destination": "assets/sprites/unit_commando_death2_red.png",
+      "sha256": "8ebc54f31d2e8148469d415e723b51ed7ce3abd4890ba6eccfc21a3605664e0a",
+      "bbox": [
+        69,
+        25,
+        186,
+        231
+      ],
+      "previous_sha256": null
+    },
+    {
+      "family": "commando",
+      "color": "teal",
+      "pose": "death3",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-commando-death3-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_commando_death3_teal.png",
+      "sha256": "a20d24ee3a677b0345ff1536ae8cae0c4fa6c1b8efc256e4b932500d38911f2c",
+      "bbox": [
+        40,
+        14,
+        215,
+        242
+      ],
+      "previous_sha256": "28d89274d8f7a37146969e536ddc11f6311d3cd9452b6967eb697a7b6f0beee8"
+    },
+    {
+      "family": "commando",
+      "color": "red",
+      "pose": "death3",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-commando-death3-red-preview-v2.png",
+      "destination": "assets/sprites/unit_commando_death3_red.png",
+      "sha256": "47d6c47f171bbf6323b883af41aca9f16e72ffd949def04346b44478599b5e4f",
+      "bbox": [
+        40,
+        14,
+        216,
+        242
+      ],
+      "previous_sha256": null
+    },
+    {
+      "family": "commando",
+      "color": "teal",
+      "pose": "death4",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-commando-death4-teal-preview-v1.png",
+      "destination": "assets/sprites/unit_commando_death4_teal.png",
+      "sha256": "396704e3d862996e0cee516dfc78db215ab708f4e56bda6a77cabfefe8a03552",
+      "bbox": [
+        37,
+        14,
+        218,
+        242
+      ],
+      "previous_sha256": "d38fdac86fd684437a4457ce61f47f5f7c46a14e6b08750b542542281b77f11d"
+    },
+    {
+      "family": "commando",
+      "color": "red",
+      "pose": "death4",
+      "original_frame_index": null,
+      "source": "/private/tmp/broodfall-commando-death4-red-preview-v1.png",
+      "destination": "assets/sprites/unit_commando_death4_red.png",
+      "sha256": "2158aba152f43dc25bf6d84ea2afa0b4409b5bd8b2a5b506575221cb74235ba3",
+      "bbox": [
+        36,
+        14,
+        219,
+        242
+      ],
+      "previous_sha256": null
+    }
+  ],
+  "note": "Exact approved normalized PNGs; walk indices mapped to approved playback order. No regeneration or pixel changes during installation."
+}

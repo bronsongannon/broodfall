@@ -1,0 +1,25 @@
+{
+  "date": "2026-09-08",
+  "status": "installed-validation-open",
+  "sprites": 160,
+  "hash_match": true,
+  "edge_contact": 0,
+  "validator": {
+    "errors": 36,
+    "warnings": 22,
+    "exit_code": 1,
+    "thresholds_changed": false
+  },
+  "checks": {
+    "javascript_syntax": true,
+    "git_diff_check": true,
+    "browser_harness_loaded": 160,
+    "browser_harness_missing": 0,
+    "browser_console_errors_or_warnings": 0,
+    "live_match": "Crystal Basin smoke; paused; no full overlay regression",
+    "macos_debug_build": "succeeded",
+    "bundle_files_match": 162
+  },
+  "commit": false,
+  "push": false
+}

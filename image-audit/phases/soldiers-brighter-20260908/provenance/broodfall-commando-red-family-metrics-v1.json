@@ -1,0 +1,301 @@
+{
+  "playback_original_indices": [
+    1,
+    8,
+    5,
+    2,
+    4,
+    6,
+    3,
+    7
+  ],
+  "frames": [
+    {
+      "name": "STATIC",
+      "red_path": "/private/tmp/broodfall-commando-red-preview-v1.png",
+      "teal_path": "/private/tmp/broodfall-commando-teal-preview-v2.png",
+      "red_bbox": [
+        66,
+        14,
+        189,
+        242
+      ],
+      "teal_bbox": [
+        67,
+        14,
+        189,
+        242
+      ],
+      "red_area": 17008.513725490197,
+      "area_ratio": 1.0231691373210114,
+      "mask_iou": 0.9672564338235294,
+      "edge_alpha": 0,
+      "red30": 78
+    },
+    {
+      "name": "WALK 1",
+      "red_path": "/private/tmp/broodfall-commando-walk1-red-preview-v1.png",
+      "teal_path": "/private/tmp/broodfall-commando-walk1-teal-preview-v3.png",
+      "red_bbox": [
+        68,
+        14,
+        188,
+        242
+      ],
+      "teal_bbox": [
+        68,
+        14,
+        188,
+        242
+      ],
+      "red_area": 14634.870588235293,
+      "area_ratio": 1.007551454917247,
+      "mask_iou": 0.9781697171381032,
+      "edge_alpha": 0,
+      "red30": 76
+    },
+    {
+      "name": "WALK 2",
+      "red_path": "/private/tmp/broodfall-commando-walk8-red-preview-v1.png",
+      "teal_path": "/private/tmp/broodfall-commando-walk8-teal-preview-v1.png",
+      "red_bbox": [
+        68,
+        14,
+        188,
+        242
+      ],
+      "teal_bbox": [
+        69,
+        14,
+        186,
+        242
+      ],
+      "red_area": 14629.627450980392,
+      "area_ratio": 1.0049997359910947,
+      "mask_iou": 0.9714756258234519,
+      "edge_alpha": 0,
+      "red30": 74
+    },
+    {
+      "name": "WALK 3",
+      "red_path": "/private/tmp/broodfall-commando-walk5-red-preview-v1.png",
+      "teal_path": "/private/tmp/broodfall-commando-walk5-teal-preview-v3.png",
+      "red_bbox": [
+        66,
+        14,
+        190,
+        242
+      ],
+      "teal_bbox": [
+        66,
+        14,
+        189,
+        242
+      ],
+      "red_area": 15521.69411764706,
+      "area_ratio": 0.9730622744986975,
+      "mask_iou": 0.9685806490896913,
+      "edge_alpha": 0,
+      "red30": 81
+    },
+    {
+      "name": "WALK 4",
+      "red_path": "/private/tmp/broodfall-commando-walk2-red-preview-v1.png",
+      "teal_path": "/private/tmp/broodfall-commando-walk2-teal-preview-v1.png",
+      "red_bbox": [
+        67,
+        14,
+        189,
+        242
+      ],
+      "teal_bbox": [
+        68,
+        14,
+        188,
+        242
+      ],
+      "red_area": 15682.874509803922,
+      "area_ratio": 1.0231685342261392,
+      "mask_iou": 0.9701408801895025,
+      "edge_alpha": 0,
+      "red30": 81
+    },
+    {
+      "name": "WALK 5",
+      "red_path": "/private/tmp/broodfall-commando-walk4-red-preview-v1.png",
+      "teal_path": "/private/tmp/broodfall-commando-walk4-teal-preview-v1.png",
+      "red_bbox": [
+        67,
+        14,
+        188,
+        242
+      ],
+      "teal_bbox": [
+        69,
+        14,
+        187,
+        242
+      ],
+      "red_area": 15128.639215686275,
+      "area_ratio": 1.0220119987898422,
+      "mask_iou": 0.9609254498714653,
+      "edge_alpha": 0,
+      "red30": 80
+    },
+    {
+      "name": "WALK 6",
+      "red_path": "/private/tmp/broodfall-commando-walk6-red-preview-v1.png",
+      "teal_path": "/private/tmp/broodfall-commando-walk6-teal-preview-v2.png",
+      "red_bbox": [
+        66,
+        14,
+        189,
+        242
+      ],
+      "teal_bbox": [
+        68,
+        14,
+        188,
+        242
+      ],
+      "red_area": 15790.63137254902,
+      "area_ratio": 1.0007100334662606,
+      "mask_iou": 0.9769118006352309,
+      "edge_alpha": 0,
+      "red30": 69
+    },
+    {
+      "name": "WALK 7",
+      "red_path": "/private/tmp/broodfall-commando-walk3-red-preview-v1.png",
+      "teal_path": "/private/tmp/broodfall-commando-walk3-teal-preview-v1.png",
+      "red_bbox": [
+        66,
+        14,
+        190,
+        242
+      ],
+      "teal_bbox": [
+        66,
+        14,
+        189,
+        242
+      ],
+      "red_area": 16528.376470588235,
+      "area_ratio": 1.0146711621541264,
+      "mask_iou": 0.9746633593196314,
+      "edge_alpha": 0,
+      "red30": 82
+    },
+    {
+      "name": "WALK 8",
+      "red_path": "/private/tmp/broodfall-commando-walk7-red-preview-v1.png",
+      "teal_path": "/private/tmp/broodfall-commando-walk7-teal-preview-v1.png",
+      "red_bbox": [
+        70,
+        14,
+        186,
+        242
+      ],
+      "teal_bbox": [
+        69,
+        14,
+        187,
+        242
+      ],
+      "red_area": 14424.776470588235,
+      "area_ratio": 0.9528363470200405,
+      "mask_iou": 0.9603072156963987,
+      "edge_alpha": 0,
+      "red30": 73
+    },
+    {
+      "name": "DEATH 1",
+      "red_path": "/private/tmp/broodfall-commando-death1-red-preview-v1.png",
+      "teal_path": "/private/tmp/broodfall-commando-death1-teal-preview-v2.png",
+      "red_bbox": [
+        67,
+        14,
+        188,
+        242
+      ],
+      "teal_bbox": [
+        68,
+        14,
+        188,
+        242
+      ],
+      "red_area": 16376.592156862745,
+      "area_ratio": 1.0172646259326987,
+      "mask_iou": 0.9743696727662872,
+      "edge_alpha": 0,
+      "red30": 91
+    },
+    {
+      "name": "DEATH 2",
+      "red_path": "/private/tmp/broodfall-commando-death2-red-preview-v1.png",
+      "teal_path": "/private/tmp/broodfall-commando-death2-teal-preview-v1.png",
+      "red_bbox": [
+        69,
+        25,
+        186,
+        231
+      ],
+      "teal_bbox": [
+        69,
+        25,
+        186,
+        231
+      ],
+      "red_area": 13494.125490196078,
+      "area_ratio": 1.0045284032357416,
+      "mask_iou": 0.9792969592408886,
+      "edge_alpha": 0,
+      "red30": 72
+    },
+    {
+      "name": "DEATH 3",
+      "red_path": "/private/tmp/broodfall-commando-death3-red-preview-v2.png",
+      "teal_path": "/private/tmp/broodfall-commando-death3-teal-preview-v1.png",
+      "red_bbox": [
+        40,
+        14,
+        216,
+        242
+      ],
+      "teal_bbox": [
+        40,
+        14,
+        215,
+        242
+      ],
+      "red_area": 16511.92156862745,
+      "area_ratio": 1.029615626044614,
+      "mask_iou": 0.9631287548592296,
+      "edge_alpha": 0,
+      "red30": 72
+    },
+    {
+      "name": "DEATH 4",
+      "red_path": "/private/tmp/broodfall-commando-death4-red-preview-v1.png",
+      "teal_path": "/private/tmp/broodfall-commando-death4-teal-preview-v1.png",
+      "red_bbox": [
+        36,
+        14,
+        219,
+        242
+      ],
+      "teal_bbox": [
+        37,
+        14,
+        218,
+        242
+      ],
+      "red_area": 15916.733333333334,
+      "area_ratio": 1.0454860179146677,
+      "mask_iou": 0.9594496302582132,
+      "edge_alpha": 0,
+      "red30": 61
+    }
+  ],
+  "walk_area_cv": 0.04406068296237342
+}

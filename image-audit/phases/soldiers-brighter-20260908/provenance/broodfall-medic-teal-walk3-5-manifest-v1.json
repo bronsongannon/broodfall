@@ -1,0 +1,50 @@
+{
+  "tool": "built-in image_gen",
+  "preview_only": true,
+  "reference": "/private/tmp/broodfall-medic-teal-preview-v3.png",
+  "normalizer": "python3 image-audit/process_generated_sprite.py RAW OUTPUT (256x256 padding14)",
+  "frames": [
+    {
+      "original_frame": 3,
+      "target": "/Users/bronsongannon/Desktop/broodfall/assets/sprites/unit_medic_walk3_teal.png",
+      "prompt": "Use case: precise-object-edit. Asset type: top-down RTS Medic soldier walk sprite, single isolated frame. Image 1 is the EDIT TARGET and owns the exact walking gait, both boot positions, arm swing, head/body orientation, camera and proportions. Image 2 is ONLY an approved equipment, color and brightness reference; do NOT borrow its static leg stance. Change image 1's appearance to the approved brighter Medic: weathered bright aqua shoulders and small pack accents, enlarged white medical backpack with a red plus, white upper-arm and calf panels, taupe cloth suit with opaque dark undersuit interiors, handheld medical case on screen-right. Same short dark hair. Entire body faces strictly north/up, head/chest/feet all aligned with north. Match image 2's larger backpack shape, strong white medical identity and brightness while preserving image 1's walking leg phase exactly. Same grounded narrow human proportions, no bulky armor. One sprite, centered, full feet visible with generous safe clear padding. Genuine transparent background with clean alpha; no floor, no shadow, no checkerboard, no scenery, no labels or text. Preserve solid opaque clothing within the silhouette. Frame 3: preserve image 1's screen-left boot higher/forward, screen-right leg trailing lower, distinct asymmetric stride. Do not neutralize gait.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07eff-0a64-7612-96ec-795ec1777136/exec-034c417c-8dcc-4fc4-a58d-bb83b1a34224.png",
+      "output": "/private/tmp/broodfall-medic-walk3-teal-preview-v1.png"
+    },
+    {
+      "original_frame": 4,
+      "target": "/Users/bronsongannon/Desktop/broodfall/assets/sprites/unit_medic_walk4_teal.png",
+      "prompt": "Use case: precise-object-edit. Asset type: top-down RTS Medic soldier walk sprite, single isolated frame. Image 1 is the EDIT TARGET and owns the exact walking gait, both boot positions, arm swing, head/body orientation, camera and proportions. Image 2 is ONLY an approved equipment, color and brightness reference; do NOT borrow its static leg stance. Change image 1's appearance to the approved brighter Medic: weathered bright aqua shoulders and small pack accents, enlarged white medical backpack with a red plus, white upper-arm and calf panels, taupe cloth suit with opaque dark undersuit interiors, handheld medical case on screen-right. Same short dark hair. Entire body faces strictly north/up, head/chest/feet all aligned with north. Match image 2's larger backpack shape, strong white medical identity and brightness while preserving image 1's walking leg phase exactly. Same grounded narrow human proportions, no bulky armor. One sprite, centered, full feet visible with generous safe clear padding. Genuine transparent background with clean alpha; no floor, no shadow, no checkerboard, no scenery, no labels or text. Preserve solid opaque clothing within the silhouette. Frame 4: preserve image 1's screen-left leg extended/trailing down to low boot, screen-right boot higher/forward. Distinct asymmetric stride, not standing still.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07eff-0a64-7612-96ec-795ec1777136/exec-3aafd8c4-0b7e-4bca-89cc-0075be8dc522.png",
+      "output": "/private/tmp/broodfall-medic-walk4-teal-preview-v1.png",
+      "retry": {
+        "prompt": "Use case: precise-object-edit. Single top-down Medic RTS walk sprite. Image1 is EDIT TARGET; preserve EXACTLY its head position, feet, walking legs, north-facing whole-body direction, arm swing, handheld medical case screen-right and 256-square composition. Image2 is backpack size and upper-body identity reference ONLY. Make the target's medical backpack broader and taller like image2's large white rectangular backpack with red plus, matching its weathered aqua shoulder width and white arm panels. The present backpack is too small/narrow. Restore the approved large backpack identity, keeping target's asymmetric leg gait completely unchanged, screen-left leg long trailing down, screen-right boot higher forward. Do not change boots or reduce the stride. Same short dark hair, taupe uniform, white calf panels, bright weathered aqua. No increase in human bulk or head size. Genuine transparent background, opaque dark uniform interiors, no cast shadow, no checkerboard, no scenery, no labels, one isolated centered character with safe padding.",
+        "inputs": [
+          "/private/tmp/broodfall-medic-walk4-teal-preview-v1.png",
+          "/private/tmp/broodfall-medic-walk3-teal-preview-v1.png"
+        ],
+        "raw": "/Users/bronsongannon/.codex/generated_images/01a07eff-0a64-7612-96ec-795ec1777136/exec-dfa30c4b-8f79-4984-82ba-66c9e8d31ae7.png",
+        "output": "/private/tmp/broodfall-medic-walk4-teal-preview-v2.png"
+      },
+      "selected_output": "/private/tmp/broodfall-medic-walk4-teal-preview-v2.png"
+    },
+    {
+      "original_frame": 5,
+      "target": "/Users/bronsongannon/Desktop/broodfall/assets/sprites/unit_medic_walk5_teal.png",
+      "prompt": "Use case: precise-object-edit. Asset type: top-down RTS Medic soldier walk sprite, single isolated frame. Image 1 is the EDIT TARGET and owns the exact walking gait, both boot positions, arm swing, head/body orientation, camera and proportions. Image 2 is ONLY an approved equipment, color and brightness reference; do NOT borrow its static leg stance. Change image 1's appearance to the approved brighter Medic: weathered bright aqua shoulders and small pack accents, enlarged white medical backpack with a red plus, white upper-arm and calf panels, taupe cloth suit with opaque dark undersuit interiors, handheld medical case on screen-right. Same short dark hair. Entire body faces strictly north/up, head/chest/feet all aligned with north. Match image 2's larger backpack shape, strong white medical identity and brightness while preserving image 1's walking leg phase exactly. Same grounded narrow human proportions, no bulky armor. One sprite, centered, full feet visible with generous safe clear padding. Genuine transparent background with clean alpha; no floor, no shadow, no checkerboard, no scenery, no labels or text. Preserve solid opaque clothing within the silhouette. Frame 5: preserve image 1's screen-left leg fully extended/trailing down to lowest boot, screen-right knee flexed with higher/forward boot; preserve its stronger stride and arm positions exactly, NOT a static stance.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07eff-0a64-7612-96ec-795ec1777136/exec-ae26307b-02a9-4a4c-865f-ace6461f0053.png",
+      "output": "/private/tmp/broodfall-medic-walk5-teal-preview-v1.png"
+    }
+  ],
+  "qa": {
+    "contact": "/private/tmp/broodfall-medic-teal-walk3-5-check-v1.png",
+    "canvas": "256x256 RGBA",
+    "clean_borders": true,
+    "effective_areas": {
+      "frame3": 17155.1,
+      "frame4": 14413.2,
+      "frame5": 16311.8
+    },
+    "observations": "Gaits preserved; north-facing; aqua and white visible at27/32px. Frame4 pack improved in v2 but whole body still narrower relative to3/5 owing to source long stride and normalization. Root should review whole-cycle size continuity. No repo edits."
+  }
+}

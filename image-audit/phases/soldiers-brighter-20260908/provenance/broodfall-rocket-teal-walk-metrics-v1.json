@@ -1,0 +1,132 @@
+{
+  "playback_order": [
+    1,
+    2,
+    3,
+    5,
+    4,
+    6,
+    7,
+    8
+  ],
+  "frames": [
+    {
+      "path": "/private/tmp/broodfall-rocket-teal-preview-v3.png",
+      "bbox": [
+        71,
+        14,
+        185,
+        242
+      ],
+      "area": 14918.725490196079,
+      "edge_alpha": 0,
+      "aqua32": 83,
+      "white32": 14
+    },
+    {
+      "path": "/private/tmp/broodfall-rocket-walk1-teal-preview-v2.png",
+      "bbox": [
+        72,
+        14,
+        184,
+        242
+      ],
+      "area": 13655.545098039216,
+      "edge_alpha": 0,
+      "aqua32": 78,
+      "white32": 13
+    },
+    {
+      "path": "/private/tmp/broodfall-rocket-walk2-teal-preview-v1.png",
+      "bbox": [
+        70,
+        14,
+        185,
+        242
+      ],
+      "area": 15010.639215686275,
+      "edge_alpha": 0,
+      "aqua32": 82,
+      "white32": 13
+    },
+    {
+      "path": "/private/tmp/broodfall-rocket-walk3-teal-preview-v2.png",
+      "bbox": [
+        71,
+        14,
+        185,
+        226
+      ],
+      "area": 13384.850980392157,
+      "edge_alpha": 0,
+      "aqua32": 76,
+      "white32": 13
+    },
+    {
+      "path": "/private/tmp/broodfall-rocket-walk5-teal-preview-v2.png",
+      "bbox": [
+        71,
+        14,
+        185,
+        242
+      ],
+      "area": 14300.607843137255,
+      "edge_alpha": 0,
+      "aqua32": 76,
+      "white32": 13
+    },
+    {
+      "path": "/private/tmp/broodfall-rocket-walk4-teal-preview-v2.png",
+      "bbox": [
+        72,
+        14,
+        184,
+        242
+      ],
+      "area": 14008.76862745098,
+      "edge_alpha": 0,
+      "aqua32": 62,
+      "white32": 13
+    },
+    {
+      "path": "/private/tmp/broodfall-rocket-walk6-teal-preview-v2.png",
+      "bbox": [
+        69,
+        14,
+        186,
+        242
+      ],
+      "area": 14568.709803921569,
+      "edge_alpha": 0,
+      "aqua32": 87,
+      "white32": 15
+    },
+    {
+      "path": "/private/tmp/broodfall-rocket-walk7-teal-preview-v2.png",
+      "bbox": [
+        72,
+        14,
+        184,
+        242
+      ],
+      "area": 14308.729411764705,
+      "edge_alpha": 0,
+      "aqua32": 95,
+      "white32": 15
+    },
+    {
+      "path": "/private/tmp/broodfall-rocket-walk8-teal-preview-v2.png",
+      "bbox": [
+        71,
+        14,
+        184,
+        242
+      ],
+      "area": 13856.462745098039,
+      "edge_alpha": 0,
+      "aqua32": 81,
+      "white32": 15
+    }
+  ],
+  "walk_area_cv": 0.034459983152320336
+}

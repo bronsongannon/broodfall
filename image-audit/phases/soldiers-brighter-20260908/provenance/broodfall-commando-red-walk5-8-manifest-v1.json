@@ -1,0 +1,100 @@
+{
+  "mode": "built-in imagegen",
+  "preview_only": true,
+  "playback_original_indices": [
+    1,
+    8,
+    5,
+    2,
+    4,
+    6,
+    3,
+    7
+  ],
+  "records": [
+    {
+      "original_index": 5,
+      "edit_target": "/private/tmp/broodfall-commando-walk5-teal-preview-v3.png",
+      "palette_reference": "/private/tmp/broodfall-commando-red-preview-v1.png",
+      "prompt": "Use case: precise-object-edit.\nAsset type: Broodfall RTS Commando / Boone walking animation sprite, preview only.\nImage 1 is the EXACT EDIT TARGET and owns all geometry, pose, silhouette, camera, scale, position, feet, hands and rifle. Image 2 is a RED PALETTE REFERENCE ONLY, never a pose reference.\nChange ONLY Image 1's aqua/cyan armor plates and helmet stripe to bright saturated weathered red matching Image 2. Preserve all gold chevrons, gold trim and neutral rifle, pouches, gloves, trousers and boots. Keep Image 1's exact individual walk phase, leg lengths, ankle angles, visible sole shape, raised arms, barrel, north-facing whole-body alignment. Keep weathered scratches and bright highlights. Do not copy static pose from Image 2; do not move either foot.\nOutput one full isolated soldier with generous clear margins on genuinely TRANSPARENT background. If true transparency is unavailable use pure solid WHITE background, never black or checkerboard. All dark trousers, boots, gloves, rifle and armor gaps belonging to clothing must stay completely SOLID OPAQUE; no see-through holes, no floor shadow, no scene, no text.\nTarget is original walk frame 5.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a081bd-6779-7c80-936e-3ff20da7487f/exec-3603efb7-62ed-46a1-8928-6a2d35e7f659.png",
+      "selected": "/private/tmp/broodfall-commando-walk5-red-preview-v1.png",
+      "normalization": {
+        "tool": "image-audit/process_generated_sprite.py",
+        "canvas": [
+          256,
+          256
+        ],
+        "padding": 14
+      },
+      "notes": "First generation selected."
+    },
+    {
+      "original_index": 6,
+      "edit_target": "/private/tmp/broodfall-commando-walk6-teal-preview-v2.png",
+      "palette_reference": "/private/tmp/broodfall-commando-red-preview-v1.png",
+      "prompt": "Use case: precise-object-edit.\nAsset type: Broodfall RTS Commando / Boone walking animation sprite, preview only.\nImage 1 is the EXACT EDIT TARGET and owns all geometry, pose, silhouette, camera, scale, position, feet, hands and rifle. Image 2 is a RED PALETTE REFERENCE ONLY, never a pose reference.\nChange ONLY Image 1's aqua/cyan armor plates and helmet stripe to bright saturated weathered red matching Image 2. Preserve all gold chevrons, gold trim and neutral rifle, pouches, gloves, trousers and boots. Keep Image 1's exact individual walk phase, leg lengths, ankle angles, visible sole shape, raised arms, barrel, north-facing whole-body alignment. Keep weathered scratches and bright highlights. Do not copy static pose from Image 2; do not move either foot.\nOutput one full isolated soldier with generous clear margins on genuinely TRANSPARENT background. If true transparency is unavailable use pure solid WHITE background, never black or checkerboard. All dark trousers, boots, gloves, rifle and armor gaps belonging to clothing must stay completely SOLID OPAQUE; no see-through holes, no floor shadow, no scene, no text.\nTarget is original walk frame 6.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a081bd-6779-7c80-936e-3ff20da7487f/exec-3ea5748b-9ba2-4d2b-a610-f5c20f5b1bfd.png",
+      "selected": "/private/tmp/broodfall-commando-walk6-red-preview-v1.png",
+      "normalization": {
+        "tool": "image-audit/process_generated_sprite.py",
+        "canvas": [
+          256,
+          256
+        ],
+        "padding": 14
+      },
+      "notes": "First generation selected."
+    },
+    {
+      "original_index": 7,
+      "edit_target": "/private/tmp/broodfall-commando-walk7-teal-preview-v1.png",
+      "palette_reference": "/private/tmp/broodfall-commando-red-preview-v1.png",
+      "prompt": "Use case: precise-object-edit.\nAsset type: Broodfall RTS Commando / Boone walking animation sprite, preview only.\nImage 1 is the EXACT EDIT TARGET and owns all geometry, pose, silhouette, camera, scale, position, feet, hands and rifle. Image 2 is a RED PALETTE REFERENCE ONLY, never a pose reference.\nChange ONLY Image 1's aqua/cyan armor plates and helmet stripe to bright saturated weathered red matching Image 2. Preserve all gold chevrons, gold trim and neutral rifle, pouches, gloves, trousers and boots. Keep Image 1's exact individual walk phase, leg lengths, ankle angles, visible sole shape, raised arms, barrel, north-facing whole-body alignment. Keep weathered scratches and bright highlights. Do not copy static pose from Image 2; do not move either foot.\nOutput one full isolated soldier with generous clear margins on genuinely TRANSPARENT background. If true transparency is unavailable use pure solid WHITE background, never black or checkerboard. All dark trousers, boots, gloves, rifle and armor gaps belonging to clothing must stay completely SOLID OPAQUE; no see-through holes, no floor shadow, no scene, no text.\nTarget is original walk frame 7.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a081bd-6779-7c80-936e-3ff20da7487f/exec-757649bf-d7b8-4983-97f4-39052cc5fae7.png",
+      "selected": "/private/tmp/broodfall-commando-walk7-red-preview-v1.png",
+      "normalization": {
+        "tool": "image-audit/process_generated_sprite.py",
+        "canvas": [
+          256,
+          256
+        ],
+        "padding": 14
+      },
+      "notes": "First generation selected."
+    },
+    {
+      "original_index": 8,
+      "edit_target": "/private/tmp/broodfall-commando-walk8-teal-preview-v1.png",
+      "palette_reference": "/private/tmp/broodfall-commando-red-preview-v1.png",
+      "prompt": "Use case: precise-object-edit.\nAsset type: Broodfall RTS Commando / Boone walking animation sprite, preview only.\nImage 1 is the EXACT EDIT TARGET and owns all geometry, pose, silhouette, camera, scale, position, feet, hands and rifle. Image 2 is a RED PALETTE REFERENCE ONLY, never a pose reference.\nChange ONLY Image 1's aqua/cyan armor plates and helmet stripe to bright saturated weathered red matching Image 2. Preserve all gold chevrons, gold trim and neutral rifle, pouches, gloves, trousers and boots. Keep Image 1's exact individual walk phase, leg lengths, ankle angles, visible sole shape, raised arms, barrel, north-facing whole-body alignment. Keep weathered scratches and bright highlights. Do not copy static pose from Image 2; do not move either foot.\nOutput one full isolated soldier with generous clear margins on genuinely TRANSPARENT background. If true transparency is unavailable use pure solid WHITE background, never black or checkerboard. All dark trousers, boots, gloves, rifle and armor gaps belonging to clothing must stay completely SOLID OPAQUE; no see-through holes, no floor shadow, no scene, no text.\nTarget is original walk frame 8.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a081bd-6779-7c80-936e-3ff20da7487f/exec-8bd4340f-ba4c-4934-a26f-b18c42823ebe.png",
+      "selected": "/private/tmp/broodfall-commando-walk8-red-preview-v1.png",
+      "normalization": {
+        "tool": "image-audit/process_generated_sprite.py",
+        "canvas": [
+          256,
+          256
+        ],
+        "padding": 14
+      },
+      "notes": "First call network failure; same built-in request retried successfully."
+    }
+  ],
+  "qa": {
+    "contact": "/private/tmp/broodfall-commando-red-walk5-8-check-v1.png",
+    "shape_iou": [
+      0.962606,
+      0.974265,
+      0.954964,
+      0.969748
+    ],
+    "effective_alpha_area_ratio": [
+      0.973062,
+      1.00071,
+      0.952836,
+      1.005
+    ],
+    "visual": "Inspected normalized full and32px versions on dark gray. Gold chevrons, red armor, neutral rifle/pouches/legs preserved; no material alpha holes seen. North-oriented rifle and each target's asymmetric feet retained."
+  }
+}

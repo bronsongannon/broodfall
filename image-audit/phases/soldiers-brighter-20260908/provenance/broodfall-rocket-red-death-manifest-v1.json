@@ -1,0 +1,30 @@
+[
+  {
+    "frame": 1,
+    "prompt": "Use case: precise-object-edit. Rocket Trooper RED death1 stagger. Image1 EDIT TARGET exact approved aqua pose. Image2 red STATIC COLOR reference ONLY. Recolor only aqua painted armor, helmet and backpack in image1 to bright weathered red matching image2. Preserve EXACT image1 stagger pose, all limbs and feet, head/body/launcher alignment, raised grips, backpack size, body mass, neutral gunmetal launcher and red missile tip, pale metal trim, dark undersuit, lighting, wear and transparent footprint. Do not revert to static stance or alter anatomy/geometry. Strict overhead, single sprite with true transparent background and fully opaque dark fabric and boots. No scenery, floor, shadows, checkerboard, text or watermark.",
+    "raw": "/Users/bronsongannon/.codex/generated_images/01a074b5-e49a-77a3-a02b-be55b3fb8d8b/exec-da20e8e5-ed6c-467d-9e27-35319c153c51.png",
+    "output": "/private/tmp/broodfall-rocket-death1-red-preview-v1.png",
+    "padding": 14
+  },
+  {
+    "frame": 2,
+    "prompt": "Use case: precise-object-edit. Recolor ONLY aqua painted armor on this exact Rocket Trooper knee-collapse sprite to bright weathered vermilion red. Helmet, arms, backpack, knee/shin armor become red. Keep all pale metal/taupe trim, dark undersuit, gunmetal launcher, its red missile tip, amber lights and every wear mark. Preserve EXACT crouched knees, head/body/launcher20degree lean, grips, helmet/backpack size, silhouette, overall body mass and lighting. This is pure recolor, no pose or geometry changes whatsoever. No new equipment, no static standing pose. Strict overhead single sprite with genuinely transparent background and fully opaque subject including dark gloves/boots. No scenery/floor/shadows/checkerboard/text.",
+    "raw": "/Users/bronsongannon/.codex/generated_images/01a074b5-e49a-77a3-a02b-be55b3fb8d8b/exec-a7c51896-a529-4eeb-9f6f-ecfc6213c382.png",
+    "output": "/private/tmp/broodfall-rocket-death2-red-preview-v1.png",
+    "padding": 34
+  },
+  {
+    "frame": 3,
+    "prompt": "Use case: precise-object-edit. Pure color-only edit of this exact fallen Rocket Trooper sprite. Replace ONLY aqua armor/helmet/backpack paint with bright weathered red. Preserve every neutral gunmetal/taupe/pale-metal surface, red missile nose, dark undersuit/boots, lighting and wear. Do not change ANY geometry: diagonal side-fall with head/launcher upper-right and feet lower-left, same limbs/grips, same body mass, helmet and pack size, launcher alongside same shoulder, same overall footprint. Not a new pose. Single overhead sprite, genuine transparent background, fully opaque clothing/boots. No floor/shadow/scenery/checkerboard/text/watermark.",
+    "raw": "/Users/bronsongannon/.codex/generated_images/01a074b5-e49a-77a3-a02b-be55b3fb8d8b/exec-58d86675-a950-46db-91e5-b18a1621272d.png",
+    "output": "/private/tmp/broodfall-rocket-death3-red-preview-v1.png",
+    "padding": 14
+  },
+  {
+    "frame": 4,
+    "prompt": "Use case: precise-object-edit. Pure recolor of exact Rocket Trooper settled-body sprite in input. Change ONLY aqua painted armor, helmet and backpack to bright weathered red. Preserve neutral gunmetal launcher and red missile nose, pale metal trim, dark fabric/boots, lighting and wear. Preserve EXACT settled diagonal pose with relaxed knees, head/launcher upper-right and feet lower-left, same shoulder launcher placement, compact broad torso, same helmet/pack/weapon dimensions and silhouette. No rotation, no longer limbs, no shrinking body, no pose redesign. Strict overhead single sprite, genuine transparency and solid opaque subject surfaces. No floor, shadow, scenery, checkerboard, text or watermark.",
+    "raw": "/Users/bronsongannon/.codex/generated_images/01a074b5-e49a-77a3-a02b-be55b3fb8d8b/exec-f7acc38d-688b-4658-a622-d57a4580b807.png",
+    "output": "/private/tmp/broodfall-rocket-death4-red-preview-v1.png",
+    "padding": 14
+  }
+]

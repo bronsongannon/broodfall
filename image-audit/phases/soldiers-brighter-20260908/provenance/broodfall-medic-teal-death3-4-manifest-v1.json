@@ -1,0 +1,36 @@
+[
+  {
+    "frame": 3,
+    "prompt": "Use case: identity-preserve. Asset type: single overhead RTS pixel-scale game sprite, Medic death frame 3, preview-only.\nInput image 1 is the EXACT POSE EDIT TARGET: a medic falling/lying diagonally, short dark-haired head at screen upper-right, legs and boots toward screen lower-left, left arm toward upper-left, right arm and handheld medical case toward bottom-right. Input image 2 is ONLY approved COLOR AND EQUIPMENT IDENTITY reference; do not copy its upright pose.\nKeep image 1 exact falling body orientation, limb articulation, head position, camera, limb proportions, and medical case bottom-right location. Repaint/re-equip that pose to match image 2: brighter visibly AQUA shoulder armor and trim, large WHITE rectangular medical backpack mounted on torso back with red plus mark and aqua trim, white forearm and lower-leg panels, weathered taupe combat uniform, black gloves and boots, same short dark hair. Keep human anatomy and scale, large backpack class-readable at tiny 30px. Do NOT change pose to standing, do NOT rotate pose north, do NOT turn body toward camera.\nPainterly realistic weathered game sprite, coherent overhead lighting, opaque material surfaces. Isolate ONE whole medic and carried case on genuinely transparent alpha background. No scenery, floor, ground/shadow, blood/gore, extra objects, text, borders, checkerboard. Preserve target's diagonal falling silhouette and head/body proportions.",
+    "raw_path": "/Users/bronsongannon/.codex/generated_images/01a07f0b-56bc-7fa0-994f-b9cd6df3960c/exec-16f71edc-1cf0-43f8-9f67-fe1229d4bd23.png",
+    "references": [
+      "/Users/bronsongannon/Desktop/broodfall/assets/sprites/unit_medic_death3_teal.png",
+      "/private/tmp/broodfall-medic-teal-preview-v3.png"
+    ],
+    "output": "/private/tmp/broodfall-medic-death3-teal-preview-v1.png",
+    "normalization": {
+      "canvas": [
+        256,
+        256
+      ],
+      "padding": 14
+    }
+  },
+  {
+    "frame": 4,
+    "prompt": "Use case: identity-preserve. Asset type: single overhead RTS game sprite, Medic final death frame 4, preview-only.\nInput image 1 is the EXACT POSE EDIT TARGET: a medic fully settled on ground diagonally, short dark-haired head screen-right near upper-right, boots spread toward lower-left, left arm bent toward upper-left, right arm and carried medical case toward bottom-right. Input image 2 is ONLY approved COLOR AND EQUIPMENT IDENTITY reference; do not copy its upright pose.\nPreserve image1 exact settled corpse body and limb orientation, overhead camera, head/body proportions, head position, boot spread, and medkit bottom-right location. Replace old dark colors and equipment with image2 approved brighter AQUA shoulder armor and trim, large WHITE rectangular medical backpack on torso back with red plus and aqua trim, white forearm and calf armor panels, weathered taupe fabric uniform, black gloves and boots and same short dark-haired head. Keep backpack large and white so the class reads at 30px. Target pose is laid flat, not standing. Do not reset it to upright or rotate north. No change to character identity or human proportions.\nPainterly weathered realistic game sprite. One full body plus carried case, genuinely transparent alpha background, opaque uniform and equipment surfaces. No floor, scenery, ground shadows, blood, gore, extra props, labels, borders or checkerboard.",
+    "raw_path": "/Users/bronsongannon/.codex/generated_images/01a07f0b-56bc-7fa0-994f-b9cd6df3960c/exec-959a3d1b-15dd-45e1-ab12-6f9ce6439f94.png",
+    "references": [
+      "/Users/bronsongannon/Desktop/broodfall/assets/sprites/unit_medic_death4_teal.png",
+      "/private/tmp/broodfall-medic-teal-preview-v3.png"
+    ],
+    "output": "/private/tmp/broodfall-medic-death4-teal-preview-v1.png",
+    "normalization": {
+      "canvas": [
+        256,
+        256
+      ],
+      "padding": 14
+    }
+  }
+]

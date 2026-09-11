@@ -1,0 +1,49 @@
+{
+  "mode": "built-in imagegen",
+  "frames": [
+    {
+      "index": 5,
+      "prompt": "Use case: precise-object-edit. Asset: single top-down RTS Sniper walk animation frame 5. Image 1 is the EDIT TARGET and the absolute authority for exact pose, silhouette, size and placement. Image 2 is approved RED PALETTE reference only; Image 3 is the teal identity reference only. Change ONLY aqua/teal painted armor and weapon paint on Image 1 into saturated weathered red matching Image 2: red helmet armor, red forearm/shoulder plates, red spine/back plates, and red rifle-painted accents. Retain the exact frame-5 gait, with screen-left boot farther south than screen-right; do not substitute the static pose. Keep taupe weathered cloak, dark suit, pale gun metal, amber optics and all lighting unchanged. Keep whole body and extra-long rifle facing north/up, hands fixed, cloth folds and limb positions unchanged, identical silhouette and proportions. Preserve transparent background with genuine alpha, no ground shadow/checkerboard/text/new parts. Output one isolated sprite at the exact target framing.",
+      "references": [
+        "/private/tmp/broodfall-sniper-walk5-teal-preview-v1.png",
+        "/private/tmp/broodfall-sniper-red-preview-v1.png",
+        "/private/tmp/broodfall-sniper-teal-preview-v1.png"
+      ],
+      "rawHint": "Generated images are saved to /Users/bronsongannon/.codex/generated_images/01a07ee6-da34-7771-821e-2d3954fc415c as /Users/bronsongannon/.codex/generated_images/01a07ee6-da34-7771-821e-2d3954fc415c/exec-ce9f6b8e-b544-4a57-b6c8-1c14d68d61c6.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "output": "/private/tmp/broodfall-sniper-walk5-red-preview-v1.png"
+    },
+    {
+      "index": 6,
+      "prompt": "Use case: precise-object-edit. Asset: single top-down RTS Sniper walk animation frame 6. Image 1 is the EDIT TARGET and sole authority for pose, silhouette, scale and placement. Image 2 is approved RED PALETTE reference only; Image 3 is teal identity reference only. Change ONLY aqua/teal painted armor and weapon accents on Image 1 into saturated weathered red matching Image 2: helmet, forearm/shoulder plates, spine/back plates, rifle paint. Keep exact frame-6 foot positions, cloak folds and gait; do not copy the static reference pose. Retain taupe weathered cloak, dark suit, pale gun metal and amber optics. Keep whole body and extra-long rifle facing north/up, exact arm/hand/leg locations, perspective, size and silhouette. Do not widen or shorten anything. Genuine transparent alpha background, no checkerboard, shadow, text or extra objects. One isolated sprite.",
+      "references": [
+        "/private/tmp/broodfall-sniper-walk6-teal-preview-v1.png",
+        "/private/tmp/broodfall-sniper-red-preview-v1.png",
+        "/private/tmp/broodfall-sniper-teal-preview-v1.png"
+      ],
+      "rawHint": "Generated images are saved to /Users/bronsongannon/.codex/generated_images/01a07ee6-da34-7771-821e-2d3954fc415c as /Users/bronsongannon/.codex/generated_images/01a07ee6-da34-7771-821e-2d3954fc415c/exec-24e3d8e9-5343-4eb4-a684-1c68dd6704c2.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "output": "/private/tmp/broodfall-sniper-walk6-red-preview-v1.png"
+    },
+    {
+      "index": 7,
+      "prompt": "Use case: precise-object-edit. Asset: single top-down RTS Sniper walk animation frame 7. Image 1 is the EDIT TARGET and absolute pose/shape/scale authority. Image 2 is approved RED PALETTE reference only; Image 3 is teal identity reference only. Change ONLY aqua/teal paint on Image 1 into the saturated weathered red of Image 2: helmet armor, forearm/shoulder armor, spine/back armor plates and rifle painted accents. Preserve Image 1's exact frame-7 gait, boots and cloth placement; never substitute the static reference pose. Retain taupe cloak, dark suit, pale gun metal, amber optics, material weathering and highlights. Keep whole body north/up and long rifle north/up, hands, limbs, folds, size, silhouette, framing and pivot unchanged. One isolated sprite with genuine transparent alpha background, no shadow/checkerboard/text/new parts.",
+      "references": [
+        "/private/tmp/broodfall-sniper-walk7-teal-preview-v1.png",
+        "/private/tmp/broodfall-sniper-red-preview-v1.png",
+        "/private/tmp/broodfall-sniper-teal-preview-v1.png"
+      ],
+      "rawHint": "Generated images are saved to /Users/bronsongannon/.codex/generated_images/01a07ee6-da34-7771-821e-2d3954fc415c as /Users/bronsongannon/.codex/generated_images/01a07ee6-da34-7771-821e-2d3954fc415c/exec-0607f63c-886b-45d7-bfc3-19e31391f6b3.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "output": "/private/tmp/broodfall-sniper-walk7-red-preview-v1.png"
+    },
+    {
+      "index": 8,
+      "prompt": "Use case: precise-object-edit. Asset: single top-down RTS Sniper walk animation frame 8. Image 1 is the EDIT TARGET and sole authority for pose, silhouette, scale and placement. Image 2 is approved RED PALETTE reference only; Image 3 is teal identity reference only. Change ONLY aqua/teal paint on Image 1 into saturated weathered red matching Image 2: helmet, forearm/shoulder plates, spine/back armor and rifle painted accents. Keep the exact frame-8 gait with screen-right boot farther south than screen-left, exact cloak shape and foot placement; never substitute a static pose. Retain taupe weathered cloak, dark suit, pale gun metal, amber optics, same light and detail. Keep whole body and extra-long rifle facing north/up, hand positions, limb positions, folds, proportions and framing unchanged. One isolated sprite with genuine transparent alpha; no checkerboard, ground shadow, text or new objects.",
+      "references": [
+        "/private/tmp/broodfall-sniper-walk8-teal-preview-v1.png",
+        "/private/tmp/broodfall-sniper-red-preview-v1.png",
+        "/private/tmp/broodfall-sniper-teal-preview-v1.png"
+      ],
+      "rawHint": "Generated images are saved to /Users/bronsongannon/.codex/generated_images/01a07ee6-da34-7771-821e-2d3954fc415c as /Users/bronsongannon/.codex/generated_images/01a07ee6-da34-7771-821e-2d3954fc415c/exec-37f2294d-aebb-480a-a786-3580df4fb734.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "output": "/private/tmp/broodfall-sniper-walk8-red-preview-v1.png"
+    }
+  ]
+}

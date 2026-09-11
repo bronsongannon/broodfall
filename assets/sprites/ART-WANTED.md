@@ -4,6 +4,20 @@ Every registered production slot in this folder is **hot-swappable**: replace a 
 
 ## Human technology overhaul status
 
+### Current soldier revision — 2026-09-08
+
+All brighter soldier previews are user-approved. The current revision covers **160 files in six complete aqua/teal and red families**: Marine 28, Engineer 26, Sniper 28, Medic 26, Rocket Trooper 26, and Boone/Commando 26. Both colors are required for future soldier preview batches. The 13 added red Commando files complete his art counterpart without changing campaign team assignments.
+
+Preserve the approved dominant faction color, brighter weathered materials, narrower Engineer silhouette, larger Medic backpack and white uniform accents, and Boone's gold markings. Standing/walking characters face north with the whole body and weapon, not merely the head; Rocket launcher direction follows the character through each pose. Approve previews before installing or committing new artwork, and install completed families atomically. Gameplay size and mechanics are unchanged; the art-cache revision is `human-soldiers-20260908a`.
+
+Current evidence: [before](../../image-audit/phases/soldiers-brighter-20260908/before/), [after](../../image-audit/phases/soldiers-brighter-20260908/after/), [selection mapping](../../image-audit/phases/soldiers-brighter-20260908/selection.json), and [surviving provenance](../../image-audit/phases/soldiers-brighter-20260908/provenance/). The [revision provenance guide](../../image-audit/prompts/soldiers-brighter-20260908.md) documents gaps in early exact-prompt records rather than inventing replacements.
+
+**Installed; validation remains open.** All 160 files byte-match the approved selection and have no canvas-edge contact, but the [validator report](../../image-audit/phases/soldiers-brighter-20260908/validation.json) contains 36 errors and 22 warnings. The [open triage](../../image-audit/phases/soldiers-brighter-20260908/triage.md) prioritizes Marine teal-hunker and red-death-3/4 alpha defects, with lesser red-walk-7 erosion and unresolved Engineer/Sniper source-pose drift. Medic/Rocket pivot findings reflect deliberate 7/8-pixel top-anchored passing-frame normalizations; they are not waived. Do not mark this revision complete. The 147-file Phase 3 history below remains frozen and does not certify the revised set.
+
+[Integration checks](../../image-audit/phases/soldiers-brighter-20260908/verification.json) passed: macOS Debug build, byte verification of all 162 Phase 3 payload files (160 sprites plus `game.js` and `index.html`), JavaScript syntax, and diff checks. Browser QA loaded all 160 sprites with zero missing assets and empty warning/error logs; recorded views cover moss/ash walks, snow deaths, and steppe static/hunker poses. A Crystal Basin live-match smoke check started successfully and displayed the revised Marine, but did not comprehensively test gameplay overlays. Open visual findings remain despite successful integration.
+
+### Earlier phase records
+
 **Phase 1 — human buildings is complete (2026-09-05; teal reference refinement 2026-09-06):** 28 production assets cover the complete teal/red HQ, barracks, factory, supply, power, refinery, airpad, silo, turret base, flak base, hydro dam, Overwatch Array base, anti-ground mount, and twin-barrel flak mount families. All 14 Expedition/teal families now use the user-approved aqua-dominant, lighter, weathered Barracks reference. All 14 installed Rubicon/red counterparts remain based on superseded teal and require regeneration from their current teal counterparts plus separate preview approval. The three approved naval references are `bld_skiff.png`, `unit_carrier_teal.png`, and `bld_shipyard_teal.png`.
 
 This overhaul uses a strict 90-degree overhead camera; grounded semi-realistic weathered metal; visible aqua/red faction identity; dirty warm taupe/off-white technical accents; crisp dark seams; warm amber lights; true alpha and safe padding; and no baked ground, shadows, scenery, people, text, logos, or perspective. Rubicon assets must be precise image-to-image colorway edits of the applicable current approved Expedition source, never independent redraws. All 14 installed Phase 1 red files predate their current teal counterparts and therefore remain pending separate preview and approval. Building geometry, pivots, runtime size, and game-driven overlays stay fixed.
@@ -27,7 +41,7 @@ Frozen Phase 2 evidence is in [`../../image-audit/phases/phase-2/`](../../image-
 
 Source/gameplay contact sheets and live side-by-side Expedition/Rubicon vehicle rendering plus selection/health behavior passed browser inspection with an empty warning/error console. `node --check game.js` and `git diff --check` passed. The native Debug build succeeded, and all 21 scoped Phase 2 files in the rebuilt app byte-match the workspace.
 
-**Phase 3 — human soldiers is complete (2026-09-05):** all 147 scoped production files were replaced and installed as complete families: Marine 28 (paired static, walk 1–8, death 1–4, and hunker), Engineer 26, Sniper 28 (including paired hunker), Medic 26, Rocket 26, and player-only Boone/Commando 13 in teal. Every selected result is a north-facing 256×256 RGBA sprite with transparent padding and no canvas-edge contact.
+**Phase 3 — human soldiers is complete (frozen 2026-09-05 history):** all 147 scoped production files were replaced and installed as complete families: Marine 28 (paired static, walk 1–8, death 1–4, and hunker), Engineer 26, Sniper 28 (including paired hunker), Medic 26, Rocket 26, and player-only Boone/Commando 13 in teal. Every selected result is a north-facing 256×256 RGBA sprite with transparent padding and no canvas-edge contact. This original record is superseded for current soldier pixels and coverage by the 160-file revision above.
 
 Built-in ImageGen produced one distinct asset per call. Every selected generation or edit includes all three approved human-technology references—`bld_skiff.png`, `unit_carrier_teal.png`, and `bld_shipyard_teal.png`; derived poses additionally include the normalized family master used to lock identity. Teal families were authored first, and red frames were image-to-image colorway edits of their corresponding normalized teal frames. Installations were atomic at family scope; isolated animation or faction-frame replacement remains prohibited.
 
@@ -80,7 +94,7 @@ will tint weirdly. (Exceptions below say "natural colors".)
 
 ## Legacy backlog and completion log
 
-Historical notes below predate the human-technology replacement. The Phase 1, Phase 2, and Phase 3 statuses above are authoritative.
+Historical notes below predate the human-technology replacement. The Phase 1 and Phase 2 statuses and current soldier revision above are authoritative; the original Phase 3 record is frozen history.
 
 | filename | what | notes |
 |---|---|---|
@@ -175,11 +189,13 @@ sprite material).
 
 ## Legacy unit_commando (Boone) brief — superseded by Phase 3
 
-This 2026-08-04 teal-static brief is retained as design history only. Boone is
-still player-only, but his complete static/walk/death production family and its
-authoritative generation record now live in
-[`unit_commando_family.md`](../../image-audit/prompts/unit_commando_family.md).
-Do not use the older cartoon-style prompt below to revise Phase 3 assets.
+This 2026-08-04 teal-static brief is retained as design history only. Boone's
+campaign assignment is unchanged, but his current art now has both teal and red
+static/walk/death families. The current selected files and surviving generation
+records are linked in the [revision guide](../../image-audit/prompts/soldiers-brighter-20260908.md);
+[`unit_commando_family.md`](../../image-audit/prompts/unit_commando_family.md)
+records the older Phase 3 generation. Do not use the older cartoon-style prompt
+below to revise current soldier assets.
 
 > top-down orthographic 2D video game sprite, viewed directly from above,
 > single character centered on a plain solid light-gray background, cartoonish

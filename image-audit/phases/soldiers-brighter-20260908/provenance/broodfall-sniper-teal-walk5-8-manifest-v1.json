@@ -1,0 +1,46 @@
+{
+  "mode": "built-in",
+  "preview_only": true,
+  "entries": [
+    {
+      "frame": 5,
+      "prompt": "Use case: identity-preserve. Asset type: single transparent 256x256 top-down RTS sniper walk animation sprite. Image 1 is the approved sniper identity, exact upper-body/rifle proportions, weathered bright aqua armor color and cloak authority; image 2 is only a gait pose reference. Edit image 1 into walk frame 5 (right contact). Keep north-facing entire body and rifle barrel exactly north/up at 12 o'clock. Preserve narrow adult silhouette, hood/helmet, gloves, tan-brown weathered cloak, boots, small aqua body armor panels, long rifle, muzzle at top. Retain same overhead view, lighting, crisp game-art texture, exact head/torso/rifle length and width. Pose: SCREEN-RIGHT boot is north/forward, SCREEN-LEFT boot south/trailing, opposite left-contact pose. Right thigh flexed forward and left leg extended back, subtle cloak fold shift. Only subtle legs, hem and hand motion; no change in overall body size, no giant stride, no new equipment. Rifle stays centered upright and feet face north. Center same pivot and overall occupied height in square canvas, about 14px padding at 256 size. Actual transparent background alpha, isolated character, no text, no shadow, no floor, no border, no grid or checkerboard. One frame only.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07e33-64ac-7443-b731-b6b1c53d84f4/exec-018f09f2-28a2-4fdf-a4b7-f2cb9f2c9468.png",
+      "output": "/private/tmp/broodfall-sniper-walk5-teal-preview-v1.png",
+      "references": [
+        "/private/tmp/broodfall-sniper-teal-preview-v1.png",
+        "/Users/bronsongannon/Desktop/broodfall/assets/sprites/unit_sniper_walk5_teal.png"
+      ]
+    },
+    {
+      "frame": 6,
+      "prompt": "Use case: identity-preserve. Asset: one isolated top-down RTS sniper walk frame 6 on actual transparent background alpha. Image 1 is the existing walk-frame EDIT TARGET: preserve this exact gait pose, foot positions, silhouette, rifle direction, dimensions, padding and pivot. Image 2 is approved STATIC REFERENCE for character identity/material/color brightness only. Apply approved brighter weathered aqua to helmet/cowl, shoulder armor, torso panels as in image 2; retain weathered taupe-brown cloth cloak, dark boots/gloves and metal rifle. North-facing entire adult narrow body, long rifle muzzle points north/up, no rotation. Keep exact head/rifle/limb proportions, this existing frame's leg positions and folds, same centered footprint. No pose redesign, no new equipment, no change in rifle length, no oversized body, no extra markings. Visible readable team aqua with worn bright highlights identical to static, crisp illustrative game texture. Transparent background, no cast shadow, no floor, no text or watermark, no grid/checkerboard. Single frame only, square canvas.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07e33-64ac-7443-b731-b6b1c53d84f4/exec-4f84e97e-4130-4307-a0c5-a97ad6e0745a.png",
+      "output": "/private/tmp/broodfall-sniper-walk6-teal-preview-v1.png",
+      "references": [
+        "/Users/bronsongannon/Desktop/broodfall/assets/sprites/unit_sniper_walk6_teal.png",
+        "/private/tmp/broodfall-sniper-teal-preview-v1.png"
+      ]
+    },
+    {
+      "frame": 7,
+      "prompt": "Use case: identity-preserve. Asset: one isolated top-down RTS sniper walk frame 7 on actual transparent background alpha. Image 1 is the existing walk-frame EDIT TARGET: preserve this exact gait pose, foot positions, silhouette, rifle direction, dimensions, padding and pivot. Image 2 is approved STATIC REFERENCE for character identity/material/color brightness only. Apply approved brighter weathered aqua to helmet/cowl, shoulder armor, torso panels as in image 2; retain weathered taupe-brown cloth cloak, dark boots/gloves and metal rifle. North-facing entire adult narrow body, long rifle muzzle points north/up, no rotation. Keep exact head/rifle/limb proportions, this existing frame's leg positions and folds, same centered footprint. No pose redesign, no new equipment, no change in rifle length, no oversized body, no extra markings. Visible readable team aqua with worn bright highlights identical to static, crisp illustrative game texture. Transparent background, no cast shadow, no floor, no text or watermark, no grid/checkerboard. Single frame only, square canvas.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07e33-64ac-7443-b731-b6b1c53d84f4/exec-2f5137a6-d474-405e-a04b-84c65cb04afe.png",
+      "output": "/private/tmp/broodfall-sniper-walk7-teal-preview-v1.png",
+      "references": [
+        "/Users/bronsongannon/Desktop/broodfall/assets/sprites/unit_sniper_walk7_teal.png",
+        "/private/tmp/broodfall-sniper-teal-preview-v1.png"
+      ]
+    },
+    {
+      "frame": 8,
+      "prompt": "Use case: identity-preserve. Asset: one isolated top-down RTS sniper walk frame 8 on actual transparent background alpha. Image 1 is the existing walk-frame EDIT TARGET: preserve this exact gait pose, foot positions, silhouette, rifle direction, dimensions, padding and pivot. Image 2 is approved STATIC REFERENCE for character identity/material/color brightness only. Apply approved brighter weathered aqua to helmet/cowl, shoulder armor, torso panels as in image 2; retain weathered taupe-brown cloth cloak, dark boots/gloves and metal rifle. North-facing entire adult narrow body, long rifle muzzle points north/up, no rotation. Keep exact head/rifle/limb proportions, this existing frame's leg positions and folds, same centered footprint. No pose redesign, no new equipment, no change in rifle length, no oversized body, no extra markings. Visible readable team aqua with worn bright highlights identical to static, crisp illustrative game texture. Transparent background, no cast shadow, no floor, no text or watermark, no grid/checkerboard. Single frame only, square canvas.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07e33-64ac-7443-b731-b6b1c53d84f4/exec-82402d45-6475-4f56-8d90-f6f572141125.png",
+      "output": "/private/tmp/broodfall-sniper-walk8-teal-preview-v1.png",
+      "references": [
+        "/Users/bronsongannon/Desktop/broodfall/assets/sprites/unit_sniper_walk8_teal.png",
+        "/private/tmp/broodfall-sniper-teal-preview-v1.png"
+      ]
+    }
+  ]
+}

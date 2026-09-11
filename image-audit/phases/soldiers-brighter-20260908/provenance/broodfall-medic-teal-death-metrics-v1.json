@@ -1,0 +1,67 @@
+[
+  {
+    "path": "/private/tmp/broodfall-medic-teal-preview-v3.png",
+    "bbox": [
+      56,
+      14,
+      199,
+      242
+    ],
+    "area": 21657.925490196078,
+    "edge_alpha": 0,
+    "aqua30": 60,
+    "white30": 16
+  },
+  {
+    "path": "/private/tmp/broodfall-medic-death1-teal-preview-v1.png",
+    "bbox": [
+      56,
+      14,
+      200,
+      242
+    ],
+    "area": 21845.34117647059,
+    "edge_alpha": 0,
+    "aqua30": 56,
+    "white30": 28
+  },
+  {
+    "path": "/private/tmp/broodfall-medic-death2-teal-preview-v1.png",
+    "bbox": [
+      40,
+      14,
+      216,
+      242
+    ],
+    "area": 24438.274509803923,
+    "edge_alpha": 0,
+    "aqua30": 52,
+    "white30": 25
+  },
+  {
+    "path": "/private/tmp/broodfall-medic-death3-teal-preview-v1.png",
+    "bbox": [
+      14,
+      55,
+      242,
+      200
+    ],
+    "area": 18480.21568627451,
+    "edge_alpha": 0,
+    "aqua30": 29,
+    "white30": 31
+  },
+  {
+    "path": "/private/tmp/broodfall-medic-death4-teal-preview-v1.png",
+    "bbox": [
+      14,
+      56,
+      242,
+      199
+    ],
+    "area": 17340.941176470587,
+    "edge_alpha": 0,
+    "aqua30": 33,
+    "white30": 27
+  }
+]

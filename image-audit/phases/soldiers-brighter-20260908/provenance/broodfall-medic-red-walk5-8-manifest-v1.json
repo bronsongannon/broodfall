@@ -1,0 +1,59 @@
+{
+  "tool": "built-in image_gen",
+  "preview_only": true,
+  "palette_reference_inspected": "/private/tmp/broodfall-medic-red-preview-v1.png",
+  "frames": [
+    {
+      "original_index": 5,
+      "prompt": "Use case: precise-object-edit. Asset: single RTS north-facing Medic walk frame 5. Input image is the EDIT TARGET, preserve its exact pose and silhouette. Change ONLY every aqua/teal painted equipment panel to bright weathered warm vermilion-red paint: shoulder armor, narrow pack trim, pack upper patch and case trim. Keep pale white pack central face with existing red medical cross and white uniform sleeves/knee panels unchanged. Keep taupe pants, dark boots, brown bare head, metal, lighting and worn texture unchanged. Exact same gait: screen-left leg extended far down, screen-right leg bent with boot raised; same head, body, pack, arms, hand case and orientation. No repositioning or neutral stance. Transparent background with true alpha; opaque clothing and equipment; no background, floor, shadow, labels, extra objects. Red remains bright at 32px scale. Output one sprite, same framing/proportions.",
+      "referenced_image_paths": [
+        "/private/tmp/broodfall-medic-walk5-teal-preview-v1.png"
+      ],
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07f0f-fae4-7a02-a908-a5dfd20187d6/exec-e071b0d5-957c-4438-94fb-c861a0c16eb9.png",
+      "output": "/private/tmp/broodfall-medic-walk5-red-preview-v1.png",
+      "normalization": {
+        "canvas": "256x256",
+        "padding": 14
+      }
+    },
+    {
+      "original_index": 6,
+      "prompt": "Use case: precise-object-edit. Asset: single RTS north-facing Medic walk frame 6. Input image is the EDIT TARGET, preserve its exact pose and silhouette. Change ONLY every aqua/teal painted equipment panel to bright weathered warm vermilion-red paint: shoulder armor, narrow pack trim, pack upper patch and case trim. Keep pale white pack central face with existing red medical cross and white uniform sleeves/knee panels unchanged. Keep taupe pants, dark boots, brown bare head, metal, lighting and worn texture unchanged. Exact same gait: both boots lowered near each other with screen-right boot slightly farther down, same legs and their contours; same head, body, pack, arms, hand case and orientation. No repositioning or new static stance. Transparent background with true alpha; opaque clothing and equipment; no background, floor, shadow, labels, extra objects. Red remains bright at 32px scale. Output one sprite, same framing/proportions.",
+      "referenced_image_paths": [
+        "/private/tmp/broodfall-medic-walk6-teal-preview-v2.png"
+      ],
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07f0f-fae4-7a02-a908-a5dfd20187d6/exec-af106ab3-798d-430a-bfbd-21f9618c6dce.png",
+      "output": "/private/tmp/broodfall-medic-walk6-red-preview-v1.png",
+      "normalization": {
+        "canvas": "256x256",
+        "padding": 14
+      }
+    },
+    {
+      "original_index": 7,
+      "prompt": "Use case: precise-object-edit. Asset: single RTS north-facing Medic walk frame 7. Input image is the EDIT TARGET, preserve its exact pose and silhouette. Change ONLY every aqua/teal painted equipment panel to bright weathered warm vermilion-red paint: shoulder armor, narrow pack trim, pack upper patch and case trim. Keep pale white pack central face with existing red medical cross and white uniform sleeves/knee panels unchanged. Keep taupe pants, dark boots, brown bare head, metal, lighting and worn texture unchanged. Exact same gait: screen-right leg extended far downward, screen-left leg bent sharply with boot raised to mid-body level; same head, body, pack, arms, hand case and orientation. Do not change pose or contours. Transparent background with true alpha; opaque clothing and equipment; no background, floor, shadow, labels, extra objects. Red remains bright at 32px scale. Output one sprite, same framing/proportions.",
+      "referenced_image_paths": [
+        "/private/tmp/broodfall-medic-walk7-teal-preview-v2.png"
+      ],
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07f0f-fae4-7a02-a908-a5dfd20187d6/exec-dc942427-06b1-4825-8da8-20f0488fac76.png",
+      "output": "/private/tmp/broodfall-medic-walk7-red-preview-v1.png",
+      "normalization": {
+        "canvas": "256x256",
+        "padding": 14
+      }
+    },
+    {
+      "original_index": 8,
+      "prompt": "Use case: precise-object-edit. Asset: single RTS north-facing Medic walk frame 8. Input image is the EDIT TARGET, preserve its exact pose and silhouette. Change ONLY every aqua/teal painted equipment panel to bright weathered warm vermilion-red paint: shoulder armor, narrow pack trim, pack upper patch and case trim. Keep pale white pack central face with existing red medical cross and white uniform sleeves/knee panels unchanged. Keep taupe pants, dark boots, brown bare head, metal, lighting and worn texture unchanged. Exact same gait: screen-right leg extended far downward, screen-left leg bent sharply and boot very high under torso; same head, body, pack, arms, hand case and orientation. Preserve exact contours and positions. Transparent background with true alpha; opaque clothing and equipment; no background, floor, shadow, labels, extra objects. Red remains bright at 32px scale. Output one sprite, same framing/proportions.",
+      "referenced_image_paths": [
+        "/private/tmp/broodfall-medic-walk8-teal-preview-v2.png"
+      ],
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07f0f-fae4-7a02-a908-a5dfd20187d6/exec-72db7388-73bb-40b3-9f61-cabe2995c202.png",
+      "output": "/private/tmp/broodfall-medic-walk8-red-preview-v1.png",
+      "normalization": {
+        "canvas": "256x256",
+        "padding": 14
+      }
+    }
+  ]
+}

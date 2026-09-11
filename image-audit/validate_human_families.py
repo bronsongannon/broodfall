@@ -28,7 +28,7 @@ FAMILIES = {
     "sniper": {"colors": ("teal", "red"), "hunker": True},
     "medic": {"colors": ("teal", "red"), "hunker": False},
     "rocket": {"colors": ("teal", "red"), "hunker": False},
-    "commando": {"colors": ("teal",), "hunker": False},
+    "commando": {"colors": ("teal", "red"), "hunker": False},
 }
 
 

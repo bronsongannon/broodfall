@@ -1,0 +1,50 @@
+{
+  "mode": "builtin imagegen preview only",
+  "frames": [
+    {
+      "frame": 1,
+      "color": "teal",
+      "selected": false,
+      "prompt": "Use case: identity-preserve\nAsset type: single top-down RTS death animation sprite, frame 1 of 4, preview only.\nInput image 1: approved Commando/Boone identity, armor, scale, palette, weapon and strict back-view reference. Produce the same character in the first slight hit-stagger pose, NOT a redesign.\nPose: still upright, whole body facing NORTH (top of image), slight lean toward screen right with a small rightward hip tilt and asymmetrically bent knees, one foot slightly drawn inward. Both arms still hold exactly the same single long rifle north above the helmet. Helmet, chest/back, feet and rifle remain generally north. We see back of helmet and broad dark BACK armor plate with gold chevrons, not a face or front chest.\nPreserve broad heavy weathered bright pale AQUA shoulder armor, aqua helmet stripe and forearm plates, gold chevrons, dark neutral back armor, gray/tan belt pouches, olive trousers, black boots, rifle design and visible hands. Keep full-body proportions and shoulder/head physical scale near reference. Crisp readable chunky silhouette suitable for 32px on-screen.\nCentered complete figure with generous margin. Same overhead camera, lighting and weathered painted realistic sprite style. No blood, no gore, no extra weapon, no text, no watermark, no ground shadow.\nBackground genuinely transparent alpha if possible. If transparency cannot be provided, use ONLY flat pure WHITE #ffffff background, including gaps between limbs. Never black, gray, checkerboard, gradient, shadow or texture background. Every part of dark clothes/boots must be fully opaque.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a0817a-106f-7933-b7e2-8460da5061d6/exec-2abb151e-d4f0-4a8d-823d-83f6124462b4.png",
+      "output": "/private/tmp/broodfall-commando-death1-teal-preview-v1.png",
+      "rejection": "simulated checkerboard"
+    },
+    {
+      "frame": 1,
+      "color": "teal",
+      "selected": true,
+      "prompt": "Use case: identity-preserve\nAsset type: single top-down RTS death animation sprite, frame 1 of 4, preview only.\nInput image 1: approved Commando/Boone identity, armor, scale, palette, weapon and strict back-view reference. Produce the same character in the first slight hit-stagger pose, NOT a redesign.\nPose: still upright, whole body facing NORTH (top of image), slight lean toward screen right with a small rightward hip tilt and asymmetrically bent knees, one foot slightly drawn inward. Both arms still hold exactly the same single long rifle north above the helmet. Helmet, chest/back, feet and rifle remain generally north. We see back of helmet and broad dark BACK armor plate with gold chevrons, not a face or front chest.\nPreserve broad heavy weathered bright pale AQUA shoulder armor, aqua helmet stripe and forearm plates, gold chevrons, dark neutral back armor, gray/tan belt pouches, olive trousers, black boots, rifle design and visible hands. Keep full-body proportions and shoulder/head physical scale near reference. Crisp readable chunky silhouette suitable for 32px on-screen.\nCentered complete figure with generous margin. Same overhead camera, lighting and weathered painted realistic sprite style. No blood, no gore, no extra weapon, no text, no watermark, no ground shadow.\nBackground: FLAT PURE WHITE #ffffff, untextured and perfectly uniform. Do not simulate transparency. No black, gray, checkerboard, dithering, grain, pattern, gradient or shadow outside the figure. Character must be fully solid and opaque, including dark boots, pants, helmet, and belt. If an actual alpha channel is supported it may be transparent, but never draw a simulated transparency background.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a0817a-106f-7933-b7e2-8460da5061d6/exec-020c2901-d7bb-45dd-b88c-1faedf807268.png",
+      "output": "/private/tmp/broodfall-commando-death1-teal-preview-v2.png",
+      "padding": 14
+    },
+    {
+      "frame": 2,
+      "color": "teal",
+      "selected": true,
+      "prompt": "Use case: identity-preserve\nAsset type: single top-down RTS death animation sprite, frame 2 of 4, preview only.\nInput image 1: approved Commando/Boone character identity reference. Change only pose into knees-buckling collapse. Same heavy broad shoulder armor, same character and single rifle.\nPose: BOTH knees buckle under the character, lower legs fold backward. Torso, helmet and raised arms lean distinctly clockwise toward NORTHEAST by about 20 degrees, continuing a rightward hit stagger. Rifle remains in both hands above the helmet, pointed NORTHEAST in the exact same direction as head and upper body. Strict overhead BACK view: helmet back, broad dark BACK plate with gold chevrons visible. No face, no front chest. More compact overall vertical silhouette than standing; do NOT enlarge head or shoulders to compensate. Maintain character's actual head/shoulder width and physical scale.\nPreserve broad heavy weathered bright pale AQUA shoulder armor, aqua helmet stripe and forearm plates, gold chevrons, dark neutral back armor, gray/tan belt pouches, olive trousers, black boots and original rifle. Same crisp weathered painted sprite rendering/lighting. Clean full figure centered with generous margin. Readable at32px, no text, watermark, blood, gore, extra weapon, ground or shadow.\nBackground FLAT PURE WHITE #ffffff uniform. No black, gray, checkerboard, dithering, gradient or pattern. Dark clothes/boots fully solid opaque. Use actual transparent alpha if supported, but never simulated transparency.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a0817a-106f-7933-b7e2-8460da5061d6/exec-200a4b43-c539-4b48-afe2-27f32dfd1585.png",
+      "output": "/private/tmp/broodfall-commando-death2-teal-preview-v1.png",
+      "padding": 25
+    },
+    {
+      "frame": 1,
+      "color": "red",
+      "selected": true,
+      "prompt": "Use case: precise-object-edit\nAsset type: single red-team RTS soldier death sprite, frame1.\nImage1 is the EXACT POSE EDIT TARGET (aqua Commando first hit-stagger). Image2 is ONLY red paint color/material palette reference, NOT pose reference.\nChange ONLY the aqua painted armor panels of image1 to the bright weathered saturated red paint seen in image2. Preserve target1 small rightward body lean, tilted hips, asymmetric legs, helmet angle, both hands, northward rifle, weapon length and body scale EXACTLY. Do NOT straighten pose into image2. All aqua shoulder/neck/forearm/hip/boot panels and helmet stripe become red. Keep gold chevrons on dark back plate, neutral rifle, dark helmet shell, olive trousers, tan/gray pouches, dark boots and shading unchanged. Do NOT color dark gear red. Same overhead BACK view and complete silhouette.\nUniform flat pure WHITE #ffffff background. No black, gray, checkerboard, grain, dithering, pattern, ground or shadow outside soldier. Every body/gear part fully opaque including darkest pants and boots. If actual alpha available, genuinely transparent is acceptable, but never simulate transparency. No text, watermark, blood or extra objects.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a0817a-106f-7933-b7e2-8460da5061d6/exec-c5aa6531-2a64-4818-8f2a-5b4b1fa6a87c.png",
+      "output": "/private/tmp/broodfall-commando-death1-red-preview-v1.png",
+      "padding": 14
+    },
+    {
+      "frame": 2,
+      "color": "red",
+      "selected": true,
+      "prompt": "Use case: precise-object-edit\nAsset type: single red-team RTS soldier death sprite, frame2.\nImage1 is the EXACT POSE EDIT TARGET (aqua Commando knees-buckling collapse). Image2 is ONLY red paint color/material palette reference, NOT pose reference.\nChange ONLY aqua painted armor in image1 to the bright weathered saturated red armor of image2. Preserve target1 knees tucked back, visible boot soles, 20degree clockwise NORTHEAST torso/helmet/arms/rifle alignment EXACTLY. Preserve target1 complete silhouette, body scale, hands, rifle length, head size, shoulder size, folds and all proportions. Do not adopt standing pose. Helmet stripe and all aqua shoulder/neck/forearm/hip/boot plates become red, plus tiny aqua inset on central belt pouch. Keep gold chevrons on dark BACK plate, neutral rifle, dark helmet shell, olive pants, tan/gray pouches and dark boots unchanged. Same overhead BACK view and clean silhouette.\nUniform flat pure WHITE #ffffff background. No black, gray, checkerboard, grain, dithering, pattern, ground or shadow outside soldier. Every body/gear part fully opaque including darkest pants and boots. If actual alpha available, genuinely transparent is acceptable, but never simulate transparency. No text, watermark, blood or extra objects.",
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a0817a-106f-7933-b7e2-8460da5061d6/exec-ff533f60-e037-42d5-ac9a-ab1a0ec7dd4f.png",
+      "output": "/private/tmp/broodfall-commando-death2-red-preview-v1.png",
+      "padding": 25
+    }
+  ]
+}

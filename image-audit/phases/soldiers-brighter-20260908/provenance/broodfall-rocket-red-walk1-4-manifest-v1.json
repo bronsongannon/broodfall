@@ -1,0 +1,79 @@
+{
+  "mode": "built-in imagegen",
+  "purpose": "Preview only, Rocket Trooper red walk original indices1-4",
+  "outputs": [
+    {
+      "original_index": 1,
+      "prompt": "Use case: precise-object-edit. Edit target is the supplied single top-down Rocket Trooper walk frame. Change ONLY aqua/teal paint on helmet, shoulder and forearm armor, torso/backpack and leg armor into bright saturated weathered RED enamel (scarlet highlights, rusty red midtones, deep crimson shadows) matching a red team version. Preserve the exact original image geometry and walking pose: screen-left leg extended down, screen-right leg tucked higher; whole body, feet, helmet and arms face NORTH, raised hands keep long launcher pointing straight to top with original red missile nose. Keep all neutral metal, beige bands, black boots/suit, chips and lighting unchanged. Preserve exact silhouette, framing, relative dimensions, helmet/backpack placement and alpha edges. Do not redraw or reposition parts. Single isolated sprite on genuinely transparent alpha background, opaque armor surfaces. No ground shadow, text, backdrop, checkerboard or new objects.",
+      "references": [
+        "/private/tmp/broodfall-rocket-walk1-teal-preview-v2.png"
+      ],
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07f2c-82c7-7f11-9a5a-34cfbdaec425/exec-5270ec12-5094-4208-8176-a2c2e580b9b8.png",
+      "output": "/private/tmp/broodfall-rocket-walk1-red-preview-v1.png",
+      "normalization": {
+        "canvas": "256x256",
+        "padding": 14,
+        "translation_y": 0
+      }
+    },
+    {
+      "original_index": 2,
+      "prompt": "Use case: precise-object-edit. Edit target is supplied top-down Rocket Trooper walk frame. Recolor ONLY aqua/teal paint of helmet, shoulders and forearms, torso/backpack and leg armor to bright saturated weathered scarlet RED enamel, with scarlet highlights and dark crimson weathering. Preserve pixel-for-pixel geometry as closely as possible. Crucial approved gait: both feet are low but screen-left boot extends slightly lower than screen-right boot, just as input. Do not replace the gait with a new stance. Whole body and raised arms remain NORTH, original long launcher vertical toward top and its red missile tip unchanged. Keep neutral metal, beige bands, dark cloth/boots and worn highlights unchanged. Exact silhouette, framing, positions, dimensions and scale. Opaque armor and suit surfaces on truly transparent alpha background. No new objects, shadows, backdrop, checkerboard or text.",
+      "references": [
+        "/private/tmp/broodfall-rocket-walk2-teal-preview-v1.png"
+      ],
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07f2c-82c7-7f11-9a5a-34cfbdaec425/exec-d2a656e0-a962-4747-8faa-2f12a689dd57.png",
+      "output": "/private/tmp/broodfall-rocket-walk2-red-preview-v1.png",
+      "normalization": {
+        "canvas": "256x256",
+        "padding": 14,
+        "translation_y": 0
+      }
+    },
+    {
+      "original_index": 3,
+      "prompt": "Use case: precise-object-edit. Make RED TEAM recolor of supplied top-down Rocket Trooper walk frame. Input is the sole EDIT TARGET. Change ONLY aqua armor paint into bright saturated weathered scarlet red enamel with pale warm red highlights and dark crimson weathering. Paint zones are helmet, shoulders, forearms, body/backpack and knee plates. The pose is the exact passing walk position with BOTH BOOTS pulled close together and HIGH under the pack, making this frame SHORTER than extended-stride poses. Do not lengthen legs or character. Preserve exactly the outline, part placement, limbs, size and proportion; whole soldier north, arms up and launcher pointing north/up with original red missile tip. Keep all neutral metal/taupe bands, boots and dark undersuit untouched. Same worn textures and lighting. Opaque subject surfaces, genuinely transparent alpha backdrop. No text, floor, shadows, checkerboard or added elements.",
+      "references": [
+        "/private/tmp/broodfall-rocket-walk3-teal-preview-v2.png"
+      ],
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07f2c-82c7-7f11-9a5a-34cfbdaec425/exec-31aa5e09-8d87-4ec7-b944-68774960355e.png",
+      "output": "/private/tmp/broodfall-rocket-walk3-red-preview-v1.png",
+      "normalization": {
+        "canvas": "256x256",
+        "padding": 22,
+        "translation_y": -8
+      }
+    },
+    {
+      "original_index": 4,
+      "prompt": "Use case: precise-object-edit. Edit supplied single top-down Rocket Trooper walk frame into its RED team counterpart. Change ONLY aqua/teal armor paint of helmet, shoulders, forearms, pack/body and leg plates to bright saturated weathered scarlet RED enamel, red light highlights and dark crimson chips. Preserve all of the approved pose exactly: screen-RIGHT leg/boot extends straight DOWN, screen-LEFT boot lifted/tucked HIGHER. No gait or anatomy adjustments. Whole character feet, body, helmet and raised arms north/up, long launcher north and existing red missile nose unchanged. Keep neutral gunmetal and tan weapon bands, black undersuit and boots, worn textures and lighting unchanged. Preserve exact framing, scale, silhouette, dimensions and part positions. Opaque solid materials on truly transparent alpha background, no holes through armor. No new objects, backdrop, floor, shadow, checkerboard or text.",
+      "references": [
+        "/private/tmp/broodfall-rocket-walk4-teal-preview-v2.png"
+      ],
+      "raw": "/Users/bronsongannon/.codex/generated_images/01a07f2c-82c7-7f11-9a5a-34cfbdaec425/exec-dfe5987b-8f30-425b-b57f-a2332295be1b.png",
+      "output": "/private/tmp/broodfall-rocket-walk4-red-preview-v1.png",
+      "normalization": {
+        "canvas": "256x256",
+        "padding": 14,
+        "translation_y": 0
+      }
+    }
+  ],
+  "qa": {
+    "silhouette_iou": [
+      0.9794,
+      0.9703,
+      0.9725,
+      0.9678
+    ],
+    "effective_area_ratio": [
+      1.0112,
+      1.0215,
+      1.0258,
+      1.0305
+    ],
+    "border_alpha_all_zero": true,
+    "contact": "/private/tmp/broodfall-rocket-red-walk1-4-check-v1.png",
+    "pose_pass": "Original gait and north-facing weapon/body maintained; examined256 and32."
+  }
+}

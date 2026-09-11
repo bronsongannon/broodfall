@@ -4,7 +4,13 @@ Every registered production slot in this folder is **hot-swappable**: replace a 
 
 ## Human technology overhaul status
 
-### Current soldier revision — 2026-09-08
+### Current soldier update — 2026-09-11
+
+The three Marine transparency repairs were approved and installed on 2026-09-11: aqua hunker and red death frames 3/4. Current cache revision: `human-soldiers-20260911a`. All 160 production sprites match the approved selections: the original 160-file mapping plus the three repair overrides. The repaired files pass opacity and transparent-border checks. Full-family validation remains open at **32 errors and 22 warnings** (previously 36/22); no thresholds were changed. Marine death 3/4 faction-outline differences and the other previously documented findings remain open. macOS Debug build, 162-file bundle verification, JavaScript syntax, and diff checks pass.
+
+Current [repair selection](../../image-audit/phases/marine-transparency-20260911/selection.json), [validation](../../image-audit/phases/marine-transparency-20260911/validation.json), and [approval/provenance record](../../image-audit/phases/marine-transparency-20260911/README.md). Do not regenerate approved repairs without a new request. Preview both colors and obtain approval for future artwork. The following record is historical.
+
+### Brighter soldier installation — historical 2026-09-08 snapshot
 
 All brighter soldier previews are user-approved. The current revision covers **160 files in six complete aqua/teal and red families**: Marine 28, Engineer 26, Sniper 28, Medic 26, Rocket Trooper 26, and Boone/Commando 26. Both colors are required for future soldier preview batches. The 13 added red Commando files complete his art counterpart without changing campaign team assignments.
 

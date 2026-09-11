@@ -1,0 +1,36 @@
+{
+  "status": "approved-installed-20260911",
+  "tool": "built-in image_gen",
+  "normalization": {
+    "script": "image-audit/process_generated_sprite.py",
+    "canvas": [
+      256,
+      256
+    ],
+    "padding": 14,
+    "backgroundTolerance": 85
+  },
+  "jobs": [
+    {
+      "key": "unit_marine_hunker_teal",
+      "prompt": "Use case: precise-object-edit. Asset type: existing Broodfall RTS soldier PNG sprite, shown only 30 pixels tall in game. Image 1 is the edit target, not inspiration. Repair ONLY unintended internal transparency erosion. Restore solid opaque dark charcoal fabric, joints, hands and gun in the eroded/stippled parts so background cannot show through the physical soldier. Preserve the exact approved pose, limb positions, outline, proportions, camera, framing, team armor color, existing brightness, weathering and painted style. No redesign or pose adjustment. Keep intentional gaps between limbs empty. Background must be genuinely transparent alpha, not a painted black/white/checkerboard backdrop; body/weapon interiors fully opaque, smooth antialiasing only along cutout boundaries. One isolated sprite, same square composition and scale as source. No ground, shadow puddle, text, labels, added equipment or effects. Specific target: aqua Marine hunker. Restore eroded dark rifle, forearms and lower knee regions. Rifle continues pointing straight north/up; preserve all aqua armor exactly.",
+      "source": "assets/sprites/unit_marine_hunker_teal.png",
+      "generated": "/Users/bronsongannon/.codex/generated_images/01a074b5-e49a-77a3-a02b-be55b3fb8d8b/exec-c8412ec2-1003-45c7-946e-4d057dc572f2.png",
+      "preview": "preview/unit_marine_hunker_teal-candidate.png"
+    },
+    {
+      "key": "unit_marine_death3_red",
+      "prompt": "Use case: precise-object-edit. Asset type: existing Broodfall RTS soldier PNG sprite, shown only 30 pixels tall in game. Image 1 is the edit target, not inspiration. Repair ONLY unintended internal transparency erosion. Restore solid opaque dark charcoal fabric, joints, hands and gun in the eroded/stippled parts so background cannot show through the physical soldier. Preserve the exact approved pose, limb positions, outline, proportions, camera, framing, team armor color, existing brightness, weathering and painted style. No redesign or pose adjustment. Keep intentional gaps between limbs empty. Background must be genuinely transparent alpha, not a painted black/white/checkerboard backdrop; body/weapon interiors fully opaque, smooth antialiasing only along cutout boundaries. One isolated sprite, same square composition and scale as source. No ground, shadow puddle, text, labels, added equipment or effects. Specific target: red Marine death frame 3. Restore dark connecting body mass around waist, inner thighs and rifle. Preserve the exact diagonally reclined death pose and red armor.",
+      "source": "assets/sprites/unit_marine_death3_red.png",
+      "generated": "/Users/bronsongannon/.codex/generated_images/01a074b5-e49a-77a3-a02b-be55b3fb8d8b/exec-47d9adfb-78d1-43ef-9764-f90fe203f3ef.png",
+      "preview": "preview/unit_marine_death3_red-candidate.png"
+    },
+    {
+      "key": "unit_marine_death4_red",
+      "prompt": "Use case: precise-object-edit. Asset type: existing Broodfall RTS soldier PNG sprite, shown only 30 pixels tall in game. Image 1 is the edit target, not inspiration. Repair ONLY unintended internal transparency erosion. Restore solid opaque dark charcoal fabric, joints, hands and gun in the eroded/stippled parts so background cannot show through the physical soldier. Preserve the exact approved pose, limb positions, outline, proportions, camera, framing, team armor color, existing brightness, weathering and painted style. No redesign or pose adjustment. Keep intentional gaps between limbs empty. Background must be genuinely transparent alpha, not a painted black/white/checkerboard backdrop; body/weapon interiors fully opaque, smooth antialiasing only along cutout boundaries. One isolated sprite, same square composition and scale as source. No ground, shadow puddle, text, labels, added equipment or effects. Specific target: red Marine death frame 4. Restore solid waist, underside of legs and rifle; currently dark parts are eroded and make the body fragmented. Preserve the exact prone diagonal pose and red armor.",
+      "source": "assets/sprites/unit_marine_death4_red.png",
+      "generated": "/Users/bronsongannon/.codex/generated_images/01a074b5-e49a-77a3-a02b-be55b3fb8d8b/exec-02108731-3658-4ce3-895d-1ab542544d03.png",
+      "preview": "preview/unit_marine_death4_red-candidate.png"
+    }
+  ]
+}

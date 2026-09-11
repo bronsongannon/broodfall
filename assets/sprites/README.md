@@ -62,7 +62,13 @@ The carrier's enlarged 200×200 visual footprint has matching oriented selection
 
 Frozen Phase 2 evidence lives in [`../../image-audit/phases/phase-2/`](../../image-audit/phases/phase-2/): coverage moves from 17/19 before to 19/19 after, with source and actual-size gameplay contact sheets plus per-file hashes. Browser inspection and `node --check game.js` / `git diff --check` passed. The native Debug build succeeded, and all 21 scoped Phase 2 files in the rebuilt app byte-match the workspace.
 
-## Current human soldiers — brighter faction revision, 2026-09-08
+## Current human soldiers — Marine repairs, 2026-09-11
+
+The three Marine transparency repairs were approved and installed on 2026-09-11: aqua hunker and red death frames 3/4. Current cache revision: `human-soldiers-20260911a`. All 160 production sprites match the approved selections: the original 160-file mapping plus the three repair overrides. The repaired files pass opacity and transparent-border checks. Full-family validation remains open at **32 errors and 22 warnings** (previously 36/22); no thresholds were changed. Marine death 3/4 faction-outline differences and the other previously documented findings remain open. macOS Debug build, 162-file bundle verification, JavaScript syntax, and diff checks pass.
+
+Current [repair selection](../../image-audit/phases/marine-transparency-20260911/selection.json), [validation](../../image-audit/phases/marine-transparency-20260911/validation.json), and [approval/provenance record](../../image-audit/phases/marine-transparency-20260911/README.md). The installation record below is a historical snapshot, superseded only for these three files.
+
+## Brighter faction installation — historical 2026-09-08 snapshot
 
 The user-approved current revision covers **160 production sprites**, installed as six complete aqua/teal and red families. It uses brighter dominant faction armor and weathering, a narrower Engineer, a larger Medic backpack with white uniform accents, and retained gold markings on Boone. The additional 13 red Commando files complete his paired art family without changing campaign team assignments. Standing/walking bodies and weapons face north together; falling poses retain the approved body/weapon alignment. Runtime draw boxes and gameplay mechanics are unchanged.
 

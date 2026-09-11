@@ -1,0 +1,325 @@
+{
+  "status": "unapproved-preview-not-installed",
+  "candidates": [
+    {
+      "key": "unit_marine_hunker_teal",
+      "before": {
+        "path": "/Users/bronsongannon/Desktop/broodfall/assets/sprites/unit_marine_hunker_teal.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          27,
+          14,
+          229,
+          242
+        ],
+        "bbox_center": [
+          127.5,
+          127.5
+        ],
+        "threshold_16_bbox": [
+          27,
+          14,
+          229,
+          242
+        ],
+        "threshold_16_bbox_center": [
+          127.5,
+          127.5
+        ],
+        "safe_padding_px": 14,
+        "border_alpha_max": 0,
+        "centroid": [
+          126.859,
+          155.664
+        ],
+        "occupied_pixels": 25760,
+        "nonzero_pixels": 27124,
+        "opaque_pixels": 18963,
+        "opaque_fraction_of_nonzero": 0.69912,
+        "threshold_16_component_count": 3,
+        "largest_component_share": 0.998913
+      },
+      "after": {
+        "path": "/Users/bronsongannon/Desktop/broodfall/image-audit/phases/marine-transparency-20260911/preview/unit_marine_hunker_teal-candidate.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          27,
+          14,
+          229,
+          242
+        ],
+        "bbox_center": [
+          127.5,
+          127.5
+        ],
+        "threshold_16_bbox": [
+          27,
+          14,
+          229,
+          242
+        ],
+        "threshold_16_bbox_center": [
+          127.5,
+          127.5
+        ],
+        "safe_padding_px": 14,
+        "border_alpha_max": 0,
+        "centroid": [
+          126.73,
+          154.981
+        ],
+        "occupied_pixels": 28303,
+        "nonzero_pixels": 28861,
+        "opaque_pixels": 27415,
+        "opaque_fraction_of_nonzero": 0.9499,
+        "threshold_16_component_count": 1,
+        "largest_component_share": 1.0
+      },
+      "background_tolerance": 105,
+      "gap_seeds": [
+        [
+          455,
+          603
+        ],
+        [
+          392,
+          891
+        ],
+        [
+          855,
+          909
+        ],
+        [
+          700,
+          491
+        ]
+      ],
+      "gap_pixels_cleared": [
+        1205,
+        694,
+        517,
+        276
+      ],
+      "before_after_exterior_iou": 0.98741,
+      "source_sha256": "75033f3396753847ce28ad7474f3e9c2e17e1bee4ee30d12bada1f0f4d52671e",
+      "candidate_sha256": "e4e131b2ba2de34e20f82dafa82d3280592533506501259627d53c2815ca286a"
+    },
+    {
+      "key": "unit_marine_death3_red",
+      "before": {
+        "path": "/Users/bronsongannon/Desktop/broodfall/assets/sprites/unit_marine_death3_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          14,
+          31,
+          242,
+          224
+        ],
+        "bbox_center": [
+          127.5,
+          127.0
+        ],
+        "threshold_16_bbox": [
+          14,
+          31,
+          242,
+          224
+        ],
+        "threshold_16_bbox_center": [
+          127.5,
+          127.0
+        ],
+        "safe_padding_px": 14,
+        "border_alpha_max": 0,
+        "centroid": [
+          139.228,
+          120.624
+        ],
+        "occupied_pixels": 20034,
+        "nonzero_pixels": 21299,
+        "opaque_pixels": 14944,
+        "opaque_fraction_of_nonzero": 0.70163,
+        "threshold_16_component_count": 6,
+        "largest_component_share": 0.995158
+      },
+      "after": {
+        "path": "/Users/bronsongannon/Desktop/broodfall/image-audit/phases/marine-transparency-20260911/preview/unit_marine_death3_red-candidate.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          14,
+          30,
+          242,
+          225
+        ],
+        "bbox_center": [
+          127.5,
+          127.0
+        ],
+        "threshold_16_bbox": [
+          14,
+          30,
+          242,
+          225
+        ],
+        "threshold_16_bbox_center": [
+          127.5,
+          127.0
+        ],
+        "safe_padding_px": 14,
+        "border_alpha_max": 0,
+        "centroid": [
+          133.589,
+          127.16
+        ],
+        "occupied_pixels": 22023,
+        "nonzero_pixels": 22797,
+        "opaque_pixels": 20963,
+        "opaque_fraction_of_nonzero": 0.91955,
+        "threshold_16_component_count": 1,
+        "largest_component_share": 1.0
+      },
+      "background_tolerance": 85,
+      "gap_seeds": [],
+      "gap_pixels_cleared": [],
+      "before_after_exterior_iou": 0.96462,
+      "source_sha256": "e31513af047d7d315388871c052524a6bcf023e4e623cade2e81e243c0ceed34",
+      "candidate_sha256": "f1aadc2e427079f0a13a7bf901516440fc60d23f3c2073b0f26905dfb9324256"
+    },
+    {
+      "key": "unit_marine_death4_red",
+      "before": {
+        "path": "/Users/bronsongannon/Desktop/broodfall/assets/sprites/unit_marine_death4_red.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          14,
+          54,
+          242,
+          202
+        ],
+        "bbox_center": [
+          127.5,
+          127.5
+        ],
+        "threshold_16_bbox": [
+          14,
+          54,
+          242,
+          202
+        ],
+        "threshold_16_bbox_center": [
+          127.5,
+          127.5
+        ],
+        "safe_padding_px": 14,
+        "border_alpha_max": 0,
+        "centroid": [
+          140.454,
+          122.196
+        ],
+        "occupied_pixels": 18742,
+        "nonzero_pixels": 20471,
+        "opaque_pixels": 12817,
+        "opaque_fraction_of_nonzero": 0.62611,
+        "threshold_16_component_count": 11,
+        "largest_component_share": 0.998453
+      },
+      "after": {
+        "path": "/Users/bronsongannon/Desktop/broodfall/image-audit/phases/marine-transparency-20260911/preview/unit_marine_death4_red-candidate.png",
+        "size": [
+          256,
+          256
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "bbox": [
+          14,
+          54,
+          242,
+          201
+        ],
+        "bbox_center": [
+          127.5,
+          127.0
+        ],
+        "threshold_16_bbox": [
+          14,
+          54,
+          242,
+          201
+        ],
+        "threshold_16_bbox_center": [
+          127.5,
+          127.0
+        ],
+        "safe_padding_px": 14,
+        "border_alpha_max": 0,
+        "centroid": [
+          136.909,
+          127.739
+        ],
+        "occupied_pixels": 22175,
+        "nonzero_pixels": 22910,
+        "opaque_pixels": 21124,
+        "opaque_fraction_of_nonzero": 0.92204,
+        "threshold_16_component_count": 1,
+        "largest_component_share": 1.0
+      },
+      "background_tolerance": 85,
+      "gap_seeds": [
+        [
+          844,
+          777
+        ]
+      ],
+      "gap_pixels_cleared": [
+        508
+      ],
+      "before_after_exterior_iou": 0.94009,
+      "source_sha256": "9d8357f99ca4a775122c76fdbf495179656c42cc44165e2c4f0aed82d284c7ed",
+      "candidate_sha256": "ef73534738095c342b4b60c5848e45ef5fbfbb4d0443b299415e8b1f7d44dd8c"
+    }
+  ]
+}

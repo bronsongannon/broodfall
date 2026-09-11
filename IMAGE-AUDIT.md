@@ -2,7 +2,13 @@
 
 Baseline audited 2026-09-05. The complete-repository findings below describe the pre-overhaul baseline and exclude generated copies under `mac/build`. Phase-specific records are frozen separately so later art work does not rewrite the evidence for an earlier phase.
 
-## Current soldier revision — brighter faction color, 2026-09-08
+## Current soldier update — approved Marine repairs, 2026-09-11
+
+The three Marine transparency repairs were approved and installed on 2026-09-11: aqua hunker and red death frames 3/4. Current cache revision: `human-soldiers-20260911a`. All 160 production sprites match the approved selections: the original 160-file mapping plus the three repair overrides. The repaired files pass opacity and transparent-border checks. Full-family validation remains open at **32 errors and 22 warnings** (previously 36/22); no thresholds were changed. Marine death 3/4 faction-outline differences and the other previously documented findings remain open. macOS Debug build, 162-file bundle verification, JavaScript syntax, and diff checks pass.
+
+Current [repair selection](image-audit/phases/marine-transparency-20260911/selection.json), [validation](image-audit/phases/marine-transparency-20260911/validation.json), and [approval/provenance record](image-audit/phases/marine-transparency-20260911/README.md). The following 2026-09-08 installation record is historical; its selection and QA remain frozen and are superseded only for the three repaired files.
+
+## Brighter soldier installation — historical 2026-09-08 snapshot
 
 The user-approved soldier revision supersedes the Phase 3 soldier pixels below. Its production scope is **160 files across six complete aqua/teal and red families**: Marine 28, Engineer 26, Sniper 28, Medic 26, Rocket Trooper 26, and Boone/Commando 26. The additional 13 red Commando slots provide the newly approved matching colorway; they do not change campaign team assignments. Static poses, eight-frame walks, four-frame deaths, and Marine/Sniper hunker poses move together as complete families.
 

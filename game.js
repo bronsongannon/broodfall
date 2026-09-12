@@ -2536,7 +2536,7 @@ let bodiesReady = false;
 const OPT = {};
 // Bump when a production sprite family is replaced. Optional art is otherwise
 // aggressively reused by browser/WebView caches under its stable drop-in name.
-const OPT_ART_REV = 'human-soldiers-20260911a';
+const OPT_ART_REV = 'human-soldiers-20260911b';
 (function loadOptional() {
   const names = ['dino_spitter', 'dino_nest', 'dino_den', 'dino_roost', 'gunship', 'artillery', 'egg', 'medic', 'rocket_trooper', 'apc', 'harrier'];
   for (const k in UNIT) names.push('unit_' + k);   // unit_marine.png, unit_tank.png, …

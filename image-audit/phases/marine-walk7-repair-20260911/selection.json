@@ -1,0 +1,66 @@
+{
+  "date": "2026-09-12",
+  "approved": true,
+  "installed": true,
+  "cache_revision": "human-soldiers-20260911b",
+  "base_selection": "image-audit/phases/soldiers-brighter-20260908/selection.json",
+  "prior_repairs": "image-audit/phases/marine-transparency-20260911/selection.json",
+  "override_count": 4,
+  "verified_total": 160,
+  "rows": [
+    {
+      "destination": "assets/sprites/unit_marine_hunker_teal.png",
+      "source": "image-audit/phases/marine-transparency-20260911/preview/unit_marine_hunker_teal-candidate.png",
+      "sha256": "e4e131b2ba2de34e20f82dafa82d3280592533506501259627d53c2815ca286a",
+      "previous_sha256": "75033f3396753847ce28ad7474f3e9c2e17e1bee4ee30d12bada1f0f4d52671e",
+      "bbox": [
+        27,
+        14,
+        229,
+        242
+      ]
+    },
+    {
+      "destination": "assets/sprites/unit_marine_death3_red.png",
+      "source": "image-audit/phases/marine-transparency-20260911/preview/unit_marine_death3_red-candidate.png",
+      "sha256": "f1aadc2e427079f0a13a7bf901516440fc60d23f3c2073b0f26905dfb9324256",
+      "previous_sha256": "e31513af047d7d315388871c052524a6bcf023e4e623cade2e81e243c0ceed34",
+      "bbox": [
+        14,
+        30,
+        242,
+        225
+      ]
+    },
+    {
+      "destination": "assets/sprites/unit_marine_death4_red.png",
+      "source": "image-audit/phases/marine-transparency-20260911/preview/unit_marine_death4_red-candidate.png",
+      "sha256": "ef73534738095c342b4b60c5848e45ef5fbfbb4d0443b299415e8b1f7d44dd8c",
+      "previous_sha256": "9d8357f99ca4a775122c76fdbf495179656c42cc44165e2c4f0aed82d284c7ed",
+      "bbox": [
+        14,
+        54,
+        242,
+        201
+      ]
+    },
+    {
+      "destination": "assets/sprites/unit_marine_walk7_red.png",
+      "source": "image-audit/phases/marine-walk7-repair-20260911/preview/unit_marine_walk7_red-alpha-repair.png",
+      "sha256": "2541e41e0e70415f7b21e0ba8ea16a22111966402ae122f5fc1fdb25a14624dc",
+      "previous_sha256": "3f2eae37df7de3f0ec872223facd73f4decdd3df338b669e41ef8918a65c0526",
+      "bbox": [
+        71,
+        14,
+        184,
+        242
+      ],
+      "rgb_unchanged": true
+    }
+  ],
+  "validation": {
+    "errors": 32,
+    "warnings": 21,
+    "thresholds_changed": false
+  }
+}

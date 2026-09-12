@@ -53,7 +53,7 @@
     silo: ['#343b42', '#3d464e'],
     trade: ['#201b10', '#292314'],
   };
-  const qaRevision = new URLSearchParams(location.search).get('rev') || 'human-soldiers-20260911a';
+  const qaRevision = new URLSearchParams(location.search).get('rev') || 'human-soldiers-20260911b';
   let loaded = 0, failed = 0, mode = 'walk', terrain = 'valley', paused = false, started = performance.now();
   const status = document.getElementById('status');
   const grid = document.getElementById('grid');

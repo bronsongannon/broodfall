@@ -2,11 +2,11 @@
 
 Baseline audited 2026-09-05. The complete-repository findings below describe the pre-overhaul baseline and exclude generated copies under `mac/build`. Phase-specific records are frozen separately so later art work does not rewrite the evidence for an earlier phase.
 
-## Current soldier update — approved Marine repairs, 2026-09-11
+## Current soldier update — approved Marine repairs, 2026-09-12
 
-The three Marine transparency repairs were approved and installed on 2026-09-11: aqua hunker and red death frames 3/4. Current cache revision: `human-soldiers-20260911a`. All 160 production sprites match the approved selections: the original 160-file mapping plus the three repair overrides. The repaired files pass opacity and transparent-border checks. Full-family validation remains open at **32 errors and 22 warnings** (previously 36/22); no thresholds were changed. Marine death 3/4 faction-outline differences and the other previously documented findings remain open. macOS Debug build, 162-file bundle verification, JavaScript syntax, and diff checks pass.
+Four Marine transparency repairs are installed: aqua hunker and red death frames 3/4 were approved on 2026-09-11; red walk frame 7 was approved on 2026-09-12. Current cache revision: `human-soldiers-20260911b`. All 160 production sprites match the approved selections: the original 160-file mapping plus four repair overrides. The repaired files pass opacity and transparent-border checks; walk 7 retains its exact RGB artwork, bounding box, and pose. Full-family validation remains open at **32 errors and 21 warnings** (previously 36/22); no thresholds were changed. Marine death 3/4 and walk 7 faction-outline differences and the other previously documented findings remain open. macOS Debug build, 162-file bundle verification, JavaScript syntax, and diff checks pass.
 
-Current [repair selection](image-audit/phases/marine-transparency-20260911/selection.json), [validation](image-audit/phases/marine-transparency-20260911/validation.json), and [approval/provenance record](image-audit/phases/marine-transparency-20260911/README.md). The following 2026-09-08 installation record is historical; its selection and QA remain frozen and are superseded only for the three repaired files.
+Current [repair selection](image-audit/phases/marine-walk7-repair-20260911/selection.json), [validation](image-audit/phases/marine-walk7-repair-20260911/validation.json), and [walk-7 approval/provenance record](image-audit/phases/marine-walk7-repair-20260911/README.md). The preceding three-repair evidence remains under [marine-transparency-20260911](image-audit/phases/marine-transparency-20260911/). The following 2026-09-08 installation record is historical; its selection and QA remain frozen and are superseded only for the four repaired files.
 
 ## Brighter soldier installation — historical 2026-09-08 snapshot
 

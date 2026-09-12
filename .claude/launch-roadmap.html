@@ -1,0 +1,105 @@
+<section id="broodfall-roadmap" aria-labelledby="roadmap-title">
+  <style>
+    #broodfall-roadmap { --bg:#1f1c18; --panel:#25211d; --chip:#2c2823; --line:#4b443a; --text:#eee9df; --muted:#afa79c; --coral:#dd6954; --amber:#e6b652; --green:#82a991; --blue:#5fa4bf; --gray:#aaa59c; box-sizing:border-box; max-width:1120px; margin:auto; padding:24px; color:var(--text); background:var(--bg); font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    #broodfall-roadmap *,#broodfall-roadmap *::before,#broodfall-roadmap *::after { box-sizing:border-box; }
+    #broodfall-roadmap h2,#broodfall-roadmap h3,#broodfall-roadmap p { margin:0; }
+    #broodfall-roadmap .bf-title { font-size:28px; line-height:1.1; letter-spacing:-.035em; }
+    #broodfall-roadmap .bf-subtitle { margin-top:9px; color:var(--muted); font-size:15px; }
+    #broodfall-roadmap .bf-strip { margin:28px 0 26px; padding:15px 18px; border-left:4px solid var(--coral); border-radius:0 9px 9px 0; color:var(--muted); background:#302b25; font-size:14px; line-height:1.55; }
+    #broodfall-roadmap .bf-board,#broodfall-roadmap .bf-detail,#broodfall-roadmap .bf-history { border:1px solid var(--line); border-radius:15px; background:var(--panel); }
+    #broodfall-roadmap .bf-board { padding:22px; }
+    #broodfall-roadmap .bf-board-head { margin-bottom:18px; }
+    #broodfall-roadmap .bf-board-head h3 { font-size:21px; letter-spacing:-.02em; }
+    #broodfall-roadmap .bf-board-head p { margin-top:7px; color:var(--muted); font-size:14px; }
+    #broodfall-roadmap .bf-scroll { overflow-x:auto; padding-bottom:4px; }
+    #broodfall-roadmap .bf-lanes { display:grid; grid-template-columns:repeat(6,minmax(158px,1fr)); gap:13px; min-width:1010px; }
+    #broodfall-roadmap .bf-lane-head { width:100%; min-height:54px; padding:11px 10px; border:0; border-radius:12px; color:#fffaf1; font:inherit; font-size:15px; font-weight:750; line-height:1.15; text-align:center; cursor:pointer; }
+    #broodfall-roadmap .bf-lane-head[data-tone="coral"] { background:var(--coral); } #broodfall-roadmap .bf-lane-head[data-tone="amber"] { background:var(--amber); } #broodfall-roadmap .bf-lane-head[data-tone="green"] { background:var(--green); } #broodfall-roadmap .bf-lane-head[data-tone="blue"] { background:var(--blue); } #broodfall-roadmap .bf-lane-head[data-tone="gray"] { background:var(--gray); }
+    #broodfall-roadmap .bf-chip-list { display:grid; gap:10px; margin-top:14px; }
+    #broodfall-roadmap .bf-chip { width:100%; min-height:46px; padding:9px 10px; border:1px solid var(--line); border-radius:10px; color:var(--text); background:var(--chip); font:inherit; font-size:13px; font-weight:650; line-height:1.25; text-align:center; cursor:pointer; transition:transform .12s ease,border-color .12s ease; }
+    #broodfall-roadmap .bf-chip:hover { transform:translateY(-1px); border-color:var(--muted); } #broodfall-roadmap .bf-chip[data-status="done"] { border-color:transparent; background:var(--green); color:#f8f5ef; } #broodfall-roadmap .bf-chip[data-status="active"] { border-color:transparent; background:var(--amber); color:#fffaf1; } #broodfall-roadmap .bf-chip[data-status="planned"] { border-color:transparent; background:#d1a34e; color:#fffaf1; } #broodfall-roadmap .bf-chip[aria-pressed="true"] { outline:2px solid var(--coral); outline-offset:2px; }
+    #broodfall-roadmap .bf-status-line { margin-top:20px; color:var(--text); font-size:14px; line-height:1.45; }
+    #broodfall-roadmap .bf-detail { margin-top:18px; padding:20px 22px; } #broodfall-roadmap .bf-detail-top { display:flex; align-items:center; justify-content:space-between; gap:14px; } #broodfall-roadmap .bf-detail h3 { font-size:18px; letter-spacing:-.015em; } #broodfall-roadmap .bf-detail p { margin-top:12px; font-size:15px; line-height:1.55; }
+    #broodfall-roadmap .bf-work { flex-shrink:0; padding:8px 11px; border:1px solid var(--line); border-radius:8px; color:var(--text); background:var(--chip); font:inherit; font-size:13px; font-weight:650; cursor:pointer; }
+    #broodfall-roadmap .bf-history { margin-top:18px; padding:16px 20px; } #broodfall-roadmap .bf-history summary { font-size:15px; font-weight:700; cursor:pointer; } #broodfall-roadmap .bf-history p { margin-top:12px; color:var(--muted); font-size:14px; line-height:1.55; } #broodfall-roadmap .bf-history-list { display:grid; gap:8px; margin-top:14px; } #broodfall-roadmap .bf-history-item { position:relative; padding:9px 0 0 18px; border-top:1px solid var(--line); color:var(--muted); font-size:13px; line-height:1.45; } #broodfall-roadmap .bf-history-item::before { content:"✓"; position:absolute; left:0; color:var(--green); font-weight:800; }
+    #broodfall-roadmap .bf-footer { margin-top:16px; color:var(--muted); font-size:12px; }
+    @media (max-width:640px) { #broodfall-roadmap { padding:16px; } #broodfall-roadmap .bf-title { font-size:24px; } #broodfall-roadmap .bf-board { padding:16px; } #broodfall-roadmap .bf-detail { padding:17px; } #broodfall-roadmap .bf-detail-top { align-items:flex-start; flex-direction:column; } }
+  </style>
+
+  <header>
+    <h2 id="roadmap-title" class="bf-title">Broodfall — audit &amp; launch roadmap</h2>
+    <p class="bf-subtitle">Click any chip to read its full status · left → right = closed work → later delivery</p>
+  </header>
+  <p class="bf-strip">The audit is closed, the human-technology art overhaul is installed, and Act 1 is a complete demo. The remaining risk is campaign production, followed by release operations and the Steam platform work.</p>
+
+  <section class="bf-board" aria-labelledby="board-title">
+    <div class="bf-board-head"><h3 id="board-title">Launch path</h3><p>Warmer = current pressure · green = verified · dark = queued</p></div>
+    <div class="bf-scroll"><div id="roadmap-lanes" class="bf-lanes"></div></div>
+    <p class="bf-status-line"><strong>Sep 12:</strong> audit clear · human-technology art installed · Act 1 demo complete · 13 of 20 campaign missions built · M14 Return to Ruin is next.</p>
+  </section>
+
+  <section class="bf-detail" aria-live="polite" aria-labelledby="selected-title">
+    <div class="bf-detail-top"><h3 id="selected-title">Audit closeout ✓</h3><button id="work-selected" class="bf-work" type="button">Work on this ↗</button></div>
+    <p id="selected-detail">The original 12-fix audit and seven verified round-two fixes are committed. The former critical IAP gate is implemented and verified; no audit critical remains.</p>
+  </section>
+
+  <details class="bf-history"><summary>Shipped history and audit evidence</summary><p>The former larger checklist, kept as a concise record behind the active roadmap.</p><div id="roadmap-history" class="bf-history-list"></div></details>
+  <p class="bf-footer">Source of truth: SHIP-CHECKLIST.md and the current Git main branch</p>
+
+  <script>
+    const BF_LANES = [
+      { title:'Audit clear', tone:'coral', items:[
+        ['12-fix audit ✓','done','The Jul 11–12 audit closed 12 verified game issues, including mission soft-locks, dead-unit objective errors, nuke safety faults, construction healing, and AI economy mistakes.','Summarize the original 12-fix Broodfall audit and identify which risks are closed versus still open.'],
+        ['Round two: 7 fixes ✓','done','The Jul 22 follow-up fixed and verified the AI refinery rebuild, cold-load voice, dev-mode restore, mute, animation cache, cliff escape, and voiced-outro timer issues.','Summarize the seven verified round-two audit fixes and their regression coverage.'],
+        ['IAP critical ✓','done','StoreKit 2 entitlement checks, mission and map gates, restore purchases, and release-build cheat lockout are complete and verified.','Review the completed IAP gate and list only the live App Store Connect checks that remain.']
+      ]},
+      { title:'Next Fest demo', tone:'coral', items:[
+        ['Act 1: 7 / 7 ✓','done','All seven Act 1 missions are built. This is the free demo content for both storefronts.','Plan a final Act 1 demo validation pass for Broodfall.'],
+        ['Demo QA','active','Validate the first-run flow, all seven missions, pricing gates, support copy, and a clean build before Next Fest.','Create the Next Fest demo QA checklist for Broodfall.'],
+        ['Steam page + demo build','queued','The Steam page and demo packaging need to be ready for the Oct 19–26 Next Fest window.','Break down the Steam page and demo-build milestones needed before Next Fest.']
+      ]},
+      { title:'Campaign build', tone:'amber', items:[
+        ['M13 Evac Coast ✓','done','The Act 2 finale, coastline evacuation, named manifests, boardable skiff, and Broodmother reveal are built.','Review M13 The Broodmother Wakes and give me a focused first-playtest checklist.'],
+        ['M14: spawners','active','Return to Ruin is next. It needs corrupted red buildings that act as living spawners plus the carrier landing sequence.','Design and implement the generic corrupted-spawner and landing machinery required for M14.'],
+        ['M15: den-seeding','queued','The Overgrowth needs dens that seed new dens on a timer.','Design and implement the den-seeding timer required for M15.'],
+        ['M20: Broodmother','queued','Heartvein needs the combat Broodmother and the winAny ending logic.','Scope the combat Broodmother and winAny prerequisites for M20.']
+      ]},
+      { title:'Mac release', tone:'green', items:[
+        ['Wrapper + icon ✓','done','The signed sandboxed WKWebView wrapper, archive-ready icon, privacy page, and screenshots are in place.','Review the completed Mac wrapper and identify its remaining release-operations steps.'],
+        ['Listing copy','queued','Draft the description, subtitle, keywords, and promo copy. Do not use competitor trademarks or promise a frame number.','Draft the Mac App Store listing copy for Broodfall under its metadata constraints.'],
+        ['Sign + notarize','queued','Complete entitlements, code signing, notarization, and a clean-Mac test.','Give me a sequenced Mac signing, notarization, and clean-Mac test plan.'],
+        ['Archive + submit','queued','Before archive, set DEV_PRERELEASE to false; then upload and submit the review build.','Prepare the final Mac App Store archive and submission checklist, beginning with DEV_PRERELEASE false.']
+      ]},
+      { title:'Steam platform', tone:'blue', items:[
+        ['Electron wrapper','queued','Steam needs a Windows wrapper with Chromium as the consistent renderer.','Plan the Electron wrapper for Broodfall’s Steam build.'],
+        ['File-backed saves','queued','Move settings and saves behind a storage bridge so Steam Auto-Cloud can work.','Design the storage abstraction for web, Mac, and Steam backends.'],
+        ['Ownership + demo','queued','Implement Steam ownership gates and a separate free Demo appid.','Plan the Steam ownership and demo-appid architecture.'],
+        ['High-refresh test','queued','Verify the fixed 60tps sim behaves correctly at 120–144Hz before Steam work proceeds.','Design the high-refresh verification plan for the Broodfall fixed-step loop.'],
+        ['Achievements','queued','Bridge existing stats and mission completions into roughly 15 Steam achievements.','Design a low-cost Steam achievement set from Broodfall’s existing stats.']
+      ]},
+      { title:'Finish & polish', tone:'gray', items:[
+        ['M9 density test','active','Length is settled; test whether the retuned night stays dense without drowning out the recorder sorties.','Give me a focused M9 Roost density playtest scorecard.'],
+        ['M10 pacing','active','The two-phase siege is challenging but currently runs 34 minutes against the 20–25 minute mandate.','Suggest a surgical M10 trim toward 20–25 minutes without losing its challenge.'],
+        ['Voice batch','queued','Voice remains deliberately deferred until campaign text locks; then record and cut it in one batch.','Plan the final one-shot Broodfall voice batch.'],
+        ['Future art queue','queued','The human-technology overhaul and all 160 soldier sprites are installed. M14 spawners, Act 3 creatures, and store key art will reopen the queue.','Recap the art tool doctrine and the future content that reopens the art queue.']
+      ]}
+    ];
+    const BF_HISTORY = ['Audit closeout: 19 verified game fixes across the original review and its second round.','Ship-readiness remediation: clean bundle, encryption declaration, corrected metadata, then the IAP critical closed.','Performance: JIT and FX-allocation fixes eliminated battle-size degradation; WebKit frame pacing is a known platform constraint.','Act 1: all seven demo missions are built and verified.','M8–M13: the economy race, Roost, city evacuation, allied AI, Exodus escort, and Act 2 finale are built.','Art baseline: the complete human-technology overhaul and all 160 paired soldier sprites are installed; the latest Marine transparency repairs are pushed.','Voice: intentionally held for the final, single campaign-wide batch.'];
+    const root = document.getElementById('broodfall-roadmap');
+    const lanesRoot = document.getElementById('roadmap-lanes');
+    const selectedTitle = document.getElementById('selected-title');
+    const selectedDetail = document.getElementById('selected-detail');
+    const workSelected = document.getElementById('work-selected');
+    let selectedPrompt = BF_LANES[0].items[0][3];
+    function selectChip(chip) { root.querySelectorAll('.bf-chip').forEach((item) => item.setAttribute('aria-pressed','false')); chip.setAttribute('aria-pressed','true'); selectedTitle.textContent = chip.dataset.title; selectedDetail.textContent = chip.dataset.detail; selectedPrompt = chip.dataset.prompt; }
+    BF_LANES.forEach((lane, laneIndex) => {
+      const laneNode = document.createElement('div'); laneNode.className = 'bf-lane'; laneNode.innerHTML = '<button class="bf-lane-head" type="button" data-tone="' + lane.tone + '">' + lane.title + '</button><div class="bf-chip-list"></div>';
+      const chipList = laneNode.querySelector('.bf-chip-list');
+      lane.items.forEach(([title,status,detail,prompt],itemIndex) => { const chip = document.createElement('button'); chip.type = 'button'; chip.className = 'bf-chip'; chip.dataset.status = status; chip.dataset.title = title; chip.dataset.detail = detail; chip.dataset.prompt = prompt; chip.setAttribute('aria-pressed',String(laneIndex === 0 && itemIndex === 0)); chip.textContent = title; chip.addEventListener('click',() => selectChip(chip)); chipList.appendChild(chip); });
+      laneNode.querySelector('.bf-lane-head').addEventListener('click',() => laneNode.querySelector('.bf-chip').click()); lanesRoot.appendChild(laneNode);
+    });
+    workSelected.addEventListener('click',() => sendPrompt(selectedPrompt));
+    document.addEventListener('keydown',(event) => { if (event.key !== 'Escape') return; root.querySelectorAll('.bf-chip').forEach((chip) => chip.setAttribute('aria-pressed','false')); selectedTitle.textContent = 'Launch path'; selectedDetail.textContent = 'Select a roadmap chip to read its evidence, open risk, and next action.'; });
+    document.getElementById('roadmap-history').innerHTML = BF_HISTORY.map((entry) => '<div class="bf-history-item">' + entry + '</div>').join('');
+  </script>
+</section>

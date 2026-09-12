@@ -29,6 +29,6 @@ Do not regenerate or replace these without the user's next approval. Preview aqu
 - Browser harness reports 160 loaded, no missing sprites; walk progression observed. Viewed walk on moss/ash, death on snow, and static/hunker mode on steppe. No captured warning/error console entries. This does not certify flawless animation.
 - Live Crystal Basin match smoke test started, approved Marine sprites visible; console warning/error list empty. Match left paused. Comprehensive gameplay-overlay regression remains uncompleted pending art corrections.
 - macOS Debug `xcodebuild` succeeded. Phase 3 bundle comparison passed all 162 scoped payload files (160 sprites plus `game.js` and `index.html`).
-- No commit or push. Existing `.claude/session-start.json`, `.claude/ship-widget.html`, and `CAMPAIGN.md` edits were preserved.
+- No commit or push. Existing `.claude/session-start.json`, the roadmap widget (now `.claude/launch-roadmap.html`), and `CAMPAIGN.md` edits were preserved.
 
 Exact prompt provenance remains incomplete for some early Marine/Engineer/static drafts. Surviving manifests and selection builders are archived under `provenance/`; missing original prompts were not invented.

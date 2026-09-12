@@ -28,7 +28,7 @@ Work autonomously through each phase. Do not stop after planning, making a singl
 
 - Workspace: `/Users/bronsongannon/Desktop/broodfall`
 - The working tree is intentionally dirty. Preserve every existing change.
-- In particular, `.claude/session-start.json` and `.claude/ship-widget.html` are unrelated user changes. Do not edit or revert them.
+- At the time of this handoff, `.claude/session-start.json` and the roadmap widget were unrelated user changes. They were later cleaned up explicitly at the user's request; preserve their current replacements unless a new task targets them.
 - Existing work in `game.js`, `index.html`, `CAMPAIGN.md`, sprite documentation, and the new naval assets is intentional and must survive.
 - Do not use `git reset`, `git checkout --`, or other destructive cleanup.
 - Do not commit or push unless I explicitly ask.

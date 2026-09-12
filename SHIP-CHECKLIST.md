@@ -16,9 +16,11 @@
 > is a rehearsal of the pipeline, not a launch. Nothing below is deleted — the
 > Apple track is intact and UNSCHEDULED.
 
-Interactive version: `.claude/ship-widget.html` renders as a widget at the start
-of every Claude session (SessionStart hook in `.claude/settings.json`). Keep this
-file and the widget's task lists in sync.
+Interactive version: `.claude/launch-roadmap.html` renders at the start of every
+Claude session through the SessionStart hook in `.claude/settings.json`. Codex
+loads the shared roadmap rules through the repository-root `AGENTS.md`. Keep this
+file and the visual roadmap's task lists in sync; this checklist is authoritative
+if they ever disagree.
 
 ## PRIORITY: finish the campaign (7 missions remain, 13 of 20 built)
 

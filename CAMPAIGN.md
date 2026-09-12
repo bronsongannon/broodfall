@@ -158,8 +158,9 @@ four-minute launch clocks as the siege escalates from raptor floods to Screecher
 dives to Ironback columns. Each flight can lose one named vehicle; a second loss
 ends the mission. The final launch brings the invulnerable **Broodmother** through
 a scripted seismic reveal, cancels the base as a loss condition, and forces an
-eight-unit rally-and-run to the north-coast skiff. Deterministic full-chain runtime:
-23:15. Act 3 is about coming back.
+eight-troop rally-and-run to a physical, boardable north-coast skiff. The troops
+appear on its open deck and the loaded boat departs east. Deterministic full-chain
+runtime: 23:15. Five months after landfall, the story turns toward coming back.
 
 ### Act 3 — Broodfall (missions 14–20) — detailed design (2026-07-12)
 
@@ -169,14 +170,23 @@ buildings. Dens spawn attack packs on timers, corrupted structures are objective
 and the roster is fully unlocked. Krauss survives as the bitter third voice.
 Reuse Act 1 maps overgrown — cheaper AND better storytelling.
 
-**M14 — "Return to Ruin."** Beachhead. Land back in the Act 1 basin — now
-unrecognizable: crystal fields doubled in size, red's old expansion buildings
-corrupted into spawner-structures. Establish a base under periodic den waves,
-clear the valley's three corrupted clusters, hold for extraction of Lin's
-sensor package. Teaches the act's grammar: corrupted building = nest that looks
-like architecture. *needs: Broodfallen corrupted-building type (nest variant
-wearing red building sprites + overgrowth overlay); corrupted-red team color
-scheme (COLORS entry + teamSprite pass).*
+**M14 — "Return to Ruin."** Beachhead. The expedition returns aboard its new
+carrier: sail down the occupied coast, launch the first three-aircraft strike to
+clear the landing beach, then put troops ashore in the Act 1 basin — now
+unrecognizable. Crystal fields have doubled in size and red's old expansion
+buildings are corrupted into spawner-structures. Establish a base under periodic
+den waves, clear the valley's three corrupted clusters, hold for extraction of
+Lin's sensor package. Teaches both the act's grammar (corrupted building = nest
+that looks like architecture) and the carrier loop before the inland campaign
+takes it away. *needs: Broodfallen corrupted-building type (nest variant wearing
+red building sprites + overgrowth overlay); corrupted-red team color scheme
+(COLORS entry + teamSprite pass); landing craft / disembark objective.*
+
+**Naval prototype:** Evac Coast skirmish now fields a shoreline-only Naval
+Shipyard with a real production queue. It launches up to two paid Expedition
+Carriers into deep-water rally points. Carriers accelerate, coast, turn with
+momentum, keep their full hull clear of shore, and leave speed-responsive layered
+foam wakes; their three-aircraft strike wing returns to the moving deck.
 
 **M15 — "The Overgrowth."** The corruption SPREADS. Dens multiply on a visible
 timer — every 90 seconds a surviving den seeds a new one at a marked site.
@@ -203,12 +213,14 @@ Economy pressure mission — the roosts hunt WORKERS, echoing Act 1 M1's lesson.
 *needs: roost = air-focused den variant; nothing else new if M13 shipped.*
 
 **M18 — "Krauss's Debt."** Joint assault, the truce's payoff. Krauss's remnant
-brings the guns of his last silo; you bring the army. Crack the outer hive ring
-protecting the crater: three fortified corrupted strongpoints, each one falling
-lets Krauss reposition his artillery line forward (scripted ally advances).
+brings the guns of his last silo; you bring the army and the carrier returns off
+the flooded crater approach. Crack the outer hive ring protecting the Mother's
+nest: each coastal strongpoint destroyed opens a new strike lane, letting the
+carrier wing clear a path while Krauss repositions his artillery line forward.
 Finale: his silo fires its last tactical warhead to breach the crater wall —
 his arc closes paying his debt. *needs: allied AI from M11; scripted ally
-advance triggers (`move` order action on named groups).*
+advance triggers (`move` order action on named groups); carrier strike-lane
+objectives (reuse M14's range/cooldown mechanic).*
 
 **M19 — "The Mega-Hive."** Siege of the crater. Red's old HQ is now a mega-hive:
 a multi-structure fortress of corrupted buildings, den rings, and Ironback

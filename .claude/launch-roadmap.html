@@ -35,7 +35,7 @@
   <section class="bf-board" aria-labelledby="board-title">
     <div class="bf-board-head"><h3 id="board-title">Launch path</h3><p>Warmer = current pressure · green = verified · dark = queued</p></div>
     <div class="bf-scroll"><div id="roadmap-lanes" class="bf-lanes"></div></div>
-    <p class="bf-status-line"><strong>Sep 12:</strong> audit clear · human-technology art installed · Act 1 demo complete · 13 of 20 campaign missions built · M14 Return to Ruin is next.</p>
+    <p class="bf-status-line"><strong>Sep 14:</strong> audit clear · human-technology art installed · high-refresh cap verified · 13 of 20 campaign missions built · M14 Return to Ruin is next.</p>
   </section>
 
   <section class="bf-detail" aria-live="polite" aria-labelledby="selected-title">
@@ -74,7 +74,7 @@
         ['Electron wrapper','queued','Steam needs a Windows wrapper with Chromium as the consistent renderer.','Plan the Electron wrapper for Broodfall’s Steam build.'],
         ['File-backed saves','queued','Move settings and saves behind a storage bridge so Steam Auto-Cloud can work.','Design the storage abstraction for web, Mac, and Steam backends.'],
         ['Ownership + demo','queued','Implement Steam ownership gates and a separate free Demo appid.','Plan the Steam ownership and demo-appid architecture.'],
-        ['High-refresh test','queued','Verify the fixed 60tps sim behaves correctly at 120–144Hz before Steam work proceeds.','Design the high-refresh verification plan for the Broodfall fixed-step loop.'],
+        ['High-refresh cap ✓','done','The renderer now follows an exact 60Hz deadline phase. Exact and jittered 60/90/100/120/144/165/240Hz callback streams all verify at 60.00 draws/sec while the sim remains fixed at 60tps.','Review the completed Broodfall high-refresh scheduler verification.'],
         ['Achievements','queued','Bridge existing stats and mission completions into roughly 15 Steam achievements.','Design a low-cost Steam achievement set from Broodfall’s existing stats.']
       ]},
       { title:'Finish & polish', tone:'gray', items:[
@@ -84,7 +84,7 @@
         ['Future art queue','queued','The human-technology overhaul and all 160 soldier sprites are installed. M14 spawners, Act 3 creatures, and store key art will reopen the queue.','Recap the art tool doctrine and the future content that reopens the art queue.']
       ]}
     ];
-    const BF_HISTORY = ['Audit closeout: 19 verified game fixes across the original review and its second round.','Ship-readiness remediation: clean bundle, encryption declaration, corrected metadata, then the IAP critical closed.','Performance: JIT and FX-allocation fixes eliminated battle-size degradation; WebKit frame pacing is a known platform constraint.','Act 1: all seven demo missions are built and verified.','M8–M13: the economy race, Roost, city evacuation, allied AI, Exodus escort, and Act 2 finale are built.','Art baseline: the complete human-technology overhaul and all 160 paired soldier sprites are installed; the latest Marine transparency repairs are pushed.','Voice: intentionally held for the final, single campaign-wide batch.'];
+    const BF_HISTORY = ['Audit closeout: 19 verified game fixes across the original review and its second round.','Ship-readiness remediation: clean bundle, encryption declaration, corrected metadata, then the IAP critical closed.','Performance: JIT and FX-allocation fixes eliminated battle-size degradation; the exact 60Hz cap, one-grid-per-tick spatial queries, five-tick staggered acquisition, and remaining hot-path compaction are verified. A fixed-resolution HUD-off A/B still confirms WebKit frame pacing as the platform constraint.','Act 1: all seven demo missions are built and verified.','M8–M13: the economy race, Roost, city evacuation, allied AI, Exodus escort, and Act 2 finale are built.','Art baseline: the complete human-technology overhaul and all 160 paired soldier sprites are installed; the latest Marine transparency repairs are pushed.','Voice: intentionally held for the final, single campaign-wide batch.'];
     const root = document.getElementById('broodfall-roadmap');
     const lanesRoot = document.getElementById('roadmap-lanes');
     const selectedTitle = document.getElementById('selected-title');

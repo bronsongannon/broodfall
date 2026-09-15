@@ -2469,10 +2469,81 @@ let waveAt = 100 * 60, waveNum = 0;  // first enemy assault at 100s
 let muted = false;
 let fogMemory = true;   // true = explored ground stays dimly visible; false = re-fogs to black
 
+// One broad-phase index serves every local entity query for the whole tick:
+// combat acquisition, support searches, splash, and collision separation.
+// Buckets and the query scratch array are permanent so the speedup does not
+// trade O(n) scans for a new stream of garbage-collector work.
+const SPATIAL_CELL = 192;
+const SPATIAL_COLS = Math.ceil(W / SPATIAL_CELL);
+const SPATIAL_ROWS = Math.ceil(H / SPATIAL_CELL);
+const SPATIAL_STALE_PAD = 96;   // units move after the grid build; cover that drift until next tick
+const spatialBuckets = Array.from({ length: SPATIAL_COLS * SPATIAL_ROWS }, () => []);
+const spatialNearby = [];
+let spatialBuiltTick = -1;
+let spatialUnitMaxR = 0, spatialBuildingMaxR = 0, spatialBuildingCornerR = 0;
+let spatialRockMaxR = 0, spatialVentMaxR = 0;
+for (const type in UNIT) spatialUnitMaxR = Math.max(spatialUnitMaxR, UNIT[type].r || 0);
+for (const type in BLD) {
+  spatialBuildingMaxR = Math.max(spatialBuildingMaxR, Math.max(BLD[type].w, BLD[type].h) / 2);
+  spatialBuildingCornerR = Math.max(spatialBuildingCornerR, Math.hypot(BLD[type].w / 2, BLD[type].h / 2));
+}
+
 // ---------------- Utils ----------------
 const dist2 = (x1, y1, x2, y2) => { const dx = x2 - x1, dy = y2 - y1; return dx * dx + dy * dy; };
 const dist = (x1, y1, x2, y2) => Math.sqrt(dist2(x1, y1, x2, y2));
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+
+function spatialAdd(e, kind) {
+  if ((e.kind === 'unit' || e.kind === 'building') && (e.hp <= 0 || e._inWorld === false)) return;
+  const cx = clamp(Math.floor(e.x / SPATIAL_CELL), 0, SPATIAL_COLS - 1);
+  const cy = clamp(Math.floor(e.y / SPATIAL_CELL), 0, SPATIAL_ROWS - 1);
+  spatialBuckets[cy * SPATIAL_COLS + cx].push(e);
+  e._spatialKind = kind || e.kind;
+  e._spatialTick = spatialBuiltTick;
+}
+function buildSpatialGrid() {
+  for (const bucket of spatialBuckets) bucket.length = 0;
+  spatialBuiltTick = tick;
+  spatialRockMaxR = 0;
+  spatialVentMaxR = 0;
+  for (let i = 0; i < units.length; i++) {
+    const u = units[i];
+    u._spatialOrder = i;
+    spatialAdd(u);
+  }
+  for (let i = 0; i < buildings.length; i++) {
+    const b = buildings[i];
+    b._spatialOrder = i;
+    spatialAdd(b);
+  }
+  for (const rk of rocks) {
+    spatialRockMaxR = Math.max(spatialRockMaxR, rk.r || 0);
+    spatialAdd(rk, 'rock');
+  }
+  for (const v of vents) {
+    spatialVentMaxR = Math.max(spatialVentMaxR, v.r || 0);
+    spatialAdd(v, 'vent');
+  }
+}
+function collectSpatial(x, y, radius, kind) {
+  if (spatialBuiltTick !== tick) buildSpatialGrid();
+  spatialNearby.length = 0;
+  const reach = radius + SPATIAL_STALE_PAD;
+  const x0 = clamp(Math.floor((x - reach) / SPATIAL_CELL), 0, SPATIAL_COLS - 1);
+  const x1 = clamp(Math.floor((x + reach) / SPATIAL_CELL), 0, SPATIAL_COLS - 1);
+  const y0 = clamp(Math.floor((y - reach) / SPATIAL_CELL), 0, SPATIAL_ROWS - 1);
+  const y1 = clamp(Math.floor((y + reach) / SPATIAL_CELL), 0, SPATIAL_ROWS - 1);
+  for (let cy = y0; cy <= y1; cy++) for (let cx = x0; cx <= x1; cx++) {
+    const bucket = spatialBuckets[cy * SPATIAL_COLS + cx];
+    for (const e of bucket) {
+      if (e._spatialKind !== kind || e._inWorld === false) continue;
+      if ((kind === 'unit' || kind === 'building') && e.hp <= 0) continue;
+      spatialNearby.push(e);
+    }
+  }
+  return spatialNearby;
+}
+const spatialUnitOrder = (a, b) => a._spatialOrder - b._spatialOrder;
 const isCombat = (u) => u.type !== 'harvester' && u.type !== 'engineer' && u.type !== 'medic'
   && u.type !== 'rig' && u.type !== 'critter' && u.type !== 'carrier';
 // Mission-level ALLIANCE (M11 "Strange Bedfellows" — the Act 2 engine item):
@@ -2981,9 +3052,12 @@ function makeUnit(type, team, x, y) {
     strikeCool: 0,
     navSpeed: 0,
     walkT: 0, moving: false, recoil: 0,
+    _inWorld: true,
     order: { type: 'idle' },
   };
   units.push(u);
+  u._spatialOrder = units.length - 1;
+  if (spatialBuiltTick === tick) spatialAdd(u);   // spawned after this tick's one rebuild
   return u;
 }
 function makeBuilding(type, team, x, y, constructing) {
@@ -3005,6 +3079,8 @@ function makeBuilding(type, team, x, y, constructing) {
     b.rally = { x: clamp(x + 120 * -dir, 40, W - 40), y: clamp(y + 90 * dir, 40, H - 40) };
   }
   buildings.push(b);
+  b._spatialOrder = buildings.length - 1;
+  if (spatialBuiltTick === tick) spatialAdd(b);   // construction/spawn after this tick's one rebuild
   if (type === 'shipyard') {
     const launch = shipyardLaunchPoint(b, true);
     if (launch) b.rally = { x: launch.x, y: launch.y };
@@ -3737,7 +3813,8 @@ function nearestDropoff(team, x, y) {
 function nearestWoundedAlly(u, range, pred) {
   pred = pred || isFlesh;
   let best = null, bd = 1e18;
-  for (const o of units) {
+  const nearby = collectSpatial(u.x, u.y, range + spatialUnitMaxR, 'unit');
+  for (const o of nearby) {
     if (o === u || o.team !== u.team || o.hp <= 0 || o.hp >= o.maxHp || !pred(o)) continue;
     const d = dist(u.x, u.y, o.x, o.y) - o.r;
     if (d <= range && d * d < bd) { bd = d * d; best = o; }
@@ -3746,7 +3823,8 @@ function nearestWoundedAlly(u, range, pred) {
 }
 // is a live engineer of this building's team standing at the site?
 function engineerNear(b) {
-  for (const u of units) {
+  const nearby = collectSpatial(b.x, b.y, ENG_BUILD_RANGE + b.r, 'unit');
+  for (const u of nearby) {
     if (u.hp <= 0 || u.type !== 'engineer' || u.team !== b.team) continue;
     if (dist(u.x, u.y, b.x, b.y) - b.r <= ENG_BUILD_RANGE) return u;
   }
@@ -3755,7 +3833,8 @@ function engineerNear(b) {
 // a site of ours that is stalled (or will stall) for want of a crew
 function nearestUnbuiltSite(team, x, y, range) {
   let best = null, bd = 1e18;
-  for (const b of buildings) {
+  const nearby = collectSpatial(x, y, range + spatialBuildingMaxR, 'building');
+  for (const b of nearby) {
     if (b.team !== team || b.hp <= 0 || b.built >= 1 || !BLD[b.type].needsEngineer) continue;
     const d = dist(x, y, b.x, b.y) - b.r;
     if (d <= range && d * d < bd) { bd = d * d; best = b; }
@@ -3764,7 +3843,8 @@ function nearestUnbuiltSite(team, x, y, range) {
 }
 function nearestDamagedBuilding(team, x, y, range) {
   let best = null, bd = 1e18;
-  for (const b of buildings) {
+  const nearby = collectSpatial(x, y, range + spatialBuildingMaxR, 'building');
+  for (const b of nearby) {
     if (b.team !== team || b.built < 1 || b.hp >= b.maxHp) continue;
     const d = dist(x, y, b.x, b.y) - b.r;
     if (d <= range && d * d < bd) { bd = d * d; best = b; }
@@ -3776,7 +3856,8 @@ const canAA = (e) => e.kind === 'unit' ? !UNIT[e.type].noAA : true;   // only tu
 function nearestEnemyUnit(x, y, team, range, aa, airOnly, fromAir) {
   let best = null, bd = 1e18;
   const ve = fromAir ? 9 : elevAt(x, y);
-  for (const u of units) {
+  const nearby = collectSpatial(x, y, range + spatialUnitMaxR, 'unit');
+  for (const u of nearby) {
     if (isAllied(u.team, team)) continue;
     if (u.type === 'critter') continue;                   // wildlife: never auto-targeted, by anyone
     if (u.invuln) continue;                               // unkillable set-piece — don't park the army on it
@@ -3792,7 +3873,8 @@ function nearestEnemyUnit(x, y, team, range, aa, airOnly, fromAir) {
 function nearestEnemyBuilding(x, y, team, range, fromAir) {
   let best = null, bd = 1e18;
   const ve = fromAir ? 9 : elevAt(x, y);
-  for (const b of buildings) {
+  const nearby = collectSpatial(x, y, range + spatialBuildingMaxR, 'building');
+  for (const b of nearby) {
     if (isAllied(b.team, team)) continue;
     if (b.invuln) continue;                               // unkillable set-piece — don't park the army on it
     if (team === 1 && !isVisibleAt(b.x, b.y)) continue;
@@ -3806,6 +3888,25 @@ function acquireTarget(x, y, team, range, attacker) {
   const aa = attacker ? canAA(attacker) : true;
   const air = !!(attacker && attacker.fly);
   return nearestEnemyUnit(x, y, team, range, aa, false, air) || nearestEnemyBuilding(x, y, team, range, air);
+}
+const TARGET_SCAN_TICKS = 5;   // 83ms at 60tps; unit ids spread searches across those five ticks
+function validAutoTarget(t, u, range) {
+  if (!t || t.hp <= 0 || t._inWorld === false || t.invuln || isAllied(t.team, u.team)) return false;
+  if (t.kind === 'unit') {
+    if (t.type === 'critter' || (t.fly && !canAA(u))) return false;
+    if (u.team === 1 && !isVisibleAt(t.x, t.y)) return false;
+    if (!t.fly && !u.fly && elevAt(t.x, t.y) > elevAt(u.x, u.y)) return false;
+  } else {
+    if (u.team === 1 && !isVisibleAt(t.x, t.y)) return false;
+    if (!u.fly && elevAt(t.x, t.y) > elevAt(u.x, u.y)) return false;
+  }
+  return dist(u.x, u.y, t.x, t.y) - (t.r || 0) <= range;
+}
+function acquireTargetStaggered(u, range) {
+  if (validAutoTarget(u._autoTarget, u, range)) return u._autoTarget;
+  u._autoTarget = null;
+  if ((tick + u.id) % TARGET_SCAN_TICKS !== 0) return null;
+  return (u._autoTarget = acquireTarget(u.x, u.y, u.team, range, u));
 }
 function thingAtPoint(wx, wy) {
   for (const u of units) {
@@ -3847,7 +3948,9 @@ function unloadAPC(apc) {
     const spot = spreadPoint(apc.x, apc.y + apc.r + 14, i++);
     p.x = clamp(spot.x, 20, W - 20); p.y = clamp(spot.y, 20, H - 20);
     p.order = { type: 'idle' };
+    p._inWorld = true;
     units.push(p);
+    if (spatialBuiltTick === tick) spatialAdd(p);
   }
   apc.cargo = [];
   if (apc.team === 1) { toast('APC unloaded'); beep(500, 0.07, 'triangle', 0.04); }
@@ -4202,9 +4305,10 @@ function detonate(n) {
     damage(e, spec.dmg * fall, null);
     if (n.team === 1 && e.team !== 1 && before > 0 && e.hp <= 0) stats.kills++;
   };
-  for (const u of units.slice()) if (u.hp > 0) hit(u);           // friendly fire: yes. It's a nuke.
-  for (const b of buildings.slice()) {
-    if (b.hp <= 0) continue;
+  const nearbyUnits = collectSpatial(n.x, n.y, spec.radius + spatialUnitMaxR, 'unit');
+  for (const u of nearbyUnits) hit(u);                           // friendly fire: yes. It's a nuke.
+  const nearbyBuildings = collectSpatial(n.x, n.y, spec.radius + spatialBuildingMaxR, 'building');
+  for (const b of nearbyBuildings) {
     if (spec.hqSafe && b.type === 'hq') continue;                // tactical warheads spare HQs
     hit(b);
   }
@@ -4222,7 +4326,9 @@ function updateNukes() {
     if (n.t === n.max - 300 && n.team !== 1) { toast('☢ Impact in 5 seconds!'); snd.alarm(); }
     if (n.t >= n.max) detonate(n);
   }
-  nukes = nukes.filter(n => n.t < n.max);
+  let w = 0;
+  for (let i = 0; i < nukes.length; i++) if (nukes[i].t < nukes[i].max) nukes[w++] = nukes[i];
+  nukes.length = w;
 }
 
 // ---------------- Combat ----------------
@@ -4593,7 +4699,8 @@ function updateUnit(u) {
   // Her children escort her (guard where they hatch, so they aggro whatever
   // comes near the column) — killing her is the only way to stop the bleeding.
   if (u.type === 'broodmother' && u.hp > 0) {
-    const kids = units.filter(k => k.hp > 0 && k.type === 'raptor' && k.home === u.id).length;
+    let kids = 0;
+    for (const k of units) if (k.hp > 0 && k.type === 'raptor' && k.home === u.id) kids++;
     if (kids < BROODMOTHER_BROOD_CAP) {
       u.broodT = (u.broodT || 0) + 1;
       if (u.broodT >= BROODMOTHER_LAY_EVERY) {
@@ -4632,10 +4739,10 @@ function updateUnit(u) {
         }
       } else if (u.type === 'harrier') {
         if (!u.armed) { u.order = { type: 'rearm' }; break; }
-        const t = acquireTarget(u.x, u.y, u.team, UNIT.harrier.sight, u);
+        const t = acquireTargetStaggered(u, UNIT.harrier.sight);
         if (t) u.order = { type: 'strike', target: t };
       } else if (isCombat(u)) {
-        const t = acquireTarget(u.x, u.y, u.team, u.range + 70, u);
+        const t = acquireTargetStaggered(u, u.range + 70);
         if (t) u.order = { type: 'attack', target: t, resume: null };
       }
       break;
@@ -4647,7 +4754,7 @@ function updateUnit(u) {
     case 'hunker': {
       // dug in: half damage taken, holds position, still shoots what's in range.
       // Artillery keeps its dead zone while dug in — closing the gap still beats it.
-      const t = acquireTarget(u.x, u.y, u.team, u.range, u);
+      const t = acquireTargetStaggered(u, u.range);
       if (t) {
         u.faceA = Math.atan2(t.y - u.y, t.x - u.x);
         const min = UNIT[u.type].minRange;
@@ -4659,7 +4766,7 @@ function updateUnit(u) {
     case 'guard': {
       // nest creep AI: pounce on anything near home, chase to the leash, then walk back.
       // Never leaves this order, so artillery pounding from beyond aggro range goes unanswered.
-      const t = acquireTarget(u.x, u.y, u.team, u.range + 90 + (u.team === 3 ? dinoAggro() : 0), u);
+      const t = acquireTargetStaggered(u, u.range + 90 + (u.team === 3 ? dinoAggro() : 0));
       if (t && dist(t.x, t.y, o.hx, o.hy) < NEST_LEASH + (u.team === 3 ? dinoAggro() : 0)) {
         const d = dist(u.x, u.y, t.x, t.y) - (t.r || 0);
         if (d > u.range) moveToward(u, t.x, t.y);
@@ -4667,15 +4774,16 @@ function updateUnit(u) {
           u.faceA = Math.atan2(t.y - u.y, t.x - u.x);
           if (u.cool <= 0) fire(u, t);
         }
-      } else if (dist(u.x, u.y, o.hx, o.hy) > 55) {
-        moveToward(u, o.hx, o.hy);
+      } else {
+        if (t) u._autoTarget = null;   // outside the leash: don't pin the cache to an unusable target
+        if (dist(u.x, u.y, o.hx, o.hy) > 55) moveToward(u, o.hx, o.hy);
       }
       break;
     }
     case 'roam': {
       // loose wildlife: fight whatever comes close (if armed), otherwise amble
       if (u.dmg > 0) {
-        const t = acquireTarget(u.x, u.y, u.team, u.range + 110 + dinoAggro(), u);
+        const t = acquireTargetStaggered(u, u.range + 110 + dinoAggro());
         if (t) { u.order = { type: 'attack', target: t, resume: null }; break; }
       }
       // shy phase: until the player has actually SEEN wildlife, roamers keep
@@ -4716,15 +4824,14 @@ function updateUnit(u) {
       if (u.type === 'harrier') {
         // A-move is the SORTIE order (playtest M10 round 4, Bronson: "why
         // cant harriers drop bombs on buildings?"): strike units first, fall
-        // back to the nearest visible enemy STRUCTURE — acquireTarget is
-        // units-only, so without the fallback an A-moved harrier circled a
-        // fortress of batteries without ever bombing one. `resume` carries
+        // back to the nearest visible enemy STRUCTURE. The shared staggered
+        // acquisition cache covers both, so a fortress of batteries is still
+        // a valid sortie target without a full-field scan every tick. `resume` carries
         // the A-move point through the strike AND the rearm, so the jet
         // flies home, reloads, and returns for another run on its own.
         // A manual right-click strike stays a single run (no resume).
         if (!u.armed) { u.order = { type: 'rearm', resume: { x: o.x, y: o.y } }; break; }
-        const ht = acquireTarget(u.x, u.y, u.team, UNIT.harrier.sight, u)
-                || nearestEnemyBuilding(u.x, u.y, u.team, UNIT.harrier.sight, true);
+        const ht = acquireTargetStaggered(u, UNIT.harrier.sight);
         if (ht) { u.order = { type: 'strike', target: ht, resume: { x: o.x, y: o.y } }; break; }
         if (moveToward(u, o.x, o.y)) u.order = { type: 'idle' };
         break;
@@ -4737,11 +4844,11 @@ function updateUnit(u) {
       // standoff instead, and the idle auto-heal/repair services whoever falls
       // back to it.
       if (u.dmg <= 0 || isSupport(u)) {
-        if (acquireTarget(u.x, u.y, u.team, SUPPORT_STANDOFF, u)) { u.order = { type: 'idle' }; break; }
+        if (acquireTargetStaggered(u, SUPPORT_STANDOFF)) { u.order = { type: 'idle' }; break; }
         if (moveToward(u, o.x, o.y)) u.order = { type: 'idle' };
         break;
       }
-      const t = acquireTarget(u.x, u.y, u.team, u.range + 90, u);
+      const t = acquireTargetStaggered(u, u.range + 90);
       if (t) { u.order = { type: 'attack', target: t, resume: { x: o.x, y: o.y } }; break; }
       if (moveToward(u, o.x, o.y)) u.order = { type: 'idle' };
       break;
@@ -4827,6 +4934,7 @@ function updateUnit(u) {
       if (d > apc.r + u.r + 8) moveToward(u, apc.x, apc.y);
       else {
         apc.cargo.push(u);
+        u._inWorld = false;
         units = units.filter(x => x !== u);       // inside now — out of the world
         selection = selection.filter(s => s !== u);
         if (u.team === 1) beep(440, 0.06, 'triangle', 0.04);
@@ -4846,6 +4954,7 @@ function updateUnit(u) {
       if (dist(u.x, u.y, bx, by) > u.r + 12) moveToward(u, bx, by);
       else {
         boat.passengers.push(u);
+        u._inWorld = false;
         units = units.filter(x => x !== u);       // aboard — preserved, not killed
         selection = selection.filter(s => s !== u);
         const n = boat.passengers.length;
@@ -5087,7 +5196,8 @@ function drownSweep() {
   for (const u of units) {
     if (u.hp <= 0 || u.fly || UNIT[u.type].waterOnly) continue;
     let wet = false;
-    for (const rk of rocks) {
+    const nearbyRocks = collectSpatial(u.x, u.y, spatialRockMaxR, 'rock');
+    for (const rk of nearbyRocks) {
       if (!rk.water) continue;
       if (dist2(u.x, u.y, rk.x, rk.y) < rk.r * rk.r) { wet = true; break; }
     }
@@ -5108,7 +5218,8 @@ function drownSweep() {
     // No attacker, no retaliation target — the terrain itself is the enemy.
     // A lethal burn routes through kill() with `burned` set, or the body
     // would vanish without a death sequence (only kill() spawns corpse fx).
-    for (const v of vents) {
+    const nearbyVents = collectSpatial(u.x, u.y, spatialVentMaxR, 'vent');
+    for (const v of nearbyVents) {
       if (dist2(u.x, u.y, v.x, v.y) < v.r * v.r) {
         u.hp -= VENT_DMG * armorMult(u);
         if (u.hp <= 0) { u.burned = true; kill(u); break; }
@@ -5125,8 +5236,13 @@ function drownSweep() {
 function separation() {
   for (let i = 0; i < units.length; i++) {
     const a = units[i];
-    for (let j = i + 1; j < units.length; j++) {
-      const b = units[j];
+    if (a.hp <= 0 || a._inWorld === false) continue;
+    // Restore array order inside the local candidate set. Separation mutates
+    // positions pair-by-pair, so stable ordering avoids changing crowd motion.
+    const nearbyUnits = collectSpatial(a.x, a.y, a.r + spatialUnitMaxR, 'unit');
+    nearbyUnits.sort(spatialUnitOrder);
+    for (const b of nearbyUnits) {
+      if (b._spatialOrder <= i) continue;
       if (!!a.fly !== !!b.fly) continue;   // different altitudes never collide
       const dx = b.x - a.x, dy = b.y - a.y;
       const min = a.r + b.r;
@@ -5143,7 +5259,8 @@ function separation() {
       b.x += nx * push; b.y += ny * push;
     }
     const aFoot = !!(IS_INF[a.type] || IS_DINO[a.type]);
-    if (!a.fly) for (const rk of rocks) {
+    const nearbyRocks = collectSpatial(a.x, a.y, a.r + spatialRockMaxR, 'rock');
+    if (!a.fly) for (const rk of nearbyRocks) {
       if (UNIT[a.type].waterOnly && rk.water) continue;
       // Shorelines still shove foot units back onto dry land, so nobody walks
       // into a river — but once a body is a full radius INSIDE the channel it
@@ -5161,7 +5278,8 @@ function separation() {
       const d = Math.sqrt(d2), push = min - d;
       a.x += (dx / d) * push; a.y += (dy / d) * push;
     }
-    for (const bl of buildings) {
+    const nearbyBuildings = collectSpatial(a.x, a.y, a.r + spatialBuildingCornerR, 'building');
+    for (const bl of nearbyBuildings) {
       if (a.fly || (a.ghostT > 0 && aFoot)) break;   // vehicles never phase through structures
       if (bl.sunk) continue;               // lowered depots/plants are drive-over ground
       if (bl.type === 'hydro' && aFoot) continue;   // crossing the dam's walkway
@@ -5219,7 +5337,8 @@ function updateBuilding(b) {
   if (b.type === 'nest') {
     // keep the brood topped up until the nest dies; the clock only runs while
     // short a dino, so each loss costs the full respawn delay
-    const brood = units.filter(u => u.team === 3 && u.home === b.id).length;
+    let brood = 0;
+    for (const u of units) if (u.team === 3 && u.home === b.id) brood++;
     if (brood >= NEST_BROOD) { b.respawnT = 0; return; }
     b.respawnT = (b.respawnT || 0) + 1;
     if (b.respawnT >= Math.max(3 * 60, NEST_RESPAWN - dinoRage * 45)) {
@@ -5232,11 +5351,12 @@ function updateBuilding(b) {
     // the den HUNTS. Every DEN_PACK_EVERY it births a raptor pack and sends it
     // at the nearest standing structure of ANY faction — dens don't pick sides.
     // Survivors that finish a hunt trot home and thicken the door guard.
-    const pack = units.filter(u => u.team === 3 && u.home === b.id);
-    for (const u of pack) {
+    let pack = 0;
+    for (const u of units) if (u.team === 3 && u.home === b.id) {
+      pack++;
       if (u.order.type === 'idle') u.order = { type: 'guard', hx: b.x, hy: b.y };
     }
-    if (pack.length >= DEN_RAPTOR_CAP) return;   // hunts pause at cap, clock and all
+    if (pack >= DEN_RAPTOR_CAP) return;   // hunts pause at cap, clock and all
     b.packT = (b.packT || 0) + 1;
     if (b.packT >= Math.max(25 * 60, DEN_PACK_EVERY - dinoRage * 90)) {
       b.packT = 0;
@@ -5259,7 +5379,8 @@ function updateBuilding(b) {
   if (b.type === 'supply') {
     // logistics field: the depot slowly patches up nearby friendly buildings —
     // a weak, free engineer that never wanders off (fields from several depots stack)
-    for (const o of buildings) {
+    const nearby = collectSpatial(b.x, b.y, DEPOT_HEAL_RADIUS, 'building');
+    for (const o of nearby) {
       if (o.team !== b.team || o.built < 1 || o.hp <= 0 || o.hp >= o.maxHp) continue;
       if (dist2(b.x, b.y, o.x, o.y) > DEPOT_HEAL_RADIUS ** 2) continue;
       o.hp = Math.min(o.maxHp, o.hp + DEPOT_HEAL_RATE);
@@ -5272,7 +5393,8 @@ function updateBuilding(b) {
     // repair bay: the factory fixes ground vehicles, the airpad fixes flyers —
     // for a fee. Drive home damaged, drive out patched and poorer.
     const t = teams[b.team];
-    for (const u of units) {
+    const nearby = collectSpatial(b.x, b.y, BAY_REPAIR_RADIUS, 'unit');
+    for (const u of nearby) {
       if (t.crystals < 1) break;
       if (u.team !== b.team || u.hp <= 0 || u.hp >= u.maxHp || !isVehicle(u)) continue;
       if (!!u.fly !== (b.type === 'airpad')) continue;
@@ -5310,11 +5432,13 @@ function updateBullets() {
       if (p.kind === 'arc') {
         // splash at the impact point: full damage to everything hostile in the
         // radius; buildings eat the siege bonus on top. Allies are not hostile.
-        for (const u of units) {
+        const nearbyUnits = collectSpatial(p.tx, p.ty, p.splash + spatialUnitMaxR, 'unit');
+        for (const u of nearbyUnits) {
           if (isAllied(u.team, p.team) || u.hp <= 0) continue;
           if (dist(p.tx, p.ty, u.x, u.y) <= p.splash + u.r) damage(u, p.dmg, p.src);
         }
-        for (const b of buildings) {
+        const nearbyBuildings = collectSpatial(p.tx, p.ty, p.splash + spatialBuildingMaxR, 'building');
+        for (const b of nearbyBuildings) {
           if (isAllied(b.team, p.team) || b.hp <= 0) continue;
           if (dist(p.tx, p.ty, b.x, b.y) <= p.splash + b.r) damage(b, p.dmg * p.bldBonus, p.src);
         }
@@ -5343,7 +5467,9 @@ function updateBullets() {
       fxSprite({ img: pick(SPR.puff), x: p.x, y: p.y, s0: 5, s1: 12, a0: 0.35, max: 20 });
     }
   }
-  bullets = bullets.filter(p => !p.dead);
+  let w = 0;
+  for (let i = 0; i < bullets.length; i++) if (!bullets[i].dead) bullets[w++] = bullets[i];
+  bullets.length = w;
 }
 function updateFx() {
   // Compact IN PLACE. `fxs = fxs.filter(...)` allocated a brand-new array every
@@ -5924,6 +6050,14 @@ window.addEventListener('keydown', (e) => {
     theirs.forEach(u => u.order = { type: 'attackmove', x: cxw - 220, y: cyw });
     stressWaves++;
     toast(`🛠 Stress wave ${stressWaves} — ${units.length} units. Read the u/fx counts.`);
+    return;
+  }
+  // Shift-K removes the entire live HUD from the browser's compositor and
+  // freezes its DOM/minimap updates. The perf readout stays on the game canvas,
+  // so the same stress wave can isolate HUD/compositing cost from world cost.
+  if (e.code === 'KeyK' && e.shiftKey && devMode) {
+    setHudPerfOff(!hudPerfOff);
+    if (!hudPerfOff) toast('🛠 HUD benchmark: ON — live HUD and updates restored');
     return;
   }
   // K cycles effect DRAWING off (dev only) — a measurement tool, not a setting
@@ -9467,14 +9601,15 @@ function render() {
     const mp = (cv.width * cv.height / 1e6).toFixed(1);
     const floor = perf.extern > 0 ? ' · CAP↑' : perf.budget <= PX_BUDGET_MIN + 1e4 ? ' · FLOOR' : '';
     const bat = onBattery ? ' · BAT' : '';
-    const thin = (perf.fxLevel < 1 ? ' · FX½' : '') + FX_DRAW_LABEL[fxDraw];
+    const thin = (perf.fxLevel < 1 ? ' · FX½' : '') + FX_DRAW_LABEL[fxDraw]
+      + (hudPerfOff ? ' · HUD-OFF·dev' : '');
     cx.fillText(`${perf.fps} fps · ${cv.width}×${cv.height} (${mp}MP) · ${dpr.toFixed(2)}x${floor}${thin}${bat}`,
       view.w - 14, 62);
     if (tick - (perf.extStamp || 0) >= 60) { perf.extRate = perf.extN || 0; perf.extN = 0; perf.extStamp = tick; }
     cx.fillText(`sim ${simMs.toFixed(1)}ms · draw ${perf.submit.toFixed(1)}ms · ${units.length}u · ${fxs.length}fx · ext ${perf.extRate || 0}/s`,
       view.w - 14, 78);
   }
-  if (++frameNo % 3 === 0) renderMinimap();
+  if (!hudPerfOff && ++frameNo % 3 === 0) renderMinimap();
 }
 let frameNo = 0;
 const addFx = [];   // additive-blend effects, batched into one pass
@@ -9486,7 +9621,25 @@ const addFx = [];   // additive-blend effects, batched into one pass
 // calls? (Chrome carries 286fx at 60; the WKWebView wrapper stalls at 55fx/28.)
 let fxDraw = 0;
 let stressWaves = 0;   // dev stress-test counter (key I)
+let hudPerfOff = false;
 const FX_DRAW_LABEL = ['', ' · FX½·dev', ' · FX-OFF·dev'];
+
+function setHudPerfOff(off) {
+  hudPerfOff = !!off;
+  // Keep the adaptive-resolution governor from changing the backing-store
+  // size during the A/B. Otherwise a quality step can move more pixels than
+  // the HUD changes and make the result meaningless. One minute is ample for
+  // both readings; this is dev-only and the governor resumes afterward.
+  perf.cool = Math.max(perf.cool, 60 * 60);
+  perf.judge = null;
+  document.body.classList.toggle('perf-no-hud', hudPerfOff);
+  if (!hudPerfOff) {
+    // Repaint everything deliberately frozen while the HUD was out.
+    lastCardSig = ''; lastQSig = '';
+    refreshTopbar(); refreshCard(); refreshQueue(); refreshProgressBar();
+    renderMinimap();
+  }
+}
 
 function renderMinimap() {
   const sx = mini.width / W, sy = mini.height / H;
@@ -9558,6 +9711,7 @@ function renderMinimap() {
 function update() {
   if (devMode && teams[1]) teams[1].crystals = Math.max(teams[1].crystals, 99999);
   tick++;
+  buildSpatialGrid();   // exactly once: every hot local query below shares it
   updateCamera();
   if (tick % 8 === 1) updateFog();
 
@@ -9574,26 +9728,38 @@ function update() {
 
   const anyDead = units.some(u => u.hp <= 0) || buildings.some(b => b.hp <= 0);
   if (anyDead) {
-    units = units.filter(u => u.hp > 0);
-    if (buildings.some(b => b.type === 'hydro' && b.hp <= 0)) {
-      buildings = buildings.filter(b => b.hp > 0);
-      refreshBridges();   // a dead dam takes its crossing with it
-    } else buildings = buildings.filter(b => b.hp > 0);
+    let deadHydro = false, w = 0;
+    for (let i = 0; i < units.length; i++) if (units[i].hp > 0) units[w++] = units[i];
+    units.length = w;
+    w = 0;
+    for (let i = 0; i < buildings.length; i++) {
+      const b = buildings[i];
+      if (b.hp > 0) buildings[w++] = b;
+      else if (b.type === 'hydro') deadHydro = true;
+    }
+    buildings.length = w;
+    if (deadHydro) refreshBridges();   // a dead dam takes its crossing with it
     pruneSelection();
     checkEnd();
   }
 
-  if (tick % 8 === 0) { refreshTopbar(); refreshCard(); refreshQueue(); }
-  refreshProgressBar();
+  if (!hudPerfOff) {
+    if (tick % 8 === 0) { refreshTopbar(); refreshCard(); refreshQueue(); }
+    refreshProgressBar();
+  }
 }
 
 let last = performance.now(), acc = 0;
 // Render at most 60 times a second. requestAnimationFrame runs at the DISPLAY's
 // refresh rate, so a 120Hz ProMotion Mac was doing double the GPU work for a
 // sim that only ever advances 60 times a second — pure heat, no extra motion.
-const DRAW_EVERY = 1000 / 61;   // a hair under 60 so we never skip a real frame
+const DRAW_EVERY = 1000 / 60;
+// Absorb ordinary 60Hz vsync jitter without allowing faster displays to run
+// the renderer above the simulation rate.
+const DRAW_EARLY_SLOP = 2;
 let simMs = 0;                  // rolling update() cost — CPU side of the dev readout
 let lastDraw = -1e9;
+let nextDraw = -1e9;
 // The verdict both futility paths reach: quality cuts don't move the needle,
 // so the frame cap is upstream (battery throttle, OS pacing). Give the
 // pixels back and hold — sharp at 30 beats blurry at 30.
@@ -9629,7 +9795,8 @@ const perf = { frame: 16.7, fps: 60, submit: 0, budget: Math.round(pxBudget), sc
 // rAF-driven scheduler wraps the body so the wrapper's native display timer
 // can also tick the game: WKWebView throttles rAF to ~20-30Hz on battery, and
 // no page-side code can escape that — but a native 60Hz timer calling
-// __extFrame can. The 10ms draw gate keeps the two clocks from double-drawing.
+// __extFrame can. The shared 60Hz deadline keeps the two clocks from
+// double-drawing.
 let lastRaf = -1e9;
 function frame(now) {
   requestAnimationFrame(frame);
@@ -9660,17 +9827,19 @@ function frameBody(now) {
     else { tick++; updateFx(); updateCamera(); }   // aftermath keeps burning behind the overlay
     acc -= 1000 / 60;
   }
-  // Frame gate, minimum-interval form. The first version skipped any frame
-  // arriving under 16.39ms — but a clean 60Hz vsync feed jitters around
-  // 16.67ms, and every timestamp landing a hair early got skipped, turning
-  // the next gap into 33ms: HALF the frames dropped, an idle machine pinned
-  // at ~27fps (Bronson's readout: 27fps with sim 0.2ms / draw 0.1ms at the
-  // budget floor — the governor punishing resolution for a stall this gate
-  // was causing). The 12ms form can never skip a real 60Hz frame; it exists
-  // only to halve 120Hz ProMotion down to 60, which it still does.
+  // Deadline gate. A minimum-gap gate either renders too often at 90/100/144Hz
+  // or drops slightly-early 60Hz callbacks and collapses to 30. Keep a 60Hz
+  // phase instead: draw on the first callback within 2ms of each deadline and
+  // advance by exactly one interval. Long sleeps reset the phase.
+  if (nextDraw < 0 || now - nextDraw > DRAW_EVERY * 4) nextDraw = now;
+  if (now + DRAW_EARLY_SLOP < nextDraw) return;
   const gap = now - lastDraw;
-  if (gap < 10) return;   // 120Hz halves to 60; 90/100Hz feeds draw natively
   lastDraw = now;
+  nextDraw += DRAW_EVERY;
+  if (nextDraw <= now) {
+    const missed = Math.floor((now - nextDraw) / DRAW_EVERY) + 1;
+    nextDraw += missed * DRAW_EVERY;
+  }
   const t0 = performance.now();
   render();
   perf.submit += (performance.now() - t0 - perf.submit) * 0.06;   // diagnostic only
@@ -10247,7 +10416,10 @@ function fireTrigger(t) {
   if (t.extract) for (const name of [].concat(t.extract)) {
     const ids = ms.groups[name] || [];
     for (let i = units.length - 1; i >= 0; i--)
-      if (ids.includes(units[i].id) && units[i].hp > 0) units.splice(i, 1);
+      if (ids.includes(units[i].id) && units[i].hp > 0) {
+        units[i]._inWorld = false;
+        units.splice(i, 1);
+      }
   }
   if (t.spawn) for (const sp of [].concat(t.spawn)) doSpawn(sp);
   // The world's own wildlife mobilises: every living unit of a team drops what
@@ -10733,6 +10905,9 @@ function resetWorld() {
   simSpeed = 1;   // a leftover ×8 must never leak into the next game
   units = []; buildings = []; crystals = []; bullets = []; fxs = []; eggs = []; alerts = []; rocks = [];
   nukes = []; nukeTargeting = null; carrierStrikeTargeting = null;
+  spatialBuiltTick = -1;
+  spatialNearby.length = 0;
+  for (const bucket of spatialBuckets) bucket.length = 0;
   plotDeaths = {}; plotCaps = {}; vents = [];
   blocked.fill(0);
   lastAlert = -1e9;
@@ -10876,6 +11051,8 @@ window.CC = {
   // it outright instead of counting keypresses and inferring the state.
   get fxDraw() { return fxDraw; },
   set fxDraw(v) { fxDraw = ((v | 0) % 3 + 3) % 3; },
+  get hudPerfOff() { return hudPerfOff; },
+  set hudPerfOff(v) { if (devMode) setHudPerfOff(v); },
   get devMode() { return devMode; },
   set devMode(v) { if (BFStore.devAllowed()) devMode = !!v; },
   get fxs() { return fxs; },

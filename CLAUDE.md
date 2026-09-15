@@ -27,6 +27,25 @@
 > Feb 10 2027. The MAS submission is a pipeline rehearsal, run when the game is
 > done. Priority is the 11 remaining missions and their engine prerequisites.
 
+> **PERFORMANCE FOLLOW-UP CLOSED 2026-09-14.** The high-refresh renderer is now
+> a true 60Hz deadline scheduler (the old 10ms minimum-gap gate over-rendered at
+> 90/144Hz); exact and jittered 60–240Hz callback streams all verify at 60.00
+> draws/sec. A new dev-only Shift-K A/B removes and freezes the entire DOM HUD
+> and minimap while holding the pixel governor for one minute. It did not expose
+> a meaningful HUD bottleneck: browser 30→30fps at 158 units; Mac wrapper 34→37
+> at the same 1356×848 backing size and 156 units. Keep the HUD; WebKit frame
+> pacing remains the constraint. Full evidence lives in `SHIP-CHECKLIST.md`.
+
+> **SIMULATION-SCALING FOLLOW-UP CLOSED 2026-09-14.** One reusable 192px
+> spatial grid per tick now serves separation, combat/support acquisition,
+> splash, repair fields, buildings, rocks, water, and fire vents. Automatic
+> target searches are cached and staggered across five ticks by unit id; the
+> remaining per-tick bullet/nuke and nest/den/Broodmother filter allocations
+> compact or count in place. Browser stress held 60fps at 467 combat units and
+> 408 effects (`sim 7.4ms`; 243 units measured 3.2ms). This protects CPU
+> headroom for later swarms; it does not change the separate WebKit pacing
+> conclusion above.
+
 A tiny browser RTS in the spirit of Command & Conquer / StarCraft 2, built for and with Bronson (a big fan of those games). Pure canvas + vanilla JS, zero dependencies, runs from `file://` by double-clicking `index.html`.
 
 - **Repo:** https://github.com/bronsongannon/broodfall (public, renamed — old crystal-command URLs redirect)

@@ -35,7 +35,7 @@
   <section class="bf-board" aria-labelledby="board-title">
     <div class="bf-board-head"><h3 id="board-title">Launch path</h3><p>Warmer = current pressure · green = verified · dark = queued</p></div>
     <div class="bf-scroll"><div id="roadmap-lanes" class="bf-lanes"></div></div>
-    <p class="bf-status-line"><strong>Sep 14:</strong> audit clear · human-technology art installed · high-refresh cap verified · 13 of 20 campaign missions built · M14 Return to Ruin is next.</p>
+    <p class="bf-status-line"><strong>Sep 14:</strong> audit clear · human-technology art installed · high-refresh cap verified · 14 of 20 campaign missions built · M15 The Overgrowth is next.</p>
   </section>
 
   <section class="bf-detail" aria-live="polite" aria-labelledby="selected-title">
@@ -60,8 +60,8 @@
       ]},
       { title:'Campaign build', tone:'amber', items:[
         ['M13 Evac Coast ✓','done','The Act 2 finale, coastline evacuation, named manifests, boardable skiff, and Broodmother reveal are built.','Review M13 The Broodmother Wakes and give me a focused first-playtest checklist.'],
-        ['M14: spawners','active','Return to Ruin is next. It needs corrupted red buildings that act as living spawners plus the carrier landing sequence.','Design and implement the generic corrupted-spawner and landing machinery required for M14.'],
-        ['M15: den-seeding','queued','The Overgrowth needs dens that seed new dens on a timer.','Design and implement the den-seeding timer required for M15.'],
+        ['M14: Return to Ruin ✓','done','The coastal carrier sail and strike, visible carrier-launched landing craft, deployable beachhead, corrupted-red spawners, three-cluster push, and sensor extraction hold are built and full-chain verified. Round-one pacing now gives Normal a staggered establishment window; the original pressure is reserved for Hard.','Review M14 Return to Ruin and give me a focused round-two playtest checklist.'],
+        ['M15: den-seeding','active','The Overgrowth is next. Dens must seed new dens on a visible timer before the map closes in.','Design and implement the den-seeding timer required for M15.'],
         ['M20: Broodmother','queued','Heartvein needs the combat Broodmother and the winAny ending logic.','Scope the combat Broodmother and winAny prerequisites for M20.']
       ]},
       { title:'Mac release', tone:'green', items:[
@@ -82,10 +82,10 @@
         ['M9 density test','active','Length is settled; test whether the retuned night stays dense without drowning out the recorder sorties.','Give me a focused M9 Roost density playtest scorecard.'],
         ['M10 pacing','active','The two-phase siege is challenging but currently runs 34 minutes against the 20–25 minute mandate.','Suggest a surgical M10 trim toward 20–25 minutes without losing its challenge.'],
         ['Voice batch','queued','Voice remains deliberately deferred until campaign text locks; then record and cut it in one batch.','Plan the final one-shot Broodfall voice batch.'],
-        ['Future art queue','queued','The human-technology overhaul and all 160 soldier sprites are installed. M14 spawners, Act 3 creatures, and store key art will reopen the queue.','Recap the art tool doctrine and the future content that reopens the art queue.']
+        ['Future art queue','queued','The human-technology overhaul and all 160 soldier sprites are installed. M14 spawners use captured red art plus code-driven overgrowth; later Act 3 creatures and store key art reopen the queue.','Recap the art tool doctrine and the future content that reopens the art queue.']
       ]}
     ];
-    const BF_HISTORY = ['Audit closeout: 19 verified game fixes across the original review and its second round.','Ship-readiness remediation: clean bundle, encryption declaration, corrected metadata, then the IAP critical closed.','Performance: JIT and FX-allocation fixes eliminated battle-size degradation; the exact 60Hz cap, one-grid-per-tick spatial queries, five-tick staggered acquisition, and remaining hot-path compaction are verified. A fixed-resolution HUD-off A/B still confirms WebKit frame pacing as the platform constraint.','Act 1: all seven demo missions are built and verified.','M8–M13: the economy race, Roost, city evacuation, allied AI, Exodus escort, and Act 2 finale are built.','Art baseline: the complete human-technology overhaul and all 160 paired soldier sprites are installed; the latest Marine transparency repairs are pushed.','Voice: intentionally held for the final, single campaign-wide batch.'];
+    const BF_HISTORY = ['Audit closeout: 19 verified game fixes across the original review and its second round.','Ship-readiness remediation: clean bundle, encryption declaration, corrected metadata, then the IAP critical closed.','Performance: JIT and FX-allocation fixes eliminated battle-size degradation; the exact 60Hz cap, one-grid-per-tick spatial queries, five-tick staggered acquisition, and remaining hot-path compaction are verified. A fixed-resolution HUD-off A/B still confirms WebKit frame pacing as the platform constraint.','Act 1: all seven demo missions are built and verified.','M8–M14: the economy race, Roost, city evacuation, allied AI, Exodus escort, Act 2 finale, and Act 3 beachhead are built.','Art baseline: the complete human-technology overhaul and all 160 paired soldier sprites are installed; the latest Marine transparency repairs are pushed.','Voice: intentionally held for the final, single campaign-wide batch.'];
     const root = document.getElementById('broodfall-roadmap');
     const lanesRoot = document.getElementById('roadmap-lanes');
     const selectedTitle = document.getElementById('selected-title');

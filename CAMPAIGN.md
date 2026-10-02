@@ -170,17 +170,26 @@ buildings. Dens spawn attack packs on timers, corrupted structures are objective
 and the roster is fully unlocked. Krauss survives as the bitter third voice.
 Reuse Act 1 maps overgrown — cheaper AND better storytelling.
 
-**M14 — "Return to Ruin."** Beachhead. The expedition returns aboard its new
-carrier: sail down the occupied coast, launch the first three-aircraft strike to
-clear the landing beach, then put troops ashore in the Act 1 basin — now
-unrecognizable. Crystal fields have doubled in size and red's old expansion
-buildings are corrupted into spawner-structures. Establish a base under periodic
-den waves, clear the valley's three corrupted clusters, hold for extraction of
-Lin's sensor package. Teaches both the act's grammar (corrupted building = nest
-that looks like architecture) and the carrier loop before the inland campaign
-takes it away. *needs: Broodfallen corrupted-building type (nest variant wearing
-red building sprites + overgrowth overlay); corrupted-red team color scheme
-(COLORS entry + teamSprite pass); landing craft / disembark objective.*
+**M14 — "Return to Ruin."** ✅ BUILT (2026-09-14). Beachhead. The expedition
+returns aboard its carrier on a mission-only east coast, sails south to the
+approach, and launches a required three-aircraft strike against the marked beach
+pack. Clearing the sand launches a selectable landing craft visibly from the
+carrier; it crosses to the beach before its twelve-unit manifest can disembark
+onto dry ground
+and deploys the expedition HQ. Four doubled crystal fields fund the inland push.
+Three Broodfallen clusters mix true dens with captured barracks, refinery, and
+factory shells: corrupted-red architecture, green/purple overgrowth, a living
+central maw, and species-specific timed broods. Clearing the network starts a
+five-minute defense of Lin's physical sensor package at the beachhead. Generic
+engine additions: team 4 Broodfallen palette, reusable `corrupt` spawners,
+mission coastlines, strike-location and disembark objectives, cargo-configured
+landing craft, and a `startsNoBase` loss transition. Final sail-to-extraction
+chain passed 16/16 checks after an earlier 18-check systems pass; opening and
+spawner visuals inspected in-browser. Round-one playtesting moved the baseline
+from Hard to Normal and added a real establishment window: spawner clocks wait
+for the HQ, then stagger their first attacks instead of expiring during the naval
+opening. Round two still needs to be stopwatched against the mandatory 20–25
+minute target.
 
 **Naval prototype:** Evac Coast skirmish now fields a shoreline-only Naval
 Shipyard with a real production queue. It launches up to two paid Expedition
@@ -377,7 +386,7 @@ Bigger systems (schedule deliberately):
   shared fog, wave AI fighting FOR the player
 - **Dino roster**: Raptor+Den (Act 1 tease) → Screecher (M9) → Ironback (M10) →
   Broodmother scripted (M13) → Broodmother combat (M20)
-- **Broodfallen dressing**: corrupted-red color scheme, nest-buildings wearing
-  red sprites + overgrowth overlay, den variants (roost, seeder)
+- **Broodfallen dressing**: ✅ M14 supplies the corrupted-red color scheme and
+  spawners wearing captured red sprites + overgrowth; seeder variants remain M15
 - Capture generalization: `capturable` flag (raptors, M16), heavy-haul rig (M20)
 4. Rest of the roster as the acts demand (Screecher → Ironback → Broodmother)

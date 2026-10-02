@@ -195,6 +195,11 @@ const BLD = {
   // no skirmish map places one yet, missions spawn them via bld triggers.
   den:      { label: 'Raptor Den',   hp: 2200, w: 115, h: 115, supply: 0, sight: 240 },   // 144 -> 115 (Bronson 2026-08-24: too big)
   roost:    { label: 'Screecher Roost', hp: 950, w: 84, h: 84, supply: 0, sight: 220 },
+  // Act 3's signature enemy structure. Each instance wears the shell of an
+  // old Rubicon building (`b.shell`) while the living overgrowth inside it
+  // periodically births a mixed hunting pack. One mechanical type keeps the
+  // spawner rules reusable while the stolen architecture changes its read.
+  corrupt:  { label: 'Broodfallen Spawner', hp: 1500, w: 96, h: 88, supply: 0, sight: 240 },
   // Mission 13's last way out. It is a real world object with a passenger
   // manifest, but not ground terrain: troops walk onto its land-side ramp.
   skiff:    { label: 'Evacuation Skiff', hp: 1200, w: 170, h: 92, supply: 0, sight: 220, boat: 1, navIgnore: 1 },
@@ -222,6 +227,9 @@ const DEN_BIRTH_MIN = 5, DEN_BIRTH_MAX = 7;
 const DEN_PACK_SIZE = 3;       // raptors per hunting pack
 const DEN_PACK_EVERY = 50 * 60; // a new hunt leaves the den every 50s
 const DEN_RAPTOR_CAP = 12;     // max living raptors per den — hunts pause at cap
+const CORRUPT_PACK_EVERY = 65 * 60;
+const CORRUPT_BROOD_CAP = 9;
+const CORRUPT_SACS = [[-23, -15, 6], [25, 15, 5], [18, -20, 4]];
 // The Broodmother's laying clock (she is a den on legs — see updateUnit).
 // Slower than a den's hunts but relentless: left alone she snowballs an escort.
 // How close a hostile gets before an unarmed unit stops advancing on
@@ -2360,6 +2368,140 @@ const MISSIONS = [
     winText: 'Three flights rise over the black water. Behind them, the Broodmother walks through the last human walls on the coast and does not stop. Five months after landfall, the retreat hardens into a promise to return.',
     loseText: 'The flight line goes silent with names still on the manifests. The sea is open, the transports are waiting, and the coast belongs to the Broodmother.',
   },
+  {
+    // M14 — Act 3 opens by teaching both new verbs in miniature: strike from
+    // the carrier, then unload a physical landing craft. Inland, the familiar
+    // Basin is jungle and captured red architecture. Three fixed clusters mix
+    // corrupted spawners with true dens; destroying the structures turns off
+    // the pressure before Lin's five-minute sensor extraction hold.
+    title: 'Return to Ruin', act: 'Act III — Broodfall',
+    map: 'overgrown', diff: 'normal', noEnemy: true, noWaves: true, startsNoBase: true,
+    start: [4300, 300],
+    terrain: {
+      rivers: [[W + 40, -200, W + 40, H + 200, 500, 'coast-east']],
+      clear: [[3850, 900, 380], [3750, 1100, 300]],
+    },
+    fields: [
+      { p: [3500, 1380], n: 14, a: 3400, nests: [] },
+      { p: [2820, 980], n: 14, a: 3300, nests: [] },
+      { p: [2250, 1880], n: 14, a: 3500, nests: [] },
+      { p: [1050, 2650], n: 14, a: 3400, nests: [] },
+    ],
+    brief: [
+      ['ops', 'Five months ago we ran from this coast. Today the carrier brings us back. The old Basin is inland — same ridges, same crystal seams, and not one human signal left standing.'],
+      ['sci', 'Rubicon structures are still broadcasting, but the signatures are biological. The nests did not grow beside the buildings. They grew THROUGH them. Destroy the architecture and the broods stop coming.'],
+      ['red', 'Those were my expansion yards. If anything in there still wears red, expedition, it is not mine. Burn the beach, put your troops ashore, and leave me enough rubble to recognize.'],
+    ],
+    intro: [
+      ['ops', 'Carrier is north of the landing. Select it and sail south to the marked approach; then press B and mark the beach pack for the three-aircraft strike. When the sand is clear, the landing craft comes in behind it.'],
+      ['sci', 'The carrier can keep supporting the inland push while its wing rearms. Forty-five seconds between strikes — use the coast while you have it.'],
+    ],
+    objectives: [
+      { id: 'sail', text: 'Sail the carrier south to the marked beach approach', type: 'reach', x: 4350, y: 850, r: 190, mark: [4350, 850] },
+      { id: 'strike', text: 'Launch the carrier strike on the marked beach', type: 'strike', x: 3930, y: 900, r: 150, hidden: true, mark: [3930, 900] },
+      { id: 'beach', text: 'Clear the landing beach', type: 'groupDead', group: 'beach', hidden: true, mark: [3930, 900] },
+      { id: 'land', text: 'Wait for the carrier launch, then disembark the expedition', type: 'disembark', boat: 'lander', hidden: true, mark: [4240, 900] },
+      { id: 'base', text: 'Establish the beachhead — build a Refinery near the landing', type: 'built', bld: 'refinery', count: 1, x: 3750, y: 1100, r: 700, hidden: true, mark: [3650, 1250] },
+      { id: 'cluster1', text: 'Destroy the eastern Broodfallen cluster', type: 'groupDead', group: 'cluster1', hidden: true, mark: [3150, 680] },
+      { id: 'cluster2', text: 'Destroy the central Broodfallen cluster', type: 'groupDead', group: 'cluster2', hidden: true, mark: [2250, 1700] },
+      { id: 'cluster3', text: 'Destroy the western Broodfallen cluster', type: 'groupDead', group: 'cluster3', hidden: true, mark: [900, 2550] },
+      { id: 'hold', text: 'Protect Lin\'s sensor package until carrier extraction', type: 'survive', secs: 300, hidden: true, mark: [3900, 1450] },
+    ],
+    winWhen: ['sail', 'strike', 'beach', 'land', 'base', 'cluster1', 'cluster2', 'cluster3', 'hold'],
+    triggers: [
+      { when: { time: 0.5 }, spawn: [
+        { group: 'fleet', unit: 'carrier', team: 1, n: 1, at: [4350, 300] },
+        { group: 'beach', unit: 'raptor', team: 3, n: 5, at: [3930, 875], order: 'guard' },
+        { group: 'beach', unit: 'spitter', team: 3, n: 2, at: [3930, 930], order: 'guard' },
+
+        { group: 'cluster1', bld: 'corrupt', shell: 'barracks', at: [3070, 620], every: 68, first: 180, waitForBase: true },
+        { group: 'cluster1', bld: 'corrupt', shell: 'refinery', at: [3290, 760], every: 72, first: 210, waitForBase: true },
+        { group: 'cluster1', unit: 'raptor', team: 3, n: 5, at: [3180, 720], order: 'guard' },
+        { group: 'cluster1', unit: 'spitter', team: 3, n: 3, at: [3250, 620], order: 'guard' },
+
+        { group: 'cluster2', bld: 'corrupt', shell: 'factory', at: [2420, 1580], every: 76, first: 240, waitForBase: true },
+        { group: 'cluster2', bld: 'corrupt', shell: 'refinery', at: [2070, 1770], every: 70, first: 195, waitForBase: true },
+        { group: 'cluster2', unit: 'ironback', team: 3, n: 2, at: [2260, 1680], order: 'guard' },
+        { group: 'cluster2', unit: 'spitter', team: 3, n: 4, at: [2340, 1770], order: 'guard' },
+
+        { group: 'cluster3', bld: 'corrupt', shell: 'factory', at: [760, 2480], every: 78, first: 255, waitForBase: true },
+        { group: 'cluster3', bld: 'corrupt', shell: 'barracks', at: [1040, 2610], every: 66, first: 225, waitForBase: true },
+        { group: 'cluster3', unit: 'ironback', team: 3, n: 2, at: [900, 2510], order: 'guard' },
+        { group: 'cluster3', unit: 'raptor', team: 3, n: 6, at: [970, 2640], order: 'guard' },
+      ] },
+
+      { when: { done: ['sail'] }, objective: ['strike', 'beach'], reveal: [3930, 900, 360, 180],
+        say: [['ops', 'Approach reached. Beach pack marked — launch the strike wing and clear the landing lane.']] },
+
+      { when: { done: ['strike', 'beach'] }, objective: 'land', focus: [4300, 865, 3],
+        spawn: { group: 'lander', bld: 'skiff', team: 1, at: [4240, 900], fromGroup: 'fleet', sailTo: [4240, 900], landAt: [4010, 900], baseAt: [3750, 1100],
+          cargo: [
+            { unit: 'marine', n: 6 }, { unit: 'rocket', n: 2 }, { unit: 'engineer', n: 1 }, { unit: 'harvester', n: 3 },
+          ] },
+        say: [['ops', 'Beach is clean. Landing craft launching from the carrier now — hold until it reaches the sand, then select it and drop the ramp.']] },
+
+      { when: { done: ['land'] }, objective: 'base', crystals: 1100,
+        say: [['ops', 'Headquarters is down. Build a Supply Depot and Refinery on the doubled crystal seam; then we push inland.'],
+              ['red', 'That tree line used to be open dirt. If the ground looks familiar, distrust it.']] },
+
+      { when: { done: ['base'] }, objective: ['cluster1', 'cluster2', 'cluster3'],
+        alarm: '⚠ Three Broodfallen clusters active across the Basin',
+        spawn: [
+          { group: 'cluster1', bld: 'den', team: 3, at: [3500, 430], birth: 5, first: 150 },
+          { group: 'cluster2', bld: 'den', team: 3, at: [2700, 2130], birth: 5, first: 180 },
+          { group: 'cluster3', bld: 'den', team: 3, at: [620, 2920], birth: 5, first: 210 },
+        ],
+        say: [['sci', 'There — three growth clusters. Rust shell, green pulse, living interior. Every intact structure is another mouth. Clear all three and I can recover the Basin sensor record.']] },
+
+      // A periodic cross-map pressure wave keeps turtling expensive. The true
+      // dens and corrupted buildings continue their own independent clocks.
+      { when: { done: ['base'], notDone: ['hold'] }, delay: 120, repeat: true, every: 75,
+        spawn: [
+          { unit: 'raptor', team: 3, n: 5, at: [2860, 430], to: [3750, 1100] },
+          { unit: 'spitter', team: 3, n: 2, at: [2600, 520], to: [3750, 1100] },
+        ] },
+
+      { when: { done: ['cluster1'] },
+        say: [['red', 'Eastern yard is dead. I recognize the foundation now. I wish I did not.']] },
+      { when: { done: ['cluster2'] },
+        say: [['sci', 'Central cluster silent. The remaining spawners are reacting faster — they know the network is being cut.']] },
+      { when: { done: ['cluster3'] },
+        say: [['ops', 'Western cluster down. Finish whatever is still breathing and get back to the beachhead.']] },
+
+      { when: { done: ['cluster1', 'cluster2', 'cluster3'] }, objective: 'hold', focus: [3900, 1450, 3],
+        alarm: '⚠ Sensor extraction started — five minutes to carrier pickup',
+        spawn: { group: 'package', bld: 'sensor', team: 1, at: [3900, 1450] },
+        say: [['sci', 'All three cluster signals are gone. Deploying the sensor package now — five minutes to pull the old Basin record and uplink it to the carrier. They will feel the scan.'],
+              ['ops', 'All forces back to the beachhead. The array survives or this return taught us nothing.']] },
+      { when: { done: ['cluster1', 'cluster2', 'cluster3'], notDone: ['hold'] }, delay: 25,
+        spawn: [
+          { unit: 'raptor', team: 3, n: 8, at: [3000, 300], to: [3900, 1450] },
+          { unit: 'screecher', team: 3, n: 5, at: [4300, 2300], to: [3900, 1450] },
+        ] },
+      { when: { done: ['cluster1', 'cluster2', 'cluster3'], notDone: ['hold'] }, delay: 105,
+        alarm: '⚠ Armored brood moving on the sensor package!',
+        spawn: [
+          { unit: 'ironback', team: 3, n: 3, at: [2850, 2050], to: [3900, 1450] },
+          { unit: 'raptor', team: 3, n: 8, at: [3200, 2500], to: [3900, 1450] },
+        ] },
+      { when: { done: ['cluster1', 'cluster2', 'cluster3'], notDone: ['hold'] }, delay: 195,
+        alarm: '⚠ Final mass on the beachhead — hold the array!',
+        spawn: [
+          { unit: 'ironback', team: 3, n: 4, at: [2850, 500], to: [3900, 1450] },
+          { unit: 'raptor', team: 3, n: 10, at: [2700, 2600], to: [3900, 1450] },
+          { unit: 'screecher', team: 3, n: 6, at: [4400, 2600], to: [3900, 1450] },
+        ] },
+      { when: { groupBelow: ['package', 1] }, lose: true,
+        say: [['sci', 'The package is gone. Five months of Basin data — gone with it.']] },
+    ],
+    outro: [
+      ['sci', 'Uplink complete. The old Basin record is aboard — and the new scan has one answer I did not want: every corrupted structure carries the same signal architecture as the Broodmother.'],
+      ['red', 'Then these ruins are not nests. They are outposts. Mine, wearing her flag.'],
+      ['ops', 'Beachhead holds. The Basin is ours again, Commander — uglier than we left it, and finally pointing us toward the thing that took it.'],
+    ],
+    winText: 'The expedition returns to the first Basin under carrier cover and plants a headquarters in the ruins. Three Broodfallen clusters fall silent; Lin\'s recovered sensor record proves the occupation is organized, expanding, and vulnerable when its living infrastructure is destroyed.',
+    loseText: 'The carrier circles an empty beach while the Basin closes over the landing force. The ruins keep broadcasting, and the Broodfallen learn that humanity can return — and still be driven back into the sea.',
+  },
 ];
 
 // Research, StarCraft-style: bought at the producing building, occupies its queue.
@@ -2435,6 +2577,10 @@ const COLORS = {
   1: { main: '#3fb9c9', dark: '#1e6570', light: '#9fe8ef', trim: '#e8e4d8', accent: '#f0c86a', bld: '#2f97a6', fx: '#9fe8ef' },
   2: { main: '#e0564a', dark: '#7c2a24', light: '#f5a89a', trim: '#3a3f45', accent: '#f2b63d', bld: '#b8443a', fx: '#f5a89a' },
   3: { main: '#c2bb96', dark: '#5f5c3e', light: '#eae4cb', trim: '#5f5c3e', accent: '#a8d060', bld: '#c2bb96', fx: '#b6e06a' },   // dinos: bone hide, moss, venom
+  // Broodfallen: Rubicon rust after the jungle has colonized it. The red shell
+  // is deliberately dimmer than team 2; sick green/purple organic details are
+  // drawn by drawCorrupt so the minimap and battlefield tell the same story.
+  4: { main: '#9b493d', dark: '#452923', light: '#c77b67', trim: '#7c8845', accent: '#a86aa8', bld: '#804036', fx: '#b8d66b' },
 };
 const HAZARD_YELLOW = '#f2b63d';   // industrial hazard striping is universal, not a team color
 const CRYSTAL_COLOR = '#6fe3d0';
@@ -2464,6 +2610,7 @@ const teams = {
   1: { crystals: 180, eggs: 0, captives: 0, mined: 0, up: newUp() },
   2: { crystals: 180, eggs: 0, captives: 0, mined: 0, up: newUp() },
   3: { crystals: 0, eggs: 0, captives: 0, mined: 0, up: newUp() },
+  4: { crystals: 0, eggs: 0, captives: 0, mined: 0, up: newUp() },
 };
 let tick = 0;
 let gameOver = null;                 // null | 'win' | 'lose'
@@ -2557,6 +2704,10 @@ const isCombat = (u) => u.type !== 'harvester' && u.type !== 'engineer' && u.typ
 // `mission` is a let declared far below (the M9 TDZ lesson).
 const isAllied = (a, b) => {
   if (a === b) return true;
+  // Broodfallen structures and the wild brood growing through them share one
+  // ecology. Team 4 exists for the corrupted-red visual language; team 3 owns
+  // the creatures it births. They must never turn on each other.
+  if ((a === 3 && b === 4) || (a === 4 && b === 3)) return true;
   const m = missionNow();
   return !!(m && m.allies && m.allies.some(p => (p[0] === a && p[1] === b) || (p[0] === b && p[1] === a)));
 };
@@ -2613,14 +2764,14 @@ const OPT_ART_REV = 'human-soldiers-20260911b';
 (function loadOptional() {
   const names = ['dino_spitter', 'dino_nest', 'dino_den', 'dino_roost', 'gunship', 'artillery', 'egg', 'medic', 'rocket_trooper', 'apc', 'harrier'];
   for (const k in UNIT) names.push('unit_' + k);   // unit_marine.png, unit_tank.png, …
-  for (const k in BLD) if (k !== 'nest' && k !== 'den') names.push('bld_' + k);   // bld_hq.png, … (dino structures use dino_* slots)
+  for (const k in BLD) if (k !== 'nest' && k !== 'den' && k !== 'corrupt') names.push('bld_' + k);   // corrupt reuses its captured shell art
   names.push('unit_marine_hunker', 'unit_sniper_hunker', 'unit_artillery_hunker');   // dug-in poses
   names.push('rock', 'crystal');   // terrain art (natural colors, not tinted)
   names.push('tree', 'tree_dead', 'spire', 'bones', 'pit', 'water', 'water2', 'water3', 'water4');   // terrain + seamless water tile frames
   // pre-colored colorway slots (STYLE-GUIDE.md production pipeline): drawn AS-IS,
   // no team tint. _teal = team 1, _red = team 2, _wild = untamed dinos.
   for (const k in UNIT) names.push('unit_' + k + '_teal', 'unit_' + k + '_red');
-  for (const k in BLD) if (k !== 'nest' && k !== 'den') names.push('bld_' + k + '_teal', 'bld_' + k + '_red');
+  for (const k in BLD) if (k !== 'nest' && k !== 'den' && k !== 'corrupt') names.push('bld_' + k + '_teal', 'bld_' + k + '_red');
   names.push('unit_marine_hunker_teal', 'unit_marine_hunker_red',
     'unit_sniper_hunker_teal', 'unit_sniper_hunker_red',
     'unit_artillery_hunker_teal', 'unit_artillery_hunker_red',
@@ -2679,7 +2830,7 @@ function teamSprite(img, team, tint) {
 const bldSprite = (img, team) => teamSprite(img, team, COLORS[team].bld || COLORS[team].main);
 // authored final-color art: full-color sprites that bypass
 // the tint entirely. Missing files fall through to tinted neutral art as ever.
-const CW = { 1: '_teal', 2: '_red', 3: '_wild' };
+const CW = { 1: '_teal', 2: '_red', 3: '_wild', 4: '_red' };
 const optCW = (base, team) => opt(base + (CW[team] || ''));
 // animation frames: consecutive numbered slots, memoized once found (images
 // load async, so an empty result is retried until the files settle)
@@ -3158,6 +3309,88 @@ function makeDen(x, y, birth) {
     if (isShownAt(x, y)) focusCam(x, y);
   }
   return b;
+}
+
+// A nest grown through a captured Rubicon building. `shell` is visual and
+// also selects the brood mix: barracks spill fast claws, refineries spit from
+// range, factories incubate the armored animals. Mission authors can override
+// the mix and clock without creating another building type.
+function makeCorrupt(shell, x, y, opts = {}) {
+  shell = BLD[shell] ? shell : 'barracks';
+  const b = makeBuilding('corrupt', 4, x, y);
+  const old = BLD[shell];
+  b.shell = shell;
+  b.w = old.w; b.h = old.h; b.r = Math.max(b.w, b.h) / 2;
+  b.maxHp = Math.round(old.hp * 1.35 + 300);
+  b.hp = b.maxHp;
+  b.brood = opts.brood || (shell === 'factory'
+    ? ['ironback', 'raptor', 'raptor']
+    : shell === 'refinery' ? ['spitter', 'spitter', 'raptor']
+      : ['raptor', 'raptor', 'raptor', 'spitter']);
+  b.packEvery = (opts.every || CORRUPT_PACK_EVERY / 60) * 60;
+  // Negative preload supports a first attack later than the repeating cadence.
+  // That lets a mission give the player a real setup window, then tighten up.
+  b.packT = b.packEvery - (opts.first ?? 18) * 60;
+  b.waitForBase = !!opts.waitForBase;
+  return b;
+}
+
+function spawnCorruptPack(b) {
+  const target = buildings.filter(o => o.team === 1 && o.hp > 0 && o.built >= 1)
+    .sort((a, c) => dist2(b.x, b.y, a.x, a.y) - dist2(b.x, b.y, c.x, c.y))[0];
+  const made = [];
+  for (let i = 0; i < b.brood.length; i++) {
+    const a = (i / b.brood.length) * Math.PI * 2 + 0.4;
+    const u = makeUnit(b.brood[i], 3,
+      clamp(b.x + Math.cos(a) * (b.r + 24), 20, W - 20),
+      clamp(b.y + Math.sin(a) * (b.r + 24), 20, H - 20));
+    u.home = b.id;
+    u.order = target
+      ? { type: 'attackmove', x: target.x + (i - 1) * 22, y: target.y + 18 }
+      : { type: 'guard', hx: b.x, hy: b.y };
+    made.push(u);
+  }
+  if (target && target.team === 1)
+    raiseAlert(target.x, target.y, '⚠ A Broodfallen structure has spawned an attack pack!');
+  if (isShownAt(b.x, b.y)) {
+    fxs.push({ kind: 'boom', x: b.x, y: b.y, t: 0, max: 22, size: b.r * 0.8 });
+    snd.screech();
+  }
+  return made;
+}
+
+function disembarkLandingCraft(b) {
+  if (!b || b.type !== 'skiff' || b.arriving || b.landed || !b.landingCargo || !b.landingCargo.length) return false;
+  const at = b.landAt || [b.x - b.w / 2 - 70, b.y];
+  const made = [];
+  let slot = 0;
+  for (const spec of b.landingCargo) for (let i = 0; i < spec.n; i++, slot++) {
+    const col = slot % 4, row = (slot / 4) | 0;
+    const u = makeUnit(spec.unit, 1, at[0] - col * 25, at[1] + (row - 1) * 32);
+    if (u.type === 'harvester') {
+      const c = nearestCrystalTo(u.x, u.y, 700);
+      if (c) u.order = { type: 'harvest', target: c };
+    }
+    made.push(u);
+  }
+  if (b.baseAt && !buildings.some(x => x.team === 1 && x.type === 'hq' && x.hp > 0)) {
+    const hq = makeBuilding('hq', 1, b.baseAt[0], b.baseAt[1]);
+    hq.rally = { x: at[0], y: at[1] };
+  }
+  b.landingCargo = [];
+  b.landed = true;
+  b.departing = true;
+  b.faceA = 0;
+  if (ms) {
+    const o = ms.objectives.find(x => x.type === 'disembark' && x.boat === b.landingGroup);
+    if (o) ms.flags[o.id] = true;
+  }
+  selection = made;
+  fxs.push({ kind: 'ping', x: at[0], y: at[1], t: 0, max: 34, color: '#6fe3d0' });
+  toast('Landing force ashore — headquarters deployed');
+  snd.ready();
+  lastCardSig = '';
+  return true;
 }
 
 // ---------------- Map setup ----------------
@@ -3648,8 +3881,9 @@ function setup(mapKey) {
   // ignore rocks so they soar straight over. Gaps between river segments are
   // the causeways. Painted as smooth bands in paintGround; the individual
   // colliders are invisible (paintRock skips water).
-  for (const seg of (M.rivers || [])) {
-    for (const p of riverPath(seg, M.rivers)) rocks.push({ x: p.x, y: p.y, r: p.r * 0.95, water: true });
+  const rivers = (M.rivers || []).concat(mt.rivers || []);
+  for (const seg of rivers) {
+    for (const p of riverPath(seg, rivers)) rocks.push({ x: p.x, y: p.y, r: p.r * 0.95, water: true });
   }
   // trees: solid canopies riding the rock machinery — collision, pathing,
   // placement all come free. Groves scatter a stand inside a disc (min 70px
@@ -3706,14 +3940,17 @@ function setup(mapKey) {
     }
   }
   buildTerrainGrid();
-  groundM = M;
-  paintGround(M);
+  // Mission coastlines are true terrain, not just decoration: the same merged
+  // list drives painting, pathing, carrier movement, and the minimap.
+  const GM = mt.rivers && mt.rivers.length ? { ...M, rivers } : M;
+  groundM = GM;
+  paintGround(GM);
   // commando missions field no base at all — just the squad the triggers drop
   // A mission can RELOCATE either base on a shared map (the roster rule:
   // every map reuse moves the bases). `mapOverride` merges over the map's
   // own entry for placeBase only — skirmish never sees it.
-  const MB = (mission && mission.mapOverride) ? { ...M, ...mission.mapOverride } : M;
-  const pHQ = (mission && mission.noBase) ? null : placeBase(1, MB);
+  const MB = (mission && mission.mapOverride) ? { ...GM, ...mission.mapOverride } : GM;
+  const pHQ = (mission && (mission.noBase || mission.startsNoBase)) ? null : placeBase(1, MB);
   if (!(mission && mission.noEnemy)) placeBase(2, MB);
 
   // neutral fields + their nest guards — clear the nest or mine poor.
@@ -4086,6 +4323,7 @@ function launchCarrierStrike(carrier, x, y) {
     };
   }
   carrier.strikeCool = CARRIER_STRIKE_COOLDOWN;
+  if (mission && ms) ms.strikes.push({ x, y, at: tick });
   carrierStrikeTargeting = null;
   fxs.push({ kind: 'ping', x, y, t: 0, max: 34, color: '#f0c86a' });
   toast('✈ Strike wing launched — three aircraft inbound');
@@ -5304,7 +5542,21 @@ function separation() {
 function updateBuilding(b) {
   if (b.hp <= 0) return;   // dead this tick — no healing, firing, or spawning from the grave
   if (b.type === 'skiff') {
-    if (b.departing) {
+    if (b.arriving && b.arriveAt) {
+      const dx = b.arriveAt[0] - b.x, dy = b.arriveAt[1] - b.y;
+      const d = Math.hypot(dx, dy), speed = 0.85;
+      if (d <= speed) {
+        b.x = b.arriveAt[0]; b.y = b.arriveAt[1];
+        b.arriving = false;
+        lastCardSig = '';
+        toast('Landing craft at the beach — select it and disembark');
+        snd.ready();
+      } else {
+        b.faceA = Math.atan2(dy, dx);
+        b.x += dx / d * speed; b.y += dy / d * speed;
+      }
+    } else if (b.departing) {
+      b.faceA = 0;
       b.x += 1.35;
     }
     return;
@@ -5364,7 +5616,7 @@ function updateBuilding(b) {
       b.packT = 0;
       let t = null, bd = 1e18;
       for (const o of buildings) {
-        if (o.team === 3 || o.hp <= 0 || o.built < 1) continue;
+        if (isAllied(o.team, b.team) || o.hp <= 0 || o.built < 1) continue;
         const d = dist2(b.x, b.y, o.x, o.y);
         if (d < bd) { bd = d; t = o; }
       }
@@ -5375,6 +5627,18 @@ function updateBuilding(b) {
       // warn at the TARGET, not the den — pinging the den would leak its
       // location through the fog before the player has ever seen it
       if (t && t.team === 1) raiseAlert(t.x, t.y, '🦖 A raptor pack is on the hunt — it smells your base!');
+    }
+    return;
+  }
+  if (b.type === 'corrupt') {
+    if (b.waitForBase && !buildings.some(o => o.team === 1 && o.type === 'hq' && o.hp > 0 && o.built >= 1)) return;
+    let brood = 0;
+    for (const u of units) if (u.team === 3 && u.home === b.id && u.hp > 0) brood++;
+    if (brood >= CORRUPT_BROOD_CAP) return;
+    b.packT = (b.packT || 0) + 1;
+    if (b.packT >= b.packEvery) {
+      b.packT = 0;
+      spawnCorruptPack(b);
     }
     return;
   }
@@ -5738,7 +6002,10 @@ function checkEnd() {
     // campaign: victory comes from objectives (missionUpdate); HQ loss is always defeat
     // — except on commando missions, where there IS no HQ and the squad is the
     // mission: you lose when the last of them falls.
-    if (mission.noBase || (ms && ms.noBase)) {
+    // `startsNoBase` is a landing/drop opening: protect the initial carrier or
+    // squad until its scripted HQ exists, then automatically return to the
+    // normal "HQ loss = defeat" campaign rule.
+    if (mission.noBase || (ms && ms.noBase) || (mission.startsNoBase && !pAlive)) {
       if (tick > 120 && playerSurvivorCount() === 0) missionEnd(false);
       return;
     }
@@ -6021,6 +6288,10 @@ window.addEventListener('keydown', (e) => {
   const carrier = selection.length === 1 && selection[0].kind === 'unit'
     && selection[0].type === 'carrier' ? selection[0] : null;
   if (carrier && e.code === 'KeyB') { beginCarrierStrike(carrier); return; }
+  const landingCraft = selection.length === 1 && selection[0].kind === 'building'
+    && selection[0].type === 'skiff' && selection[0].landingCargo && selection[0].landingCargo.length
+    ? selection[0] : null;
+  if (landingCraft && e.code === 'KeyU') { disembarkLandingCraft(landingCraft); return; }
   if (e.code === KEY_AMOVE() && selection.some(s => s.kind === 'unit' && isCombat(s))) {
     attackMoveMode = true; placing = null; nukeTargeting = null; carrierStrikeTargeting = null;
     setCursor(); return;
@@ -6410,7 +6681,8 @@ function cardSig() {
     BUILD_MENU.map(([t]) => (grantActive(t) ? 'g' : 'h') + (missionAllows('bld', t) ? '' : 'x') + (teams[1].crystals >= BLD[t].cost ? 'y' : 'n') + (hasTech(1, t) ? 'u' : 'l')).join('') + '|' +
     Object.values(teams[1].up).join('') + '.' + Math.floor(teams[1].crystals / 25) + '.' + teams[1].eggs +
     '.' + units.reduce((s, u) => s + (u.team === 1 && (u.type === 'spitter' || u.type === 'carrier' || (u.type === 'harrier' && !u.carrierSortie)) ? 1 : 0), 0) +
-    '.' + selection.map(e => (e.warhead || '') + (e.cargo ? e.cargo.length : '') + (e.sunk ? 's' : '')).join('') +
+    '.' + selection.map(e => (e.warhead || '') + (e.cargo ? e.cargo.length : '')
+      + (e.landingCargo ? e.landingCargo.reduce((n, s) => n + s.n, 0) : '') + (e.sunk ? 's' : '')).join('') +
     '.' + selection.map(e => e.type === 'carrier' ? Math.ceil(e.strikeCool / 60) : '').join('') +
     (nukeTargeting ? 'N' : '') + (carrierStrikeTargeting ? 'C' : '') + (sellArmId || '');
 }
@@ -6495,6 +6767,15 @@ function refreshCard() {
     html += '<div class="row">' + rowTrain + '</div>';
     if (b.type === 'hq') { html += buildRow; buildRowPlaced = true; }   // the HQ is the construction yard
     if (rowOther) html += '<div class="row">' + rowOther + '</div>';
+  } else if (b && b.type === 'skiff' && b.landingCargo && b.landingCargo.length) {
+    const aboard = b.landingCargo.reduce((n, s) => n + s.n, 0);
+    html = '<h3>Expedition Landing Craft</h3>';
+    if (b.arriving) {
+      html += '<div class="sub">Launched from the carrier · en route to the landing beach.</div>';
+    } else {
+      html += '<div class="sub">Beach secure. Drop the ramp and establish the inland beachhead.</div><div class="row">';
+      html += `<button data-act="landing:unload" class="wide">⬇ Disembark ${aboard} troops <small>[U]</small></button></div>`;
+    }
   } else if (b && b.type === 'silo') {
     html = '<h3>Missile Silo</h3>';
     if (b.built < 1) {
@@ -6545,7 +6826,7 @@ function refreshCard() {
   } else {
     html = '<h3>Expedition Command</h3><div class="sub">Drag to select units. Right-click to give orders. Select the HQ to construct buildings.</div>';
   }
-  if (b && b.team === 1 && b.type !== 'hq' && !placing && !attackMoveMode) {
+  if (b && b.team === 1 && b.type !== 'hq' && b.type !== 'skiff' && !placing && !attackMoveMode) {
     const armed = sellArmId === b.id && Date.now() - sellArmAt < 4000;
     const refund = Math.floor(BLD[b.type].cost * 0.5 * Math.min(1, b.built));
     html += '<div class="row">' + (armed
@@ -6635,6 +6916,9 @@ elDock.addEventListener('pointerdown', (e) => {
   } else if (act === 'unload') {
     for (const s of selection) if (s.kind === 'unit' && s.cargo && s.cargo.length) unloadAPC(s);
     lastCardSig = '';
+  } else if (act === 'landing:unload') {
+    const boat = selection.length === 1 && selection[0].kind === 'building' ? selection[0] : null;
+    if (boat) disembarkLandingCraft(boat);
   } else if (act === 'carrier:strike') {
     const carrier = selection.length === 1 && selection[0].kind === 'unit'
       && selection[0].type === 'carrier' ? selection[0] : null;
@@ -8089,13 +8373,15 @@ function drawBoatWake(x, y, a, length, width, strength = 1) {
 }
 function drawSkiff(b) {
   const bob = Math.sin((tick + b.id * 13) * 0.045) * 1.5;
-  const x = b.x - b.w / 2, y = b.y - b.h / 2 + bob;
-  if (b.departing) drawBoatWake(b.x, b.y + bob, 0, 72, 24, 0.85);
+  const a = b.faceA || 0, y = b.y - b.h / 2 + bob;
+  if (b.arriving || b.departing) drawBoatWake(b.x, b.y + bob, a, 72, 24, b.arriving ? 0.62 : 0.85);
   const img = opt('bld_skiff');
-  if (img) cx.drawImage(img, x, y, b.w, b.h);
+  cx.save();
+  cx.translate(b.x, b.y + bob);
+  cx.rotate(a);
+  if (img) cx.drawImage(img, -b.w / 2, -b.h / 2, b.w, b.h);
   else {
     // Cold-load fallback: the generated art replaces this as soon as it lands.
-    cx.save(); cx.translate(b.x, b.y + bob);
     cx.fillStyle = '#777468'; cx.strokeStyle = '#242a29'; cx.lineWidth = 3;
     cx.beginPath();
     cx.moveTo(-b.w * 0.48, -b.h * 0.38); cx.lineTo(b.w * 0.30, -b.h * 0.38);
@@ -8103,20 +8389,22 @@ function drawSkiff(b) {
     cx.lineTo(-b.w * 0.48, b.h * 0.38); cx.closePath(); cx.fill(); cx.stroke();
     cx.fillStyle = '#252b2a';
     rr(cx, -b.w * 0.16, -b.h * 0.25, b.w * 0.46, b.h * 0.5, 5); cx.fill();
-    cx.restore();
   }
 
   // Aboard troops remain visible as teal helmets on the open deck. The unit
   // objects are preserved in the manifest, so boarding is evacuation, not death.
   const aboard = b.passengers || [];
-  for (let i = 0; i < aboard.length; i++) {
+  const landingCount = b.landingCargo ? b.landingCargo.reduce((n, s) => n + s.n, 0) : 0;
+  const deckCount = Math.max(aboard.length, landingCount);
+  for (let i = 0; i < deckCount; i++) {
     const col = i % 4, row = (i / 4) | 0;
-    const px = b.x - 18 + col * 17, py = b.y - 10 + row * 20 + bob;
+    const px = -18 + col * 17, py = -10 + row * 20;
     cx.fillStyle = '#102a2a';
     cx.beginPath(); cx.arc(px, py + 2, 5, 0, Math.PI * 2); cx.fill();
     cx.fillStyle = COLORS[1].light;
     cx.beginPath(); cx.arc(px, py, 3.6, Math.PI, Math.PI * 2); cx.fill();
   }
+  cx.restore();
 
   const evac = ms && ms.objectives.find(o => o.type === 'board' && o.boat === 'skiff');
   if (evac && evac.active && !evac.done) {
@@ -8133,6 +8421,68 @@ function drawSkiff(b) {
     cx.strokeStyle = 'rgba(111,227,208,0.7)'; rr(cx, b.x - lw / 2, ly - 11, lw, 18, 6); cx.stroke();
     cx.fillStyle = '#9fe8df'; cx.fillText(label, b.x, ly + 2);
   }
+  const landing = ms && ms.objectives.find(o => o.type === 'disembark'
+    && o.boat === b.landingGroup && o.active && !o.done);
+  if (landing && landingCount && !b.arriving) {
+    const rx = b.x - b.w * 0.48, pulse = 13 + Math.sin(tick * 0.1) * 3;
+    cx.strokeStyle = 'rgba(111,227,208,0.9)'; cx.lineWidth = 2;
+    cx.setLineDash([5, 5]);
+    cx.beginPath(); cx.arc(rx, b.y, pulse, 0, Math.PI * 2); cx.stroke();
+    cx.setLineDash([]);
+    const label = `SELECT CRAFT · DISEMBARK ${landingCount}`;
+    cx.font = '700 10px -apple-system, BlinkMacSystemFont, sans-serif';
+    cx.textAlign = 'center';
+    const lw = cx.measureText(label).width + 14, ly = y - 13;
+    cx.fillStyle = 'rgba(8,18,17,0.9)'; rr(cx, b.x - lw / 2, ly - 11, lw, 18, 6); cx.fill();
+    cx.strokeStyle = 'rgba(111,227,208,0.7)'; rr(cx, b.x - lw / 2, ly - 11, lw, 18, 6); cx.stroke();
+    cx.fillStyle = '#9fe8df'; cx.fillText(label, b.x, ly + 2);
+  } else if (landing && landingCount && b.arriving) {
+    const label = 'LANDING CRAFT INBOUND';
+    cx.font = '700 10px -apple-system, BlinkMacSystemFont, sans-serif';
+    cx.textAlign = 'center';
+    const lw = cx.measureText(label).width + 14, ly = y - 13;
+    cx.fillStyle = 'rgba(8,18,17,0.9)'; rr(cx, b.x - lw / 2, ly - 11, lw, 18, 6); cx.fill();
+    cx.strokeStyle = 'rgba(111,227,208,0.7)'; rr(cx, b.x - lw / 2, ly - 11, lw, 18, 6); cx.stroke();
+    cx.fillStyle = '#9fe8df'; cx.fillText(label, b.x, ly + 2);
+  }
+}
+
+function drawCorrupt(b) {
+  const shell = BLD[b.shell] ? b.shell : 'barracks';
+  const x = b.x - b.w / 2, y = b.y - b.h / 2;
+  cx.save();
+  // Reuse the captured building renderer without allocating a fake building
+  // every frame. Rendering is synchronous, so the type is restored before any
+  // simulation or selection code can observe it.
+  b.type = shell;
+  try { drawBuildingSprite(b, x, y); }
+  finally { b.type = 'corrupt'; }
+  // Root cables break the architecture's straight lines; the pulsing sacs and
+  // central split make it unmistakably alive even when the source art is absent.
+  cx.strokeStyle = '#26351d';
+  cx.lineWidth = 5;
+  cx.lineCap = 'round';
+  for (let i = 0; i < 5; i++) {
+    const sy = y + 10 + i * (b.h - 20) / 4;
+    cx.beginPath();
+    cx.moveTo(x - 8, sy + Math.sin(tick * 0.025 + i) * 3);
+    cx.bezierCurveTo(b.x - 24, sy - 18, b.x + 16, sy + 18, x + b.w + 7, sy - 5);
+    cx.stroke();
+  }
+  const pulse = 1 + Math.sin((tick + b.id * 7) * 0.055) * 0.10;
+  cx.translate(b.x, b.y);
+  cx.scale(pulse, pulse);
+  cx.fillStyle = '#2a171d';
+  cx.beginPath(); cx.ellipse(0, 4, 19, 12, -0.15, 0, Math.PI * 2); cx.fill();
+  cx.strokeStyle = COLORS[4].accent; cx.lineWidth = 3;
+  cx.beginPath(); cx.moveTo(-14, 3); cx.quadraticCurveTo(0, -7, 14, 3); cx.stroke();
+  for (const [sx, sy, sr] of CORRUPT_SACS) {
+    cx.fillStyle = '#768a43';
+    cx.beginPath(); cx.arc(sx, sy, sr + Math.sin(tick * 0.06 + sx) * 0.7, 0, Math.PI * 2); cx.fill();
+    cx.fillStyle = COLORS[4].fx;
+    cx.beginPath(); cx.arc(sx - 1, sy - 1, sr * 0.35, 0, Math.PI * 2); cx.fill();
+  }
+  cx.restore();
 }
 
 function drawCarrier(u) {
@@ -8207,6 +8557,12 @@ function drawBuilding(b) {
 
   if (b.type === 'skiff') {
     drawSkiff(b);
+    return;
+  }
+
+  if (b.type === 'corrupt') {
+    drawCorrupt(b);
+    if (b.hp < b.maxHp) drawHpBar(b.x, y - 12, b.w * 0.8, b.hp, b.maxHp);
     return;
   }
 
@@ -10108,7 +10464,7 @@ function missionInit(idx) {
     // pathing the player cannot read or influence, and measuring it proved
     // razing Krauss's forward camp moved his total by 6 crystals in 7000.
     // Scripted, it becomes an antagonist with a valve the player can shut.
-    groups: {}, flags: {}, grants: [], reveals: [], haul: 0, winAt: 0, outroDone: false,
+    groups: {}, flags: {}, grants: [], reveals: [], strikes: [], haul: 0, winAt: 0, outroDone: false,
   };
 }
 
@@ -10377,6 +10733,8 @@ function objMet(o) {
       const boat = objectiveBoat(o);
       return !!boat && boat.passengers && boat.passengers.length >= o.count;
     }
+    case 'strike': return ms.strikes.some(s => dist2(s.x, s.y, o.x, o.y) < o.r * o.r);
+    case 'disembark': return !!ms.flags[o.id];
     // no living hostile building of this type left near the mark (nest cracks).
     // It must have been THERE first: a target the mission spawns on a trigger
     // doesn't exist at tick 0, and without `seen` the objective completes
@@ -10472,6 +10830,12 @@ function doSpawn(sp) {
     // water channel slide to the nearest dry footprint before spawning
     // (M12's rear den sat 80px into the causeway channel — Bronson 2026-08-25)
     let [bx, by] = sp.at;
+    // Scripted craft can launch from a living unit/building group instead of
+    // popping into existence at their destination. `at` remains the fallback.
+    if (sp.fromGroup) {
+      const source = (groupAlive(sp.fromGroup) || [])[0];
+      if (source) { bx = source.x; by = source.y; }
+    }
     if (sp.bld === 'den' || sp.bld === 'nest' || sp.bld === 'roost') {
       const half = (BLD[sp.bld].w || 80) / 2;
       const wet = (px, py) => rocks.some(rk => rk.water && dist(px, py, rk.x, rk.y) < rk.r + half);
@@ -10488,7 +10852,21 @@ function doSpawn(sp) {
     const b = sp.bld === 'den' ? makeDen(bx, by, sp.birth)
       : sp.bld === 'nest' ? makeNest(bx, by)
       : sp.bld === 'roost' ? makeRoost(bx, by)
-      : makeBuilding(sp.bld, sp.team || 1, sp.at[0], sp.at[1]);
+      : sp.bld === 'corrupt' ? makeCorrupt(sp.shell, bx, by, sp)
+      : makeBuilding(sp.bld, sp.team || 1, bx, by);
+    if (sp.bld === 'den' && sp.first != null)
+      b.packT = DEN_PACK_EVERY - sp.first * 60;
+    if (sp.bld === 'skiff' && sp.cargo) {
+      b.landingCargo = sp.cargo.map(x => ({ ...x }));
+      b.landAt = sp.landAt;
+      b.baseAt = sp.baseAt;
+      b.landingGroup = sp.group;
+      if (sp.sailTo && dist(b.x, b.y, sp.sailTo[0], sp.sailTo[1]) > 2) {
+        b.arriveAt = [...sp.sailTo];
+        b.arriving = true;
+        b.faceA = Math.atan2(sp.sailTo[1] - b.y, sp.sailTo[0] - b.x);
+      }
+    }
     if (sp.invuln) b.invuln = true;   // scripted, unkillable (M7's den erupts; you don't get to answer it)
     // ruins: spawn pre-damaged (M9's silent camp — standing wrecks that smoke
     // and burn via the existing hurt-building fx; damage sticks as always)
@@ -11077,6 +11455,7 @@ function resetWorld() {
   teams[1] = { crystals: 180, eggs: 0, captives: 0, mined: 0, up: newUp() };
   teams[2] = { crystals: 180, eggs: 0, captives: 0, mined: 0, up: newUp() };
   teams[3] = { crystals: 0, eggs: 0, captives: 0, mined: 0, up: newUp() };
+  teams[4] = { crystals: 0, eggs: 0, captives: 0, mined: 0, up: newUp() };
   tick = 0; gameOver = null; waveNum = 0; shakeAmp = 0;
   placing = null; attackMoveMode = false; carrierStrikeTargeting = null; setCursor();
   camFocus = null;

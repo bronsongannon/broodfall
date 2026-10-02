@@ -22,13 +22,13 @@ loads the shared roadmap rules through the repository-root `AGENTS.md`. Keep thi
 file and the visual roadmap's task lists in sync; this checklist is authoritative
 if they ever disagree.
 
-## PRIORITY: finish the campaign (7 missions remain, 13 of 20 built)
+## PRIORITY: finish the campaign (6 missions remain, 14 of 20 built)
 
-Act 2 is complete through M13 "The Broodmother Wakes." Allied-faction machinery,
-named-loss reporting, staged evacuation, and the scripted Broodmother are now
-available for reuse. Engine work still gating missions: corrupted spawner
-buildings (M14), den-seeding timer (M15), and the Broodmother combat version
-(M20). The Crater is the only campaign map still to build.
+Act 3 is underway with M14 "Return to Ruin." Allied-faction machinery,
+named-loss reporting, staged evacuation, the scripted Broodmother, carrier
+landings, and corrupted spawner-buildings are now available for reuse. Engine
+work still gating missions: the den-seeding timer (M15) and the Broodmother
+combat version (M20). The Crater is the only campaign map still to build.
 Standing rule: **M10+ missions are a mandatory 20–25 minutes** — M11's 18-min
 hold clock + build-up sits in range; Bronson's stopwatch confirms.
 
@@ -89,6 +89,9 @@ Still the correct order when it's time. No dates until the game is done.
 - [ ] Playtest M10 round 3 — stopwatch the two-phase siege against the 20-25 mandate, and gauge whether ~25-30 units is now the honest price of the city. Knobs: battery count (6), garrison sizes, repair crew count (3), hunter hpMul (6), camera lock (4s)
 - [x] M13 "The Broodmother Wakes" BUILT (2026-09-01) — Act 2 finale on the new Evac Coast map. Five-minute fortification, then three four-minute launch clocks with five named manifest vehicles apiece (one loss allowed per flight), escalating raptor → Screecher → Ironback pressure, outbound allied aircraft, and an invulnerable Broodmother breach that flips the mission to an eight-unit rally plus north-skiff escape. New generic machinery: `groupLost` warning condition, `extract` trigger action, mixed-unit `anyBelow` defeat condition, expiring scripted `reveal`, and mission-specific named-loss labels. Full deterministic chain completed at 23:15; second-manifest-loss defeat verified; opening pressure moved off the player HQ after the first timing pass exposed a minute-three setup wipe.
 - [ ] Playtest M13 round 1 — stopwatch the real fight against the 20–25 mandate and judge whether each manifest reads as a distinct escalation without the pad becoming unreadable. Knobs: setup 300s; launches 240s each; manifest quota 4/5; Flight One 65s cadence; Flight Two 60s; Final Flight 45s; final escape quota 8.
+- [x] M14 "Return to Ruin" BUILT (2026-09-14) — Act 3 beachhead on Overgrown Basin. A mission-only east coast supports the returning carrier: sail south to the approach, then launch its first required three-aircraft strike. Clearing the marked beach launches a selectable landing craft visibly from the carrier; its 12-unit manifest crosses to the sand, disembarks onto dry ground, and deploys the HQ. The doubled crystal economy funds a push through three Broodfallen clusters, each mixing true dens with captured red barracks/refinery/factory shells that pulse with overgrowth and spawn species-specific packs. Clearing all three starts a five-minute defense of Lin's physical sensor package. New generic machinery: team 4 corrupted-red palette allied to wild team 3, reusable `corrupt` spawner buildings, mission-added coastlines, strike-location and disembark objectives, carrier-launched cargo craft, and `startsNoBase` loss-state transition. Final sail-to-extraction harness passed 16/16 checks after an earlier 18-check systems pass; opening visuals and corrupted structures inspected in-browser.
+- [x] M14 playtest round 1 (2026-09-15) — the opening was "hard and kind of crazy": the landing craft popped into existence at the beach and the expedition was bombarded as soon as it landed. Fixed at the source. The craft now launches from the carrier and visibly sails to the disembark point; its ramp is locked while under way. Corrupted-building clocks now wait for the deployed HQ instead of silently counting through the naval opening, and their first packs are staggered 180–255s after landing. Dens begin 150/180/210s after the Refinery objective, while the cross-map wave waits 120s (195s true repeat period). Mission baseline moved from Hard to Normal; the original pressure is banked for the later Hard pass.
+- [ ] Playtest M14 round 2 — verify that the carrier launch reads clearly, that Normal provides enough time to establish the Refinery/defenses, and that the inland push still reaches the mandatory 20–25 minute target. Also judge whether carrier support stays relevant, the three clusters read distinctly, and the final five-minute extraction is hard without becoming unreadable. Knobs: first corrupted packs 180–255s; den hunts 150/180/210s; first periodic wave 120s / 195s thereafter; cluster guards 8/6/8 plus Ironbacks; final pulses at 25/105/195s.
 - [ ] Pacing pass toward 20–30 minute matches — game-wide: skirmish AND the mission ramp (M9 ≥10 min; every mission M10+ mandatory 20–25 per the 2026-08-04 standing rule)
 
 ## Art and audio

@@ -2,6 +2,12 @@
 
 Baseline audited 2026-09-05. The complete-repository findings below describe the pre-overhaul baseline and exclude generated copies under `mac/build`. Phase-specific records are frozen separately so later art work does not rewrite the evidence for an earlier phase.
 
+## First terrain upgrade — cached soil and roads, 2026-10-01
+
+Overgrown Basin and Evac Coast now use map-seeded material fields in the cached ground renderer. Large, muted moss/earth regions establish the terrain, medium patches add exposed soil and erosion, and low-contrast fine grain avoids competing with the weathered human-tech sprites. These two maps omit the visible tile grid and the legacy random streak/pebble scatter. Evac Coast retains its exact authored road routes while adding irregular blended shoulders, interrupted wheel ruts, compressed lips, and small washouts. Overgrown Basin has no authored roads; none were introduced.
+
+This is a code-rendered ground pass, not a replacement of the natural art family. Ground flora, rocks, trees, ridges, pits, water, and elevation retain their existing painters and assets. The terrain remains baked into `groundCv`; all per-frame drawing, simulation, pathfinding, collision and mission logic byte-match the pre-task workspace. Other maps retain the legacy ground treatment. Comparison evidence and measurement limits are recorded in [the terrain phase record](image-audit/phases/terrain-20261001/README.md).
+
 ## Current soldier update — approved Marine repairs, 2026-09-12
 
 Four Marine transparency repairs are installed: aqua hunker and red death frames 3/4 were approved on 2026-09-11; red walk frame 7 was approved on 2026-09-12. Current cache revision: `human-soldiers-20260911b`. All 160 production sprites match the approved selections: the original 160-file mapping plus four repair overrides. The repaired files pass opacity and transparent-border checks; walk 7 retains its exact RGB artwork, bounding box, and pose. Full-family validation remains open at **32 errors and 21 warnings** (previously 36/22); no thresholds were changed. Marine death 3/4 and walk 7 faction-outline differences and the other previously documented findings remain open. macOS Debug build, 162-file bundle verification, JavaScript syntax, and diff checks pass.

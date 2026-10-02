@@ -93,6 +93,7 @@ Still the correct order when it's time. No dates until the game is done.
 
 ## Art and audio
 
+- [x] First cached-terrain upgrade (2026-10-01) — Overgrown Basin and Evac Coast opt into deterministic map-seeded soil: broad tonal regions, medium soil/erosion breakup, and restrained fine grain replace the visible grid and random ground speckling. Evac Coast's existing haul roads gain irregular shoulders, interrupted ruts, washouts, and biome-aware blending. All work stays baked into `groundCv`; the frame renderer, authored geometry, collision/elevation grids, pathfinding, mission balance, water, and natural-prop painters/assets are preserved. Comparable gameplay captures and verification are recorded under `image-audit/phases/terrain-20261001/`; this closes only the ground/road pass, not the remaining natural-prop or water art work.
 - [x] Cast portraits: Vega, Lin, Krauss — DONE 2026-07-21 via DaVinci (photorealistic film-still set, bust-cropped for the PiP; full-res originals in assets/portraits/source/)
 - [ ] Voice: ON HOLD until the campaign is done (Bronson, 2026-08-13 — one full batch at the end, no incremental updates). Then: regenerate voice-script.tsv with final wording and cut every speaker in one pass (Vega = Cassidy, Krauss = Rob, Lin revoice, Boone pick — briefs in PORTRAITS.md). Workflow in assets/voice/README.md
 

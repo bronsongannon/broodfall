@@ -608,7 +608,8 @@ const MAPS = {
     blurb: 'The basin, swallowed by jungle',
     // roster map #14 (M14 Return to Ruin / M15). Basin's EXACT bones — same
     // fields, ridges, hills — swallowed under jungle. Story reuse on purpose.
-    ground: { base: '#0f1a0c', mottle: 'rgba(150,220,130,0.022)', pebble: 'rgba(140,200,130,0.06)', grid: 'rgba(140,220,150,0.024)', hi: 'rgba(200,240,190,0.10)' },
+    ground: { base: '#0f1a0c', mottle: 'rgba(150,220,130,0.022)', pebble: 'rgba(140,200,130,0.06)', grid: 'rgba(140,220,150,0.024)', hi: 'rgba(200,240,190,0.10)',
+      terrain: { seed: 0x42b19f07, shade: [22, 29, 23], cover: [43, 49, 32], soil: [61, 52, 39], mineral: [76, 69, 51], road: [70, 62, 46] } },
     pHQ: [210, H - 210], pRax: [400, H - 140], pPatch: [260, H - 440],
     eHQ: [W - 210, 210], eRax: [W - 400, 140], eFac: [W - 560, 200],
     eSup: [[W - 300, 100], [W - 150, 340]], eTur: [[W - 350, 330], [W - 480, 220]],
@@ -701,7 +702,8 @@ const MAPS = {
     // east edge; the main LZ sits in the center pocket and the emergency skiff
     // waits on the north beach. Three inland approaches converge on the pad,
     // while a broken Rubicon wall makes a disposable first line to its west.
-    ground: { base: '#121716', mottle: 'rgba(145,175,170,0.02)', pebble: 'rgba(170,185,175,0.065)', grid: 'rgba(150,190,185,0.024)', hi: 'rgba(220,225,205,0.09)' },
+    ground: { base: '#121716', mottle: 'rgba(145,175,170,0.02)', pebble: 'rgba(170,185,175,0.065)', grid: 'rgba(150,190,185,0.024)', hi: 'rgba(220,225,205,0.09)',
+      terrain: { seed: 0x1eac09d3, shade: [26, 33, 31], cover: [47, 53, 46], soil: [65, 60, 49], mineral: [83, 83, 71], road: [85, 78, 64] } },
     pHQ: [W * 0.16, H * 0.76], pRax: [W * 0.22, H * 0.80], pPatch: [W * 0.13, H * 0.64],
     eHQ: [W * 0.84, H * 0.50], eRax: [W * 0.79, H * 0.56], eFac: [W * 0.77, H * 0.44],
     eSup: [[W * 0.88, H * 0.59], [W * 0.85, H * 0.39]], eTur: [[W * 0.77, H * 0.38], [W * 0.77, H * 0.62]],
@@ -7129,15 +7131,160 @@ function paintRock(g, rk, flo) {
   blob(rk.r * 0.62, '#3a423a', -rk.r * 0.12, -rk.r * 0.16);   // upper facet
   blob(rk.r * 0.3, '#485148', -rk.r * 0.2, -rk.r * 0.28);     // highlight
 }
-function paintGround(M) {
-  // per-map ground palette — each battlefield gets its own soil so maps stop
-  // looking interchangeable (playtest feedback). All fields optional.
-  const pal = (M && M.ground) || {};
-  const flo = (M && M.flora) || {};
-  const g = groundCv.getContext('2d');
-  const area = (W * H) / (2048 * 1536);   // texture density scales with map area
-  g.fillStyle = pal.base || '#171c16';
-  g.fillRect(0, 0, W, H);
+// Ground-only RNG: never consume the simulation's randomness. A cold-load
+// repaint must retain the same soil geography and road wear for this map.
+function groundRandom(seed) {
+  return () => {
+    seed = (seed + 0x6d2b79f5) | 0;
+    let n = Math.imul(seed ^ seed >>> 15, seed | 1);
+    n ^= n + Math.imul(n ^ n >>> 7, n | 61);
+    return ((n ^ n >>> 14) >>> 0) / 4294967296;
+  };
+}
+function groundField(seed, sx, sy = sx) {
+  const nx = Math.ceil(W / sx) + 4, ny = Math.ceil(H / sy) + 4;
+  const values = new Float32Array(nx * ny), random = groundRandom(seed);
+  for (let i = 0; i < values.length; i++) values[i] = random();
+  return (x, y) => {
+    const gx = clamp(x / sx + 1, 0, nx - 2), gy = clamp(y / sy + 1, 0, ny - 2);
+    const ix = Math.floor(gx), iy = Math.floor(gy);
+    const fx = gx - ix, fy = gy - iy;
+    const tx = fx * fx * (3 - 2 * fx), ty = fy * fy * (3 - 2 * fy);
+    const i = iy * nx + ix;
+    const top = values[i] + (values[i + 1] - values[i]) * tx;
+    const bottom = values[i + nx] + (values[i + nx + 1] - values[i + nx]) * tx;
+    return top + (bottom - top) * ty;
+  };
+}
+function paintWeatheredSoil(g, terrain) {
+  // A continuous low-resolution material field, interpolated once into the
+  // full ground cache. No tile rectangles, repeated texture stamps, or live
+  // noise work. Large regions carry the read; grain stays below unit contrast.
+  const broad = groundField(terrain.seed, 720);
+  const patch = groundField(terrain.seed ^ 0x91e10da5, 170);
+  const wash = groundField(terrain.seed ^ 0x632be59b, 230, 65);
+  const breakup = groundField(terrain.seed ^ 0x68bc21eb, 55);
+  const fine = groundField(terrain.seed ^ 0x85157af5, 11);
+  const grainField = groundField(terrain.seed ^ 0x02e5be93, 4);
+  const baked = document.createElement('canvas');
+  baked.width = Math.ceil(W / 2); baked.height = Math.ceil(H / 2);
+  const ctx = baked.getContext('2d'), pixels = ctx.createImageData(baked.width, baked.height);
+  const data = pixels.data;
+  for (let y = 0, i = 0; y < baked.height; y++) for (let x = 0; x < baked.width; x++, i += 4) {
+    const wx = x * 2, wy = y * 2;
+    const p = patch(wx, wy), b = broad(wx + (p - 0.5) * 150, wy + (p - 0.5) * 90);
+    const broken = breakup(wx + p * 45, wy - p * 35);
+    const cover = clamp((b - 0.18) * 1.55, 0, 1);
+    const soil = clamp((p * 0.58 + broken * 0.25 + (1 - b) * 0.17 - 0.40) * 2.8, 0, 0.78);
+    const erosion = clamp((wash(wx + p * 80, wy) - 0.56) * 2.0, 0, 0.32) * soil;
+    const grain = (fine(wx, wy) - 0.5) * 5 + (grainField(wx, wy) - 0.5) * (2 + soil * 2);
+    for (let c = 0; c < 3; c++) {
+      let value = terrain.shade[c] + (terrain.cover[c] - terrain.shade[c]) * cover;
+      value += (terrain.soil[c] - value) * soil;
+      value += (terrain.mineral[c] - value) * erosion;
+      data[i + c] = value + grain;
+    }
+    data[i + 3] = 255;
+  }
+  ctx.putImageData(pixels, 0, 0);
+  g.save();
+  g.imageSmoothingEnabled = true;
+  g.drawImage(baked, 0, 0, W, H);
+  g.restore();
+  // Sparse, grouped erosion scratches share the medium soil geography. They
+  // are shallow material detail, not a second scatter of bright pebbles.
+  const random = groundRandom(terrain.seed ^ 0x31d8a079);
+  g.save();
+  g.lineCap = 'round';
+  for (let i = 0; i < 1600; i++) {
+    const x = random() * W, y = random() * H;
+    if (patch(x, y) < 0.56) continue;
+    const angle = -0.24 + (broad(x, y) - 0.5) * 1.4;
+    const length = 4 + random() * 15;
+    g.strokeStyle = random() < 0.6 ? 'rgba(8,12,9,0.09)' : `rgba(${terrain.mineral.join(',')},0.12)`;
+    g.lineWidth = 0.6 + random() * 0.7;
+    g.beginPath(); g.moveTo(x, y);
+    g.quadraticCurveTo(x + length * 0.55, y - 1.5, x + Math.cos(angle) * length, y + Math.sin(angle) * length);
+    g.stroke();
+  }
+  g.restore();
+}
+function paintWeatheredRoads(g, lines, terrain) {
+  const random = groundRandom(terrain.seed ^ 0xc4b0f193);
+  const color = (rgb, alpha) => `rgba(${rgb.join(',')},${alpha})`;
+  g.save();
+  g.lineJoin = 'round'; g.lineCap = 'round';
+  for (const line of lines) {
+    const points = [];
+    // Sample the existing centerline. Vary only the painted shoulders/ruts;
+    // these visual offsets never enter terrain, collision, or navigation.
+    let traveled = 0;
+    for (let i = 1; i < line.length; i++) {
+      const [x0, y0] = line[i - 1], [x1, y1] = line[i];
+      const length = Math.hypot(x1 - x0, y1 - y0);
+      if (!length) continue;
+      const dx = (x1 - x0) / length, dy = (y1 - y0) / length;
+      const count = Math.ceil(length / 14);
+      for (let j = 0; j < count; j++) {
+        const t = j / count, d = traveled + length * t;
+        points.push({ x: x0 + (x1 - x0) * t, y: y0 + (y1 - y0) * t, nx: -dy, ny: dx,
+          left: 20 + Math.sin(d * 0.024) * 3 + random() * 4,
+          right: 20 + Math.sin(d * 0.019 + 2.4) * 3 + random() * 4, d });
+      }
+      traveled += length;
+      if (i === line.length - 1) points.push({ x:x1, y:y1, nx:-dy, ny:dx, left:21, right:21, d:traveled });
+    }
+    if (points.length < 2) continue;
+    const ribbon = (spread, alpha) => {
+      g.fillStyle = color(terrain.road, alpha);
+      g.beginPath();
+      points.forEach((p, i) => {
+        const x = p.x + p.nx * (p.left + spread), y = p.y + p.ny * (p.left + spread);
+        i ? g.lineTo(x, y) : g.moveTo(x, y);
+      });
+      for (let i = points.length - 1; i >= 0; i--) {
+        const p = points[i];
+        g.lineTo(p.x - p.nx * (p.right + spread), p.y - p.ny * (p.right + spread));
+      }
+      g.closePath(); g.fill();
+    };
+    // Several translucent shoulders dissolve into the local biome; no dark
+    // border or constant-width yellow stripe outlining the route.
+    ribbon(15, 0.05); ribbon(9, 0.07); ribbon(4, 0.12); ribbon(0, 0.30);
+    for (let i = 1; i < points.length; i++) {
+      const p = points[i], prev = points[i - 1];
+      const wear = 0.5 + 0.5 * Math.sin(p.d * 0.013);
+      g.strokeStyle = color(terrain.mineral, 0.035 + wear * 0.035);
+      g.lineWidth = 12 + wear * 6;
+      g.beginPath(); g.moveTo(prev.x, prev.y); g.lineTo(p.x, p.y); g.stroke();
+      // Interrupted wheel tracks with wandering spacing and occasional
+      // narrow highlights along the compressed lip. Gaps read as old wear.
+      for (const side of [-1, 1]) {
+        if (random() < 0.28) continue;
+        const offset = side * (9 + Math.sin(p.d * 0.021 + side) * 1.5);
+        g.strokeStyle = 'rgba(10,14,12,0.22)';
+        g.lineWidth = 1.4 + random() * 1.7;
+        g.beginPath(); g.moveTo(prev.x + prev.nx * offset, prev.y + prev.ny * offset);
+        g.lineTo(p.x + p.nx * offset, p.y + p.ny * offset); g.stroke();
+        if (random() < 0.35) {
+          g.strokeStyle = color(terrain.mineral, 0.16); g.lineWidth = 0.7;
+          g.beginPath(); g.moveTo(prev.x + prev.nx * (offset + 2), prev.y + prev.ny * (offset + 2));
+          g.lineTo(p.x + p.nx * (offset + 2), p.y + p.ny * (offset + 2)); g.stroke();
+        }
+      }
+      // Small washouts and compacted gravel live inside/along the shoulder,
+      // rather than spraying equally across the whole map.
+      if (random() < 0.4) {
+        const offset = (random() - 0.5) * 42;
+        g.fillStyle = color(random() < 0.65 ? terrain.shade : terrain.mineral, 0.10);
+        g.beginPath(); g.ellipse(p.x + p.nx * offset, p.y + p.ny * offset, 4 + random() * 9, 1 + random() * 3,
+          Math.atan2(-p.nx, p.ny), 0, Math.PI * 2); g.fill();
+      }
+    }
+  }
+  g.restore();
+}
+function paintLegacySoil(g, pal, flo, area) {
   // shared value-noise fields: one geography drives BOTH texture passes below,
   // so the streaks and the tonal drift agree with each other
   {
@@ -7191,6 +7338,18 @@ function paintGround(M) {
     g.fillStyle = pal.pebble || 'rgba(190,200,190,0.06)';
     g.beginPath(); g.arc(x, y, 1 + Math.random() * 2.5, 0, Math.PI * 2); g.fill();
   }
+}
+function paintGround(M) {
+  // Per-map opt-in keeps this first terrain pass limited to Overgrown Basin
+  // and Evac Coast. Props, water, elevation and gameplay grids stay separate.
+  const pal = (M && M.ground) || {};
+  const flo = (M && M.flora) || {};
+  const g = groundCv.getContext('2d');
+  const area = (W * H) / (2048 * 1536);
+  g.fillStyle = pal.base || '#171c16';
+  g.fillRect(0, 0, W, H);
+  if (pal.terrain) paintWeatheredSoil(g, pal.terrain);
+  else paintLegacySoil(g, pal, flo, area);
   // ground flora, in clumps (uniform scatter reads as noise; clumps read as
   // vegetation): grass tufts + shrubs + the odd bush, all map-palette
   const tuftC = flo.tuft || 'rgba(125,190,125,0.5)';
@@ -7248,7 +7407,8 @@ function paintGround(M) {
   }
   // worn haul roads (MAPS.roads polylines): packed-earth band, a dusty crown,
   // and wheel ruts. Painted over flora — a used road stays clear of grass.
-  for (const line of ((M && M.roads) || [])) {
+  if (pal.terrain) paintWeatheredRoads(g, (M && M.roads) || [], pal.terrain);
+  else for (const line of ((M && M.roads) || [])) {
     g.lineCap = 'round'; g.lineJoin = 'round';
     const trace = () => { g.beginPath(); line.forEach(([x, y], i) => i ? g.lineTo(x, y) : g.moveTo(x, y)); g.stroke(); };
     g.strokeStyle = 'rgba(62,50,30,0.6)'; g.lineWidth = 44; trace();

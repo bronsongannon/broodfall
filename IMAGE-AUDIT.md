@@ -2,6 +2,30 @@
 
 Baseline audited 2026-09-05. The complete-repository findings below describe the pre-overhaul baseline and exclude generated copies under `mac/build`. Phase-specific records are frozen separately so later art work does not rewrite the evidence for an earlier phase.
 
+## Plateau roster — approved installation complete, 2026-10-17
+
+Twenty plateau formations across Crystal Basin, The Gauntlet, The Boneyard, Fossil Valley, Blackwater Fen, The Silo Fields, Strip Mine, High Water Mark, Twin Forks, Overgrown Basin, and Krauss's Bastion now use the approved compact, weathered sprite families. The newly installed nine-map group covers all 487 tested cliff-chain centers; base-to-base and every authored vehicle/infantry ramp smoke route pass. The sprites and restrained cached edge closure bake once into `groundCv`; the procedural painter remains a load-failure fallback. Existing collision, elevation, ramp clearance, pathfinding geometry, and mission balance are unchanged. Thumbnails are refreshed, frame pacing remains 16.7ms median / 16.7ms p95, and [production gameplay/full-map evidence](image-audit/phases/plateaus-20261014/README.md) records the install.
+
+Evac Coast now completes the roster. Its disconnected ramp moved about 230px west from 65% to 60% map width, placing the existing 88px entrance on the eastern rim without changing the plateau circles, coast, or road. The approved coastal bluff covers all 33 remaining cliff centers; vehicle and infantry summit paths, both skirmish base routes, and six M13 attack approaches pass. The refreshed thumbnail and production captures show the corrected entrance.
+
+## Crystal Basin and The Gauntlet ridges — approved installation, 2026-10-15
+
+Four approved neutral ridge variants now replace the procedural ridge chains on Crystal Basin and The Gauntlet. The Gauntlet also gains a less parallel, more obstructed layout: sixteen angled ridges and ten rust-tinted layered boulders, with matching collision. Both maps' thumbnails and [full-map/gameplay-size captures](image-audit/phases/rock-refresh-20261015/README.md) show the actual installed terrain. Ridge art is baked into `groundCv`; the old painter remains a load-failure fallback. Four Gauntlet route smoke checks pass, but the changed M4 terrain needs a real balance playtest.
+
+## Trade Road ridge and lookouts — approved installations, 2026-10-14
+
+The approved dark, overhead bedrock sprite replaces Trade Road's long chain of procedural slabs. Two approved raised-lookout sprites now replace that map's circular plateau/cliff paint, with wider visible approaches at the authored ramp mouths. All three are painted only into `groundCv`; the old painters remain fallbacks and still serve other maps. Colliders, elevation, pathfinding, and mission balance are unchanged. The Trade Road thumbnail is refreshed. [Phase evidence and provenance](image-audit/phases/ridges-20261013/README.md) show gameplay-size and full-map views. Other maps' plateau treatments remain open visual work.
+
+The plateau installation and remaining Evac Coast blocker are tracked in the roster section above.
+
+## Boulder art — three map-specific styles, 2026-10-13
+
+The three selected transparent boulder clusters are installed as new neutral art slots without replacing the legacy `rock.png` fallback. Weathered stone is assigned to Crystal Basin, Fossil Valley, Twin Forks, and Overgrown Basin; layered stone to Strip Mine and Krauss's Bastion; fractured granite to The Silo Fields and Evac Coast. Their old circular ground shadow is replaced with soft contact shading. Each visible sprite fits inside its existing collider, and the art remains baked into `groundCv` with no per-frame drawing or gameplay changes. The [phase record](image-audit/phases/boulders-20261013/README.md) includes a 1:1 eight-map contact sheet, before/after Crystal Basin views, normalized production files, and source/prompt provenance. That boulder pass did not address ridge or cliff art; Trade Road's approved treatments are recorded separately above.
+
+## Cached-terrain roster pass — remaining 12 maps, 2026-10-13
+
+The other 12 authored maps now use the Overgrown Basin/Evac Coast ground painter, each with its own deterministic seed and biome palette. Snow, cold ash, rust badlands, deep moss, dry steppe, quarry spoil, riverbank, night swamp, and fortress earth retain distinct material value and color. Trade Road, Strip Mine, Exodus Road, and Krauss's Bastion use the existing weathered road painter over their unchanged road routes. All 14 map thumbnails now match the cached ground, with the previous 12 preserved for comparison. The ground remains baked into `groundCv`; authored geometry, mission logic, natural-prop and water painters/assets, and per-frame drawing remain unchanged. See the [roster phase record](image-audit/phases/terrain-20261013/README.md) and [full map contact sheet](image-audit/phases/terrain-20261013/contact.jpg). Natural-prop and water artwork are still separate future work.
+
 ## First terrain upgrade — cached soil and roads, 2026-10-01
 
 Overgrown Basin and Evac Coast now use map-seeded material fields in the cached ground renderer. Large, muted moss/earth regions establish the terrain, medium patches add exposed soil and erosion, and low-contrast fine grain avoids competing with the weathered human-tech sprites. These two maps omit the visible tile grid and the legacy random streak/pebble scatter. Evac Coast retains its exact authored road routes while adding irregular blended shoulders, interrupted wheel ruts, compressed lips, and small washouts. Overgrown Basin has no authored roads; none were introduced.

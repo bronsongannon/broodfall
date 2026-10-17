@@ -1,0 +1,164 @@
+{
+  "results": [
+    {
+      "map": "boneyard",
+      "label": "The Boneyard",
+      "coverage": {
+        "visible": 60,
+        "total": 60
+      },
+      "slotReady": true,
+      "baseRoutes": {
+        "vehicle": true,
+        "foot": true
+      },
+      "plateauRoutes": [
+        true,
+        true
+      ]
+    },
+    {
+      "map": "valley",
+      "label": "Fossil Valley",
+      "coverage": {
+        "visible": 61,
+        "total": 61
+      },
+      "slotReady": true,
+      "baseRoutes": {
+        "vehicle": true,
+        "foot": true
+      },
+      "plateauRoutes": [
+        true,
+        true
+      ]
+    },
+    {
+      "map": "fen",
+      "label": "Blackwater Fen",
+      "coverage": {
+        "visible": 26,
+        "total": 26
+      },
+      "slotReady": true,
+      "baseRoutes": {
+        "vehicle": true,
+        "foot": true
+      },
+      "plateauRoutes": [
+        true
+      ]
+    },
+    {
+      "map": "silo",
+      "label": "The Silo Fields",
+      "coverage": {
+        "visible": 51,
+        "total": 51
+      },
+      "slotReady": true,
+      "baseRoutes": {
+        "vehicle": true,
+        "foot": true
+      },
+      "plateauRoutes": [
+        true,
+        true
+      ]
+    },
+    {
+      "map": "mine",
+      "label": "Strip Mine",
+      "coverage": {
+        "visible": 81,
+        "total": 81
+      },
+      "slotReady": true,
+      "baseRoutes": {
+        "vehicle": true,
+        "foot": true
+      },
+      "plateauRoutes": [
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "map": "hwm",
+      "label": "High Water Mark",
+      "coverage": {
+        "visible": 49,
+        "total": 49
+      },
+      "slotReady": true,
+      "baseRoutes": {
+        "vehicle": true,
+        "foot": true
+      },
+      "plateauRoutes": [
+        true,
+        true
+      ]
+    },
+    {
+      "map": "forks",
+      "label": "Twin Forks",
+      "coverage": {
+        "visible": 26,
+        "total": 26
+      },
+      "slotReady": true,
+      "baseRoutes": {
+        "vehicle": true,
+        "foot": true
+      },
+      "plateauRoutes": [
+        true
+      ]
+    },
+    {
+      "map": "overgrown",
+      "label": "Overgrown Basin",
+      "coverage": {
+        "visible": 69,
+        "total": 69
+      },
+      "slotReady": true,
+      "baseRoutes": {
+        "vehicle": true,
+        "foot": true
+      },
+      "plateauRoutes": [
+        true,
+        true
+      ]
+    },
+    {
+      "map": "bastion",
+      "label": "Krauss's Bastion",
+      "coverage": {
+        "visible": 64,
+        "total": 64
+      },
+      "slotReady": true,
+      "baseRoutes": {
+        "vehicle": true,
+        "foot": true
+      },
+      "plateauRoutes": [
+        true,
+        true
+      ]
+    }
+  ],
+  "framePacing": {
+    "samples": 120,
+    "median": 16.69999999999709,
+    "p95": 16.700000000004366,
+    "max": 16.80000000000291,
+    "perfFrame": 16.67152761071172
+  }
+}

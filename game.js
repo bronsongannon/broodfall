@@ -264,6 +264,7 @@ const MAPS = {
     label: 'Crystal Basin',
     desc: 'The classic. Twin rich fields mid-map, each watched by a nest.',
     blurb: 'Classic corners, rich guarded middle',
+    ground: { terrain: { seed: 0xf834edc6, shade: [23, 30, 25], cover: [45, 53, 37], soil: [61, 55, 40], mineral: [79, 74, 56], road: [80, 72, 52] } },
     pHQ: [210, H - 210], pRax: [400, H - 140], pPatch: [260, H - 440],
     eHQ: [W - 210, 210], eRax: [W - 400, 140], eFac: [W - 560, 200],
     eSup: [[W - 300, 100], [W - 150, 340]], eTur: [[W - 350, 330], [W - 480, 220]],
@@ -275,9 +276,11 @@ const MAPS = {
     ],
     // two staggered ridges pinch the middle into an S-shaped corridor
     ridges: [
-      [W * 0.40, H * 0.08, W * 0.50, H * 0.28, 48],
-      [W * 0.50, H * 0.72, W * 0.60, H * 0.92, 48],
+      [W * 0.40 - 26, H * 0.08 + 14, W * 0.50 + 12, H * 0.28 - 8, 48],
+      [W * 0.50 + 18, H * 0.72 + 4, W * 0.60 - 22, H * 0.92 + 18, 48],
     ],
+    ridgeStyle: 'moss',
+    rockStyle: 'weathered',
     boulders: [[W * 0.17, H * 0.46, 55], [W * 0.83, H * 0.54, 55]],
     // corner hills watching each base's approach lane — multi-disc clusters so
     // they read as rolling ground, not stamped circles (clear of M1's
@@ -288,6 +291,14 @@ const MAPS = {
       { c: [[W * 0.88, H * 0.74, 150], [W * 0.88 - 80, H * 0.74 + 85, 105], [W * 0.88 + 95, H * 0.74 - 60, 95]],
         ramps: [[W * 0.88 - 150, H * 0.74, 95]] },
     ],
+    plateauArt: {
+      slot: 'plateau_basin', crop: [17, 92, 1225, 1089],
+      filter: 'brightness(0.75) saturate(0.78)', edge: 18,
+      placements: [
+        [603.4968, 894.7698, 370, 630, -0.2366019],
+        [4057.9044, 2574.6200, 393.75, 595.125, -3.2639402],
+      ],
+    },
     flora: { blotch: 'rgba(90,140,90,0.5)', blotch2: 'rgba(35,65,40,0.55)', tuft: 'rgba(125,190,125,0.5)', bush: '#243a22', bushHi: '#35502e', canopy: '#2a4526', canopyHi: '#3a5c32', clumps: 70 },
     groves: [[W * 0.30, H * 0.72, 110, 6], [W * 0.70, H * 0.28, 110, 6]],
     trees: [[W * 0.63, H * 0.40], [W * 0.08, H * 0.72], [W * 0.92, H * 0.36], [W * 0.35, H * 0.60]],
@@ -298,7 +309,8 @@ const MAPS = {
     label: 'The Gauntlet',
     desc: 'Bases face off across a nest-choked center column. Win the middle, win the game.',
     blurb: 'One brutal mid-map corridor',
-    ground: { base: '#211710', mottle: 'rgba(255,180,110,0.02)', pebble: 'rgba(225,175,120,0.07)', grid: 'rgba(230,185,140,0.026)' },   // rust badlands
+    ground: { base: '#211710', mottle: 'rgba(255,180,110,0.02)', pebble: 'rgba(225,175,120,0.07)', grid: 'rgba(230,185,140,0.026)',
+      terrain: { seed: 0x21869ab3, shade: [34, 23, 18], cover: [59, 42, 30], soil: [82, 58, 37], mineral: [105, 79, 54], road: [99, 75, 54] } },   // rust badlands
     pHQ: [230, H / 2 + 40], pRax: [420, H / 2 + 150], pPatch: [270, H / 2 - 240],
     eHQ: [W - 230, H / 2 - 40], eRax: [W - 420, H / 2 - 150], eFac: [W - 580, H / 2 + 10],
     eSup: [[W - 260, H / 2 + 200], [W - 160, H / 2 - 260]], eTur: [[W - 430, H / 2 + 110], [W - 430, H / 2 - 200]],
@@ -309,12 +321,36 @@ const MAPS = {
       { p: [W / 2, H / 2], n: 9, a: 3000, nests: [[W / 2 - 120, H / 2 - 90]] },
       { p: [W / 2, H - 260], n: 8, a: 2600, nests: [[W / 2 + 100, H - 170]] },
     ],
-    // twin walls with a center gate and edge runs — the gauntlet itself
+    // Broken, nonparallel rock walls and shorter outcrops make the gauntlet
+    // feel like uncharted badlands. The broad central M4 siege approach stays
+    // open, with separate north/south traversals around it.
     ridges: [
-      [W * 0.34, H * 0.16, W * 0.34, H * 0.40, 46],
-      [W * 0.34, H * 0.60, W * 0.34, H * 0.84, 46],
-      [W * 0.66, H * 0.16, W * 0.66, H * 0.40, 46],
-      [W * 0.66, H * 0.60, W * 0.66, H * 0.84, 46],
+      [W * 0.28, H * 0.14, W * 0.37, H * 0.39, 48],
+      [W * 0.35, H * 0.62, W * 0.31, H * 0.86, 44],
+      [W * 0.72, H * 0.18, W * 0.64, H * 0.38, 46],
+      [W * 0.63, H * 0.62, W * 0.71, H * 0.79, 48],
+      [W * 0.09, H * 0.31, W * 0.20, H * 0.36, 38],
+      [W * 0.19, H * 0.70, W * 0.10, H * 0.75, 42],
+      [W * 0.77, H * 0.245, W * 0.88, H * 0.16, 40],
+      [W * 0.79, H * 0.73, W * 0.92, H * 0.765, 40],
+      [W * 0.51, H * 0.27, W * 0.56, H * 0.33, 34],
+      [W * 0.46, H * 0.74, W * 0.54, H * 0.77, 36],
+      [W * 0.21, H * 0.44, W * 0.28, H * 0.39, 33],
+      [W * 0.23, H * 0.57, W * 0.30, H * 0.63, 35],
+      [W * 0.76, H * 0.44, W * 0.69, H * 0.40, 34],
+      [W * 0.74, H * 0.58, W * 0.69, H * 0.65, 35],
+      [W * 0.38, H * 0.26, W * 0.44, H * 0.23, 32],
+      [W * 0.59, H * 0.78, W * 0.65, H * 0.82, 32],
+    ],
+    ridgeStyle: 'rust',
+    rockStyle: 'layered',
+    rockTint: 'brightness(0.55) saturate(0.72)',
+    boulders: [
+      [W * 0.16, H * 0.50, 55], [W * 0.43, H * 0.17, 52],
+      [W * 0.60, H * 0.40, 53], [W * 0.76, H * 0.54, 56],
+      [W * 0.55, H * 0.82, 50], [W * 0.30, H * 0.45, 51],
+      [W * 0.72, H * 0.55, 54], [W * 0.41, H * 0.62, 50],
+      [W * 0.62, H * 0.29, 52], [W * 0.35, H * 0.75, 48],
     ],
     // rolling mesas over the edge runs — hold one and the flanking lane is yours
     plateaus: [
@@ -323,6 +359,14 @@ const MAPS = {
       { c: [[W * 0.78, H * 0.90, 130], [W * 0.78 - 105, H * 0.90 - 55, 95], [W * 0.78 + 115, H * 0.90 - 30, 85]],
         ramps: [[W * 0.78, H * 0.90 - 130, 90]] },
     ],
+    plateauArt: {
+      slot: 'plateau_gauntlet', crop: [10, 234, 1233, 788],
+      filter: 'brightness(0.73) saturate(0.78)', edge: 18,
+      placements: [
+        [1023.1132, 358.9343, 470, 308, 0.08],
+        [3584.8868, 3097.0657, 470, 308, -3.0615927],
+      ],
+    },
     flora: { blotch: 'rgba(210,150,90,0.5)', blotch2: 'rgba(60,35,20,0.55)', tuft: 'rgba(205,175,105,0.45)', bush: '#4a3b20', bushHi: '#63512c', canopy: '#57492a', canopyHi: '#6e5e37', clumps: 34 },
     trees: [[W * 0.15, H * 0.85], [W * 0.42, H * 0.06], [W * 0.61, H * 0.96], [W * 0.85, H * 0.15], [W * 0.12, H * 0.28], [W * 0.88, H * 0.70]],
     // collapsed ground pockmarks the edge runs
@@ -332,7 +376,8 @@ const MAPS = {
     label: 'The Boneyard',
     desc: 'North vs south across three broken lanes — and a monstrously rich middle.',
     blurb: 'Three gates through the bones',
-    ground: { base: '#1b1b1e', mottle: 'rgba(210,215,235,0.016)', pebble: 'rgba(215,215,230,0.075)', grid: 'rgba(185,195,225,0.026)' },   // cold ash flats
+    ground: { base: '#1b1b1e', mottle: 'rgba(210,215,235,0.016)', pebble: 'rgba(215,215,230,0.075)', grid: 'rgba(185,195,225,0.026)',
+      terrain: { seed: 0x255d7a0f, shade: [27, 28, 32], cover: [49, 49, 53], soil: [66, 62, 61], mineral: [88, 83, 81], road: [84, 79, 74] } },   // cold ash flats
     pHQ: [W / 2, H - 200], pRax: [W / 2 + 200, H - 140], pPatch: [W / 2 - 260, H - 380],
     eHQ: [W / 2, 200], eRax: [W / 2 - 200, 140], eFac: [W / 2 - 400, 240],
     eSup: [[W / 2 + 180, 100], [W / 2 - 140, 340]], eTur: [[W / 2 + 260, 330], [W / 2 - 330, 300]],
@@ -359,6 +404,14 @@ const MAPS = {
       { c: [[W * 0.67, H * 0.50, 120], [W * 0.67 - 75, H * 0.50 + 55, 90], [W * 0.67 + 90, H * 0.50 - 55, 80]],
         ramps: [[W * 0.67, H * 0.50 + 120, 80]] },
     ],
+    plateauArt: {
+      slot: 'plateau_ash', crop: [25, 187, 1205, 950],
+      filter: 'brightness(0.72) saturate(0.72)', edge: 18,
+      placements: [
+        [1518.1571, 1722.2130, 410.375, 336, 0.0217357],
+        [3089.8429, 1733.7870, 402, 336, 3.1633284],
+      ],
+    },
     flora: { blotch: 'rgba(180,190,210,0.4)', blotch2: 'rgba(15,15,22,0.55)', tuft: 'rgba(170,180,200,0.35)', bush: '#2c3038', bushHi: '#3d4350', dead: true, clumps: 26 },
     trees: [[W * 0.12, H * 0.14], [W * 0.30, H * 0.85], [W * 0.72, H * 0.12], [W * 0.88, H * 0.86], [W * 0.42, H * 0.50], [W * 0.60, H * 0.78]],
   },
@@ -366,7 +419,8 @@ const MAPS = {
     label: 'Fossil Valley',
     desc: 'Quiet corner expansions — and a mega-field dead center under double nest guard.',
     blurb: 'Twin overlooks, double-nest center',
-    ground: { base: '#121a0e', mottle: 'rgba(160,220,120,0.018)', pebble: 'rgba(155,205,135,0.06)', grid: 'rgba(150,220,150,0.028)' },   // deep moss
+    ground: { base: '#121a0e', mottle: 'rgba(160,220,120,0.018)', pebble: 'rgba(155,205,135,0.06)', grid: 'rgba(150,220,150,0.028)',
+      terrain: { seed: 0x309b1b82, shade: [19, 30, 19], cover: [37, 55, 30], soil: [59, 54, 35], mineral: [78, 72, 48], road: [78, 69, 46] } },   // deep moss
     // twin overlooks flanking the center approaches — artillery perches with
     // one ramp each (N ramp faces west, S ramp faces east); second disc rolls
     // each one out into a hill line instead of a stamped circle
@@ -374,6 +428,14 @@ const MAPS = {
       { c: [[W * 0.5, H * 0.13, 150], [W * 0.5 + 115, H * 0.13 + 55, 105]], ramps: [[W * 0.5 - 150, H * 0.13, 95]] },
       { c: [[W * 0.5, H * 0.87, 150], [W * 0.5 - 115, H * 0.87 - 55, 105]], ramps: [[W * 0.5 + 150, H * 0.87, 95]] },
     ],
+    plateauArt: {
+      slot: 'plateau_green_dual', crop: [11, 189, 1233, 876],
+      filter: 'brightness(0.74) saturate(0.78)', edge: 18,
+      placements: [
+        [2339.5799, 454.2957, 453.25, 472.75, -3.4251186],
+        [2268.4201, 3001.7043, 453.25, 472.75, -0.2835259],
+      ],
+    },
     // Valley is the only map whose player base sits in the BOTTOM-RIGHT corner,
     // which is exactly where the command panel lives (394x242 from the corner) —
     // the HQ and barracks were unclickable underneath it (Bronson, 2026-07-29,
@@ -397,6 +459,7 @@ const MAPS = {
       [W * 0.37, H * 0.63, W * 0.44, H * 0.71, 44],
       [W * 0.56, H * 0.71, W * 0.63, H * 0.63, 44],
     ],
+    rockStyle: 'weathered',
     boulders: [[W * 0.25, H * 0.25, 60], [W * 0.75, H * 0.75, 60]],
     flora: { blotch: 'rgba(110,190,110,0.5)', blotch2: 'rgba(25,55,28,0.55)', tuft: 'rgba(135,210,135,0.55)', bush: '#1e3d1c', bushHi: '#2f5a2a', canopy: '#1d3f1b', canopyHi: '#2e5827', clumps: 100 },
     groves: [[W * 0.12, H * 0.60, 120, 7], [W * 0.88, H * 0.40, 120, 7]],
@@ -413,7 +476,8 @@ const MAPS = {
     // the ambush trigger [2200,1250], danger (field B's nests) sits on the
     // straight diagonal — "swing EAST" stays true here. Bases mirror basin's
     // known-good corner blocks.
-    ground: { base: '#201b10', mottle: 'rgba(235,200,120,0.022)', pebble: 'rgba(225,195,130,0.07)', grid: 'rgba(220,190,130,0.024)', hi: 'rgba(240,230,190,0.10)' },
+    ground: { base: '#201b10', mottle: 'rgba(235,200,120,0.022)', pebble: 'rgba(225,195,130,0.07)', grid: 'rgba(220,190,130,0.024)', hi: 'rgba(240,230,190,0.10)',
+      terrain: { seed: 0x51366e59, shade: [31, 29, 20], cover: [59, 55, 36], soil: [86, 72, 45], mineral: [113, 98, 63], road: [102, 85, 54] } },
     pHQ: [210, H - 210], pRax: [400, H - 140], pPatch: [260, H - 440],
     eHQ: [W - 210, 210], eRax: [W - 400, 140], eFac: [W - 560, 200],
     eSup: [[W - 300, 100], [W - 150, 340]], eTur: [[W - 350, 330], [W - 480, 220]],
@@ -426,6 +490,8 @@ const MAPS = {
     ],
     // one ridge breaks the shortcut diagonal; the road threads south of it
     ridges: [[1700, 780, 2050, 1050, 46]],
+    ridgeStyle: 'bedrock',
+    plateauStyle: 'lookout',
     // the haul road itself — painted packed earth with wheel ruts
     roads: [[[380, 2050], [1450, 1720], [2200, 1250], [2500, 880], [2760, 520]]],
     // road overlooks: the bend watch (south) and the Beta overlook (north)
@@ -447,7 +513,8 @@ const MAPS = {
     // roster map #5 (M5 Ghost Survey's home). Twin water bands make three
     // belts; four causeways are the only ground routes. Mid-belt holds all
     // the neutral crystal — every fight funnels onto a bridge.
-    ground: { base: '#0d1410', mottle: 'rgba(140,180,140,0.02)', pebble: 'rgba(120,160,130,0.05)', grid: 'rgba(120,190,160,0.022)', hi: 'rgba(200,230,200,0.08)' },
+    ground: { base: '#0d1410', mottle: 'rgba(140,180,140,0.02)', pebble: 'rgba(120,160,130,0.05)', grid: 'rgba(120,190,160,0.022)', hi: 'rgba(200,230,200,0.08)',
+      terrain: { seed: 0xc902ba2e, shade: [15, 24, 20], cover: [34, 44, 34], soil: [52, 49, 37], mineral: [68, 68, 51], road: [71, 66, 48] } },
     pHQ: [210, H - 210], pRax: [400, H - 140], pPatch: [260, H - 440],
     eHQ: [W - 210, 210], eRax: [W - 400, 140], eFac: [W - 560, 200],
     eSup: [[W - 300, 100], [W - 150, 340]], eTur: [[W - 350, 330], [W - 480, 220]],
@@ -466,6 +533,11 @@ const MAPS = {
     plateaus: [
       { c: [[1536, 1850, 110], [1640, 1920, 80]], ramps: [[1426, 1820, 75]] },
     ],
+    plateauArt: {
+      slot: 'plateau_wet', crop: [42, 171, 1192, 956],
+      filter: 'brightness(0.73) saturate(0.75)', edge: 18,
+      placements: [[1573.3871, 1870.1317, 382.2, 351, -5.3289598]],
+    },
     flora: { blotch: 'rgba(60,120,80,0.5)', blotch2: 'rgba(8,18,12,0.6)', tuft: 'rgba(120,190,110,0.5)', bush: '#16301a', bushHi: '#28492a', canopy: '#14331e', canopyHi: '#245231', clumps: 110 },
     groves: [[500, 1050, 110, 6], [2550, 1250, 110, 6]],
     trees: [[1250, 350], [1850, 1950], [2900, 1650], [350, 600]],
@@ -479,7 +551,8 @@ const MAPS = {
     // roster map #6 (M6 Countdown's home). Deliberately OPEN: two short
     // center ridge stubs and scattered drift cover only — armies meet in
     // the white with nowhere to hide.
-    ground: { base: '#343b42', mottle: 'rgba(255,255,255,0.03)', pebble: 'rgba(230,240,250,0.08)', grid: 'rgba(200,220,240,0.03)', hi: 'rgba(255,255,255,0.14)' },
+    ground: { base: '#343b42', mottle: 'rgba(255,255,255,0.03)', pebble: 'rgba(230,240,250,0.08)', grid: 'rgba(200,220,240,0.03)', hi: 'rgba(255,255,255,0.14)',
+      terrain: { seed: 0x0dcdd658, shade: [52, 62, 69], cover: [105, 121, 127], soil: [143, 150, 146], mineral: [180, 190, 185], road: [123, 126, 119] } },
     pHQ: [230, H / 2 + 40], pRax: [420, H / 2 + 150], pPatch: [270, H / 2 - 240],
     eHQ: [W - 230, H / 2 - 40], eRax: [W - 420, H / 2 - 150], eFac: [W - 580, H / 2 + 10],
     eSup: [[W - 260, H / 2 + 200], [W - 160, H / 2 - 260]], eTur: [[W - 430, H / 2 + 110], [W - 430, H / 2 - 200]],
@@ -494,12 +567,21 @@ const MAPS = {
       [W * 0.5, H * 0.30, W * 0.5, H * 0.14, 44],
       [W * 0.5, H * 0.70, W * 0.5, H * 0.86, 44],
     ],
+    rockStyle: 'granite',
     boulders: [[W * 0.30, H * 0.42, 50], [W * 0.70, H * 0.58, 50]],
     // silo bluffs — the two firing platforms this mission is named for
     plateaus: [
       { c: [[W * 0.22, H * 0.76, 130], [W * 0.22 + 80, H * 0.76 + 60, 90]], ramps: [[W * 0.22, H * 0.76 - 130, 85]] },
       { c: [[W * 0.78, H * 0.24, 130], [W * 0.78 - 80, H * 0.24 - 60, 90]], ramps: [[W * 0.78, H * 0.24 + 130, 85]] },
     ],
+    plateauArt: {
+      slot: 'plateau_snow', crop: [21, 165, 1217, 1012],
+      filter: 'brightness(0.72) saturate(0.73)', edge: 18,
+      placements: [
+        [1029.0405, 2646.0008, 315, 406, -3.2434897],
+        [3572.9957, 810.7298, 300, 406, -0.1418971],
+      ],
+    },
     flora: { blotch: 'rgba(235,245,255,0.5)', blotch2: 'rgba(25,32,45,0.5)', tuft: 'rgba(180,175,140,0.45)', bush: '#3d4a42', bushHi: '#55645a', canopy: '#5c7a74', canopyHi: '#9db8b2', clumps: 30 },
     groves: [[W * 0.35, H * 0.65, 100, 5], [W * 0.65, H * 0.35, 100, 5]],
     trees: [[W * 0.12, H * 0.20], [W * 0.88, H * 0.80], [W * 0.45, H * 0.06], [W * 0.55, H * 0.94]],
@@ -512,7 +594,8 @@ const MAPS = {
     // roster map #8 (M8 Strip Mine / M16 Lin's Gambit). Two terraced benches
     // flank the center pit; their ramps + haul roads are the ways down to
     // the richest field in the game.
-    ground: { base: '#1c1814', mottle: 'rgba(200,160,120,0.02)', pebble: 'rgba(190,170,150,0.07)', grid: 'rgba(200,170,140,0.024)', hi: 'rgba(230,215,190,0.11)' },
+    ground: { base: '#1c1814', mottle: 'rgba(200,160,120,0.02)', pebble: 'rgba(190,170,150,0.07)', grid: 'rgba(200,170,140,0.024)', hi: 'rgba(230,215,190,0.11)',
+      terrain: { seed: 0x7e89edb6, shade: [29, 25, 21], cover: [59, 49, 39], soil: [89, 71, 51], mineral: [112, 94, 69], road: [97, 80, 57] } },
     pHQ: [W / 2, H - 200], pRax: [W / 2 + 200, H - 140], pPatch: [W / 2 - 260, H - 380],
     eHQ: [W / 2, 200], eRax: [W / 2 - 200, 140], eFac: [W / 2 - 400, 240],
     eSup: [[W / 2 + 180, 100], [W / 2 - 140, 340]], eTur: [[W / 2 + 260, 330], [W / 2 - 330, 300]],
@@ -523,12 +606,21 @@ const MAPS = {
       { p: [W * 0.14, H * 0.62], n: 7, a: 2300, nests: [[W * 0.14 + 110, H * 0.62 - 110]] },
       { p: [W * 0.86, H * 0.38], n: 7, a: 2300, nests: [[W * 0.86 - 110, H * 0.38 + 110]] },
     ],
+    rockStyle: 'layered',
     boulders: [[W * 0.08, H * 0.10, 55], [W * 0.92, H * 0.90, 55]],
     // the benches: terraced spoil heaps overlooking the motherlode
     plateaus: [
       { c: [[1044, 1014, 140], [1167, 783, 110]], ramps: [[940, 1115, 85], [1245, 705, 85]] },
       { c: [[2028, 1290, 140], [1905, 1521, 110]], ramps: [[2132, 1189, 85], [1827, 1599, 85]] },
     ],
+    plateauArt: {
+      slot: 'plateau_quarry', crop: [15, 16, 1089, 1377],
+      filter: 'brightness(0.75) saturate(0.78)', edge: 32,
+      placements: [
+        [1203.2113, 801.2905, 680.725, 793.65, 0.0143724],
+        [2008.6089, 1294.4381, 559.5, 709.475, -0.1052854],
+      ],
+    },
     roads: [
       [[1536, 320], [1300, 600], [1245, 705]],
       [[1536, 1984], [1772, 1704], [1827, 1599]],
@@ -545,7 +637,8 @@ const MAPS = {
     // roster map #7 (M7, the Act 1 finale). The river runs the map's full
     // height; both causeways are assault funnels — or build a Hydro Dam and
     // walk your infantry over where they least expect it.
-    ground: { base: '#141c11', mottle: 'rgba(170,220,140,0.02)', pebble: 'rgba(170,205,150,0.06)', grid: 'rgba(160,220,170,0.026)', hi: 'rgba(215,240,205,0.10)' },
+    ground: { base: '#141c11', mottle: 'rgba(170,220,140,0.02)', pebble: 'rgba(170,205,150,0.06)', grid: 'rgba(160,220,170,0.026)', hi: 'rgba(215,240,205,0.10)',
+      terrain: { seed: 0xe7875977, shade: [23, 31, 22], cover: [47, 55, 36], soil: [69, 60, 41], mineral: [86, 79, 56], road: [85, 77, 52] } },
     pHQ: [230, H / 2 + 40], pRax: [420, H / 2 + 150], pPatch: [270, H / 2 - 240],
     eHQ: [W - 230, H / 2 - 40], eRax: [W - 420, H / 2 - 150], eFac: [W - 580, H / 2 + 10],
     eSup: [[W - 260, H / 2 + 200], [W - 160, H / 2 - 260]], eTur: [[W - 430, H / 2 + 110], [W - 430, H / 2 - 200]],
@@ -571,6 +664,14 @@ const MAPS = {
       { c: [[W * 0.37, H * 0.30, 120], [W * 0.37 + 70, H * 0.30 + 80, 85]], ramps: [[W * 0.37 - 60, H * 0.30 + 105, 80]] },
       { c: [[W * 0.63, H * 0.70, 120], [W * 0.63 - 70, H * 0.70 - 80, 85]], ramps: [[W * 0.63 + 60, H * 0.70 - 105, 80]] },
     ],
+    plateauArt: {
+      slot: 'plateau_wet', crop: [42, 171, 1192, 956],
+      filter: 'brightness(0.73) saturate(0.75)', edge: 32,
+      placements: [
+        [1798.0737, 1023.7904, 453.75, 470.25, 0.0281006],
+        [2807.2238, 2424.6496, 453.75, 456, -3.0885186],
+      ],
+    },
     flora: { blotch: 'rgba(120,200,110,0.5)', blotch2: 'rgba(15,35,15,0.55)', tuft: 'rgba(150,220,130,0.5)', bush: '#1c4018', bushHi: '#31612a', canopy: '#1b4517', canopyHi: '#2f6626', clumps: 95 },
     groves: [[W * 0.30, H * 0.52, 105, 6], [W * 0.70, H * 0.48, 105, 6]],
     trees: [[W * 0.12, H * 0.14], [W * 0.88, H * 0.86], [W * 0.42, H * 0.90], [W * 0.58, H * 0.10]],
@@ -581,7 +682,8 @@ const MAPS = {
     blurb: 'Forked ridges, every attack guesses',
     // roster map #11 (M11 Strange Bedfellows). The SE flat + its own patch is
     // the second base pocket — the mission parks the allied red HQ there.
-    ground: { base: '#161a17', mottle: 'rgba(190,215,190,0.02)', pebble: 'rgba(190,210,195,0.06)', grid: 'rgba(180,215,195,0.026)', hi: 'rgba(225,240,225,0.11)' },
+    ground: { base: '#161a17', mottle: 'rgba(190,215,190,0.02)', pebble: 'rgba(190,210,195,0.06)', grid: 'rgba(180,215,195,0.026)', hi: 'rgba(225,240,225,0.11)',
+      terrain: { seed: 0x77bd0d16, shade: [25, 31, 27], cover: [49, 57, 46], soil: [68, 64, 51], mineral: [89, 86, 67], road: [82, 77, 59] } },
     pHQ: [W * 0.30, H - 210], pRax: [W * 0.30 + 190, H - 140], pPatch: [W * 0.30 - 250, H - 400],
     eHQ: [W / 2, 200], eRax: [W / 2 - 200, 140], eFac: [W / 2 - 400, 240],
     eSup: [[W / 2 + 180, 100], [W / 2 - 140, 340]], eTur: [[W / 2 + 260, 330], [W / 2 - 330, 300]],
@@ -599,12 +701,18 @@ const MAPS = {
       [W * 0.80, H * 0.24, W * 0.56, H * 0.48, 46],
       [W * 0.50, H * 0.70, W * 0.50, H * 0.86, 44],
     ],
+    rockStyle: 'weathered',
     boulders: [[W * 0.08, H * 0.78, 55], [W * 0.92, H * 0.20, 55]],
     // the junction overlook, SW of the mega-field — sees both prongs and the
     // fork mouth without sitting on the crystal (that broke the 200px rule)
     plateaus: [
       { c: [[W * 0.42, H * 0.66, 125], [W * 0.42 - 90, H * 0.66 + 55, 85]], ramps: [[W * 0.42 + 110, H * 0.66 + 60, 80]] },
     ],
+    plateauArt: {
+      slot: 'plateau_green_dual', crop: [11, 189, 1233, 876],
+      filter: 'brightness(0.74) saturate(0.78)', edge: 18,
+      placements: [[1917.2869, 2278.9528, 337.5, 450.5, 0.0611845]],
+    },
     flora: { blotch: 'rgba(160,200,160,0.45)', blotch2: 'rgba(18,26,20,0.55)', tuft: 'rgba(170,210,160,0.45)', bush: '#26382a', bushHi: '#3d5a42', canopy: '#234020', canopyHi: '#3a6033', clumps: 70 },
     groves: [[W * 0.16, H * 0.62, 105, 6], [W * 0.84, H * 0.62, 105, 6]],
     trees: [[W * 0.35, H * 0.10], [W * 0.65, H * 0.90], [W * 0.06, H * 0.30], [W * 0.94, H * 0.72]],
@@ -631,6 +739,7 @@ const MAPS = {
       [W * 0.40, H * 0.08, W * 0.50, H * 0.28, 48],
       [W * 0.50, H * 0.72, W * 0.60, H * 0.92, 48],
     ],
+    rockStyle: 'weathered',
     boulders: [[W * 0.17, H * 0.46, 55], [W * 0.83, H * 0.54, 55]],
     plateaus: [
       { c: [[W * 0.13, H * 0.26, 150], [W * 0.13 + 90, H * 0.26 + 70, 110], [W * 0.13 - 70, H * 0.26 - 80, 100]],
@@ -638,6 +747,14 @@ const MAPS = {
       { c: [[W * 0.88, H * 0.74, 150], [W * 0.88 - 80, H * 0.74 + 85, 105], [W * 0.88 + 95, H * 0.74 - 60, 95]],
         ramps: [[W * 0.88 - 150, H * 0.74, 95]] },
     ],
+    plateauArt: {
+      slot: 'plateau_basin', crop: [17, 92, 1225, 1089],
+      filter: 'brightness(0.75) saturate(0.78)', edge: 18,
+      placements: [
+        [609.7322, 892.9847, 351.5, 666, -0.2506942],
+        [4057.8638, 2574.9772, 393.75, 595.125, -3.2616032],
+      ],
+    },
     flora: { blotch: 'rgba(90,180,90,0.5)', blotch2: 'rgba(10,25,10,0.6)', tuft: 'rgba(140,220,120,0.55)', bush: '#173a14', bushHi: '#2c5c24', canopy: '#153d12', canopyHi: '#2a6320', clumps: 135 },
     // the jungle is winning: basin's groves doubled + strays everywhere
     groves: [[W * 0.30, H * 0.72, 110, 7], [W * 0.70, H * 0.28, 110, 7], [1650, 250, 100, 5], [1400, 2050, 100, 5]],
@@ -655,7 +772,8 @@ const MAPS = {
     // water channels wall both sides, ridge bluffs double the worst stretches,
     // and a flare line burns across the middle leg (thread the gaps or pay).
     // Two elbows = two chokes; two pocket fields reward stepping off the road.
-    ground: { base: '#0b1210', mottle: 'rgba(90,140,120,0.02)', pebble: 'rgba(110,150,135,0.05)', grid: 'rgba(90,160,140,0.02)', hi: 'rgba(170,210,195,0.08)' },
+    ground: { base: '#0b1210', mottle: 'rgba(90,140,120,0.02)', pebble: 'rgba(110,150,135,0.05)', grid: 'rgba(90,160,140,0.02)', hi: 'rgba(170,210,195,0.08)',
+      terrain: { seed: 0xe1fa83b3, shade: [14, 24, 21], cover: [31, 44, 38], soil: [53, 52, 42], mineral: [72, 71, 56], road: [76, 69, 53] } },
     pHQ: [W * 0.10, H * 0.84], pRax: [W * 0.16, H * 0.79], pPatch: [W * 0.15, H * 0.75],
     eHQ: [W * 0.90, H * 0.12], eRax: [W * 0.84, H * 0.16], eFac: [W * 0.81, H * 0.10],
     eSup: [[W * 0.94, H * 0.17], [W * 0.86, H * 0.07]], eTur: [[W * 0.85, H * 0.21], [W * 0.79, H * 0.14]],
@@ -746,8 +864,14 @@ const MAPS = {
       [[W * 0.84, H * 0.50], [W * 0.86, H * 0.32], [W * 0.86, H * 0.17]],
     ],
     plateaus: [
-      { c: [[W * 0.57, H * 0.50, 135], [W * 0.55, H * 0.46, 90]], ramps: [[W * 0.65, H * 0.50, 88]] },
+      { c: [[W * 0.57, H * 0.50, 135], [W * 0.55, H * 0.46, 90]], ramps: [[W * 0.60, H * 0.50, 88]] },
     ],
+    plateauArt: {
+      slot: 'plateau_coast', crop: [37, 158, 1196, 955],
+      filter: 'brightness(0.72) saturate(0.75)', edge: 18,
+      placements: [[2604.3790, 1681.7830, 420.237, 635.67, 0.0889506]],
+    },
+    rockStyle: 'granite',
     boulders: [[W * 0.09, H * 0.28, 55], [W * 0.50, H * 0.92, 52], [W * 0.68, H * 0.12, 48]],
     flora: { blotch: 'rgba(120,155,140,0.46)', blotch2: 'rgba(15,25,23,0.58)', tuft: 'rgba(155,180,150,0.46)', bush: '#24362e', bushHi: '#3d5548', canopy: '#223a31', canopyHi: '#39584a', clumps: 75 },
     groves: [[W * 0.10, H * 0.48, 105, 6], [W * 0.50, H * 0.10, 100, 5], [W * 0.51, H * 0.90, 95, 5]],
@@ -764,7 +888,8 @@ const MAPS = {
     // lane — flanking walls that funnel attackers down a covered chute.
     // The eastern pass (SE of the city, opening on the east edge) is M10's
     // evacuation route; skirmish reads it as a flanking lane.
-    ground: { base: '#191013', mottle: 'rgba(220,130,110,0.02)', pebble: 'rgba(210,150,130,0.06)', grid: 'rgba(220,150,130,0.024)', hi: 'rgba(235,180,160,0.08)' },
+    ground: { base: '#191013', mottle: 'rgba(220,130,110,0.02)', pebble: 'rgba(210,150,130,0.06)', grid: 'rgba(220,150,130,0.024)', hi: 'rgba(235,180,160,0.08)',
+      terrain: { seed: 0x24330def, shade: [32, 22, 22], cover: [58, 42, 37], soil: [83, 60, 46], mineral: [106, 80, 58], road: [103, 76, 55] } },
     pHQ: [W * 0.10, H * 0.84], pRax: [W * 0.17, H * 0.79], pPatch: [W * 0.13, H * 0.73],
     eHQ: [W * 0.84, H * 0.13], eRax: [W * 0.77, H * 0.19], eFac: [W * 0.73, H * 0.10],
     eSup: [[W * 0.90, H * 0.21], [W * 0.79, H * 0.055]], eTur: [[W * 0.71, H * 0.17], [W * 0.815, H * 0.33]],
@@ -792,6 +917,7 @@ const MAPS = {
       [W * 0.34, H * 0.28, W * 0.44, H * 0.36, 44],
       [W * 0.28, H * 0.60, W * 0.40, H * 0.545, 44],
     ],
+    rockStyle: 'layered',
     boulders: [[W * 0.52, H * 0.88, 52], [W * 0.09, H * 0.30, 48]],
     // burning ground on the diagonal shortcut toward gate W — pay or go around
     vents: [[W * 0.50, H * 0.30, 85], [W * 0.545, H * 0.335, 85]],
@@ -806,6 +932,14 @@ const MAPS = {
       { c: [[W * 0.60, H * 0.53, 140], [W * 0.62, H * 0.505, 100]], ramps: [[W * 0.566, H * 0.545, 90]] },
       { c: [[W * 0.24, H * 0.40, 135], [W * 0.215, H * 0.435, 95]], ramps: [[W * 0.27, H * 0.44, 88]] },
     ],
+    plateauArt: {
+      slot: 'plateau_gauntlet', crop: [10, 234, 1233, 788],
+      filter: 'brightness(0.73) saturate(0.78)', edge: 18,
+      placements: [
+        [2794.5744, 1806.9631, 423.504, 530.4, 1.1811760],
+        [1069.3173, 1423.4345, 457.39, 526.44, -1.0633888],
+      ],
+    },
     roads: [
       [[W * 0.10, H * 0.84], [W * 0.38, H * 0.62], [W * 0.66, H * 0.56], [W * 0.81, H * 0.40], [W * 0.84, H * 0.22]],
       [[W * 0.48, H * 0.17], [W * 0.66, H * 0.17], [W * 0.78, H * 0.15]],
@@ -2766,7 +2900,11 @@ const OPT_ART_REV = 'human-soldiers-20260911b';
   for (const k in UNIT) names.push('unit_' + k);   // unit_marine.png, unit_tank.png, …
   for (const k in BLD) if (k !== 'nest' && k !== 'den' && k !== 'corrupt') names.push('bld_' + k);   // corrupt reuses its captured shell art
   names.push('unit_marine_hunker', 'unit_sniper_hunker', 'unit_artillery_hunker');   // dug-in poses
-  names.push('rock', 'crystal');   // terrain art (natural colors, not tinted)
+  names.push('rock', 'rock_weathered', 'rock_layered', 'rock_granite', 'ridge_bedrock',
+    'ridge_moss_a', 'ridge_moss_b', 'ridge_rust_a', 'ridge_rust_b',
+    'plateau_basin', 'plateau_gauntlet', 'plateau_ash', 'plateau_green_dual',
+    'plateau_wet', 'plateau_snow', 'plateau_quarry', 'plateau_coast',
+    'lookout_trade_east', 'lookout_trade_northwest', 'crystal');   // neutral terrain art, not team-tinted
   names.push('tree', 'tree_dead', 'spire', 'bones', 'pit', 'water', 'water2', 'water3', 'water4');   // terrain + seamless water tile frames
   // pre-colored colorway slots (STYLE-GUIDE.md production pipeline): drawn AS-IS,
   // no team tint. _teal = team 1, _red = team 2, _wild = untamed dinos.
@@ -2791,13 +2929,20 @@ const OPT_ART_REV = 'human-soldiers-20260911b';
   }
   // terrain art is baked into the pre-rendered ground canvas — if one of these
   // finishes loading AFTER setup() painted it (cold load), repaint the ground
-  const TERRAIN_SLOTS = new Set(['rock', 'tree', 'tree_dead', 'spire', 'bones', 'pit', 'water']);
+  const TERRAIN_SLOTS = new Set(['rock', 'rock_weathered', 'rock_layered', 'rock_granite', 'ridge_bedrock',
+    'ridge_moss_a', 'ridge_moss_b', 'ridge_rust_a', 'ridge_rust_b',
+    'plateau_basin', 'plateau_gauntlet', 'plateau_ash', 'plateau_green_dual',
+    'plateau_wet', 'plateau_snow', 'plateau_quarry', 'plateau_coast',
+    'lookout_trade_east', 'lookout_trade_northwest', 'tree', 'tree_dead', 'spire', 'bones', 'pit', 'water']);
   for (const n of names) {
     const i = new Image();
     OPT[n] = { img: i, ok: false };
     i.onload = () => {
       OPT[n].ok = true;
-      if (TERRAIN_SLOTS.has(n) && groundM) paintGround(groundM);
+      const tradeLookout = n === 'lookout_trade_east' || n === 'lookout_trade_northwest';
+      if (TERRAIN_SLOTS.has(n) && groundM &&
+          (!tradeLookout || (groundM.plateauStyle === 'lookout' &&
+            OPT.lookout_trade_east.ok && OPT.lookout_trade_northwest.ok))) paintGround(groundM);
     };
     i.onerror = () => { OPT[n].err = true; };   // settled-absent, distinct from still-loading
     i.src = 'assets/sprites/' + n + '.png?v=' + OPT_ART_REV;
@@ -7066,8 +7211,36 @@ function paintRidges(g, M) {
   // off the centerline. One continuous band ALWAYS reads as a worm; multiple
   // interlocking masses read as a rock formation. Three passes across the
   // whole cluster (shadows, faces, tops) so overlaps merge into one landform.
-  for (const [x1, y1, x2, y2, r] of ((M && M.ridges) || [])) {
+  for (const [ridgeIndex, [x1, y1, x2, y2, r]] of (((M && M.ridges) || []).entries())) {
     const L = Math.max(1, dist(x1, y1, x2, y2));
+    const style = M && M.ridgeStyle;
+    const pair = (style === 'moss' || style === 'rust') &&
+      opt('ridge_' + style + '_a') && opt('ridge_' + style + '_b');
+    if (pair) {
+      const variant = ridgeIndex % 2 ? 'b' : 'a';
+      const art = opt('ridge_' + style + '_' + variant);
+      const crop = style === 'moss'
+        ? (variant === 'a' ? [8, 151, 2154, 421] : [7, 148, 2157, 443])
+        : (variant === 'a' ? [14, 143, 2140, 452] : [10, 167, 2150, 383]);
+      g.save();
+      g.translate((x1 + x2) / 2, (y1 + y2) / 2);
+      g.rotate(Math.atan2(y2 - y1, x2 - x1));
+      if (ridgeIndex % 4 >= 2) g.scale(1, -1);
+      g.filter = style === 'moss' ? 'brightness(0.75) saturate(0.85)' : 'brightness(0.74) saturate(0.85)';
+      // The capsule collider extends by r beyond each segment endpoint.
+      g.drawImage(art, ...crop, -L / 2 - r, -r, L + r * 2, r * 2);
+      g.restore();
+      continue;
+    }
+    const bedrock = M && M.ridgeStyle === 'bedrock' && opt('ridge_bedrock');
+    if (bedrock) {
+      g.save();
+      g.translate((x1 + x2) / 2, (y1 + y2) / 2);
+      g.rotate(Math.atan2(y2 - y1, x2 - x1));
+      g.drawImage(bedrock, -L / 2, -r, L, r * 2);
+      g.restore();
+      continue;
+    }
     const ax = (x2 - x1) / L, ay = (y2 - y1) / L;
     const nx = -ay, ny = ax;
     const seed = (x1 * 0.7 + y1 * 1.3) % 100;
@@ -7236,7 +7409,8 @@ function ventSpots(vx, vy, vr) {
   }
   return spots;
 }
-function paintRock(g, rk, flo) {
+const ROCK_ART_SCALE = { weathered: 3.3, layered: 2.08, granite: 2.15 };
+function paintRock(g, rk, flo, rockStyle, rockFilter) {
   if (rk.water) return;   // water colliders are invisible — the band is painted in paintGround
   if (rk.ridge) return;   // ridge chains paint as one continuous wall in paintRidges
   if (rk.tree) return paintTree(g, rk, flo || {});
@@ -7388,15 +7562,26 @@ function paintRock(g, rk, flo) {
     g.fillStyle = grad; blob(rk.r * 0.95, 0.12); g.fill();
     return;
   }
-  g.fillStyle = 'rgba(0,0,0,0.35)';   // ground shadow
-  g.beginPath(); g.ellipse(rk.x + 5, rk.y + 7, rk.r * 1.02, rk.r * 0.88, 0, 0, Math.PI * 2); g.fill();
-  const img = opt('rock');
+  // The authored boulders are natural ground props, not raised platforms.
+  // Keep only a soft contact shadow, never the old solid circular puck.
+  const shadow = g.createRadialGradient(rk.x + 2, rk.y + 4, rk.r * 0.2, rk.x + 2, rk.y + 4, rk.r * 1.1);
+  shadow.addColorStop(0, 'rgba(0,0,0,0.24)');
+  shadow.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = shadow;
+  g.beginPath(); g.ellipse(rk.x + 2, rk.y + 4, rk.r * 1.1, rk.r * 0.85, 0, 0, Math.PI * 2); g.fill();
+  const style = rockStyle || 'weathered';
+  const authored = opt('rock_' + style);
+  const img = authored || opt('rock');
   if (img) {
-    const s = rk.r * 2.3;
+    // Source canvases have different transparent margins. Scale the visible
+    // stone, preserving its aspect and keeping it within the collider.
+    const w = rk.r * (authored ? ROCK_ART_SCALE[style] || 2.3 : 2.3);
+    const h = w * img.height / img.width;
     g.save();
     g.translate(rk.x, rk.y);
-    g.rotate((rk.x * 7.3 + rk.y * 13.7) % (Math.PI * 2));   // stable variety per rock
-    g.drawImage(img, -s / 2, -s / 2, s, s);
+    if (!authored) g.rotate((rk.x * 7.3 + rk.y * 13.7) % (Math.PI * 2));
+    if (authored && rockFilter) g.filter = rockFilter;
+    g.drawImage(img, -w / 2, -h / 2, w, h);
     g.restore();
     return;
   }
@@ -7624,8 +7809,9 @@ function paintLegacySoil(g, pal, flo, area) {
   }
 }
 function paintGround(M) {
-  // Per-map opt-in keeps this first terrain pass limited to Overgrown Basin
-  // and Evac Coast. Props, water, elevation and gameplay grids stay separate.
+  // Every authored map has a seeded soil palette. The legacy fallback only
+  // serves the pre-menu backdrop and future maps without one; props, water,
+  // elevation and gameplay grids stay separate from the material pass.
   const pal = (M && M.ground) || {};
   const flo = (M && M.flora) || {};
   const g = groundCv.getContext('2d');
@@ -7750,6 +7936,12 @@ function paintGround(M) {
       g.fill(waterShapePath(seg, pts, DEPTH[di][0], di < 4));
     }
   }
+  const eastLookout = M && M.plateauStyle === 'lookout' && opt('lookout_trade_east');
+  const northwestLookout = M && M.plateauStyle === 'lookout' && opt('lookout_trade_northwest');
+  const lookoutReady = eastLookout && northwestLookout;
+  const plateauArt = M && M.plateauArt;
+  const fittedPlateau = plateauArt && opt(plateauArt.slot);
+  const authoredPlateauReady = lookoutReady || fittedPlateau;
   // raised ground: soft-shouldered hills, not stamped discs (playtest: the
   // circle-plus-rim look read as "dropped-in outposts"). Each disc becomes a
   // wobbled dome with a radial-gradient slope; overlapping discs merge into
@@ -7765,7 +7957,7 @@ function paintGround(M) {
     }
     g.closePath();
   };
-  for (const pl of ((M && M.plateaus) || [])) {
+  for (const pl of (authoredPlateauReady ? [] : ((M && M.plateaus) || []))) {
     for (const [px, py, pr] of pl.c) {          // settling shadow downhill
       g.fillStyle = 'rgba(0,0,0,0.18)';
       hillBlob(px + 9, py + 13, pr * 1.06, 0.07); g.fill();
@@ -7807,7 +7999,32 @@ function paintGround(M) {
     : M;
   paintRidges(g, MM);
   paintVents(g, MM);
-  for (const rk of rocks) paintRock(g, rk, flo);
+  for (const rk of rocks) if (!authoredPlateauReady || !rk.cliff) paintRock(g, rk, flo, M && M.rockStyle, M && M.rockTint);
+  if (fittedPlateau) {
+    // The low repeated edge pass closes tiny transparent notches between the
+    // approved sprite and its unchanged cliff chain. It is baked once here;
+    // elevation, ramp clearance, collision, and the frame renderer are untouched.
+    const [sx, sy, sw, sh] = plateauArt.crop;
+    for (const [x, y, w, h, a] of plateauArt.placements) {
+      g.save();
+      g.translate(x, y); g.rotate(a); g.filter = plateauArt.filter;
+      g.globalAlpha = 0.55;
+      for (let d = 0; d < 8; d++) {
+        const da = d * Math.PI / 4, edge = plateauArt.edge || 0;
+        g.drawImage(fittedPlateau, sx, sy, sw, sh,
+          -w / 2 + Math.cos(da) * edge, -h / 2 + Math.sin(da) * edge, w, h);
+      }
+      g.globalAlpha = 1;
+      g.drawImage(fittedPlateau, sx, sy, sw, sh, -w / 2, -h / 2, w, h);
+      g.restore();
+    }
+  }
+  if (lookoutReady) {
+    // Finished 1:1 sprites are baked once into groundCv; cliff colliders and
+    // the authored ramp mouths remain unchanged in the gameplay grids.
+    g.drawImage(eastLookout, 1830, 560);
+    g.drawImage(northwestLookout, 1650, 1640);
+  }
 }
 paintGround();   // pre-menu backdrop; setup() repaints with the map's terrain
 

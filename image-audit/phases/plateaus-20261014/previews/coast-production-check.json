@@ -1,0 +1,74 @@
+{
+  "results": [
+    {
+      "map": "coast",
+      "label": "Evac Coast",
+      "coverage": {
+        "visible": 33,
+        "total": 33
+      },
+      "slotReady": true,
+      "baseRoutes": {
+        "vehicle": true,
+        "foot": true
+      },
+      "plateauRoutes": [
+        true
+      ],
+      "directLanes": [
+        {
+          "offset": -48,
+          "vehicle": false,
+          "foot": false
+        },
+        {
+          "offset": -24,
+          "vehicle": true,
+          "foot": true
+        },
+        {
+          "offset": 0,
+          "vehicle": true,
+          "foot": true
+        },
+        {
+          "offset": 24,
+          "vehicle": true,
+          "foot": true
+        },
+        {
+          "offset": 48,
+          "vehicle": false,
+          "foot": false
+        }
+      ]
+    }
+  ],
+  "mission13": {
+    "title": "The Broodmother Wakes",
+    "vehicle": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "foot": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "flightLineClear": false
+  },
+  "framePacing": {
+    "samples": 120,
+    "median": 16.69999999999709,
+    "p95": 16.700000000000728,
+    "max": 33.29999999999927,
+    "perfFrame": 16.674937502419844
+  }
+}

@@ -7222,6 +7222,10 @@ function paintRidges(g, M) {
       const crop = style === 'moss'
         ? (variant === 'a' ? [8, 151, 2154, 421] : [7, 148, 2157, 443])
         : (variant === 'a' ? [14, 143, 2140, 452] : [10, 167, 2150, 383]);
+      // Crops were authored on the 2170px-wide originals; the shipped files
+      // are downscaled to their baked size, so scale the crop with the image.
+      const k = art.width / 2170;
+      for (let i = 0; i < 4; i++) crop[i] *= k;
       g.save();
       g.translate((x1 + x2) / 2, (y1 + y2) / 2);
       g.rotate(Math.atan2(y2 - y1, x2 - x1));
@@ -7410,6 +7414,8 @@ function ventSpots(vx, vy, vr) {
   return spots;
 }
 const ROCK_ART_SCALE = { weathered: 3.3, layered: 2.08, granite: 2.15 };
+// Source widths the plateauArt crops were authored against (see paintGround).
+const PLATEAU_ART_REF_W = { plateau_quarry: 1113 };
 function paintRock(g, rk, flo, rockStyle, rockFilter) {
   if (rk.water) return;   // water colliders are invisible — the band is painted in paintGround
   if (rk.ridge) return;   // ridge chains paint as one continuous wall in paintRidges
@@ -8004,7 +8010,10 @@ function paintGround(M) {
     // The low repeated edge pass closes tiny transparent notches between the
     // approved sprite and its unchanged cliff chain. It is baked once here;
     // elevation, ramp clearance, collision, and the frame renderer are untouched.
-    const [sx, sy, sw, sh] = plateauArt.crop;
+    // Crops were authored on the original exports (PLATEAU_ART_REF_W); the
+    // shipped files are downscaled to their baked size, so scale with them.
+    const ck = fittedPlateau.width / (PLATEAU_ART_REF_W[plateauArt.slot] || 1254);
+    const [sx, sy, sw, sh] = plateauArt.crop.map(v => v * ck);
     for (const [x, y, w, h, a] of plateauArt.placements) {
       g.save();
       g.translate(x, y); g.rotate(a); g.filter = plateauArt.filter;

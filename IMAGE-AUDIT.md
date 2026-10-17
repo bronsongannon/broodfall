@@ -2,6 +2,10 @@
 
 Baseline audited 2026-09-05. The complete-repository findings below describe the pre-overhaul baseline and exclude generated copies under `mac/build`. Phase-specific records are frozen separately so later art work does not rewrite the evidence for an earlier phase.
 
+## Terrain sprite compression, 2026-10-17
+
+The 18 shipped terrain sprites (plateaus, ridges, boulders, lookouts) were downscaled to 1.2× the largest size each is ever baked into `groundCv` across all maps and missions 1–14, cutting the startup download from 27.2MB to 11.0MB. Lookouts already draw 1:1 and were only re-optimized. Plateau and moss/rust ridge crops now scale with the loaded image width (`PLATEAU_ART_REF_W`, and the 2170px ridge reference in `paintRidges`), so the crop numbers stay authored against the original exports and a full-resolution replacement still works. Full-resolution originals remain in `assets/sprites/source/`. Verified by baking every map with old and new files under a seeded RNG: mean per-pixel difference ≤0.18/255, ≤0.12% of pixels differ by more than 12 (resampling at sprite edges), and Exodus (no affected art) diffs at exactly 0. **When installing new terrain art, size it to its baked footprint, not the generator's export size.**
+
 ## Plateau roster — approved installation complete, 2026-10-17
 
 Twenty plateau formations across Crystal Basin, The Gauntlet, The Boneyard, Fossil Valley, Blackwater Fen, The Silo Fields, Strip Mine, High Water Mark, Twin Forks, Overgrown Basin, and Krauss's Bastion now use the approved compact, weathered sprite families. The newly installed nine-map group covers all 487 tested cliff-chain centers; base-to-base and every authored vehicle/infantry ramp smoke route pass. The sprites and restrained cached edge closure bake once into `groundCv`; the procedural painter remains a load-failure fallback. Existing collision, elevation, ramp clearance, pathfinding geometry, and mission balance are unchanged. Thumbnails are refreshed, frame pacing remains 16.7ms median / 16.7ms p95, and [production gameplay/full-map evidence](image-audit/phases/plateaus-20261014/README.md) records the install.

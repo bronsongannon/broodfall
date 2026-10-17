@@ -7218,7 +7218,8 @@ function paintRidges(g, M) {
       opt('ridge_' + style + '_a') && opt('ridge_' + style + '_b');
     if (pair) {
       const variant = ridgeIndex % 2 ? 'b' : 'a';
-      const art = opt('ridge_' + style + '_' + variant);
+      const art = tintedArt(opt('ridge_' + style + '_' + variant),
+        style === 'moss' ? 'brightness(0.75) saturate(0.85)' : 'brightness(0.74) saturate(0.85)');
       const crop = style === 'moss'
         ? (variant === 'a' ? [8, 151, 2154, 421] : [7, 148, 2157, 443])
         : (variant === 'a' ? [14, 143, 2140, 452] : [10, 167, 2150, 383]);
@@ -7230,7 +7231,6 @@ function paintRidges(g, M) {
       g.translate((x1 + x2) / 2, (y1 + y2) / 2);
       g.rotate(Math.atan2(y2 - y1, x2 - x1));
       if (ridgeIndex % 4 >= 2) g.scale(1, -1);
-      g.filter = style === 'moss' ? 'brightness(0.75) saturate(0.85)' : 'brightness(0.74) saturate(0.85)';
       // The capsule collider extends by r beyond each segment endpoint.
       g.drawImage(art, ...crop, -L / 2 - r, -r, L + r * 2, r * 2);
       g.restore();
@@ -7416,6 +7416,27 @@ function ventSpots(vx, vy, vr) {
 const ROCK_ART_SCALE = { weathered: 3.3, layered: 2.08, granite: 2.15 };
 // Source widths the plateauArt crops were authored against (see paintGround).
 const PLATEAU_ART_REF_W = { plateau_quarry: 1113 };
+// Terrain art tints (brightness/saturate) are applied ONCE to a small scratch
+// canvas per image+filter and cached. NEVER set ctx.filter on groundCv itself:
+// WebKit can drop a filtered canvas off the GPU, and the per-frame ground blit
+// then re-uploads the whole 4608x3456 bake every frame (15fps with sim+draw
+// under 1ms — the cost lands outside both timers). 2026-10-17.
+const terrainTintCache = new Map();
+function tintedArt(img, filter) {
+  if (!img || !filter) return img;
+  let byFilter = terrainTintCache.get(img);
+  if (!byFilter) terrainTintCache.set(img, byFilter = new Map());
+  let cv = byFilter.get(filter);
+  if (!cv) {
+    cv = document.createElement('canvas');
+    cv.width = img.width; cv.height = img.height;
+    const c = cv.getContext('2d');
+    c.filter = filter;
+    c.drawImage(img, 0, 0);
+    byFilter.set(filter, cv);
+  }
+  return cv;
+}
 function paintRock(g, rk, flo, rockStyle, rockFilter) {
   if (rk.water) return;   // water colliders are invisible — the band is painted in paintGround
   if (rk.ridge) return;   // ridge chains paint as one continuous wall in paintRidges
@@ -7586,8 +7607,7 @@ function paintRock(g, rk, flo, rockStyle, rockFilter) {
     g.save();
     g.translate(rk.x, rk.y);
     if (!authored) g.rotate((rk.x * 7.3 + rk.y * 13.7) % (Math.PI * 2));
-    if (authored && rockFilter) g.filter = rockFilter;
-    g.drawImage(img, -w / 2, -h / 2, w, h);
+    g.drawImage(authored && rockFilter ? tintedArt(img, rockFilter) : img, -w / 2, -h / 2, w, h);
     g.restore();
     return;
   }
@@ -8014,17 +8034,18 @@ function paintGround(M) {
     // shipped files are downscaled to their baked size, so scale with them.
     const ck = fittedPlateau.width / (PLATEAU_ART_REF_W[plateauArt.slot] || 1254);
     const [sx, sy, sw, sh] = plateauArt.crop.map(v => v * ck);
+    const plateauImg = tintedArt(fittedPlateau, plateauArt.filter);
     for (const [x, y, w, h, a] of plateauArt.placements) {
       g.save();
-      g.translate(x, y); g.rotate(a); g.filter = plateauArt.filter;
+      g.translate(x, y); g.rotate(a);
       g.globalAlpha = 0.55;
       for (let d = 0; d < 8; d++) {
         const da = d * Math.PI / 4, edge = plateauArt.edge || 0;
-        g.drawImage(fittedPlateau, sx, sy, sw, sh,
+        g.drawImage(plateauImg, sx, sy, sw, sh,
           -w / 2 + Math.cos(da) * edge, -h / 2 + Math.sin(da) * edge, w, h);
       }
       g.globalAlpha = 1;
-      g.drawImage(fittedPlateau, sx, sy, sw, sh, -w / 2, -h / 2, w, h);
+      g.drawImage(plateauImg, sx, sy, sw, sh, -w / 2, -h / 2, w, h);
       g.restore();
     }
   }

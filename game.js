@@ -8082,6 +8082,17 @@ function drawHpBar(x, y, w, hp, maxHp) {
   cx.fillRect(x - w / 2, y, w * f, 4);
 }
 
+// Pre-rendered crystal glow (one radial gradient, scaled per crystal).
+const crystalGlow = (() => {
+  const cv = document.createElement('canvas');
+  cv.width = cv.height = 64;
+  const g = cv.getContext('2d'), grad = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+  grad.addColorStop(0, 'rgba(111,227,208,0.20)');
+  grad.addColorStop(0.55, 'rgba(111,227,208,0.10)');
+  grad.addColorStop(1, 'rgba(111,227,208,0)');
+  g.fillStyle = grad; g.fillRect(0, 0, 64, 64);
+  return cv;
+})();
 function drawCrystal(c) {
   const f = 0.45 + 0.55 * (c.amount / c.maxAmount);
   const r = c.r * f + 3;
@@ -8092,8 +8103,10 @@ function drawCrystal(c) {
   }
   cx.save();
   cx.translate(c.x, c.y);
-  cx.fillStyle = 'rgba(111,227,208,0.14)';
-  cx.beginPath(); cx.arc(0, 0, r + 6, 0, Math.PI * 2); cx.fill();
+  // soft falloff, not a flat disc: on the weathered ground a hard-edged
+  // 14% circle read as a pale sticker under every cluster (2026-10-20)
+  const gr = r + 12;
+  cx.drawImage(crystalGlow, -gr, -gr, gr * 2, gr * 2);
   const img = opt('crystal');
   if (img) {
     const s = (r + 4) * 2.3;
